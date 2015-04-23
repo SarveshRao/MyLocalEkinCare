@@ -1,0 +1,16 @@
+%div.divider
+  %section.scrollable.wrapper
+    .row
+      .col-md-12
+        .row.row-sm
+          - current_online_customer.documents.each do |medical_record|
+            .col-md-2.col-sm-4.col-xs-6.p-b
+              .thumbnail
+                %a{href: medical_record.emr.url, target: '_blank', download: 'download'}
+                  - if ['jpg', 'jpeg', 'png', 'gif', 'ico'].include? medical_record.emr.url.split('.').last
+                    %img.padder.padder-v-10{src: medical_record.emr.url, style: 'height: 50px'}
+                  - else
+                    %img.padder.padder-v-10{src: asset_path("default_emr_icons/#{medical_record.default_icon_url}"), style: 'height: 50px'}
+                .caption.p-b
+                  %p.text-ellipsis.m-b-none.text-center
+                    = medical_record.emr.file.filename

@@ -1,0 +1,40 @@
+// Place all the styles related to the customers controller here.
+// They will automatically be included in application.css.
+// You can use Sass here: http://sass-lang.com/
+
+.small-btn
+  width: 5em
+
+.c-p:hover, .assessment-row-ck:hover
+  cursor: pointer
+
+#customer_info_panel, #immunizations_panel, #medications_panel, #family_medical_histories_panel, #medical_records_panel, #enterprise_branches_panel, #enterprise_catalog_panel, #enterprise_profile_panel
+  display: none
+
+table tbody tr:hover
+  background-color: #E7EBF0
+
+.panel .table-striped > tbody > tr:nth-child(odd):hover > td, .panel .table-striped > tbody > tr:nth-child(odd) > th:hover
+  background-color: #E7EBF0
+
+#medications_table, #assessments_table, #allergies_table, #immunizations_table, #family_medical_histories_table,#promo_codes_histories_table
+  input, select, textarea, button
+    font-size: 0.9em
+
+#customer_info_tile, #immunizations_tile, #medications_tile, #family_medical_histories_tile, #health_assessments_tile, #past_medical_records_tile,#promo_codes_title
+  min-height: 12em
+  p
+    margin: auto
+
+#customer_list
+  display: none
+
+.data-table-search
+  //Commenting this to make search box align properly
+  //width: 100% !important
+  input
+    width: 40% !important
+    float: right
+
+.p-a
+  padding: 5px

@@ -1,0 +1,12 @@
+Pneumococcal polysaccharide:
+  name: Pneumococcal polysaccharide
+  immunization_type: Intramuscular injection
+Meningococcal Conjugate:
+  name:  Meningococcal Conjugate
+  immunization_type: Intramuscular injection
+Hepatitis B:
+  name: Hepatitis B
+  immunization_type: Intramuscular injection
+Rabies:
+  name: Rabies
+  immunization_type: Intramuscular injection

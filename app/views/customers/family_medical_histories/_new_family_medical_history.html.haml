@@ -1,0 +1,41 @@
+%tr
+  %td
+    = @family_medical_history.name
+  %td
+    = @family_medical_history.relation
+  %td
+    = @family_medical_history.age
+  %td
+    = @family_medical_history.status
+  %td
+    -@family_medical_history.medical_conditions.each do |medical_condition|
+      =medical_condition.name+','
+  %td
+    %a.pull-right.dropdown-toggle.customer-family-medical-history-edit-pencil{"data-toggle" => "dropdown", href: "#"}
+      %i.fa.fa-pencil
+  %td
+    %a.pull-right.dropdown-toggle.cutomer-family-medical-history-delete-row{"data-toggle" => "dropdown", href: "#"}
+      %i.i.i-trashcan
+
+%tr.edit_family_medical_history_row.hide{customer_id: @customer.id, family_medical_history_id: @family_medical_history.id}
+  = form_for @family_medical_history, url: customers_family_medical_history_path(@family_medical_history), html: {class: 'edit-customer-family-medical-history'}, remote: true do |f|
+    %td
+      = f.text_field :name, {placeholder: 'Name', class: 'form-control'}
+    %td
+      = f.select :relation,['Father','Mother','Brother','Sister','Son','Daughter','Grandfather','Grandmother'],{}, {class: 'form-control'}
+    %td
+      = f.text_field :age, {placeholder: 'Age', class: 'form-control '}
+    %td
+      = f.select :status,['Alive','Deceased'],{}, {class: 'form-control'}
+    %td
+      -@medical_conditions.each do |medical_condition|
+        %label.checkbox-inline.i-checks.i-chk
+          %input#inlineCheckbox2{:name => "chk-family_medicals[]", :type => "checkbox", :value => medical_condition.id, checked: @family_medical_history.medical_conditions.any?{|mc| mc.id == medical_condition.id}}
+            %i
+            %span
+              =medical_condition.name
+    %td
+      = f.submit 'save', {class:'btn btn-sm small-btn btn-primary customer-family-medical-history-save-btn'}
+    %td
+      %a{class: 'btn btn-sm small-btn btn-danger customer-family-medical-history-cancel-btn'} cancel
+      %input{type: 'reset', class: 'hide reset-customer-family-medical-history-btn'}

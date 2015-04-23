@@ -1,0 +1,95 @@
+= content_for :title, 'Contact us'
+
+.loading-container
+  .spinner
+    .double-bounce1
+    .double-bounce2
+.content-wrapper.hide-until-loading
+  / Contact Map
+  #contact_map.contact-map3
+  / Contact Map
+  .body-wrapper
+    .container
+      .row
+        .col-md-8.col-sm-8
+          .contact-body
+            %h3.h3-body-title
+              Leave A Message
+            %p.body_paragraph.contact-paragraph
+              Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.
+            %form#contact-form.form-wrapper{:method => "post", :novalidate => "", :role => "form"}
+              .form-group
+                .row
+                  .col-xs-7
+                    %label{:for => "name"}
+                      Name *
+                    %input#name.form-control{"data-errmsg" => "Name is required.", :minlength => "2", :name => "name", :placeholder => "Your Name", :required => "", :type => "text"}/
+              .form-group
+                .row
+                  .col-xs-7
+                    %label{:for => "email"}
+                      Email *
+                    %input#email.form-control{"data-errmsg" => "Email is required.", :minlength => "2", :name => "email", :placeholder => "Your Email", :required => "", :type => "text"}/
+              .form-group
+                .row
+                  .col-xs-7
+                    %label{:for => "message"}
+                      Subject
+                    %input#subject.form-control{:name => "subject", :placeholder => "Your Subject", :type => "text"}/
+              .form-group
+                .row
+                  .col-xs-8
+                    %label{:for => "message"}
+                      Message *
+                    %textarea#message.form-control{"data-errmsg" => "Message is required.", :name => "message", :placeholder => "Your Message", :required => "", :rows => "3"}
+              .row
+                .col-md-2.col-sm-2.offset2
+                  %input.btn.btn-lg{:type => "submit", :value => "Submit"}/
+        .col-md-3.col-sm-3.col-md-offset-1.col-sm-offset-1
+          .sidebar
+            .sidebar-block
+              %h3.h3-sidebar-title
+                Contact Us
+              .sidebar-icon-item
+                %i.icon-phone
+                (+1) 777-444-333
+              .sidebar-icon-item
+                %i.icon-email
+                email@company.com
+              .sidebar-icon-item
+                %i.icon-home
+                Address in City, P.O BOX 1111, Country
+            .sidebar-block
+              %h3.h3-sidebar-title
+                MARKETING DEPARTMENT
+              %p
+                %strong> Address:
+                Address in City, P.O BOX 1111
+                %br/
+                %strong Phone:
+                +777-444-333
+                %br/
+                = succeed "email@company.com" do
+                  %strong Email:
+            .sidebar-block
+              %h3.h3-sidebar-title
+                Socials
+              .social-icons
+                %ul
+                  %li
+                    %a.social-media-icon.yahoo-icon{:href => "#", :target => "_blank", :title => "yahoo"} yahoo
+                  %li
+                    %a.social-media-icon.ember-icon{:href => "#", :target => "_blank", :title => "ember"} ember
+                  %li
+                    %a.social-media-icon.tumblr-icon{:href => "#", :target => "_blank", :title => "tumblr"} tumblr
+                  %li
+                    %a.social-media-icon.facebook-icon{:href => "#", :target => "_blank", :title => "facebook"} facebook
+                  %li
+                    %a.social-media-icon.apple-icon{:href => "#", :target => "_blank", :title => "apple"} apple
+                  %li
+                    %a.social-media-icon.lastfm-icon{:href => "#", :target => "_blank", :title => "lastfm"} lastfm
+                  %li
+                    %a.social-media-icon.wordpress-icon{:href => "#", :target => "_blank", :title => "wordpress"} wordpress
+                  %li
+                    %a.social-media-icon.dropbox-icon{:href => "#", :target => "_blank", :title => "dropbox"} dropbox
+/ .content-wrapper end

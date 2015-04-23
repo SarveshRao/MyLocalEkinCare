@@ -1,0 +1,43 @@
+!!!
+/[if lt IE 7]
+  <html class="no-js lt-ie9 lt-ie8 lt-ie7">
+/[if IE 7]
+  <html class="no-js lt-ie9 lt-ie8">
+/[if IE 8]
+  <html class="no-js lt-ie9">
+/ [if gt IE 8]><!
+%html.no-js
+  / <![endif]
+  %head
+    %style#skin-chooser-css{:type => "text/css"}
+    %meta{:charset => "utf-8"}
+      /[if IE] <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+    %title
+      = yield(:title).empty? ? 'eKincare' : "eKincare | #{yield(:title)}"
+    /[if lt IE 9]
+      <script type="text/javascript" src="js/ie-fixes.js"></script>
+      <link rel="stylesheet" href="css/ie-fixes.css">
+    %meta{:content => "eKincare is a smarter way to manage your medical history, lab reports and diagnose chronic diseases early", :name => "description"}
+    -#%meta{:content => yield(:blog_description), :name => "description"}
+    -#%meta{:content => yield(:blog_title), :name => "description"}
+
+    / Place favicon.ico and apple-touch-icon.png in the root directory
+    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}
+    = stylesheet_link_tag 'home', media: 'all'
+    %style#skin-chooser-css{:type => "text/css"}
+    %script{:src => "https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false"}
+    %link{:href => "http://fonts.googleapis.com/css?family=Open+Sans:400,600", :rel => "stylesheet", :type => "text/css"}
+    %link{:href => "http://fonts.googleapis.com/css?family=Raleway:400,100,200,300,500,600", :rel => "stylesheet", :type => "text/css"}/
+    %link{href: asset_path('fav.ico'), rel: "shortcut icon"}
+    - if content_for?(:zopim_chat)
+      = yield(:zopim_chat)
+  %body.bgpattern-pw-pattern
+    .boxed#wrapper
+      .top_wrapper
+        = render :partial => '/layouts/home/top_bar'
+        = render :partial => '/layouts/home/header'
+        = yield
+      / .top wrapper end
+      = render :partial => '/layouts/home/footer'
+      / wrapper end
+      = javascript_include_tag 'home'

@@ -1,0 +1,17 @@
+%td
+  = @family_medical_history.name
+%td
+  = @family_medical_history.relation
+%td
+  = @family_medical_history.age
+%td
+  = @family_medical_history.status
+%td
+  -@family_medical_history.medical_conditions.each do |medical_condition|
+    =medical_condition.name+','
+%td
+  %a.pull-right.dropdown-toggle.customer-family-medical-history-edit-pencil{"data-toggle" => "dropdown", href: "#"}
+    %i.fa.fa-pencil
+%td
+  %a.pull-right.dropdown-toggle.customer-family-medical-history-delete-row{"data-toggle" => "dropdown", href: "#"}
+    %i.i.i-trashcan

@@ -1,0 +1,30 @@
+!!!
+%html.app.js.no-touch.no-android.chrome.no-firefox.no-iemobile.no-ie.no-ie8.no-ie10.no-ie11.no-ios{lang: "en"}
+  %head
+    %title
+      = yield(:title).empty? ? 'eKincare' : "eKincare | #{yield(:title)}"
+    %meta{charset: "utf-8"}/
+    %meta{:content => "width=device-width, initial-scale=1, maximum-scale=1", :name => "viewport"}/
+    = stylesheet_link_tag 'application', media: 'all'
+    = csrf_meta_tags
+    %link{href: asset_path('fav.ico'), rel: "shortcut icon"}
+    /[if lt IE 9]
+      <script src="vendor/assets/javascripts/ie/html5shiv.js"></script>
+      <script src="vendor/assets/javascripts/ie/respond.min.js"></script>
+      <script src="vendor/assets/javascripts/ie/excanvas.js"></script>
+
+  %body
+    %div.pos-fxd#loaderPageImage{:style => "left:50%;top:50% !important;margin:-25px 0 0 -128px;z-Index:999; height:50px; width:256px;"}
+    %section.vbox
+      = render partial: 'layouts/staff/topbar'
+      %section
+        %section.hbox.stretch
+          - if session[:login_type].to_s == 'Enterprise'
+            = render partial: 'layouts/staff/left_nav_enterprise'
+          - elsif session[:login_type].to_s == 'Provider'
+            = render partial: 'layouts/staff/left_nav_provider'
+          - else
+            = render partial: 'layouts/staff/left_nav'
+          = yield
+    = javascript_include_tag 'application'
+    = javascript_include_tag 'staff_jeditable'

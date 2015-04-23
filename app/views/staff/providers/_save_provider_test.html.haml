@@ -1,0 +1,21 @@
+%tr#edit_provider_test
+  %td
+    = @providertest.name
+  %td
+    = @providertest.mrp
+  %td
+    = @providertest.selling_price
+  %td
+    = @providertest.cost
+  %td
+    = @providertest.discount
+  %td
+    = @providertest.service_type
+  %td
+    %a.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#"}
+      %i.fa.fa-pencil
+  %td
+    %a.pull-right.dropdown-toggle.providertest-delete-row{"data-toggle" => "dropdown", href: "#"}
+      %i.i.i-trashcan
+
+  %a.hide.nav-off-screen-block{"data-target" => "#nav", "data-toggle" => "class:nav-off-screen", href: "#"}

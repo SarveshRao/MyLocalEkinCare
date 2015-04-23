@@ -1,0 +1,55 @@
+= content_for :title, 'Home'
+- content_for :zopim_chat do
+  :javascript
+    window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
+    d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+    _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute('charset','utf-8');
+    $.src='//v2.zopim.com/?2Um2B0Y0KEgOyEsT8WLIjMFjSeBkufvQ';z.t=+new Date;$.
+    type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
+
+= render :partial => 'slider'
+/ .top wrapper end
+.loading-container
+  .spinner
+    .double-bounce1
+    .double-bounce2
+.content-wrapper
+  .section-content.top-body
+    .center-text
+      %h4.h4-section-title TAKE CONTROL OF YOUR HEALTH
+      %p.p-section-info Free registration | Secure | Online results | Timely reminders
+      %a.btn.btn-lg.btn-flat{:href => new_online_customer_registration_path, style: 'margin-top: 10px'} REGISTER HERE
+  .body-wrapper{style: 'padding-top: 10px !important'}
+    = render :partial => 'partner_styles'
+    .section-content.top-body
+    .center-text
+      %h2.h2-section-title All your medical history in one place
+      .i-section-title
+        %i.icon.icon-photo-pictures-streamline
+      #tabc1.active{:style => "display: block;"}
+      .section-content.section-color-bg.white-text.bg-dark-blue.padder-v-20
+        .container
+          .row
+            .col-md-6.col-sm-6
+              .space-sep100
+              -#%h2.h2-section-title Consolidate your medical history in one place
+              %h3.h3-section-info Keep all your and your family's health records in one place. Clickable time lines, color coded results, and graphical history replaces the folders and paper reports of the past. Harness your critical medical data to define a healthier future
+            .col-md-6.col-sm-6
+              %img{:alt => "", :src => asset_path('kanzi/placeholders/clients/screens_mockup2.png')}
+    .section-content.no-padding
+      .space-sep40
+      .container
+        .row
+          .col-md-12.col-sm-12.animated{"data-animrepeat" => "0", "data-animtype" => "fadeInUp", "data-delay" => "0.4s", "data-speed" => "1s"}
+            %h2.h2-section-title View your medical reports online
+            .i-section-title
+              %i.icon-zoom-in
+            %h3.h3-section-info
+              With growing list of labs and hospitals, directly log into eKincare to view your medical reports or diagnostic results. We've saved you a trip.
+        .row
+          .col-md-12.col-sm-12.no-bottom-margin.animated.padder-v{style: 'width: 100%;', "data-animdelay" => "0.7s", "data-animrepeat" => "0", "data-animspeed" => "1s", "data-animtype" => "fadeInUp"}
+            %img.img-responsive{:alt => "MockUp", :src => asset_path("kanzi/placeholders/responsive-mockup2-placeholder.png")}
+    .space-sep40
+    .container
+      = render :partial => 'what_we_offer'
+

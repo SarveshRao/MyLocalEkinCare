@@ -1,0 +1,25 @@
+%section#content.m-t-lg.wrapper-md.animated.fadeInUp
+  .container.aside-xl
+    %a.navbar-brand.block{href: root_path} eKincare
+    %section.m-b-lg
+      = form_for(Staff.new, url: staff_sessions_path) do |f|
+        .list-group
+          .list-group-item
+            = f.text_field :email, {class: 'form-control no-border', placeholder: 'Email',autofocus: true}
+          .list-group-item
+            = f.password_field :password, {class: 'form-control no-border', placeholder: 'Password'}
+        = f.submit 'Sign in', {class: 'btn btn-lg btn-primary btn-block'}
+        .text-center.m-t.m-b
+          %a{href: new_staff_password_reset_path}
+            %small Forgot password?
+        .line.line-dashed
+        -#%p.text-muted.text-center
+        -#  %small Do not have an account?
+        -#%a.btn.btn-lg.btn-default.btn-block{href: "#"} Create an account
+%footer#footer
+  .text-center.padder
+    %p
+      %small
+        \© 2014
+        -#%br>/
+        eKincare

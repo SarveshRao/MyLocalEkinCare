@@ -1,0 +1,67 @@
+= content_for :title, 'Record submission'
+
+- content_for :zopim_chat do
+  :javascript
+    window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
+    d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+    _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute('charset','utf-8');
+    $.src='//v2.zopim.com/?2Um2B0Y0KEgOyEsT8WLIjMFjSeBkufvQ';z.t=+new Date;$.
+    type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
+
+%section.panel.panel-default.m-n.b-n
+  -#%header.panel.panel-heading.m-n.b-n{style: 'background-color: #556270 !important;color: #fff'}
+    %span.h4.font-bold
+      Registration/Contact details
+  .panel-body{style: 'background-color: #556270 !important;color: #fff; border: 4px solid #fff; -moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px; '}
+    %span.h3
+      5: Documents Submission
+    %p
+    -#%span.h5.font-bold
+      Why are we asking this?
+    %br
+    %span.h5
+      To make the best use of eKincare platform, upload your recent lab results, medical prescriptions or doctors notes. Take the first important step of consolidating all your critical medical info to a single location.
+    %p
+    %p
+    %span.h5
+      Incase you don't have a digital copy of your medical records call us at 888-378-EKIN (3546)
+    #record_submission.tab-pane.padder-v.m-t
+      %section
+        %div.padder.padder-v{style: 'background-color: #fff;color: #000;border-radius: 4px'}
+          .row
+            .col-md-12
+              = form_for MedicalRecord.new, remote: true, authenticity_token: true, url: customers_upload_documents_path, html: {method: 'post', class: 'form-inline'} do |f|
+                .form-group.col-md-6
+                  .input-group
+                    %span.input-group-btn
+                      %span.btn.btn-primary.btn-file
+                        Browse…
+                        = f.file_field :medical_record, {class: 'document_upload_input', required: true,  multiple: true, name: 'files[]'}
+                    %input.form-control{readonly: "readonly", type: "text"}/
+                .form-group.col-md-6
+                  .input-group
+                    %button.btn.btn-default.n-m.m-r#upload_records{type: 'submit'}
+                      %i.fa.fa-cloud-upload.text
+                      %span.text Upload
+                      %i.fa.fa-check.text-active
+                      %span.text-active Success
+                    %input.btn.btn-default{type: 'reset', value: 'Cancel'}
+
+
+          -#.col-md-4
+            %p
+      .row#ajax_loader_container{class: 'hide'}
+        .text-center.p-t
+          %p uploading...
+          = image_tag 'ajax-loader1.gif'
+      .row
+        #ajax_error_container.text-center.p-t
+
+      .row#uploaded_documents
+        = render partial: 'customers/after_signup/upload_documents'
+      .row.m-b
+        .col-md-12.padder-v
+          .form-group
+            %a{class: 'btn btn-md btn-danger customer-bio-cancel-btn pull-left', href: "#{previous_wizard_path}"} Back
+            %a{class:'btn btn-md  btn-primary pull-right', href: "#{next_wizard_path}"} Next
+

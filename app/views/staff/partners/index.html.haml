@@ -1,0 +1,48 @@
+= content_for :title, 'Partner Listing'
+
+%div.clearfix.breadcrumb
+  %ol.padder
+    = render_breadcrumbs :separator => ' / '
+    %small.pull-right
+      contact: 888-678-EKIN (3546) /
+      %a{href: 'mailto:help@ekincare.com'} help@ekincare.com
+
+#content
+  .vbox.padder
+    %h4
+      %a.font-bold{href: "#"}
+        Partner Listing &nbsp;&nbsp;
+      %a.btn.btn-default.btn-s-mdsche.m-b-xs{href: new_staff_partner_path}
+        &nbsp;
+        %i.fa.fa-plus
+        &nbsp; New Partner &nbsp;&nbsp;
+    .scrollable
+      %section.panel.panel-default
+        .table-responsive
+          %table.table.table-striped.b-t.b-light#customer_list
+            %thead
+              %tr
+                %th Code
+                %th Title
+                %th PointOfContact
+                %th Email
+                %th Mobile
+                %th Created On
+            %tbody
+              - @partner.each do |partner|
+                %tr{class: 'customer-row', url:staff_partner_path(partner)}
+                  %td
+                    = partner.code
+                  %td
+                    = partner.title
+                  %td
+                    = partner.poc
+                  %td
+                    = partner.email
+                  %td
+                    = partner.mobile
+                  %td
+                    = formatted_date partner.created_at
+
+
+  %a.hide.nav-off-screen-block{"data-target" => "#nav", "data-toggle" => "class:nav-off-screen", href: "#"}

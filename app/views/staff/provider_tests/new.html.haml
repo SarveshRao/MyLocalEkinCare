@@ -1,0 +1,63 @@
+%div
+  .text-left
+    .vbox.m-b
+      %h4
+        %a.font-bold{href: "#"}
+          Add New Price
+    .row
+      .col-md-8
+        %section.panel.panel-default
+          .panel-body.row
+            = form_for @providertest, url: staff_provider_tests_path, html: {'data-validate' => 'parsley', multipart: true, id: "new_catalog_item_form", data: {remote: true}} do |f|
+              .col-md-6
+                .form-group
+                  = f.label :name
+                  %sup.text-danger
+                    *
+                  = f.text_field :name,{class: 'form-control parsley-validated', 'data-required' => 'true'}
+
+                .form-group
+                  = f.label :mrp, "MRP"
+                  %sup.text-danger
+                    *
+                  = f.text_field :mrp,{class: 'form-control parsley-validated package_mrp', 'data-required' => 'true'}
+
+                .form-group
+                  = f.label :selling_price, "Selling Price"
+                  %sup.text-danger
+                    *
+                  = f.text_field :selling_price,{class: 'form-control parsley-validated package_selling_price', 'data-required' => 'true'}
+
+                .form-group
+                  = f.label :cost
+                  %sup.text-danger
+                    *
+                  = f.text_field :cost,{class: 'form-control parsley-validated', 'data-required' => 'true'}
+
+                .form-group
+                  = f.label :discount
+                  %sup.text-danger
+                    *
+                  = f.text_field :discount,{readonly: true, class: 'form-control parsley-validated package_discount', 'data-required' => 'true'}
+
+                .form-group
+                  = f.label :service_type
+                  %sup.text-danger
+                    *
+                  .form-group.clearfix
+                    .col-md-4
+                      = f.label "Body",{class:'pull-left ln_hgt18', style: "margin-right: 5px;"}
+                      = f.check_box :service_type,{class: 'checkbox', :multiple => true}, 'B', nil
+                    .col-md-4
+                      = f.label "Dental",{class:'pull-left ln_hgt18', style: "margin-right: 5px;"}
+                      = f.check_box :service_type,{class: 'checkbox', :multiple => true}, 'D', nil
+                    .col-md-4
+                      = f.label "Vision",{class:'pull-left ln_hgt18', style: "margin-right: 5px;"}
+                      = f.check_box :service_type,{class: 'checkbox', :multiple => true}, 'V', nil
+
+                .form-group
+                  = f.hidden_field :provider_id,value: @enterprise_id
+
+                .form-group.text-center.m-t.clearfix
+                  = f.submit 'save', {class:'btn btn-sm small-btn btn-primary'}
+                  %a{class: 'btn btn-sm small-btn btn-danger catalog-cancel-btn'} cancel

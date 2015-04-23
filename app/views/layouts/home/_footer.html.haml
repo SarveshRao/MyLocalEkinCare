@@ -1,0 +1,17 @@
+%footer
+  .footer
+    .container
+    .copyright
+      .container
+        .row
+          .col-md-12.col-sm-12.center-text
+            .copyright-text
+              © 2014 eKincare &nbsp;
+              .pull-left
+                %span#siteseal
+                  %script{:src => "https://seal.godaddy.com/getSeal?sealID=DaAOSDF0SecHpmo6mTHYiop4NM55mLKuWjbAJQvzNwjthLFie0dDN", :type => "text/javascript"}
+              .pull-right
+                %a{:href => "/home/about_us"} About Us &nbsp; | &nbsp;
+                %a{:href => "/home/terms_and_conditions"} Terms & Conditions
+
+  = render partial: '/layouts/home/ga'

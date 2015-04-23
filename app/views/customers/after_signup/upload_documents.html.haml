@@ -1,0 +1,90 @@
+%section.scrollable
+  .row
+    .col-lg-12.col-sm-12.col-xs-12
+      %section.panel-default.b-n
+        %header.panel-heading.font-bold.logo-heading
+          %img{:alt => "eKincare", :src => asset_path("ekincare-logo.png")}/
+          %a{class:'btn btn-md  btn-primary pull-right', href: "#{destroy_online_customer_session_path}"} Sign out
+        .panel-body{:style => "padding:0px;"}
+          %section.panel.panel-default.m-n.b-t
+            %header.panel-heading.bg-light
+              %ul.nav.nav-tabs.nav-justified.reg-tabs
+                %li{:style => " width:0.5%;"}
+                %li.completed
+                  %a{:href => "/after_signup/your_health"}
+                    %i.fa.fa-check-circle
+                    Your Health
+                %li.active
+                  %a{"data-toggle" => "tab", :href => "#"}
+                    %i.fa.fa-circle-o
+                    Upload Documents
+                %li
+                  %a{"data-toggle" => "tab", :href => "/after_signup/thank_you_page"}
+                    %i.fa.fa-circle-o
+                    Registration
+                %li{:style => " width:0.5%;"}
+            #uploadrecords.tab-pane{:style => ""}
+              %h3.text-center.head3 Digitize your medical records.
+              .about-text
+                %p.text-center.about
+                  To make the best use of ekincare platform, upload your recent lab results, medical prescriptions or doctors notes.Incase you don't have a digital copy of your records call us at
+                  %strong 888-378-EKIN(3546)
+                #record_submission.upload-inp{:align => "center"}
+                  = form_for MedicalRecord.new, authenticity_token: true, url: customers_upload_documents_path, html: {'data-remote' => true, method: 'post', multipart: true, class: 'form-inline'} do |f|
+                    %span
+                      %span.btn-file
+                        = f.file_field :medical_record, {'data-required' => 'true', class: 'form-control', multiple: true, name: 'files[]'}
+                    -#%input{name: 'files[]',multiple: true, :type => "file"}
+                    %button.btn.btn-default.n-m#upload_records{type: 'submit'}
+                      %i.fa.fa-cloud-upload.text
+                      %span.text Upload
+                    %input.btn.btn-default{type: 'reset', value: 'Cancel'}
+                  = image_tag('uploader.gif', class: 'uploaderImg hide', id: 'ajax_loader_container')
+                  #ajax_error_container.text-center.p-t
+                %div
+                  .row.file-list#uploaded_documents
+                    - @customer.documents.each do |medical_record|
+                      - if !medical_record.emr.file.nil?
+                        .doc_container
+                          .col-lg-5.col-sm-4.fam-wrap.file-item
+                            %input{:name => "item", :type => "hidden", :value => ""}/
+                            %a{href: medical_record.emr.url, target: '_blank', download: 'download'}
+                              = truncate(medical_record.emr.file.filename)
+                          .col-sm-1.col-md-1
+                            = link_to customers_customer_documents_delete_path(medical_record), {:method => :delete, remote: true, class: 'edit_medical_record'} do
+                              %i.fa.fa-trash-o.text-danger
+
+                  .row
+                    .col-md-12.col-sm-12
+                      %br
+                      .about-text{:style => "text-align:center"}
+                        %a{class:'btn btn-s-md  btn-success r-submit', href: '/after_signup/thank_you_page'} Submit
+                        -#%a.btn.btn-s-md.btn-success.r-submit{:href => "#{next_wizard_path}"} Submit
+              %br/
+              .how-wrap
+                %h2 How to Upload?
+                .row.imgSteps-wrap
+                  .col-lg-4.col-sm-12{:align => "center"}
+                    %img.img-step{:src => asset_path("wizard/upload-step1.png")}/
+                    %p.step-p
+                      1. Sign-in to your eKincare account from your
+                      = succeed "." do
+                        %strong mobile
+                  .col-lg-4.col-sm-12{:align => "center"}
+                    %img.img-step{:src => asset_path("wizard/upload-step2.png")}/
+                    %p.step-p
+                      2. In the Document section, select
+                      = succeed "." do
+                        %strong upload documents
+                  .col-lg-4.col-sm-12{:align => "center"}
+                    %img.img-step{:src => asset_path("wizard/upload-step3.png")}/
+                    %p.step-p
+                      3. Take the
+                      %strong picture
+                      and upload document.
+            / REGISTRATION STEP3 END
+            / panel default
+            / panel body
+            / panel
+            / co-lg-10
+            / row

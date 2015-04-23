@@ -1,0 +1,50 @@
+= content_for :title, 'About us'
+
+- content_for :zopim_chat do
+  :javascript
+    window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
+    d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+    _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute('charset','utf-8');
+    $.src='//v2.zopim.com/?2Um2B0Y0KEgOyEsT8WLIjMFjSeBkufvQ';z.t=+new Date;$.
+    type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
+
+.top-title-wrapper
+  .container
+    .row
+      .col-md-12.col-sm-12
+        .page-info
+          %h1.h1-page-title About Us
+          %h2.h2-page-desc
+            Know The Reasons Behind Our Success
+/ .top wrapper end
+.loading-container
+  .spinner
+    .double-bounce1
+    .double-bounce2
+.content-wrapper.hide-until-loading
+  .body-wrapper
+    .container
+      .row
+        .col-md-12.col-sm-12.animated{"data-animrepeat" => "0", "data-animtype" => "fadeInUp", "data-delay" => "0.4s", "data-speed" => "1s"}
+          %h2.h2-section-title About Us
+          .i-section-title
+            %i.icon-feather
+      .space-sep20
+      .row
+        .col-md-12.col-sm-12
+          %h6
+            eKincare empowers you to take charge of your health by enabling you to monitor critical medical info and make it available anywhere, anytime. We gather your results from a growing list of dental, body and vision health partners, update your profile and provide you a user-friendly platform to view them. We aim to identify potential health risks, inform you and motivate you to take necessary steps towards improving your health.
+
+          %h6
+            eKincare is found by a team of seasoned professionals with varied international work experience across product marketing, technology and medicine. eKincare’s founding team shares a passion for solving complex issues seeding from their own personal experiences, a love of technology and a belief that, if you combine the two in an engaging way, customers will ultimately win.
+
+          %h6
+            Our goal:
+            %ul{:style => "list-style-type:decimal;"}
+              %li
+                Diagnose chronic diseases early
+              %li
+                Provide better insights into your health
+              %li
+                Empower you to take charge of your health
+      .space-sep40

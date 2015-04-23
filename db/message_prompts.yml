@@ -1,0 +1,413 @@
+#Male
+Height1_M:
+  risk_factor_id: 1
+  range: 'normal'
+  message: 'Average height of Indian men is 5 ft 5 in (165 cm)'
+  image: ''
+  gender: 'Male'
+BMI1_M:
+  risk_factor_id: 2
+  range: '<15'
+  message: 'You are very severely underweight. Please consult your doctor immediately'
+  image: ''
+  gender: 'Male'
+BMI2_M:
+  risk_factor_id: 2
+  range: '15-16'
+  message: 'You are severely underweight. Please consult your doctor'
+  image: ''
+  gender: 'Male'
+BMI3_M:
+  risk_factor_id: 2
+  range: '16-18.5'
+  message: 'You are currently underweight. Please consult your doctor'
+  image: ''
+  gender: 'Male'
+BMI4_M:
+  risk_factor_id: 2
+  range: '18.5-25'
+  message: 'Congratulations! You are within the healthy weight'
+  image: ''
+  gender: 'Male'
+BMI5_M:
+  risk_factor_id: 2
+  range: '25-30'
+  message: 'We are concerned that you are overweight. Do exercise regularly and modify your diet'
+  image: ''
+  gender: 'Male'
+BMI6_M:
+  risk_factor_id: 2
+  range: '30-35'
+  message: 'You are moderately obese. Please consult your doctor'
+  image: ''
+  gender: 'Male'
+BMI7_M:
+  risk_factor_id: 2
+  range: '35-40'
+  message: 'You are severely obese. Please consult your doctor immediately'
+  image: ''
+  gender: 'Male'
+BMI8_M:
+  risk_factor_id: 2
+  range: '>40'
+  message: 'You are very severely obese. Please consult your doctor immediately'
+  image: ''
+  gender: 'Male'
+Waist1_M:
+  risk_factor_id: 3
+  range: '<94'
+  message: 'We applaud you for maintaining a perfect waist size'
+  image: ''
+  gender: 'Male'
+Waist2_M:
+  risk_factor_id: 3
+  range: '94-102'
+  message: 'You have an increased risk of diabetes'
+  image: ''
+  gender: 'Male'
+Waist3_M:
+  risk_factor_id: 3
+  range: '>102'
+  message: 'Please watch out! You have a substantially increased risk of diabetes'
+  image: ''
+  gender: 'Male'
+Smoke1_M:
+  risk_factor_id: 4
+  range: 'frequently'
+  message: 'Every stick of cigarette you smoke reduces your life span by an approximate of 11 minutes'
+  image: ''
+  gender: 'Male'
+Smoke2_M:
+  risk_factor_id: 4
+  range: 'occasionally'
+  message: 'Smoking causes erectile dysfunction, reduces sperm count and mortality'
+  image: ''
+  gender: 'Male'
+Smoke3_M:
+  risk_factor_id: 4
+  range: 'never'
+  message: 'Thank you for not smoking. Did you know that you have 200% to 400% less chance of getting a heart-attack than the smokers'
+  image: ''
+  gender: 'Male'
+Alcohol1_M:
+  risk_factor_id: 5
+  range: 'frequently'
+  message: 'Heavy drinking increases the risk of cancers involving liver, esophagus, throat, larynx and road accidents'
+  image: ''
+  gender: 'Male'
+Alcohol2_M:
+  risk_factor_id: 5
+  range: 'occasionally'
+  message: 'Per research, Did you know  that the risk of an individual to develop alcoholism runs in the families.'
+  image: ''
+  gender: 'Male'
+Alcohol3_M:
+  risk_factor_id: 5
+  range: 'never'
+  message: 'Good choice! Alcohol has never done any good anyone'
+  image: ''
+  gender: 'Male'
+Exercise1_M:
+  risk_factor_id: 6
+  range: 'frequently'
+  message: 'Awesome! Exercise not only helps you build a healthy body but also maintain a healthy mental condition'
+  image: ''
+  gender: 'Male'
+Exercise2_M:
+  risk_factor_id: 6
+  range: 'occasionally'
+  message: 'Did you know that swimming as a form of exercise reduces an individuals Mortality by at least 50%. So please get out more often'
+  image: ''
+  gender: 'Male'
+Exercise3_M:
+  risk_factor_id: 6
+  range: 'never'
+  message: '15 minutes of exercise a day reduces the mortality risk by 14% compared to the perople who do not exercise at all. So, please start exercising often'
+  image: ''
+  gender: 'Male'
+BloodGroup1_M:
+  risk_factor_id: 7
+  range: '1'
+  message: 'A+ blood group can donate to A+ and AB+ and can receive blood from O+, A+, O- and A-'
+  image: ''
+  gender: 'Male'
+BloodGroup2_M:
+  risk_factor_id: 7
+  range: '2'
+  message: 'A- blood group can donate to A+, AB+, A-, AB- and can receive from O- and A-'
+  image: ''
+  gender: 'Male'
+BloodGroup3_M:
+  risk_factor_id: 7
+  range: '3'
+  message: 'B+ blood group can donate to B+ and AB+ and can receive from B+ and AB+'
+  image: ''
+  gender: 'Male'
+BloodGroup4_M:
+  risk_factor_id: 7
+  range: '4'
+  message: 'B- blood group can donate to B+, AB+, B- and AB- and can receive from O- and B-'
+  image: ''
+  gender: 'Male'
+BloodGroup5_M:
+  risk_factor_id: 7
+  range: '5'
+  message: 'AB+ blood group can only donate to AB+ and can receive from O+, A+, B+, AB+, O-, A-, B- and AB-'
+  image: ''
+  gender: 'Male'
+BloodGroup6_M:
+  risk_factor_id: 7
+  range: '6'
+  message: 'AB- blood group can donate to AB+ and AB- and can receive from O-, A-, B- and AB-'
+  image: ''
+  gender: 'Male'
+BloodGroup7_M:
+  risk_factor_id: 7
+  range: '7'
+  message: 'O+ blood group can donate to O+, A+, B+ and AB+ and can receive from O+ and O-'
+  image: ''
+  gender: 'Male'
+BloodGroup8_M:
+  risk_factor_id: 7
+  range: '8'
+  message: 'O- blood group can donate to A+, A_, B+, B-, AB+ and AB- and can only receive from O-'
+  image: ''
+  gender: 'Male'
+MedicalCondition1_M:
+  risk_factor_id: 8
+  range: 'hypertension'
+  message: 'Impact of your family history on chronic diseases is not a modifiable variable. However, there are other parameters that are within your influence like your diet, exercise, stress etc. which helps in reducing your risk'
+  image: ''
+  gender: 'Male'
+MedicalCondition2_M:
+  risk_factor_id: 8
+  range: 'cancer'
+  message: 'Impact of your family history on chronic diseases is not a modifiable variable. However, there are other parameters that are within your influence like your diet, exercise, stress etc. which helps in reducing your risk'
+  image: ''
+  gender: 'Male'
+MedicalCondition3_M:
+  risk_factor_id: 8
+  range: 'heart condition'
+  message: 'Impact of your family history on chronic diseases is not a modifiable variable. However, there are other parameters that are within your influence like your diet, exercise, stress etc. which helps in reducing your risk'
+  image: ''
+  gender: 'Male'
+MedicalCondition4_M:
+  risk_factor_id: 8
+  range: 'diabetic'
+  message: 'Impact of your family history on chronic diseases is not a modifiable variable. However, there are other parameters that are within your influence like your diet, exercise, stress etc. which helps in reducing your risk'
+  image: ''
+  gender: 'Male'
+MedicalCondition5_M:
+  risk_factor_id: 8
+  range: 'none'
+  message: 'Impact of your family history on chronic diseases is not a modifiable variable. However, there are other parameters that are within your influence like your diet, exercise, stress etc. which helps in reducing your risk'
+  image: ''
+  gender: 'Male'
+
+
+
+#Female
+Height1_F:
+  risk_factor_id: 1
+  range: 'normal'
+  message: 'Average height of Indian women is 5 ft (152 cm)'
+  image: ''
+  gender: 'Female'
+BMI1_F:
+  risk_factor_id: 2
+  range: '<15'
+  message: 'You are very severely underweight. Please consult your doctor immediately'
+  image: ''
+  gender: 'Female'
+BMI2_F:
+  risk_factor_id: 2
+  range: '15-16'
+  message: 'You are severely underweight. Please consult your doctor'
+  image: ''
+  gender: 'Female'
+BMI3_F:
+  risk_factor_id: 2
+  range: '16-18.5'
+  message: 'You are currently underweight. Please consult your doctor'
+  image: ''
+  gender: 'Female'
+BMI4_F:
+  risk_factor_id: 2
+  range: '18.5-25'
+  message: 'Congratulations! You are within the healthy weight'
+  image: ''
+  gender: 'Female'
+BMI5_F:
+  risk_factor_id: 2
+  range: '25-30'
+  message: 'We are concerned that you are overweight. Do exercise regularly and modify your diet'
+  image: ''
+  gender: 'Female'
+BMI6_F:
+  risk_factor_id: 2
+  range: '30-35'
+  message: 'You are moderately obese. Please consult your doctor'
+  image: ''
+  gender: 'Female'
+BMI7_F:
+  risk_factor_id: 2
+  range: '35-40'
+  message: 'You are severely obese. Please consult your doctor immediately'
+  image: ''
+  gender: 'Female'
+BMI8_F:
+  risk_factor_id: 2
+  range: '>40'
+  message: 'You are very severely obese. Please consult your doctor immediately'
+  image: ''
+  gender: 'Female'
+Waist1_F:
+  risk_factor_id: 3
+  range: '<80'
+  message: 'We applaud you for maintaining a perfect waist size'
+  image: ''
+  gender: 'Female'
+Waist2_F:
+  risk_factor_id: 3
+  range: '80-88'
+  message: 'You have an increased risk of diabetes'
+  image: ''
+  gender: 'Female'
+Waist3_F:
+  risk_factor_id: 3
+  range: '>88'
+  message: 'Please watch out! You have a substantially increased risk of diabetes'
+  image: ''
+  gender: 'Female'
+Smoke1_F:
+  risk_factor_id: 4
+  range: 'frequently'
+  message: 'Every stick of cigarette you smoke reduces your life span by an approximate of 11 minutes'
+  image: ''
+  gender: 'Female'
+Smoke2_F:
+  risk_factor_id: 4
+  range: 'occasionally'
+  message: 'Smoking causes erectile dysfunction, reduces sperm count and mortality'
+  image: ''
+  gender: 'Female'
+Smoke3_F:
+  risk_factor_id: 4
+  range: 'never'
+  message: 'Thank you for not smoking. Did you know that you have 200% to 400% less chance of getting a heart-attack than the smokers'
+  image: ''
+  gender: 'Female'
+Alcohol1_F:
+  risk_factor_id: 5
+  range: 'frequently'
+  message: 'Heavy drinking increases the risk of cancers involving liver, esophagus, throat, larynx and road accidents'
+  image: ''
+  gender: 'Female'
+Alcohol2_F:
+  risk_factor_id: 5
+  range: 'occasionally'
+  message: 'Per research, Did you know  that the risk of an individual to develop alcoholism runs in the families.'
+  image: ''
+  gender: 'Female'
+Alcohol3_F:
+  risk_factor_id: 5
+  range: 'never'
+  message: 'Good choice! Alcohol has never done any good anyone'
+  image: ''
+  gender: 'Female'
+Exercise1_F:
+  risk_factor_id: 6
+  range: 'frequently'
+  message: 'Awesome! Exercise not only helps you build a healthy body but also maintain a healthy mental condition'
+  image: ''
+  gender: 'Female'
+Exercise2_F:
+  risk_factor_id: 6
+  range: 'occasionally'
+  message: 'Did you know that swimming as a form of exercise reduces an individuals Mortality by at least 50%. So please get out more often'
+  image: ''
+  gender: 'Female'
+Exercise3_F:
+  risk_factor_id: 6
+  range: 'never'
+  message: '15 minutes of exercise a day reduces the mortality risk by 14% compared to the perople who do not exercise at all. So, please start exercising often'
+  image: ''
+  gender: 'Female'
+BloodGroup1_F:
+  risk_factor_id: 7
+  range: '1'
+  message: 'A+ blood group can donate to A+ and AB+ and can receive blood from O+, A+, O- and A-'
+  image: ''
+  gender: 'Female'
+BloodGroup2_F:
+  risk_factor_id: 7
+  range: '2'
+  message: 'A- blood group can donate to A+, AB+, A-, AB- and can receive from O- and A-'
+  image: ''
+  gender: 'Female'
+BloodGroup3_F:
+  risk_factor_id: 7
+  range: '3'
+  message: 'B+ blood group can donate to B+ and AB+ and can receive from B+ and AB+'
+  image: ''
+  gender: 'Female'
+BloodGroup4_F:
+  risk_factor_id: 7
+  range: '4'
+  message: 'B- blood group can donate to B+, AB+, B- and AB- and can receive from O- and B-'
+  image: ''
+  gender: 'Female'
+BloodGroup5_F:
+  risk_factor_id: 7
+  range: '5'
+  message: 'AB+ blood group can only donate to AB+ and can receive from O+, A+, B+, AB+, O-, A-, B- and AB-'
+  image: ''
+  gender: 'Female'
+BloodGroup6_F:
+  risk_factor_id: 7
+  range: '6'
+  message: 'AB- blood group can donate to AB+ and AB- and can receive from O-, A-, B- and AB-'
+  image: ''
+  gender: 'Female'
+BloodGroup7_F:
+  risk_factor_id: 7
+  range: '7'
+  message: 'O+ blood group can donate to O+, A+, B+ and AB+ and can receive from O+ and O-'
+  image: ''
+  gender: 'Female'
+BloodGroup8_F:
+  risk_factor_id: 7
+  range: '8'
+  message: 'O- blood group can donate to A+, A_, B+, B-, AB+ and AB- and can only receive from O-'
+  image: ''
+  gender: 'Female'
+MedicalCondition1_F:
+  risk_factor_id: 8
+  range: 'hypertension'
+  message: 'Impact of your family history on chronic diseases is not a modifiable variable. However, there are other parameters that are within your influence like your diet, exercise, stress etc. which helps in reducing your risk'
+  image: ''
+  gender: 'Female'
+MedicalCondition2_F:
+  risk_factor_id: 8
+  range: 'cancer'
+  message: 'Impact of your family history on chronic diseases is not a modifiable variable. However, there are other parameters that are within your influence like your diet, exercise, stress etc. which helps in reducing your risk'
+  image: ''
+  gender: 'Female'
+MedicalCondition3_F:
+  risk_factor_id: 8
+  range: 'heart condition'
+  message: 'Impact of your family history on chronic diseases is not a modifiable variable. However, there are other parameters that are within your influence like your diet, exercise, stress etc. which helps in reducing your risk'
+  image: ''
+  gender: 'Female'
+MedicalCondition4_F:
+  risk_factor_id: 8
+  range: 'diabetic'
+  message: 'Impact of your family history on chronic diseases is not a modifiable variable. However, there are other parameters that are within your influence like your diet, exercise, stress etc. which helps in reducing your risk'
+  image: ''
+  gender: 'Female'
+MedicalCondition5_F:
+  risk_factor_id: 8
+  range: 'none'
+  message: 'Impact of your family history on chronic diseases is not a modifiable variable. However, there are other parameters that are within your influence like your diet, exercise, stress etc. which helps in reducing your risk'
+  image: ''
+  gender: 'Female'

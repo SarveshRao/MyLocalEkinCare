@@ -1,0 +1,91 @@
+= content_for :title, 'Allergies'
+
+%div.clearfix.breadcrumb
+  %ol.padder
+    = render_breadcrumbs :separator => ' / '
+    %small.pull-right
+      contact: 888-678-EKIN (3546) /
+      %a{href: 'mailto:founder@ekincare.com'} founder@ekincare.com
+
+%div{style: 'min-height: 1000px'}
+  %section.vbox
+    %section.scrollable.bg-white
+      .wrapper-lg.bg-light
+        = render partial: 'layouts/customer/profile_avatar'
+
+  .text-left#customer_allergies_panel
+    .vbox#allergies_info
+      %h4.panel-heading
+        %a.font-bold{href: "#"}
+          Allergies &nbsp;&nbsp;
+        %a.btn.btn-default.btn-s-mdsche.m-b-xs.is_customer.hide#create_customer_allergy
+          &nbsp;
+          %i.fa.fa-plus
+            &nbsp;Add new &nbsp;&nbsp;
+      .scrollable
+        %section.panel.panel-default
+          .table-responsive
+            %table.table.table-striped.b-light#allergies_table
+              %thead
+                %tr#allergy_table_header{class: "#{@allergies.empty? ? 'hide' : ''}"}
+                  %th.th-sortable{"data-toggle" => "class", width: '30%'}
+                    Name
+                  %th{width: '30%'} Reaction
+                  %th{width: '30%'} Severity
+                  %th{width: '5%'}
+                  %th{width: '5%'}
+              %tbody
+                = form_for Allergy.new, url: customers_allergies_path,remote: true, html: {id: 'new_customer_allergy'} do |f|
+                  %tr#customer_allergy_new_form.hide
+                    %td
+                      = f.text_field :name, {placeholder: 'Name', class: 'form-control customer-allergy-select'}
+                    %td
+                      = f.text_field :reaction, {placeholder: 'Reaction', class: 'form-control customer_allergy_reaction'}
+                    %td
+                      = f.fields_for :customer_allergies do |customer_allergy|
+                        = customer_allergy.text_field :severity, {placeholder: 'Severity', class: 'form-control'}
+                    %td
+                      = f.submit 'save', {id: 'allergy_save_btn',class:'btn btn-sm small-btn btn-primary'}
+                    %td
+                      %a{id: 'customer_allergy_cancel_btn', class: 'btn btn-sm small-btn btn-danger'} cancel
+                      %input{type: 'reset', class: 'hide', id: 'reset_allergy_btn'}
+
+                - if !@allergies.empty?
+                  - @allergies.each do |allergy|
+                    %tr.allergy-row
+                      %td
+                        = allergy.name
+                      %td
+                        = allergy.reaction
+                      %td
+                        = @customer.customer_allergies.find_by(allergy_id: allergy.id).severity
+                      %td.is_customer.hide
+                        %a.pull-right.dropdown-toggle.customer-allergy-edit-pencil{"data-toggle" => "dropdown", href: "#"}
+                          %i.fa.fa-pencil
+                      %td.is_customer.hide
+                        %a.pull-right.dropdown-toggle.customer-allergy-delete-row{"data-toggle" => "dropdown", href: "#"}
+                          %i.i.i-trashcan
+
+                    - customer_allergy = @customer.customer_allergies.find_by(allergy_id: allergy.id)
+
+                    = form_for allergy, url: customers_allergy_path(customer_allergy), remote: true, html: {id: '', class: 'edit-customer-allergy'}, method: :put do |f|
+                      %tr.edit_allergy_row.hide{customer_id: @customer.id, customer_allergy_id: customer_allergy.id}
+                        %td
+                          = f.text_field :name, {placeholder: 'Name', class: 'form-control customer-allergy-select'}
+                        %td
+                          = f.text_field :reaction, {placeholder: 'Reaction', class: 'form-control customer_allergy_reaction'}
+                        %td
+                          = f.fields_for :customer_allergies, @customer.customer_allergies.find_by(allergy_id: allergy.id) do |ca|
+                            = ca.text_field :severity, {class: 'form-control'}
+                        %td
+                          = f.submit 'save', {class:'btn btn-sm small-btn btn-primary allergy-save-row-btn'}
+                        %td
+                          %a{class: 'btn btn-sm small-btn btn-danger customer-allergy-cancel-btn'} cancel
+                          %input{type: 'reset', class: 'hide reset-allergy-row-btn'}
+
+                - else
+                  -#hi
+                  %tr#no_allergies_row
+                    %td{colspan: 5}
+                      .text-center
+                        %p Please update your Allergies information. This comes handy during an emergency.

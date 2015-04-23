@@ -1,0 +1,63 @@
+.text-left#recommendations_panel
+  .vbox
+    %h4.panel-heading.no-padder
+      %a.font-bold{href: "#"}
+        Recommendations &nbsp;&nbsp;
+      %a.btn.btn-default.btn-s-mdsche.m-b-xs#create_recommendation
+        &nbsp;
+        %i.fa.fa-plus
+        &nbsp;Add new &nbsp;&nbsp;
+    .scrollable
+      %aside
+        %section.panel.panel-default
+          .table-responsive
+            %table.table.table-striped.b-light#recommendations_table
+              %thead
+                %tr
+                  %th.th-sortable{"data-toggle" => "class", width: '45%'}
+                    Title
+                    -#%span.th-sort
+                      %i.fa.fa-sort-down.text
+                      %i.fa.fa-sort-up.text-active
+                      %i.fa.fa-sort
+                  %th{width: '45%'}
+                    Description
+                  %th{width: '5%'}
+                  %th{width: '5%'}
+              %tbody
+                = form_for Recommendation.new, remote: true, html: {assessment_id: @health_assessment.id}, url: health_assessment_recommendations_path(@health_assessment) do |f|
+                  %tr#recommendation_new_form.hide
+                    %td
+                      = f.text_area :title, {class: 'form-control time'}
+                    %td
+                      = f.text_area :description, {class: 'form-control '}
+                    %td
+                      = f.submit "save",{class: 'btn btn-sm small-btn btn-primary'}
+                    %td
+                      %a{id: 'recommendations_cancel_btn', class: 'btn btn-sm small-btn btn-danger'} cancel
+                      %input{type: 'reset', class: 'hide', id: 'reset_recommendations_btn'}
+
+                - @recommendations.each do |recommendation|
+                  %tr
+                    %td
+                      = recommendation.title
+                    %td
+                      = recommendation.description
+                    %td
+                      %a.pull-right.dropdown-toggle.edit-recommendation-pencil{"data-toggle" => "dropdown", href: "#"}
+                        %i.fa.fa-pencil
+                    %td
+                      %a.pull-right.dropdown-toggle.recommendation-delete-row{"data-toggle" => "dropdown", href: "#"}
+                        %i.i.i-trashcan
+
+                  = form_for recommendation, remote: true,url: health_assessment_recommendation_path(@health_assessment, recommendation) do |f|
+                    %tr.edit-recommendations-row.hide
+                      %td
+                        = f.text_area :title, {class: 'form-control time'}
+                      %td
+                        = f.text_area :description, {class: 'form-control'}
+                      %td
+                        = f.submit "save",{class: 'btn btn-sm small-btn btn-primary'}
+                      %td
+                        %a{class: 'btn btn-sm small-btn btn-danger recommendations-cancel-btn'} cancel
+                        %input{type: 'reset', class: 'hide reset-recommendations-btn'}

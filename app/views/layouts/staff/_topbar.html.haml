@@ -1,0 +1,23 @@
+%header.bg-primary.header.header-md.navbar.navbar-fixed-top-xs.box-shadow
+  .navbar-header.aside-md.dk
+    %a.btn.btn-link.visible-xs{"data-target" => "#nav,html", "data-toggle" => "class:nav-off-screen,open"}
+      %i.fa.fa-bars
+    %a.navbar-brand{href: "/staff/dashboard"}
+      %img.m-r-sm{alt: "eKincare", src: asset_path('logo.png')}/
+    %a.btn.btn-link.visible-xs{"data-target" => ".user", "data-toggle" => "dropdown"}
+      %i.fa.fa-cog
+
+  %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
+    %li.dropdown
+      %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
+        %span.thumb-sm.avatar.pull-left
+          - staff_avatar = current_staff.gender_default_icon
+          %img{alt: "...", src: asset_path(staff_avatar)}/
+        - if current_staff
+          = current_staff.name
+
+
+        %b.caret
+      %ul.dropdown-menu.animated.fadeInRight
+        %li
+          = link_to("Signout", staff_signout_path, method: :delete)

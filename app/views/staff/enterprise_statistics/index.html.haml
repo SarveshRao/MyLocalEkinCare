@@ -1,0 +1,104 @@
+
+%body
+  %section.vbox
+    %section
+      %div.clearfix.breadcrumb
+        %ol.padder
+          = render_breadcrumbs :separator => ' / '
+          %small.pull-right
+            contact: 888-678-EKIN (3546) /
+            %a{href: 'mailto:help@ekincare.com'} help@ekincare.com
+      %section.hbox.stretch
+        / /.aside
+        %section#content{:style=>"padding-bottom:30px"}
+          %section.vbox
+            %section.scrollable.padder
+              .row
+                .col-md-6
+                  %section.panel.panel-default
+                    %header.panel-heading.font-bold Customers Vitals
+                    .panel-body
+                      #health-pie{:style => "height:240px"}
+                    %footer.panel-footer.bg-white
+                      .row.text-center.no-gutter
+                        .col-xs-4.b-r.b-light
+                          %p.h3.font-bold.m-t
+                            =@overweight_customer_count
+                          %p.text-muted Overweight
+                        .col-xs-4.b-r.b-light
+                          %p.h3.font-bold.m-t
+                            =@overweight_customer_count
+                          %p.text-muted Obesity
+                        .col-xs-4.b-light
+                          %p.h3.font-bold.m-t
+                            =@healthy_customer_count
+                          %p.text-muted Healthy
+                .col-md-6
+                  %section.panel.panel-default
+                    %header.panel-heading.font-bold Customer Health Statistics
+                    .panel-body
+                      #appoint-pie{:style => "height:240px"}
+                    %footer.panel-footer.bg-white
+                      .row.text-center.no-gutter
+                        .col-xs-4.b-r.b-light
+                          %p.h3.font-bold.m-t
+                            10
+                          %p.text-muted CVD
+                        .col-xs-4.b-r.b-light
+                          %p.h3.font-bold.m-t
+                            12
+                          %p.text-muted HyperTension
+                        .col-xs-4.b-light
+                          %p.h3.font-bold.m-t
+                            10
+                          %p.text-muted Diabetic
+              .row
+                .col-lg-4
+                  %section.panel.panel-default
+                    %header.panel-heading
+                      Total Customers Referred
+                    .panel-body.text-center
+                      %small.text-muted.block Customers
+                      .inline
+                        .easypiechart{"data-bar-color" => "#fcc633", "data-line-width" => "6", "data-loop" => "false", "data-percent" => @total_customers_count, "data-size" => "188"}
+                          %div
+                            %span.h2.m-l-sm.step>
+                            =@total_customers_count
+                            .text.text-sm total
+                    .panel-footer
+                      %small % of customers
+                .col-lg-4
+                  %section.panel.panel-default
+                    %header.panel-heading
+                      Diabetic Customers
+                    .panel-body.text-center
+                      %h4
+                        100
+                      %small.text-muted.block Assessmenst
+                      .inline
+                        .easypiechart{"data-bar-color" => "#aa5585", "data-line-width" => "6", "data-loop" => "false", "data-percent" => 50, "data-size" => "188"}
+                          %div
+                            %span.h2.m-l-sm.step>
+                            15
+                            \%
+                            .text.text-sm total
+                    .panel-footer
+                      %small % of customers
+                .col-lg-4
+                  %section.panel.panel-default
+                    %header.panel-heading
+                      Customers with Abnormal BP
+                    .panel-body.text-center
+                      %h4
+                        50
+                      %small.text-muted.block Customers
+                      .inline
+                        .easypiechart{"data-bar-color" => "#d46a6a", "data-line-cap" => "butt", "data-line-width" => "6", "data-percent" => 40, "data-scale-color" => "#fff", "data-size" => "188", "data-track-color" => "#eee"}
+                          %div
+                            %span.h2.m-l-sm.step>
+                            50
+                            \%
+                            .text.text-sm total
+                    .panel-footer
+                      %small % of customers
+            %a.hide.nav-off-screen-block{"data-target" => "#nav", "data-toggle" => "class:nav-off-screen", :href => "#"}

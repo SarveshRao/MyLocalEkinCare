@@ -1,0 +1,139 @@
+= content_for :title, 'Home'
+- content_for :zopim_chat do
+  :javascript
+    window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
+    d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+    _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute('charset','utf-8');
+    $.src='//v2.zopim.com/?2Um2B0Y0KEgOyEsT8WLIjMFjSeBkufvQ';z.t=+new Date;$.
+    type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
+
+= render :partial => 'slider'
+/ .top wrapper end
+.loading-container
+  .spinner
+    .double-bounce1
+    .double-bounce2
+.content-wrapper
+  .section-content.top-body
+    .center-text
+      %h4.h4-section-title TAKE CONTROL OF YOUR HEALTH. IT'S FREE!
+      %p.p-section-info Up to 70% off on health assessments | 1500+ locations | Online lab results | Personal health records | Timely reminders
+      %a.btn.btn-lg.btn-flat{:href => new_online_customer_registration_path, style: 'margin-top: 10px'} Register and host your medical records for free
+  .body-wrapper{style: 'padding-top: 10px !important'}
+    .container
+      .row
+        .col-md-12.col-sm-12.animated{"data-animrepeat" => "0", "data-animtype" => "fadeInUp", "data-delay" => "0.4s", "data-speed" => "1s"}
+          %h2.h2-section-title How it works
+          .i-section-title
+            %i.icon.icon-params
+
+      .section-content.section-px
+        .container
+          .row
+            .col-md-3.col-sm-3
+              .content-box.content-style4.medium.animated.fadeIn.animatedVisi{"data-animdelay" => "0.2s", "data-animrepeat" => "0", "data-animspeed" => "1s", "data-animtype" => "fadeIn", :style => "-webkit-animation: 1s 0.2s;"}
+                %h4.h4-body-title
+                  %i.icon-user-outline
+                  1. Register
+                .content-box-text
+                  Get started by registering for free
+                  %a.btn.btn-sm{:href => new_online_customer_registration_path}
+                    Get started
+            .col-md-3.col-sm-3
+              .content-box.content-style4.medium.animated.fadeIn.animatedVisi{"data-animdelay" => "0.2s", "data-animrepeat" => "0", "data-animspeed" => "1s", "data-animtype" => "fadeIn", :style => "-webkit-animation: 1s 0.2s;"}
+                %h4.h4-body-title
+                  %i.icon-camera
+                  2. Upload records
+                .content-box-text
+                  Use your smartphone to take pictures of your medical records and upload it to your profile
+            .col-md-3.col-sm-3
+              .content-box.content-style4.medium.animated.fadeIn.animatedVisi{"data-animdelay" => "0.2s", "data-animrepeat" => "0", "data-animspeed" => "1s", "data-animtype" => "fadeIn", :style => "-webkit-animation: 1s 0.2s;"}
+                %h4.h4-body-title
+                  %i.icon-computer-imac
+                  3. Free digitzation
+                .content-box-text
+                  We convert data from your records into clickable history, graphical timeline and color coded results
+            .col-md-3.col-sm-3
+              .content-box.content-style4.medium.animated.fadeIn.animatedVisi{"data-animdelay" => "0.2s", "data-animrepeat" => "0", "data-animspeed" => "1s", "data-animtype" => "fadeIn", :style => "-webkit-animation: 1s 0.2s;"}
+                %h4.h4-body-title
+                  %i.icon-calendar
+                  4. Appointment
+                .content-box-text
+                  We call you to explain the dashboard and schedule your follow up appointments
+            .section-content.no-padding
+              .space-sep40
+          .row
+            .col-md-12.col-sm-12.animated{"data-animrepeat" => "0", "data-animtype" => "fadeInUp", "data-delay" => "0.4s", "data-speed" => "1s"}
+              %h2.h2-section-title What we offer
+              .i-section-title
+                %i.icon-drive
+    .section-content.no-padding
+      .container
+        .row
+          .col-md-6.col-sm-6.animated{"data-animrepeat" => "0", "data-animtype" => "fadeInLeft", "data-delay" => "0.4s", "data-speed" => "1s"}
+            .left-image-container.center-text
+              %img{:alt => "iPhone", :src => asset_path('placeholders/iphone5-placeholder.png')}/
+          .col-md-6.col-sm-6.animated{"data-animrepeat" => "0", "data-animtype" => "fadeInRight", "data-delay" => "0.4s", "data-speed" => "1s"}
+            .space-sep100
+            %h2.h2-section-title Save Time, Energy and Money
+            %h3.h3-section-info Samples collected at home, results directly updated on eKincare and up to 70% discounts on health assessments.
+    .section-content.no-padding.section-color-gray
+      .container
+        .row
+          .col-md-6.col-sm-6.animated{"data-animrepeat" => "0", "data-animtype" => "fadeInLeft", "data-delay" => "0.4s", "data-speed" => "1s"}
+            .space-sep100
+            %h2.h2-section-title Free Cloud Hosting
+            %h3.h3-section-info Keep all of your and your family's health records at one place and access it from anywhere, anytime using a PC, smartphone   or a tablet.
+          .col-md-6.col-sm-6.animated{"data-animrepeat" => "0", "data-animtype" => "fadeInRight", "data-delay" => "0.4s", "data-speed" => "1s"}
+            .right-image-container.center-text
+              %img{:alt => "Iphone", :src => asset_path('placeholders/iphone4-placeholder.png')}/
+    .section-content.no-padding
+      .container
+        .row
+          .col-md-6.col-sm-6.animated{"data-animrepeat" => "0", "data-animtype" => "fadeInRight", "data-delay" => "0.4s", "data-speed" => "1s"}
+            .right-image-container.center-text
+              %img{:alt => "Iphone", :src => asset_path('placeholders/image-scanning.png')}/
+          .col-md-6.col-sm-6.animated{"data-animrepeat" => "0", "data-animtype" => "fadeInLeft", "data-delay" => "0.4s", "data-speed" => "1s"}
+            .space-sep100
+            %h2.h2-section-title Free Digitization
+            %h3.h3-section-info Digitizing your critical medical info is now as simple as a snap. Using your smartphone, take a picture and save it to your profile. We will take care of the rest.
+    .section-content.no-padding.section-color-gray
+      .container
+        .row
+          .col-md-6.col-sm-6.animated{"data-animrepeat" => "0", "data-animtype" => "fadeInLeft", "data-delay" => "0.4s", "data-speed" => "1s"}
+            .space-sep100
+            %h2.h2-section-title User Friendly
+            %h3.h3-section-info Color coded tests results, graphical history, clickable timleines and info around what and why about each test.
+          .col-md-6.col-sm-6.animated{"data-animrepeat" => "0", "data-animtype" => "fadeInRight", "data-delay" => "0.4s", "data-speed" => "1s"}
+            .right-image-container.center-text
+              %img{:alt => "Iphone", :src => asset_path('placeholders/iphone5-placeholder - Copy.png')}/
+    .section-content.no-padding
+      .container
+        .row
+          .col-md-6.col-sm-6.animated{"data-animrepeat" => "0", "data-animtype" => "fadeInLeft", "data-delay" => "0.4s", "data-speed" => "1s"}
+            .left-image-container.center-text
+              %img{:alt => "iPhone", :src => asset_path('placeholders/Reminder.png')}/
+          .col-md-6.col-sm-6.animated{"data-animrepeat" => "0", "data-animtype" => "fadeInRight", "data-delay" => "0.4s", "data-speed" => "1s"}
+            .space-sep100
+            %h2.h2-section-title Reminders
+            %h3.h3-section-info We'll remind and schedule your appointments for timely immunizations, follow ups, updates etc.
+    .section-content.no-padding.section-color-gray
+      .container
+        .row
+          .col-md-6.col-sm-6.animated{"data-animrepeat" => "0", "data-animtype" => "fadeInLeft", "data-delay" => "0.4s", "data-speed" => "1s"}
+            .space-sep100
+            %h2.h2-section-title Super Secure
+            %h3.h3-section-info We are serious about your privacy. We transmit all your info over 256 bit encryption safely to a highly secure world class data center.
+          .col-md-6.col-sm-6.animated{"data-animrepeat" => "0", "data-animtype" => "fadeInRight", "data-delay" => "0.4s", "data-speed" => "1s"}
+            .right-image-container.center-text
+              %img{:alt => "Iphone", :src => asset_path('placeholders/Secure.png')}/
+
+  = render :partial => 'partner_styles'
+
+  .testimonial-big
+    .container
+      .row
+        .col-md-12.col-sm-12
+          .testimonial-big-text.animated.fadeInRight.animatedVisi{"data-animrepeat" => "1", "data-animtype" => "fadeInRight", "data-delay" => "0s", "data-speed" => "1s"}
+            I am amazed at the clarity with which the platform has been designed. It is very exciting to actually see all the data in digital form unlike in the past
+            when we had to be satisfied with paper reports. Atleast in India we haven't yet adopted such platforms and so it becomes all the more exciting! - Srikanth Soni

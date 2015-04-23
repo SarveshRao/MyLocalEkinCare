@@ -1,0 +1,38 @@
+= content_for :title, 'Blog post'
+
+#content
+  .vbox.padder
+    %h4
+      %a.font-bold{href: "#"}
+        Blog Posts &nbsp;&nbsp;
+      %a.btn.btn-default.btn-s-mdsche.m-b-xs{href: new_staff_blog_post_path}
+        &nbsp;
+        %i.fa.fa-plus
+        &nbsp; New Post &nbsp;&nbsp;
+    .scrollable
+      %section.panel.panel-default
+        .table-responsive
+          %table.table.table-striped.b-t.b-light#customer_list
+            %thead
+              %tr
+                %th Title
+                %th Body
+                %th Tags
+                %th Author
+                %th Blog Post Image
+            %tbody
+              - @blog_posts.each do |blog_post|
+                %tr{class: 'customer-row', url:  edit_staff_blog_post_path(blog_post)}
+                  %td
+                    = blog_post.title
+                  %td
+                    = blog_post.body
+                  %td
+                    = blog_post.tags
+                  %td
+                    = blog_post.author
+                  %td
+                    = blog_post.image
+
+
+  %a.hide.nav-off-screen-block{"data-target" => "#nav", "data-toggle" => "class:nav-off-screen", href: "#"}

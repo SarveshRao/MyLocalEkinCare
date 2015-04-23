@@ -1,0 +1,71 @@
+= content_for :title, "#{@customer.name} | #{@health_assessment.assessment_type.downcase} assessment page"
+
+%section.vbox
+  %section.scrollable
+    %section.hbox.stretch
+      %section#content
+        %div.clearfix.breadcrumb
+          %ol
+            = render_breadcrumbs :separator => ' / '
+            %small.pull-right
+              contact: 888-678-EKIN (3546) /
+              %a{href: 'mailto:help@ekincare.com'} help@ekincare.com
+        %h4.padder
+          %a.font-bold{href: "#"}
+            = "#{@health_assessment.health_assessment_id}"
+            %small
+              = "(Current Status: #{@health_assessment.status_message}, Requested Date: #{formatted_date @health_assessment.request_date})"
+        %section.vbox
+          %section
+            %section.hbox.stretch
+              %aside.col-lg-12.padder
+                %section.row.m-l-none.m-r-none.m-b.m-t.text-center
+                  -if @health_assessment.assessment_type == 'Dental'
+                    .col-xs-2.col-sm-2.col-lg-2-4.bg-primary.dk.lter.c-p#dental_result_tile
+                      .wrapper
+                        %i.fa-stethoscope.fa.fa-3x.m-t.m-b-sm.text-white
+                        %p.font-bold.small Dental Results
+                        -#.h4.font-bold 32k
+                  -if @health_assessment.assessment_type == 'Vision'
+                    .col-md-2-4.col-xs-2.col-sm-2.col-lg-2-4.bg-primary.dk.lter.c-p#vision_result_tile
+                      .wrapper
+                        %i.fa-stethoscope.fa.fa-3x.m-t.m-b-sm.text-white
+                        %p.font-bold.small Vision Checkup Results
+                        -#.h4.font-bold 32k
+                  -if @health_assessment.assessment_type == 'Body'
+                    .col-md-2-4.col-xs-2.col-sm-2.col-lg-2-4.bg-primary.dk.lter.c-p#lab_result_tile
+                      .wrapper
+                        %i.fa-stethoscope.fa.fa-3x.m-t.m-b-sm.text-white
+                        %p.font-bold.small Lab Tests
+                        -#.h4.font-bold 32k
+                  .other
+                    .col-md-2-4.col-xs-2.col-sm-2.col-lg-2-4.bg-success.dk.lter.c-p#medical_records_tile
+                      .wrapper
+                        %i.fa-files-o.fa.fa-3x.m-t.m-b-sm.text-white
+                        %p.font-bold.small Medical Records
+                        -#.h4.font-bold 50k
+                    .col-md-2-4.col-xs-2.col-sm-2.col-lg-2-4.bg-info.dk.lt.c-p#recommendations_tile
+                      .wrapper
+                        %i.fa.fa-user-md.fa.fa-3x.m-t.m-b-sm.text-white
+                        %p.font-bold.small Recommendations
+                        -#.h4.font-bold 16k
+                    .col-md-2-4.col-xs-2.col-sm-2.col-lg-2-4.bg-warning.dk.lter.c-p#notes_tile
+                      .wrapper
+                        %i.fa.fa-file-text-o.fa.fa-3x.m-t.m-b-sm.text-white
+                        %p.font-bold.small Notes
+                        -#.h4.font-bold 16k
+                    .col-md-2-4.col-xs-2.col-sm-2.col-lg-2-4.bg-dark.dk.lter.c-p#more_tile
+                      .wrapper
+                        %i.i.i-plus.fa.fa-3x.m-t.m-b-sm.text-white
+                        %p.font-bold.small More
+                        -#.h4.font-bold 16k
+
+                %div
+                  = render partial: 'lab_result' if @health_assessment.assessment_type == 'Body'
+                  = render partial: 'vision_correction' if @health_assessment.assessment_type == 'Vision'
+                  = render partial: 'dental_examination' if @health_assessment.assessment_type == 'Dental'
+                  = render partial: 'staff/medical_records/main'
+                  = render partial: 'recommendations'
+                  = render partial: 'notes_show'
+
+%a.hide.nav-off-screen-block{"data-target" => "#nav,html", "data-toggle" => "class:nav-off-screen,open", href: "#"}

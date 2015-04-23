@@ -1,0 +1,31 @@
+%tr
+  %td
+    = @result.dentition
+  %td
+    = "#{@result.tooth_number} (#{Examination.notation(@result.dentition, @result.tooth_number)})"
+  %td
+    = @result.diagnosis
+  %td
+    = @result.recommendation
+  %td
+    %a.pull-right.dropdown-toggle.edit-dental-result-pencil{"data-toggle" => "dropdown", href: "#"}
+      %i.fa.fa-pencil
+  %td
+    %a.pull-right.dropdown-toggle.dental-result-delete-row{"data-toggle" => "dropdown", href: "#"}
+      %i.i.i-trashcan
+
+= form_for @result, url: health_assessment_result_path(@dental_assessment, @result), remote: true do |f|
+  %tr.dental_result_edit_row.hide
+    %td
+      = f.select :dentition, options_for_select(Examination.tooth_types, selected: @result.dentition),{}, {class: 'form-control dentition'}
+    %td
+      = f.select :tooth_number, options_for_select(Examination.tooth_numbers_type(@result.dentition), selected: @result.tooth_number), {}, {class: 'form-control tooth_number'}
+    %td
+      = f.text_area :diagnosis, {class: 'form-control diagnosis'}
+    %td
+      = f.text_area :recommendation, {class: 'form-control recommendation'}
+    %td
+      = f.submit 'save', {class:'btn btn-sm small-btn btn-primary save-edit-dental-result-form pull-right'}
+    %td{colspan: 2}
+      %a{class: 'btn btn-sm small-btn btn-danger dental-result-cancel-btn'} cancel
+      %input{type: 'reset', class: 'hide'}

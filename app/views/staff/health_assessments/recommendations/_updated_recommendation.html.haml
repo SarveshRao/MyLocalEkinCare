@@ -1,0 +1,10 @@
+%td
+  = @recommendation.title
+%td
+  = @recommendation.description
+%td
+  %a.pull-right.dropdown-toggle.edit-recommendation-pencil{"data-toggle" => "dropdown", href: "#"}
+    %i.fa.fa-pencil
+%td
+  %a.pull-right.dropdown-toggle.recommendation-delete-row{"data-toggle" => "dropdown", href: "#"}
+    %i.i.i-trashcan

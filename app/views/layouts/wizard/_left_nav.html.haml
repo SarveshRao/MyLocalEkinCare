@@ -1,0 +1,50 @@
+%aside#nav.bg-light.lt.b-r.b-light.aside-md.hidden-print.hidden-xs{style: 'opacity: 0.8'}
+  %section.vbox
+    %section.w-f.scrollable
+      %div{"data-disable-fade-out" => "true", "data-distance" => "0", "data-height" => "auto", "data-railopacity" => "0.2", "data-size" => "10px"}
+        .clearfix.wrapper.dk.nav-user.hidden-xs
+          .dropdown
+            %a.dropdown-toggle{"data-toggle" => "dropdown"}
+              %span.thumb.avatar.pull-left.m-r
+                %img.dker{alt: "...", src: asset_path(current_online_customer.gender_default_icon)}/
+              %span.hidden-nav-xs.clear
+                %span.block.m-t-xs
+                  %strong.font-bold.text-lt
+                    = current_online_customer.name
+        %nav.nav-primary.hidden-xs
+          &nbsp;
+          %ul.nav.nav-main{"data-ride" => "collapse"}
+            %li
+              %a.auto
+                %i.i.i-statistics.icon
+                %span.font-bold Overview
+            %li
+              %a.auto
+                %span.pull-right.text-muted
+                  %i.i.i-circle-sm-o.text
+                  %i.i.i-circle-sm.text-active
+                %b.badge.bg-danger.pull-right
+                  = current_online_customer.health_assessments.count
+                %i.i.i-stack.icon
+                %span.font-bold Assessments
+            %li
+              %a.auto
+                %span.pull-right.text-muted
+                  %i.i.i-circle-sm-o.text
+                  %i.i.i-circle-sm.text-active
+                %i.i.i-lab.icon
+                %span.font-bold Timeline
+            %li
+              %a.auto
+                %span.pull-right.text-muted
+                  %i.i.i-circle-sm-o.text
+                  %i.i.i-circle-sm.text-active
+                %i.i.i-docs.icon
+                %span.font-bold Documents
+            %li
+              %a.auto
+                %span.pull-right.text-muted
+                  %i.i.i-circle-sm-o.text
+                  %i.i.i-circle-sm.text-active
+                %i.i.i-grid2.icon
+                %span.font-bold Profile

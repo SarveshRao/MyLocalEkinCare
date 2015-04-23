@@ -1,0 +1,187 @@
+= javascript_include_tag "jquery"
+= javascript_include_tag "loader"
+
+- if @customer && !@customer.new_record?
+  / .aside
+  %aside#nav.bg-light.lt.b-r.b-light.aside-md.hidden-print.hidden-xs
+    %section.vbox
+      %section.w-f
+        %div
+          .clearfix.wrapper.dk.nav-user.hidden-xs
+            .dropdown
+              %a.dropdown-toggle
+                %span.thumb.avatar.pull-left.m-r
+                  %img.dker{alt: "...", src: asset_path(@customer.image_url || @customer.gender_default_icon)}/
+                  -#%i.on.md.b-light
+                %span.hidden-nav-xs.clear
+                  %span.block.m-t-xs
+                    %strong.font-bold.text-lt.w-break
+                      = @customer.name
+                    -#%b.caret
+                  %span.text-xs.block.clear.spacer
+                    %small
+                      - if @customer.gender == 'Female'
+                        %i.fa.fa-female
+                        Female
+                        |
+                      - elsif @customer.gender == 'Male'
+                        %i.fa.fa-male
+                        Male
+                        |
+                      - else
+
+                      - if @customer.age['year'] != '-'
+                        = "#{@customer.age['year']} years"
+
+                  %span.text-muted.text-xs.block
+                    %a
+                      %i.fa.fa-phone.text.font-bold
+                      &nbsp;
+                      = @customer.mobile_number ? @customer.mobile_number : '-'
+                  .vbox.pull-right.spacer.w-break.health_icons_sec
+                    %span.text-muted.text-xs.block
+                      %a
+                        %i.i.i-mail2.text.font-bold
+                        &nbsp;
+                        = @customer.email ? @customer.email : '-'
+                    %span
+                      - if @customer.obesity_overweight_checkup==3
+                        %a.badge.bg-primary
+                          Over Weight
+                    %span
+                      - if @customer.obesity_overweight_checkup==4
+                        %a.badge.bg-success
+                          Obesity
+                    %span
+                      - if @customer.has_hypertension
+                        %a.badge.bg-info
+                          Hypertension
+                    %span
+                      - if @customer.has_cvd
+                        %a.badge.bg-dark
+                          CVD
+                    %span
+                      - if @customer.is_diabetic
+                        %a.badge.bg-warning
+                          Diabetic
+
+          / nav
+          %nav.nav-primary.hidden-xs
+            .text-muted.text-sm.hidden-nav-xs.padder.m-t-sm.m-b-sm &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            %ul.nav.nav-main{"data-ride" => "collapse"}
+              %li.start_loader{class: @charts_active ? 'active': ''}
+                %a.auto{href: staff_staff_charts_index_path}
+                  %span.pull-right.text-muted
+                    %i.i.i-circle-sm-o.text
+                    %i.i.i-circle-sm.text-active
+                  %i.fa.fa-home.icon
+                  %span.font-bold Dashboard
+              -#%li{class: @health_assessment_active ? 'active': ''}
+              -#  %a.auto{href: health_assessments_path}
+              -#    %span.pull-right.text-muted
+              -#      %i.i.i-circle-sm-o.text
+              -#      %i.i.i-circle-sm.text-active
+              -#    -#%b.badge.bg-danger.pull-right 4
+              -#    %i.i.i-stack.icon
+              -#    %span.font-bold Assessments
+              %li.start_loader{class: @customer_active ? 'active': ''}
+                %a.auto{href: customers_path}
+                  %span.pull-right.text-muted
+                    %i.i.i-circle-sm-o.text
+                    %i.i.i-circle-sm.text-active
+                  %i.i.i-users3.icon
+                  %span.font-bold Customers
+              -#%li
+              -#  %a.auto{href: "#"}
+              -#    %span.pull-right.text-muted
+              -#      %i.i.i-circle-sm-o.text
+              -#      %i.i.i-circle-sm.text-active
+              -#    %i.i.i-docs.icon
+              -#    %span.font-bold Appointments
+              %li.start_loader{class: @enterprises_active ? 'active': ''}
+                %a.auto{href: staff_enterprises_path}
+                  %span.pull-right.text-muted
+                    %i.i.i-circle-sm-o.text
+                    %i.i.i-circle-sm.text-active
+                  %i.fa.fa-medkit.icon
+                  %span.font-bold Enterprises
+              %li.start_loader{class: @partners_active ? 'active': ''}
+                %a.auto{href: staff_partners_path}
+                  %span.pull-right.text-muted
+                    %i.i.i-circle-sm-o.text
+                    %i.i.i-circle-sm.text-active
+                  %i.fa.fa-group.icon
+                  %span.font-bold Partners
+              %li.start_loader{class: @promotions_active ? 'active': ''}
+                %a.auto{href: staff_promotions_path}
+                  %span.pull-right.text-muted
+                    %i.i.i-circle-sm-o.text
+                    %i.i.i-circle-sm.text-active
+                  %i.fa.fa-bell.icon
+                  %span.font-bold Promotions
+- else
+  %aside#nav.bg-light.lt.b-r.b-light.aside-md.hidden-print.hidden-xs
+    %section.vbox
+      %section.w-f
+        %div
+          / nav
+          %nav.nav-primary.hidden-xs
+            .text-muted.text-sm.hidden-nav-xs.padder.m-t-sm.m-b-sm &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            %ul.nav.nav-main{"data-ride" => "collapse"}
+              %li.start_loader{class: @charts_active ? 'active': ''}
+                %a.auto{href: staff_staff_charts_index_path}
+                  %span.pull-right.text-muted
+                    %i.i.i-circle-sm-o.text
+                    %i.i.i-circle-sm.text-active
+                  %i.fa.fa-home.icon
+                  %span.font-bold Dashboard
+              -#%li{class: @health_assessment_active ? 'active': ''}
+              -#  %a.auto{href: health_assessments_path}
+              -#    %span.pull-right.text-muted
+              -#      %i.i.i-circle-sm-o.text
+              -#      %i.i.i-circle-sm.text-active
+              -#    -#%b.badge.bg-danger.pull-right 4
+              -#    %i.i.i-stack.icon
+              -#    %span.font-bold Assessments
+              %li.start_loader{class: @customer_active ? 'active': ''}
+                %a.auto{href: customers_path}
+                  %span.pull-right.text-muted
+                    %i.i.i-circle-sm-o.text
+                    %i.i.i-circle-sm.text-active
+                  %i.i.i-users3.icon
+                  %span.font-bold Customers
+              -#%li
+              -#  %a.auto{href: "#"}
+              -#    %span.pull-right.text-muted
+              -#      %i.i.i-circle-sm-o.text
+              -#      %i.i.i-circle-sm.text-active
+              -#    %i.i.i-docs.icon
+              -#    %span.font-bold Appointments
+              %li.start_loader{class: @enterprises_active ? 'active': ''}
+                %a.auto{href: staff_enterprises_path}
+                  %span.pull-right.text-muted
+                    %i.i.i-circle-sm-o.text
+                    %i.i.i-circle-sm.text-active
+                  %i.fa.fa-medkit.icon
+                  %span.font-bold Enterprises
+              %li.start_loader{class: @partners_active ? 'active': ''}
+                %a.auto{href: staff_partners_path}
+                  %span.pull-right.text-muted
+                    %i.i.i-circle-sm-o.text
+                    %i.i.i-circle-sm.text-active
+                  %i.fa.fa-group.icon
+                  %span.font-bold Partners
+              %li.start_loader{class: @promotions_active ? 'active': ''}
+                %a.auto{href: staff_promotions_path}
+                  %span.pull-right.text-muted
+                    %i.i.i-circle-sm-o.text
+                    %i.i.i-circle-sm.text-active
+                  %i.fa.fa-bell.icon
+                  %span.font-bold Promotions
+              %li.start_loader{class: @blog_posts_active ? 'active': ''}
+                %a.auto{href: staff_blog_posts_path}
+                  %span.pull-right.text-muted
+                    %i.i.i-circle-sm-o.text
+                    %i.i.i-circle-sm.text-active
+                  %i.i.i-grid2.icon
+                  %span.font-bold Blog Posts

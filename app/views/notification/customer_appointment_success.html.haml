@@ -1,0 +1,93 @@
+!!!
+%html{:lang => "en"}
+  %head
+    %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}
+      %title
+  %body{:style => "font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;font-size: 13px;color: #788288;background-color: rgba(0, 0, 0, 0);-webkit-font-smoothing: antialiased;line-height: 1.53846154;"}
+    %section
+      %div{:style => "width: 100%;float: left;position: relative;min-height: 1px;padding-right: 15px;padding-left: 15px;"}
+        %div{:style => "width: 100%;float: left;position: relative;min-height: 1px;padding-right: 15px;padding-left: 15px;background-color: #428BCA;"}
+          %p{:style => "color:#FFFFFF; margin-top:1%; padding:5px;text-align:center;font-size:16px"} Thank You for choosing eKincare
+        %div{:style => "width: 97.33333333%;left: 8.33333333%;float: left;position: relative;min-height: 1px;padding-right: 15px;padding-left: 15px;margin-top:4%"}
+          %img{:height => "50", :src => asset_path("#{@image}/assets/payment_logo.png"), :style => "vertical-align: middle;", :width => "170"}
+            %br
+              %br
+                %p{:style => "margin: 0px 0px 10px !important;"}
+                  = "Dear "+@customer_name
+                %br
+                  %p{:style => "margin: 0px 0px 10px !important;"}Thank you for appointment with eKincare, Please find below appointment summary.
+
+        %div{:style => "width: 47%;float: left;position: relative;min-height: 1px;padding-right: 15px;padding-left: 15px;margin-bottom: 5%;"}
+          %p{:style => "color:#1787d4; font-weight:bold;font-size:15px;margin-bottom: 0px;"}
+            = @package_name
+          %p{:style => "color:#808993"} includes:
+          -if @package_name == "Pro Package"
+            %p{:style => "margin-left: 4%; color:#808993; margin-top:0px !important; margin-bottom:5px !important"} 60+ test
+            %p{:style => "margin-left: 4%; color:#808993; margin-top:0px !important; margin-bottom:5px !important"} Dental & Vision check
+            %p{:style => "margin-left: 4%; color:#808993; margin-top:0px !important; margin-bottom:5px !important"} Home collection
+            %p{:style => "margin-left: 4%; color:#808993; margin-top:0px !important; margin-bottom:5px !important"} Online reports
+          -if @package_name == "Baseline Package"
+            %p{:style => "margin-left: 4%; color:#808993; margin-top:0px !important; margin-bottom:5px !important"} 30+ test
+            %p{:style => "margin-left: 4%; color:#808993; margin-top:0px !important; margin-bottom:5px !important"} Dental & Vision check
+            %p{:style => "margin-left: 4%; color:#808993; margin-top:0px !important; margin-bottom:5px !important"} Home collection
+            %p{:style => "margin-left: 4%; color:#808993; margin-top:0px !important; margin-bottom:5px !important"} Online reports
+          -if @package_name == "Dental or Vision Check"
+            %p{:style => "margin-left: 4%; color:#808993; margin-top:0px !important; margin-bottom:5px !important"} Comprehensive vision or dental check
+            %p{:style => "margin-left: 4%; color:#808993; margin-top:0px !important; margin-bottom:5px !important"} Online reports
+          -if @package_name == "Dental & Vision Check"
+            %p{:style => "margin-left: 4%; color:#808993; margin-top:0px !important; margin-bottom:5px !important"} Comprehensive vision and dental exam that checks the health of your eyes and teeth
+            %p{:style => "margin-left: 4%; color:#808993; margin-top:0px !important; margin-bottom:5px !important"} Online reports
+          -if @package_name == "Diabetes Package"
+            %p{:style => "margin-left: 4%; color:#808993; margin-top:0px !important; margin-bottom:5px !important"} Tests for average glucose levels over a period of 2-3 months
+            %p{:style => "margin-left: 4%; color:#808993; margin-top:0px !important; margin-bottom:5px !important"} Lipid profile
+            %p{:style => "margin-left: 4%; color:#808993; margin-top:0px !important; margin-bottom:5px !important"} Home collection
+            %p{:style => "margin-left: 4%; color:#808993; margin-top:0px !important; margin-bottom:5px !important"} Online reports
+          -if @package_name == "Thyroid Package"
+            %p{:style => "margin-left: 4%; color:#808993; margin-top:0px !important; margin-bottom:5px !important"} Includes T3, T4 and TSH tests
+            %p{:style => "margin-left: 4%; color:#808993; margin-top:0px !important; margin-bottom:5px !important"} Home collection
+            %p{:style => "margin-left: 4%; color:#808993; margin-top:0px !important; margin-bottom:5px !important"} Online reports
+        %div{:style => "width: 36%;float: right;position: relative;min-height: 1px;padding-left: 15px;margin-top: 7%;"}
+          %div{:style => "float:left"}
+            %p{:style => "color: #000;font-size: 15px;font-weight: bold;margin-top:0px !important; margin-bottom:5px !important"}
+              = "Rs "+number_with_precision(@selling_price, precision: 2)
+            %strike
+              %p{:style => "color: #F00;font-size: 11px;margin-top:0px !important; margin-bottom:5px !important"}
+                = "Rs "+number_with_precision(@mrp, precision: 2)
+            %p{:style => "margin-top:0px !important; margin-bottom:5px !important"}
+              = "You saved: Rs "+number_with_precision(@discount, precision: 0)+"%"
+      -if @appointment_dental
+        %div{:style => "width: 41%;float: left;position: relative;min-height: 1px;padding-right: 15px;padding-left: 35px;"}
+          %p{:style => "color:#1787d4; font-weight:bold;font-size:15px;margin-bottom: 0px;"} Dental Provider
+          %p{:style => "color:#808993; margin-top:0px !important; margin-bottom:5px !important"}
+            = @provider_dental
+          %p{:style => "color: #a1a8ac;margin-top:0px !important; margin-bottom:0px !important"}
+            = @dental_address
+        %div{:style => "width: 36%;float: right;position: relative;min-height: 1px;padding-left: 15px;margin-top: 4%;"}
+          %div{:style => "float:left; margin-left: 18px"}
+            %p{:style => "color: #a1a8ac;margin-top:0px !important; margin-bottom:0px !important"} Dental Appointment
+            %p{:style => "color: #a1a8ac;margin-top:0px !important; margin-bottom:0px !important"}
+              = @appointment_dental
+        %div{:style => "width: 47%;float: left;position: relative;min-height: 1px;padding-right: 15px;padding-left: 15px;"}
+      -if @appointment_vision
+        %div{:style => "width: 50%;float: left;position: relative;min-height: 1px;padding-right: 15px;padding-left: 35px;"}
+          %p{:style => "color:#1787d4; font-weight:bold;font-size:15px;margin-bottom: 0px;"} Vision Provider
+          %p{:style => "color:#808993; margin-top:0px !important; margin-bottom:5px !important"}
+            = @provider_vision
+          %p{:style => "color: #a1a8ac;margin-top:0px !important; margin-bottom:0px !important"}
+            = @vision_address
+        %div{:style => "width: 36%;float: right;position: relative;min-height: 1px;padding-left: 15px;margin-top: 4%;"}
+          %div{:style => "float:left; margin-left: 18px"}
+            %p{:style => "color: #a1a8ac;margin-top:0px !important; margin-bottom:0px !important"} Vision Appointment
+            %p{:style => "color: #a1a8ac;margin-top:0px !important; margin-bottom:0px !important"}
+              = @appointment_vision
+      -if @appointment_body
+        %div{:style => "width: 50%;float: left;position: relative;min-height: 1px;padding-right: 15px;padding-left: 35px;"}
+          %p{:style => "color:#1787d4; font-weight:bold;font-size:15px;margin-bottom: 0px;"} Body
+          %p{:style => "color:#808993; margin-top:0px !important; margin-bottom:5px !important"} Your Home
+          %p{:style => "color:#808993; margin-top:0px !important; margin-bottom:5px !important"}
+            = @customer_address
+        %div{:style => "width: 36%;float: right;position: relative;min-height: 1px;padding-left: 15px;margin-top: 4%;"}
+          %div{:style => "float:left; margin-left: 18px"}
+            %p{:style => "color: #a1a8ac;margin-top:0px !important; margin-bottom:0px !important"} Body Appointment
+            %p{:style => "color: #a1a8ac;margin-top:0px !important; margin-bottom:0px !important"}
+              = @appointment_body

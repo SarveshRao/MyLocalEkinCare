@@ -1,0 +1,50 @@
+= content_for :title, "Provider page"
+%section.vbox
+  %section.scrollable
+    %section.hbox.stretch
+      %section#content
+        %div.clearfix.breadcrumb
+          %ol
+            = render_breadcrumbs :separator => ' / '
+            %small.pull-right
+              contact: 888-678-EKIN (3546) /
+              %a{href: 'mailto:help@ekincare.com'} help@ekincare.com
+        %h4.padder
+          %a.font-bold{href: "#"}
+        %section.vbox
+          %section
+            %section.hbox.stretch
+              %aside.col-lg-12.padder
+
+                %div
+                  .text-left
+                    .vbox
+                      %h4.padder-v
+                        %a.font-bold{href: "#"}
+                          Branches &nbsp;&nbsp;
+                      .scrollable
+                        %section.panel.panel-default
+                          .table-responsive
+                            %table.table.table-striped.b-light#enterprise_branches_table
+                              %thead
+                                %tr
+                                  %thead
+                                    %tr
+                                      %th Branch ID
+                                      %th Contact Name
+                                      %th Phone
+                                      %th Email
+                                      %th Address
+                                  %tbody
+                                    - @branches.each do |branch|
+                                      %tr
+                                        %td
+                                          = branch.provider_id
+                                        %td
+                                          = branch.staff.name
+                                        %td
+                                          = branch.telephone
+                                        %td
+                                          = branch.staff.email
+                                        %td
+                                          = branch.address != nil ? branch.address.details : ''

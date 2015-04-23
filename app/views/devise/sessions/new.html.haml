@@ -1,0 +1,31 @@
+= content_for :title, 'Sign in'
+
+%section#content.m-t-lg.wrapper-md.animated.fadeInUp
+  .container.aside-xl
+    %section.m-b.p-b
+      %header.text-center
+        %a.h3.font-bold{href: root_path} eKincare
+    %section.m-b-lg
+      = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+        .list-group
+          .list-group-item
+            = f.email_field :email, {class: 'form-control no-border p-t-n', placeholder: 'Email',autofocus: true, required: true }
+          .list-group-item
+            = f.password_field :password, {class: 'form-control no-border', placeholder: 'Password', required: true}
+        = f.submit 'Sign in', {class: 'btn btn-lg btn-primary btn-block'}
+        .text-center.m-t.m-b
+          %a{href: new_password_path(resource_name)}
+            %small Forgot password?
+        .line.line-dashed
+        %p.text-muted.text-center
+          %small Do not have an account?
+        %a.btn.btn-lg.btn-default.btn-block{href: new_registration_path(resource_name)} Create an account
+%footer#footer
+  .text-center.padder
+    %p
+      %small
+        \© 2014
+        -#%br>/
+        eKincare
+
+

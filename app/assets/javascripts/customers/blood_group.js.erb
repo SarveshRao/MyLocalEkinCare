@@ -1,0 +1,147 @@
+
+(function ($) {
+    "use strict";
+    var BloodPressure = function (options) {
+        this.init('blood_pressure', options, BloodPressure.defaults);
+    };
+
+    //inherit from Abstract input
+    $.fn.editableutils.inherit(BloodPressure, $.fn.editabletypes.abstractinput);
+
+    $.extend(BloodPressure.prototype, {
+        /**
+        Renders input from tpl
+
+        @method render()
+        **/
+        render: function() {
+           this.$input = this.$tpl.find('input');
+        },
+
+        /**
+        Default method to show value in element. Can be overwritten by display option.
+
+
+
+        html2value: function(html) {
+          return null;
+        },
+
+       /**
+        Converts value to string.
+        It is used in internal comparing (not for sending to server).
+
+        @method value2str(value)
+       **/
+       value2str: function(value) {
+           var str = '';
+           if(value) {
+               for(var k in value) {
+                   str = str + k + ':' + value[k] + ';';
+               }
+           }
+           return str;
+       },
+
+       /*
+        Converts string to value. Used for reading value from 'data-value' attribute.
+
+        @method str2value(str)
+       */
+       str2value: function(str) {
+           /*
+           this is mainly for parsing value defined in data-value attribute.
+           If you will always set value by javascript, no need to overwrite it
+           */
+           return str;
+       },
+
+       /**
+        Sets value of input.
+
+        @method value2input(value)
+        @param {mixed} value
+       **/
+       value2input: function(value) {
+           if(!value) {
+             return;
+           }
+           this.$input.filter('[name="systolic"]').val(value.systolic);
+           this.$input.filter('[name="diastolic"]').val(value.dialostic);
+       },
+
+       /**
+        Returns value of input.
+
+        @method input2value()
+       **/
+       input2value: function() {
+           return {
+              systolic: this.$input.filter('[name="systolic"]').val(),
+              diastolic: this.$input.filter('[name="diastolic"]').val()
+           };
+       },
+
+        /**
+        Activates input: sets focus on the first field.
+
+        @method activate()
+       **/
+       activate: function() {
+            this.$input.filter('[name="systolic"]').focus();
+       },
+
+       /**
+        Attaches handler to submit form in case of 'showbuttons=false' mode
+
+        @method autosubmit()
+       **/
+       autosubmit: function() {
+           this.$input.keydown(function (e) {
+                if (e.which === 13) {
+                    $(this).closest('form').submit();
+                }
+           });
+       }
+    });
+
+    BloodPressure.defaults = $.extend({}, $.fn.editabletypes.abstractinput.defaults, {
+        tpl: '<div class="editable-bloodpressure"><input type="text" name="systolic" class="input-small form-control form_control_systolic" placeholder="Systolic"></div>'+
+             '<div class="editable-bloodpressure"><input type="text" name="diastolic" class="input-small form-control form_control_diastolic" placeholder="Diastolic"></div>',
+
+        inputclass: ''
+    });
+
+    $.fn.editabletypes.blood_pressure = BloodPressure;
+
+
+    var customer_id=$('#customer_id').val()
+
+    if(window.isCustomer) {
+        $('#blood_pressure').editable({
+            url: '/customers/customer_lab_results/edit',
+
+            params: function (params) {
+                params.customer_id = customer_id
+                return params;
+            },
+            value: false,
+            title: "Blood Pressure",
+            validate: function (value) {
+                if (value.systolic == '') return 'systolic is required!';
+                if (value.diastolic == '') return 'diastolic is required!';
+            },
+            display: function (value, response) {
+                if (!value) {
+                    return;
+                }
+                //$('.form_control_diastolic').attr("placeholder", value.diastolic);
+                //$('.form_control_systolic').attr("placeholder", value.systolic);
+                $("#bp_date").text(response['date']);
+                var html = '<span id="sys_font_id" class="' + response.systolic_color + '">' + value.systolic + '</span> / <span id="diastolic_id" class="' + response.diastolic_color + '">' + value.diastolic + '</span>'
+                $(this).html(html);
+            }
+        });
+    }
+
+}(window.jQuery));

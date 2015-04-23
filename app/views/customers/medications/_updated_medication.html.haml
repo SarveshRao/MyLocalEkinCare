@@ -1,0 +1,29 @@
+%td
+  = @medication.name
+%td
+  = @medication.medication_type
+%td
+  = formatted_date @medication.date
+-#%td
+  = @medication.instructions
+%td
+  = @medication.dose_quantity
+%td
+  = @medication.rate_quantity
+%td
+  = @medication.prescriber_name
+%td
+  -if @medication.active
+    %a.active{href: "#"}
+      %i.fa.fa-check.text-success.text-active
+      %i.fa.fa-times.text-danger.text
+  -else
+    %a{href: "#"}
+      %i.fa.fa-check.text-success.text-active
+      %i.fa.fa-times.text-danger.text
+%td
+  %a.pull-right.dropdown-toggle.customer-medication-edit-pencil{"data-toggle" => "dropdown", href: "#"}
+    %i.fa.fa-pencil
+%td
+  %a.pull-right.dropdown-toggle.customer-medication-delete-row{"data-toggle" => "dropdown", href: "#"}
+    %i.i.i-trashcan

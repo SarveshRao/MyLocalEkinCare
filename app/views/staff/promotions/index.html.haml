@@ -1,0 +1,48 @@
+= content_for :title, 'Promotions Listing'
+
+%div.clearfix.breadcrumb
+  %ol.padder
+    = render_breadcrumbs :separator => ' / '
+    %small.pull-right
+      contact: 888-678-EKIN (3546) /
+      %a{href: 'mailto:help@ekincare.com'} help@ekincare.com
+
+#content
+  .vbox.padder
+    %h4
+      %a.font-bold{href: "#"}
+        Promotions Listing &nbsp;&nbsp;
+      %a.btn.btn-default.btn-s-mdsche.m-b-xs{href: new_staff_promotion_path}
+        &nbsp;
+        %i.fa.fa-plus
+        &nbsp; New Promotion &nbsp;&nbsp;
+    .scrollable
+      %section.panel.panel-default
+        .table-responsive
+          %table.table.table-striped.b-t.b-light#customer_list
+            %thead
+              %tr
+                %th Title
+                %th Number Of Codes
+                %th StartDate
+                %th ExpiryDate
+                %th Created
+                %th Updated
+            %tbody
+              - @promotion.each do |promotion|
+                %tr{class: 'customer-row', url:staff_promo_codes_index_path(promotion)}
+                  %td
+                    = promotion.title
+                  %td
+                    = promotion.generate_codes
+                  %td
+                    = promotion.start_date
+                  %td
+                    = promotion.expiry_date
+                  %td
+                    = formatted_date promotion.created_at
+                  %td
+                    = formatted_date promotion.updated_at
+
+
+  %a.hide.nav-off-screen-block{"data-target" => "#nav", "data-toggle" => "class:nav-off-screen", href: "#"}

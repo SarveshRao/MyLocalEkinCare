@@ -1,0 +1,38 @@
+- carrier_obj = @health_assessment ? @health_assessment : @customer
+- carrier_objs = @health_assessment ? @health_assessment.medical_records.flatten : @customer.documents
+%section.hbox.stretch
+  %section.panel.panel-default
+    %header.panel-heading.p-l
+      Medical Records &nbsp; &nbsp;
+      %span.label.bg-success
+        = carrier_objs.count
+    %section.panel-body
+      - carrier_objs.each do |medical_record|
+        %article.media
+          %span.pull-left.thumb-sm
+            -#%img{src: note.staff_id}
+          .media-body
+            - if medical_record.date?
+              .pull-right.media-xs.text-center.text-muted
+                %strong.h4
+                  = medical_record.date.day
+                %br/
+                %small.label.bg-light
+                  = month_name medical_record.date
+            %h4{href: "#"}
+              = medical_record.title
+              - unless @health_assessment
+                %a{href: customer_health_assessment_path(carrier_obj, medical_record.record)}
+                  = "(#{medical_record.record.health_assessment_id})" rescue ''
+            %small.block.m-t-sm
+              %a{href: medical_record.emr.url, download: medical_record.emr.identifier, target: '_blank'}
+                - if ['jpg', 'jpeg', 'png', 'ico'].include? medical_record.emr.url.split('.').last
+                  %img{src: medical_record.emr.url}
+                - else
+                  = medical_record.emr.file.filename
+            .comment-action.m-t-sm
+              - delete_url = "/#{@health_assessment ? 'health_assessments' : 'customers'}/#{carrier_obj.id}/medical_records/#{medical_record.id}"
+              %a{href: delete_url, class: 'edit_medical_record', 'data-method' => 'delete', 'data-remote' => true}
+                %i.fa.fa-trash-o.text-muted
+                -#Remove
+          .line.line-dashed.b-b.line-lg.pull-in

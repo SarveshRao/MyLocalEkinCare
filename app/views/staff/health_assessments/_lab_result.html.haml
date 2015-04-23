@@ -1,0 +1,155 @@
+.text-left#lab_result_panel{class: @health_assessment.assessment_type == 'Body' ? '' : 'hide'}
+  .vbox
+    %h4.panel-heading.no-padder
+      .col-lg-2.col-md-2.pull-left
+        %a.font-bold{href: "#"}
+          Lab Tests &nbsp;&nbsp;
+      .col-lg-4.col-md-4.pull-center
+        %p.font-bold.padding-left.pull-right
+          %small.pull-left.font-bold
+            = "Enterprise: "+@health_assessment.enterprise_name
+      .col-lg-6.col-md-6.pull-right.doctorname-align
+        %p.font-bold.padding-left.pull-right
+          -#Doctor
+          %small.pull-left.font-bold{id: 'Doctor_Name'}
+            = @health_assessment.doctor_name
+          -if(@health_assessment.doctor_name?)
+            %span
+              &nbsp;
+              %a.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#",id:'message'}
+                %i.fa.fa-pencil.small.pull-left
+          -else
+            %span
+              &nbsp;
+              %a.hide.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#",id:'message'}
+                %i.fa.fa-pencil.small.pull-left
+          -if(@health_assessment.doctor_name?)
+            %div.hide.doctor.pull-right{id:'SAVE_DOCTOR'}
+              = form_for @health_assessment, as: :health_assessment, remote: true, html: {health_assessment_id: @health_assessment.id}, url: customer_health_assessment_path(@customer, @health_assessment) do |f|
+                = f.label :doctor_name, 'Doctor Name',{class:'font-bold'}
+                = f.text_field :doctor_name,{class: 'parsley-validated', 'data-required' => 'true', autofocus: true}
+                = f.submit 'save', {class:'btn btn-xs small-btn btn-primary doctor-name-save-btn pull-right'}
+          -else
+            %div.doctor.pull-right{id:'SAVE_DOCTOR'}
+              = form_for @health_assessment, as: :health_assessment, remote: true, html: {health_assessment_id: @health_assessment.id}, url: customer_health_assessment_path(@customer, @health_assessment) do |f|
+                = f.label :doctor_name, 'Doctor Name',{class:'font-bold'}
+                = f.text_field :doctor_name,{class: 'parsley-validated', 'data-required' => 'true', autofocus: true}
+                &nbsp;
+                = f.submit 'save', {class:'btn btn-xs small-btn btn-primary doctor-name-save-btn pull-right'}
+  .scrollable
+    %aside
+      %section.panel.panel-default
+        .table-responsive
+          %table.table.table-striped.b-light#lab_result_table
+            %thead
+              %tr
+                -#%th{width: '15%'} Enterprise
+                %th{width: '20%'} Test Type
+                %th{width: '20%'} Component
+                %th{width: '15%'} Result
+                %th{width: '40%'} Standard Range
+                %th
+
+            %tbody
+              = form_for LabResult.new, remote: true, html: {health_assessment_id: @health_assessment.id}, url: health_assessment_lab_results_path(@health_assessment) do |f|
+                %tr#lab_result_new_form
+                  -#%td
+                    %select#select_providers{class: 'form-control select_providers'}
+                  %td
+                    %select#select_lab_test{class: 'form-control select_lab_test m-t17'}
+                  %td
+                    %select#select_component{class: 'form-control select_component m-t17', name: 'component_id'}
+                  %td
+                    .input-group.m-t17
+                      %input#test_result{class: 'form-control result', name: 'test_result'}
+                      %span.input-group-btn
+                        %button.btn.btn-default.test_component_units{type: "button", class: "unit"}
+                  %td
+                    = f.fields_for :standard, StandardRange.new do |standard|
+                      .col-md-3.no_padding
+                        = standard.label "Severe",{class:'pull-left ln_hgt18', style: "margin-right: 5px;"}
+                        = standard.text_field :range_value,{class: 'form-control parsley-validated standard_rangevalue0', :multiple => true}
+                      .col-md-3.no_padding
+                        = standard.label "Normal",{class:'pull-left ln_hgt18', style: "margin-right: 5px;"}
+                        = standard.text_field :range_value,{class: 'form-control parsley-validated standard_rangevalue1', :multiple => true}
+                      .col-md-3.no_padding
+                        = standard.label "Border",{class:'pull-left ln_hgt18', style: "margin-right: 5px;"}
+                        = standard.text_field :range_value,{class: 'form-control parsley-validated standard_rangevalue2', :multiple => true}
+                      .col-md-3.no_padding
+                        = standard.label "Severe",{class:'pull-left ln_hgt18', style: "margin-right: 5px;"}
+                        = standard.text_field :range_value,{class: 'form-control parsley-validated standard_rangevalue3', :multiple => true}
+
+                  %td{style:"width:154px;float:left;padding-top:10px; border:none !important;padding-left:0;padding-right:0", class: "m-t17"}
+                    = f.submit "save",{class: 'btn btn-sm small-btn btn-primary'}
+                    %input{type: 'reset', class: 'btn btn-sm small-btn btn-danger', id: 'reset_lab_result_btn'}
+                    %input{type: 'hidden', value: "#{@health_assessment.enterprise_id}", class: 'enterprise_id'}
+  .scrollable
+    %aside
+      %section.panel.panel-default
+        .table-responsive
+          %table.table.table-striped.b-light#lab_result_table1
+            %thead
+              %tr
+                -#%th{width: '15%'} Enterprise
+                %th{width: '20%'} Test Type
+                %th{width: '20%'} Component
+                %th{width: '15%'} Result
+                %th{width: '38%'} Standard Range
+                %th
+            %tbody
+              - if !@health_assessment.lab_results.empty?
+                - @health_assessment.lab_results.each do |lab_result|
+                  - if !lab_result.test_component.nil?
+                    %tr.lab-result-view
+                      %td
+                        = lab_result.test_component.lab_test.name
+                      %td
+                        = lab_result.test_component.name
+                      %td
+                        = lab_result.result
+                        &nbsp;
+                        = lab_result.test_component.units
+                      %td
+                        %div.component_standard_range
+                          = lab_result.test_component.standard_range @health_assessment
+                      %td
+                        %div{style:"width:40px;float: right;"}
+                          %a.pull-left.dropdown-toggle.edit-lab-result-pencil{"data-toggle" => "dropdown", href: "#"}
+                            %i.fa.fa-pencil
+                          %a.pull-right.dropdown-toggle.lab-result-delete-row{"data-toggle" => "dropdown", href: "#"}
+                            %i.i.i-trashcan
+
+                  = form_for lab_result, url: health_assessment_lab_result_path(@health_assessment, lab_result), remote: true do |f|
+                    %tr.edit_lab_result_row.hide{lab_result_id: lab_result.id, health_assessment_id: @health_assessment.id}
+                      %td
+                        %select.select_lab_test{class: 'form-control m-t17'}
+                      %td
+                        %select.select_component{class: 'form-control m-t17', name: 'test_component_id'}
+                      %td
+                        .input-group
+                          %input#test_result{class: 'form-control result m-t17', name: 'test_result', value: lab_result.result}
+                          %span.input-group-btn
+                            %button.btn.btn-default.test_component_units{type: "button", class: "unit m-t17"}
+                              - if lab_result.test_component
+                                = lab_result.test_component.units
+                              - else
+                                -
+                      %td
+                        = f.fields_for :standard, StandardRange.new do |standard|
+                          .col-md-3.no_padding
+                            = standard.label "Severe",{class:'pull-left ln_hgt18', style: "margin-right: 5px;"}
+                            = standard.text_field :range_value,{class: 'form-control parsley-validated edit_standard_rangevalue0', :multiple => true}
+                          .col-md-3.no_padding
+                            = standard.label "Normal",{class:'pull-left ln_hgt18', style: "margin-right: 5px;"}
+                            = standard.text_field :range_value,{class: 'form-control parsley-validated edit_standard_rangevalue1', :multiple => true}
+                          .col-md-3.no_padding
+                            = standard.label "Border",{class:'pull-left ln_hgt18', style: "margin-right: 5px;"}
+                            = standard.text_field :range_value,{class: 'form-control parsley-validated edit_standard_rangevalue2', :multiple => true}
+                          .col-md-3.no_padding
+                            = standard.label "Severe",{class:'pull-left ln_hgt18', style: "margin-right: 5px;"}
+                            = standard.text_field :range_value,{class: 'form-control parsley-validated edit_standard_rangevalue3', :multiple => true}
+                      %td{style:"width:154px;float:left;padding-top:27px"}
+                        = f.submit 'save', {class:'btn btn-sm small-btn btn-primary lab-result-save-row-btn pull-left'}
+                        %a{class: 'btn btn-sm small-btn btn-danger lab-result-cancel-row-btn pull-right'} cancel
+                        %input{type: 'reset', class: 'hide'}
+        %input{type: 'hidden', class: 'edit_range_flag'}

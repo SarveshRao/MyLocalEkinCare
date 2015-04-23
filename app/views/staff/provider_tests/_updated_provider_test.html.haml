@@ -1,0 +1,18 @@
+%td
+  = @providertest.name
+%td
+  = number_with_precision(@providertest.mrp, precision: 2)
+%td
+  = number_with_precision(@providertest.selling_price, precision: 2)
+%td
+  = number_with_precision(@providertest.cost, precision: 2)
+%td
+  = number_with_precision(@providertest.discount, precision: 0)
+%td
+  = @providertest.service_type
+%td
+  %a.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#"}
+    %i.fa.fa-pencil
+%td
+  %a.pull-right.dropdown-toggle.providertest-delete-row{"data-toggle" => "dropdown", href: "#"}
+    %i.i.i-trashcan

@@ -1,0 +1,16 @@
+Height:
+  Name: height
+BMI:
+  Name: bmi
+Waist:
+  Name: waist
+Smoke:
+  Name: smoke
+Alcohol:
+  Name: alcohol
+Exercise:
+  Name: exercise
+BloodGroup:
+  Name: blood_group
+Parent:
+  Name: parent

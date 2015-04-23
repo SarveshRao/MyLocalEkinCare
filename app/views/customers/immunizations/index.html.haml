@@ -1,0 +1,109 @@
+= content_for :title, 'Immunizations'
+
+%div.clearfix.breadcrumb
+  %ol.padder
+    = render_breadcrumbs :separator => ' / '
+    %small.pull-right
+      Contact: 888-678-EKIN (3546) /
+      %a{href: 'mailto:founder@ekincare.com'} founder@ekincare.com
+
+%div{style: 'min-height: 1000px'}
+  %section.vbox
+    %section.scrollable.bg-white
+      .wrapper-lg.bg-light
+        = render partial: 'layouts/customer/profile_avatar'
+
+  .text-left#customer_immunizations_panel
+    .vbox
+      %h4.panel-heading
+        %a.font-bold{href: "#"}
+          Immunizations &nbsp;&nbsp;
+        %a.btn.btn-default.btn-s-mdsche.m-b-xs.is_customer.hide#create_customer_immunization
+          &nbsp;
+          %i.fa.fa-plus
+            &nbsp;Add new &nbsp;&nbsp;
+      .scrollable
+        %section.panel.panel-default
+          .table-responsive
+            %table.table.table-striped.b-light#immunization_table
+              %thead
+                %tr#immunization_table_header{class: "#{@immunizations.empty? ? 'hide' : ''}"}
+                  %th.th-sortable{"data-toggle" => "class", width: '23%'}
+                    Name
+                    -#%span.th-sort
+                      %i.fa.fa-sort-down.text
+                      %i.fa.fa-sort-up.text-active
+                      %i.fa.fa-sort
+                  %th{width: '17%'} Type
+                  %th{width: '15%'} Date
+                  %th{width: '15%'} Dosage
+                  %th{width: '20%'} Instructions
+                  %th{width: '5%'}
+                  %th{width: '5%'}
+              %tbody
+                = form_for Immunization.new, url: customers_immunizations_path, html: {id: 'new_customer_immunization'},remote: true do |f|
+                  %tr#customer_immunization_new_form.hide
+                    %td
+                      = f.text_area :name, {placeholder: 'Name', class: 'form-control'}
+                    %td
+                      = f.text_area :immunization_type, {placeholder: 'Type', class: 'form-control'}
+                    %td
+                      = f.fields_for :customer_immunizations do |customer_immunization|
+                        = customer_immunization.text_field :date, {placeholder: 'dd-mm-yyyy', class: 'form-control datepicker-input datepicker', 'data-date-format' => 'dd-mm-yyyy'}
+                    %td
+                      = f.fields_for :customer_immunizations do |customer_immunization|
+                        = customer_immunization.text_field :dosage, {placeholder: 'Dosage', class: 'form-control'}
+                    %td
+                      = f.fields_for :customer_immunizations do |customer_immunization|
+                        = customer_immunization.text_area :instructions, {placeholder: 'Instructions', class: 'form-control'}
+                    %td
+                      = f.submit 'save', {id: 'customer_immunization_save_btn',class:'btn btn-sm small-btn btn-primary'}
+                    %td
+                      %a{id: 'customer_immunization_cancel_btn', class: 'btn btn-sm small-btn btn-danger'} cancel
+                      %input{type: 'reset', class: 'hide', id: 'reset_immunization_btn'}
+
+                - if !@immunizations.empty?
+                  - @immunizations.each do |immunization|
+                    %tr.immunization-row
+                      %td
+                        = immunization.name
+                      %td
+                        = immunization.immunization_type
+                      %td
+                        = formatted_dates(immunization.customer_immunizations.map(&:date)).join(' ') rescue ''
+                      %td
+                        = immunization.customer_immunizations.map(&:dosage).join(' ')
+                      %td
+                        = immunization.customer_immunizations.map(&:instructions).join(' ')
+                      %td.is_customer.hide
+                        %a.pull-right.dropdown-toggle.customer-immunization-edit-pencil{"data-toggle" => "dropdown", href: "#"}
+                          %i.fa.fa-pencil
+                      %td.is_customer.hide
+                        %a.pull-right.dropdown-toggle.customer-immunization-delete-row{"data-toggle" => "dropdown", href: "#"}
+                          %i.i.i-trashcan
+                    = form_for immunization, url: customers_immunization_path(immunization), html: {class: 'edit-customer-immunization'}, remote: true do |f|
+                      %tr.edit_immunization_row.hide{customer_id: @customer.id, immunization_id: immunization.id}
+                        %td
+                          = f.text_area :name, {class: 'form-control'}
+                        %td
+                          = f.text_area :immunization_type, {class: 'form-control'}
+                        %td
+                          = f.fields_for :customer_immunizations, @customer.customer_immunizations.find_by(immunization_id: immunization.id) do |ci|
+                            = ci.text_field :date, {value: numeric_date_format(@customer.customer_immunizations.find_by(immunization_id: immunization.id).date), class: 'form-control datepicker datepicker-input', 'data-date-format' => 'dd-mm-yyyy', placeholder: 'dd-mm-yyyy'}
+                        %td
+                          = f.fields_for :customer_immunizations, @customer.customer_immunizations.find_by(immunization_id: immunization.id) do |ci|
+                            = ci.text_field :dosage, {class: 'form-control'}
+                        %td
+                          = f.fields_for :customer_immunizations, @customer.customer_immunizations.find_by(immunization_id: immunization.id) do |ci|
+                            = ci.text_area :instructions, {class: 'form-control'}
+                        %td
+                          = f.submit 'save', {class:'btn btn-sm small-btn btn-primary customer-immunization-save-btn'}
+                        %td
+                          %a{class: 'btn btn-sm small-btn btn-danger customer-immunization-cancel-btn'} cancel
+                          %input{type: 'reset', class: 'hide reset-customer-immunization-btn'}
+                - else
+                  -#hi
+                  %tr#no_immunizations_row
+                    %td{colspan: 7}
+                      .text-center
+                        %p Please update your Immunizations information. This comes handy during an emergency.

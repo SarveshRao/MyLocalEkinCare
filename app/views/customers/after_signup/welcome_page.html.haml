@@ -1,0 +1,64 @@
+= content_for :title, 'Thank you'
+
+- content_for :zopim_chat do
+  :javascript
+    window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
+    d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+    _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute('charset','utf-8');
+    $.src='//v2.zopim.com/?2Um2B0Y0KEgOyEsT8WLIjMFjSeBkufvQ';z.t=+new Date;$.
+    type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
+
+- content_for :head_js do
+  :javascript
+    (function() {
+        var _fbq = window._fbq || (window._fbq = []);
+        if (!_fbq.loaded) {
+        var fbds = document.createElement('script');
+        fbds.async = true;
+        fbds.src = '//connect.facebook.net/en_US/fbds.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(fbds, s);
+        _fbq.loaded = true;
+        }
+    })();
+    window._fbq = window._fbq || [];
+    window._fbq.push(['track', '6018443637108', {'value':'0.01','currency':'USD'}]);
+
+  %noscript
+    %img{:alt => "", :height => "1", :src => "https://www.facebook.com/tr?ev=6018443637108&cd[value]=0.01&cd[currency]=USD&noscript=1", :style => "display:none", :width => "1"}/
+
+%section.panel.panel-default.m-n.b-n
+  .panel-body{style: 'background-color: #556270 !important;color: #fff; border: 4px solid #fff'}
+    %br
+      %span.h3.font-bold
+        Thank you
+    %br
+      %span.h5.m-b.p-t
+        We are glad that you are taking a proactive approach towards your healthier future by registering with eKincare
+    %br
+      %span.h5.m-t.p-t
+        We are processing your information and will give you a call to discuss the next steps.
+    %br
+      %span.h5.m-t.p-t
+        Call us at
+        %b 888-678-EKIN (3546)
+        for any questions
+    %br
+  %div.m-b.m-t
+    = form_for @customer, url: after_signup_path(id: @customer.current_state.to_sym), html: {id: 'customer_add_basic_details_form'}  do |f|
+      %a{class: 'btn btn-md btn-danger customer-life-style-cancel-btn pull-left', href: "#{previous_wizard_path}"} Back
+      %a{class:'btn btn-md  btn-primary pull-right', href: "#{destroy_online_customer_session_path}"} Sign out
+
+.row.padder-v.m-t
+  .col-md-12.p-t
+    .text-center.text-white.p-t
+      %p.m-b eKincare works best when you upload your medical records. If you haven't please do.
+
+    .text-center.m-t
+      = link_to "Upload documents", after_signup_path(id: :records_submission),{class: 'btn btn-block btn-lg btn-primary'}
+    .text-center.text-white.m-t.p-t
+      %p.m-b Follow these simple steps if you do not have a digital copy of your records
+
+    .text-center
+      %iframe{:allowfullscreen => "", :frameborder => "0", :height => "315", :src => "//www.youtube.com/embed/0Z67UT6Er9Q", :width => "420"}
+

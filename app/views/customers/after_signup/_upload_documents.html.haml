@@ -1,0 +1,10 @@
+- @customer.documents.each do |medical_record|
+  - if !medical_record.emr.file.nil?
+    .doc_container
+      .col-lg-5.col-sm-4.fam-wrap.file-item
+        %input{:name => "item", :type => "hidden", :value => ""}/
+        %a{href: medical_record.emr.url, target: '_blank', download: 'download'}
+          = truncate(medical_record.emr.file.filename)
+      .col-sm-1.col-md-1
+        = link_to customers_customer_documents_delete_path(medical_record), {:method => :delete, remote: true, class: 'edit_medical_record'} do
+          %i.fa.fa-trash-o.text-danger

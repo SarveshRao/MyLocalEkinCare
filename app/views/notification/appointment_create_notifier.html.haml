@@ -1,0 +1,57 @@
+%div{style: 'min-height: 350px; color: #0f0f0f'}
+
+  %p
+    = "We have you scheduled for a #{@assessment.assessment_type.downcase} check up on #{@appointment_date}, #{@appointment_time}. Below is the summary of the appointment details."
+
+  %p{style: 'margin: 0; padding-bottom: 5px; font-family: serif'}
+    %b Patient name:
+    = @customer.name
+
+  %p{style: 'margin: 0; padding-bottom: 5px; font-family: serif'}
+    %b Age:
+    = @customer.age['year']
+    years
+
+  %p{style: 'margin: 0; padding-bottom: 5px'}
+    %b Sex:
+    = @customer.gender
+
+  %p{style: 'margin: 0; padding-bottom: 5px'}
+    %b Health assessment ID:
+    = @assessment.health_assessment_id
+
+  %p{style: 'margin: 0; padding-bottom: 5px'}
+    %b Appointment date:
+    = @appointment_date
+
+  %p{style: 'margin: 0; padding-bottom: 5px'}
+    %b Appointment time:
+    = @appointment_time
+
+  %p{style: 'margin: 0; padding-bottom: 5px'}
+    %b Appointment location:
+    - if @appointment.is_partner?
+      %b
+        = "#{@appointment.partner_name}, "
+    - else
+      %b At Home,
+
+    = @appointment.appointment_location
+
+  %p
+    %b
+      PLEASE TAKE A COPY OF THIS EMAIL ALONG WITH A VALID PROOF OF ID FOR THE APPOINTMENT
+
+  %p
+    Thank you for choosing eKincare. For any questions please call 888-678-EKIN (3546) or email us at
+    %a{href: 'mailto:founder@ekincare.com'} founder@ekincare.com
+
+  %p{style: 'margin: 0; padding-bottom: 5px'}
+    Regards,
+
+  %p{style: 'margin: 0; padding-bottom: 5px'}
+    Team@eKincare
+
+  %p
+    %small
+      eKincare.com will never e-mail you and ask you to disclose or verify your eKincare.com password, credit card, or banking account number. If you receive a suspicious e-mail with a link to update your account information, do not click on the link--instead, report the e-mail to eKincare.com for investigation. Thanks for visiting eKincare.com!

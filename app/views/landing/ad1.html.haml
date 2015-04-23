@@ -1,0 +1,133 @@
+%noscript
+  %img{:alt => "", :height => "1", :src => "https://www.facebook.com/tr?id=1500483100201370&amp;ev=PixelInitialized", :style => "display:none", :width => "1"}/
+.wrapper
+  .header
+    .logo
+      %img{:src => asset_path("landing/Logo.png")}/
+    .call
+      %img{:src => asset_path("landing/Call.png")}/
+  .banner
+    .bdata
+      %h1 TIRED OF MANAGING THOSE BULKY MEDICAL REPORTS?
+      %p Digitize your reports and access them anywhere and anytime!
+    .form
+      .fheader
+        %p TAKE CONTROL OF YOUR HEALTH
+      = form_for(@customer || resource, as: :online_customer, url: registration_path(:online_customer)) do |f|
+        %table
+          %br/
+          %tr
+            %td
+              %input#fname.input{:name => "online_customer[first_name]", :placeholder => "First Name", :required => "", :type => "text"}/
+          %tr
+            %td
+              %input#lname.input{:name => "online_customer[last_name]", :placeholder => "Last Name", :required => "", :type => "text"}/
+          %tr
+            %td
+              %input#email.input{:name => "online_customer[email]", :placeholder => "Email", :required => "", :type => "text"}/
+          %tr
+            %td
+              %input#phone.input{:name => "online_customer[mobile_number]", :placeholder => "Phone Number", :required => "", :type => "text"}/
+          %tr
+            %td
+              %input#dob.input{:name => "online_customer[date_of_birth]", :placeholder => "Date of Birth(DD-MM-YY)", :required => "", :type => "text"}/
+          %tr
+            %td
+              %input.gender{:name => "online_customer[gender]", :style => " margin-left:20px;", :type => "radio", :value => "Male"}
+                Male
+              %input.gender{:name => "online_customer[gender]", :style => " margin-left:50px;", :type => "radio", :value => "Female"} Female
+          %tr
+            %td
+              %input#pass.input{:name => "online_customer[password]", :placeholder => "Password", :required => "", :type => "password"}/
+          %tr
+            %td
+              %input{:name => "online_customer[channel]", value: 'ad1', :type => "hidden"}/
+          %tr
+            %td
+              %input{:src => asset_path("landing/Button.png"), type: "image"}/
+  .content
+    %p ALL YOUR MEDICAL HISTORY IN ONE PLACE
+    .video
+      %p EXTRA BENEFITS OF OUR ONLINE MEDICAL RECORDS
+      %div
+        %img{:src => asset_path("landing/Element01.png")}/
+      %div
+        %img{:src => asset_path("landing/Element02.png")}/
+      %div
+        %img{:src => asset_path("landing/Element03.png")}/
+      %div
+        %img{:src => asset_path("landing/Element04.png")}/
+    .vcont
+      %p EASY ACCESS TO A NETWORK OF 1500+ CENTRES
+      %br/
+      %div
+        %img{:src => asset_path("landing/VasanEyeCare.png")}/
+      %div
+        %img{:src => asset_path("landing/VijayaDiagnostic.png")}/
+      %div
+        %img{:src => asset_path("landing/ApolloWhite.png")}/
+      %div
+        %img{:src => asset_path("landing/Thyrocare.png")}/
+      %div
+        %img{:src => asset_path("landing/ParthaDental.png")}/
+      %div
+        %img{:src => asset_path("landing/Maxivision.png")}/
+      %br{:clear => "both"}
+        %p#hit HOW IT WORKS
+        .imge
+          %img{:src => asset_path("landing/Element05.png")}/
+        .imge
+          %img.arrow.arrow1{:src => asset_path("landing/Arrow.png")}/
+        .imge
+          %img{:src => asset_path("landing/Element06.png")}/
+        .imge
+          %img.arrow.arrow2{:src => asset_path("landing/Arrow.png")}/
+        .imge
+          %img{:src => asset_path("landing/Element07.png")}/
+  %br{:clear => "both"}
+    .services
+      %p WE ARE OFFERING A RANGE OF INTRODUCTORY OFFERS
+      %br/
+      %li Offer 1 - Rs.69 instead of Rs.250: Routine Vision Checkup
+      %li Offer 2 - Rs.69 instead of Rs.250: Routine Dental Checkup
+      %li Offer 3 - Rs.99 instead of Rs.500: Routine Vision & Dental Checkup
+      %li Offer 4 - Rs.599 instead of Rs.3100: Routine Body (30+ Tests), Vision & Dental Checkup
+      %li Offer 5 - Rs.999 instead of Rs.3500: Routine Body (60+ Tests), Vision & Dental Checkup
+      %center
+        %a{:href => "#"}
+          %img{:src => asset_path("landing/AvailNow_Button.png")}/
+    .footer
+      %p
+        
+%script{:src => "//code.jquery.com/jquery-1.11.0.min.js"}
+:javascript
+  jQuery(document).ready(function(){
+      jQuery('#frm').submit(function(){
+          var fname  = jQuery.trim(jQuery('#fname').val());
+          var lname  = jQuery.trim(jQuery('#lname').val());
+          var email  = jQuery.trim(jQuery('#email').val());
+          var dob  = jQuery.trim(jQuery('#dob').val());
+          var phone  = jQuery('#phone').val();
+          var intRegex = /^\d+$/;
+          var size = phone.length;
+          var gender  = jQuery.trim(jQuery('input[name="gender"]:radio:checked').val());
+          var pass  = jQuery.trim(jQuery('#pass').val());					
+          if(fname.length>0 && lname.length>0 && email.length>0 && dob.length>0 && gender.length>0 && pass.length && phone.length){						
+          if(size>=10 && size<=12){						
+              if(intRegex.test(phone)){
+                  return true;
+              }else{
+                  alert("Invalid Phone Number");
+                  return false;
+              }												
+          }else{
+              alert("Invalid Phone Number");
+              return false;
+          }
+          }else{	
+          alert('All Fields Required');					
+              return false;
+          }
+          
+      });
+  });

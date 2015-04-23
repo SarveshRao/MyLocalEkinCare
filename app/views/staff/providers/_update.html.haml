@@ -1,0 +1,18 @@
+%td
+  = @provider.provider_id
+%td
+  = @provider.branch
+%td
+  = @staff.name
+%td
+  = @provider.telephone
+%td
+  = @staff.email
+%td
+  %a.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#"}
+    %i.fa.fa-pencil
+%td
+  %a.pull-right.dropdown-toggle.providerbranch-delete-row{"data-toggle" => "dropdown", href: "#"}
+    %i.i.i-trashcan
+
+%a.hide.nav-off-screen-block{"data-target" => "#nav", "data-toggle" => "class:nav-off-screen", href: "#"}

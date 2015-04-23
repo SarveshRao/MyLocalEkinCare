@@ -1,0 +1,16 @@
+= content_for :title, 'Documents'
+
+%div.clearfix.breadcrumb
+  %ol.padder
+    = render_breadcrumbs :separator => ' / '
+    %small.pull-right
+      Contact: 888-678-EKIN (3546) /
+      %a{href: 'mailto:founder@ekincare.com'} founder@ekincare.com
+
+#customer_documents{style: 'min-height: 1000px'}
+  .row.padder#customer-records
+    .col-md-12.col-sm-12
+      %section.panel.panel-default.m-b-none
+
+  .partial
+    = render partial: 'index'

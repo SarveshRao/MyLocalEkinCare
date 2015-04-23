@@ -1,0 +1,143 @@
+.scrollable
+  %section.panel.panel-default
+    %h4
+      %a.font-bold{href: "#"}
+        Customer's uploaded documents
+      %a.font-bold.pull-right{href: "#"}
+        Total Documents:
+        =@total_documents
+    .table-responsive.scrollable{style:"height:250px"}
+      %table.table.table-striped.b-t.b-light#customer_list
+        %thead
+          %tr
+            %th Customer Name
+            %th Customer Email
+            %th Documents Count
+        %tbody
+          -Customer.all.each do |customer|
+            %tr.active
+              %td
+                =customer.name
+              %td
+                =customer.email
+              %td
+                =customer.number_of_documents_uploaded
+
+.scrollable
+  %section.panel.panel-default
+    %h4
+      %a.font-bold{href: "#"}
+        Customer's hypertension and diabetic count
+    .table-responsive.scrollable{style:"height:250px"}
+      %table.table.table-striped.b-t.b-light#customer_list2
+        %thead
+          %tr
+            %th Row
+            %th AgeGroup
+            %th Gender
+            %th Diabetes Count
+            %th Hypertension Count
+            %th Over Weight
+        %tbody
+          %tr.active
+            %td 1
+            %td <=20
+            %td Male
+            %td
+              =@diabetic0_count
+            %td
+              =@hypertension0_count
+            %td
+              =@obesity0_count
+          %tr.active
+            %td 2
+            %td <=20
+            %td Female
+            %td
+              =@diabetic5_count
+            %td
+              =@hypertension5_count
+            %td
+              =@obesity5_count
+          %tr.active
+            %td 3
+            %td 21-30
+            %td Male
+            %td
+              =@diabetic1_count
+            %td
+              =@hypertension1_count
+            %td
+              =@obesity1_count
+          %tr.active
+            %td 4
+            %td 21-30
+            %td Female
+            %td
+              =@diabetic6_count
+            %td
+              =@hypertension6_count
+            %td
+              =@obesity6_count
+          %tr.success
+            %td 5
+            %td 31-40
+            %td Male
+            %td
+              =@diabetic2_count
+            %td
+              =@hypertension2_count
+            %td
+              =@obesity2_count
+          %tr.success
+            %td 6
+            %td 31-40
+            %td Female
+            %td
+              =@diabetic7_count
+            %td
+              =@hypertension7_count
+            %td
+              =@obesity7_count
+          %tr.info
+            %td 7
+            %td 41-50
+            %td Male
+            %td
+              =@diabetic3_count
+            %td
+              =@hypertension3_count
+            %td
+              =@obesity3_count
+          %tr.info
+            %td 8
+            %td 41-50
+            %td Female
+            %td
+              =@diabetic8_count
+            %td
+              =@hypertension8_count
+            %td
+              =@obesity8_count
+          %tr.warning
+            %td 9
+            %td >50
+            %td Male
+            %td
+              =@diabetic4_count
+            %td
+              =@hypertension4_count
+            %td
+              =@obesity4_count
+          %tr.warning
+            %td 10
+            %td >50
+            %td Female
+            %td
+              =@diabetic9_count
+            %td
+              =@hypertension9_count
+            %td
+              =@obesity9_count
+
+

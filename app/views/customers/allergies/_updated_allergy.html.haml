@@ -1,0 +1,12 @@
+%td
+  = @allergy.name
+%td
+  = @allergy.reaction
+%td
+  = @customer_allergy.severity
+%td
+  %a.pull-right.dropdown-toggle.customer-allergy-edit-pencil{"data-toggle" => "dropdown", href: "#"}
+    %i.fa.fa-pencil
+%td
+  %a.pull-right.dropdown-toggle.customer-allergy-delete-row{"data-toggle" => "dropdown", href: "#"}
+    %i.i.i-trashcan

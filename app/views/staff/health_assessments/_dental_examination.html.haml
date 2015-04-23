@@ -1,0 +1,108 @@
+.text-left#dental_result_panel{class: @health_assessment.assessment_type == 'Dental' ? '' : 'hide'}
+  .vbox
+    %h4.panel-heading.no-padder
+      %div
+        .row
+          .col-lg-5.col-md-5
+            %a.pull-left.font-bold{href: "#"}
+              Dental Results &nbsp;&nbsp;
+            %a.btn.btn-default.btn-s-mdsche.m-b-x#create_dental_result
+              &nbsp;
+              %i.fa.fa-plus
+                &nbsp;Add new &nbsp;&nbsp;
+          .col-lg-6.col-md-6.pull-right
+            %p.font-bold.padding-left.pull-right
+              -#Doctor
+              %small.pull-left.font-bold{id: 'Doctor_Name'}
+                = @health_assessment.doctor_name
+              -if(@health_assessment.doctor_name?)
+                %span
+                  &nbsp;
+                  %a.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#",id:'message'}
+                    %i.fa.fa-pencil.small.pull-left
+              -else
+                %span
+                  &nbsp;
+                  %a.hide.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#",id:'message'}
+                    %i.fa.fa-pencil.small.pull-left
+              -if(@health_assessment.doctor_name?)
+                %div.hide.doctor.pull-right{id:'SAVE_DOCTOR'}
+                  = form_for @health_assessment, as: :health_assessment, remote: true, html: {health_assessment_id: @health_assessment.id}, url: customer_health_assessment_path(@customer, @health_assessment) do |f|
+                    = f.label :doctor_name, 'Doctor Name',{class:'font-bold'}
+                    = f.text_field :doctor_name,{class: 'parsley-validated', 'data-required' => 'true', autofocus: true}
+                    &nbsp;
+                    = f.submit 'save', {class:'btn btn-xs small-btn btn-primary doctor-name-save-btn pull-right'}
+              -else
+                %div.doctor.pull-right{id:'SAVE_DOCTOR'}
+                  = form_for @health_assessment, as: :health_assessment, remote: true, html: {health_assessment_id: @health_assessment.id}, url: customer_health_assessment_path(@customer, @health_assessment) do |f|
+                    = f.label :doctor_name, 'Doctor Name',{class:'font-bold'}
+                    = f.text_field :doctor_name,{class: 'parsley-validated', 'data-required' => 'true', autofocus: true}
+                    &nbsp;
+                    = f.submit 'save', {class:'btn btn-xs small-btn btn-primary doctor-name-save-btn pull-right'}
+
+    .scrollable
+      %aside
+        %section.panel.panel-default
+          .table-responsive
+            %table.table.table-striped.b-light#dental_result_table
+              %thead
+                %tr
+                  %th.th-sortable{"data-toggle" => "class", width: '20%'}
+                    Dentition
+                  -#%span.th-sort
+                      %i.fa.fa-sort-down.text
+                      %i.fa.fa-sort-up.text-active
+                      %i.fa.fa-sort
+                  %th{width: '15%'} Tooth Number
+                  %th{width: '25%'} Diagnosis
+                  %th{width: '25%'} Recommendation
+                  %th{width: '5%'}
+                  %th{width: '5%'}
+              %tbody
+                = form_for Result.new, remote: true, html: {health_assessment_id: @health_assessment.id}, url: health_assessment_results_path(@health_assessment) do |f|
+                  %tr#dental_result_new_form.hide
+                    %td
+                      = f.select :dentition, options_for_select(Examination.tooth_types, selected: 'Primary'),{}, {class: 'form-control dentition'}
+                    %td
+                      = f.select :tooth_number, options_for_select(Examination.tooth_numbers_type('Primary')), {}, {class: 'form-control tooth_number'}
+                    %td
+                      = f.text_area :diagnosis, {class: 'form-control'}
+                    %td
+                      = f.text_area :recommendation, {class: 'form-control'}
+                    %td
+                      = f.submit 'save', {class:'btn btn-sm small-btn btn-primary pull-right'}
+                    %td{colspan: 2}
+                      %a{class: 'btn btn-sm small-btn btn-danger dental-result-cancel-btn cancel-dental-result-form'} cancel
+                      %input{type: 'reset', class: 'hide', id: 'reset_dental_result_btn'}
+                - @health_assessment.examination.results.each do |result|
+                  %tr
+                    %td
+                      = result.dentition
+                    %td
+                      = "#{result.tooth_number} (#{Examination.notation(result.dentition, result.tooth_number)})"
+                    %td
+                      = result.diagnosis
+                    %td
+                      = result.recommendation
+                    %td
+                      %a.pull-right.dropdown-toggle.edit-dental-result-pencil{"data-toggle" => "dropdown", href: "#"}
+                        %i.fa.fa-pencil
+                    %td
+                      %a.pull-right.dropdown-toggle.dental-result-delete-row{"data-toggle" => "dropdown", href: "#"}
+                        %i.i.i-trashcan
+
+                  = form_for result, url: health_assessment_result_path(@health_assessment, result), remote: true do |f|
+                    %tr.dental_result_edit_row.hide{dental_result_id: result.id, health_assessment_id: @health_assessment.id}
+                      %td
+                        = f.select :dentition, options_for_select(Examination.tooth_types, selected: result.dentition),{}, {class: 'form-control dentition'}
+                      %td
+                        = f.select :tooth_number, options_for_select(Examination.tooth_numbers_type(result.dentition), selected: result.tooth_number), {}, {class: 'form-control tooth_number'}
+                      %td
+                        = f.text_area :diagnosis, {class: 'form-control diagnosis'}
+                      %td
+                        = f.text_area :recommendation, {class: 'form-control recommendation'}
+                      %td
+                        = f.submit 'save', {class:'btn btn-sm small-btn btn-primary save-edit-dental-result-form pull-right'}
+                      %td{colspan: 2}
+                        %a{class: 'btn btn-sm small-btn btn-danger dental-result-cancel-btn'} cancel
+                        %input{type: 'reset', class: 'hide'}

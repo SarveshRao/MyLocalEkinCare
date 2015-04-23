@@ -1,0 +1,29 @@
+%tr.allergy-row
+  %td
+    = @allergy.name
+  %td
+    = @allergy.reaction
+  %td
+    = @customer_allergy.severity
+  %td
+    %a.pull-right.dropdown-toggle.customer-allergy-edit-pencil{"data-toggle" => "dropdown", href: "#"}
+      %i.fa.fa-pencil
+  %td
+    %a.pull-right.dropdown-toggle.customer-allergy-delete-row{"data-toggle" => "dropdown", href: "#"}
+      %i.i.i-trashcan
+
+%tr.edit_allergy_row.hide
+  = form_for @allergy, url: customers_allergy_path(@customer_allergy), remote: true, html: {id: 'edit_customer_allergy', class: 'edit-customer-allergy'} do |f|
+    %td
+      = f.text_field :name, {placeholder: 'Name', class: 'form-control customer-allergy-select'}
+    %td
+      = f.text_field :reaction, {placeholder: 'Reaction', class: 'form-control customer_allergy_reaction'}
+    %td
+      = f.fields_for :customer_allergies, @customer_allergy do |ca|
+        = ca.text_field :severity, {class: 'form-control'}
+    %td
+      = f.submit 'save', {class:'btn btn-sm small-btn btn-primary customer-allergy-save-btn'}
+    %td
+      %a{class: 'btn btn-sm small-btn btn-danger customer-allergy-cancel-btn'} cancel
+      %input{type: 'reset', class: 'hide reset-customer-allergy-btn'}
+

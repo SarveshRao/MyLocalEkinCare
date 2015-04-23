@@ -1,0 +1,85 @@
+= content_for :title, 'Payment Success'
+%div.clearfix.breadcrumb
+  %ol.padder.payment-noprint
+    = render_breadcrumbs :separator => ' / '
+    %small.pull-right.payment-noprint
+      Contact: 888-678-EKIN (3546) /
+      %a{href: 'mailto:founder@ekincare.com'} founder@ekincare.com
+%section.vbox
+  %section.scrollable.padder.row{:style => "height:1000px"}
+    .container
+      %section.col-sm-12
+        .text-center.payment-header.label.payment_text.label-primary.col-sm-11.m-b.payment-noprint
+          %p Thank You! for transacting with eKincare
+        %div
+          .col-sm-7.col-sm-push-1
+            %img{:height => "50", :src => asset_path("payment_logo.png"), :width => "170"}
+              %br
+                %p.payment_mar-left
+                  = "Dear "+@name
+                %br
+                  %p.payment_mar-left.payment-p Thank you for payment with eKincare. Your payment has been sucessfully processed.
+        %div
+          .col-sm-8.col-sm-push-1.payment_tabl
+            %section.panel.panel-default
+              %table.table.table-striped.m-b-none
+                %tbody
+                  %tr
+                    %td
+                      Merchant Name:
+                      %span.payment_bld eKincare
+                    %td
+                      %span.payment-order Order Amount:
+                      %span.payment_bld.pull-right
+                        = "Rs "+number_with_precision(@amount,precision: 2)
+                  %tr
+                    %td
+                      Payment ID:
+                      %span.payment_bld
+                        = @payu_id
+                    %td
+                      %span.payment-order You saved:
+                      %span.payment_bld-green
+                        = "Rs "+number_with_precision(@discount,precision: 2)
+                  %tr
+                    %td
+                      Merchant Order ID:
+                      %span.payment_bld
+                        =@txnid
+                    %td
+                      %span.payment-order Customer ID:
+                      %span.payment_bld.pull-right
+                        = @customer.customer_id
+        .col-sm-8.col-sm-push-1.payment_tabl
+          %section.panel.panel-default
+            %table.table.table-striped.m-b-none
+              %tbody
+                %thead.clr
+                  %td.payment-print-summary Payment Summary
+                  %td
+                    %span.pull-right.payment-print-summary Amount
+                %tr
+                  %td
+                    = @mode
+                  %td
+                    %span.pull-right
+                      = "Rs "+number_with_precision(@reduced_amount,precision: 2)
+                %tr
+                  %td
+                    Discount
+                    %span
+                      %img{:src => asset_path("saving.png")}/
+                  %td
+                    %span.pull-right
+                      = "Rs "+number_with_precision(@discount,precision: 2)
+                %tr
+                  %td
+                    %span.amt Amount Paid
+                  %td
+                    %span.amt.pull-right
+                      = "Rs "+number_with_precision(@amount,precision: 2)
+        .col-sm-6.col-sm-push-3.payment-btn
+          -#%input{:type => "button", :value => "Home"}
+          %a.btn.btn-success.payment-print{:href => customers_dashboard_show_path} Home
+          %a.btn.btn-success.payment-print{:id => "print"} Print
+

@@ -1,0 +1,69 @@
+/ Header
+%header#header
+  .container
+    .row.header
+      / Logo
+      .col-xs-2.logo
+        %a{:href => "/home"}
+          %img{:alt => "eKincare", :src => asset_path("ekincare-logo.png")}/
+      / //Logo//
+      / Navigation File
+      .col-md-10.col-xs-12
+        / Mobile Button Menu
+        .mobile-menu-button
+          %i.icon.icon-lock-locker-streamline
+        / //Mobile Button Menu//
+        %nav
+          %ul.navigation
+            %li
+              %a{:href => "/home"}
+                %span.label-nav
+                  Benefits
+                %span.label-nav-sub{"data-hover" => "Explore"}
+                  Explore
+            %li
+              %a{:href => "/home/faq"}
+                %span.label-nav
+                  FAQ
+                %span.label-nav-sub{"data-hover" => "Answers"}
+                  Answers
+            -#%li
+            -#  %a{:href => "/home/about_us"}
+            -#    %span.label-nav
+            -#      About
+            -#    %span.label-nav-sub{"data-hover" => "Who we are"}
+            -#      Who we are
+            %li
+              %a{href: blog_index_path}
+                %span.label-nav
+                  Blog
+                %span.label-nav-sub{"data-hover" => "Thoughts"}
+                  Thoughts
+            %li
+              - if online_customer_signed_in?
+                %a{:href => destroy_online_customer_session_path}
+                  %span.label-nav
+                    Sign out
+                    -#%button.btn.btn-sm.btn-default{:href => "#"} Logout
+              - else
+                %a{:href => online_customer_session_path}
+                  %span.label-nav
+                    Sign in
+                    -#%button.btn.btn-sm.btn-default{:href => "#", style: 'margin: 0'} Sign in
+
+            %li
+              %a{:href => new_online_customer_registration_path}
+                %span.label-nav
+                  %button.btn.register_btn.btn-flat.btn-sm{:href => "#", style: 'margin: 0'} GET STARTED
+
+        / Mobile Nav. Container
+        %ul.mobile-nav
+          -#%li.responsive-searchbox
+            / Responsive Nave
+            %form{:action => "#", :method => "get"}
+              %input#searchbox-inputtext-mobile.searchbox-inputtext{:name => "s", :type => "text"}/
+              %button.icon-search
+            / //Responsive Nave//
+        / //Mobile Nav. Container//
+      / Nav
+/ //Header//

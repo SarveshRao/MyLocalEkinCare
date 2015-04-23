@@ -1,0 +1,359 @@
+body
+  color: #788288!important
+#dashboard_notifications
+  height: 620px
+
+.open-sans
+  font-family: 'Open Sans', 'sans-serif' !important
+a
+  font-family: 'Open Sans', 'sans-serif' !important
+
+a#edit_profile_pic:hover
+  text-decoration: underline
+
+.editable-bloodpressure
+  display: block
+  margin-bottom: 5px
+  span
+    width: 60px
+    display: inline-block
+.bp_text-danger
+  color: #e33244
+.bp_text-success
+  color: #1aae88
+.bp_text-warning
+  color: #fcc633
+body.container
+  width: 100%
+
+/* learn more page start*/
+#baseline > ul > li
+  h4
+    color: #0071ab
+    text-transform: uppercase
+    font-weight: bold
+    font-size: 1.1em!important
+  background: #fff
+  padding: 5px 0 25px 70px
+  position: relative
+  border-bottom: 1px solid #f8f8f8 !important
+
+
+#baseline > ul > li p, #metabolic > ul > li p
+  color: #333
+
+#baseline > ul > li.first .enable, #metabolic > ul > li.first .enable
+  background-color: #0071ab
+  color: #fff
+
+#baseline .tags, #metabolic .tags
+  padding: 0
+
+#baseline .tags li, #metabolic .tags li
+  display: inline-block
+  color: #c7c7c7
+  background: #ededed
+  font-size: 12px
+  font-weight: 600
+  height: 28px
+  line-height: 28px
+  padding: 0 10px
+  -webkit-border-radius: 2px
+  border-radius: 2px
+  margin: 0 0 5px!important
+
+.label_bg
+  height: 100%
+  width: 55px
+  position: absolute
+  left: 0
+  top: 0
+
+.blue_label_bg
+  background: #177bbb
+
+.blue_label_darkbg
+  background: #126da7
+
+.disable_label_bg
+  background: #c7c7c7
+
+.entry-content .tabs
+  overflow: hidden
+  margin: 0 0 30px 0px
+  list-style: none
+  font-size: 22px
+  padding: 0
+  li
+    float: left
+    width: 50%
+    margin: 0!important
+  a
+    display: block
+    position: relative
+    height: 60px
+    padding-left: 12px
+    line-height: 60px
+    font-weight: 400
+    text-decoration: none
+    color: #999
+    border-bottom: 3px solid #ccc
+  .baseline
+    &.active, &:active, &:hover
+      color: #0094c5
+      border-color: #0094c5
+  .metabolic
+    &.active, &:active, &:hover
+      color: #53ae4b
+      border-color: #53ae4b
+
+/* learn more page end*/
+$break-small: 640px
+.wid_full
+  width: 100%
+  float: left
+  margin-bottom: 15px
+.no_padding
+  padding: 0
+.no_margin
+  margin: 0!important
+.bg_blue_1
+  background: #50A8E1
+.bg_blue_2
+  background: #6EC8F8
+.bg_blue_3
+  background: #9AD3F0
+.bg_blue_4
+  background: #2D6998
+.package_left
+  padding: 10px
+  color: #fff
+  height: 100%
+  line-height: 18px
+  h4
+    font-size: 16px
+  ul
+    list-style: disc
+    margin: 0 0 10px 15px
+  a
+    color: #fff
+    text-decoration: underline
+  a:hover
+    cursor: pointer
+    text-decoration: none
+.package_right
+  font-size: 14px
+  @media screen and (max-width: $break-small)
+    padding-bottom: 10px
+  .eKin_price
+    font-size: 18px
+    color: #000
+  a
+    color: #fff
+body.container,.wrapper
+  width: 100%!important
+  max-width: 100%
+/* providers */
+.provider_sec
+  border-bottom: 1px dashed #ccc
+  padding-bottom: 15px
+  margin-bottom: 10px
+.line_hgt_12
+  line-height: 12px
+.checkout_steps li
+  margin-left: 0!important
+  font-size: 14px
+  width: 50%
+.payment_tab2 p
+  color: #788288
+.dental_provider,.vision_provider,.home_provider
+  padding-bottom: 6px
+.package_list
+  height: 185px
+
+
+.payment_text
+  color: #FFF
+  margin-top: 1%
+  font-size: 16PX
+
+.payment_mar-left
+  margin: 0px 14px 10px !important
+
+.payment_bld
+  font-weight: 600
+
+.payment_bld-green
+  font-weight: 600
+  color: #17d37f
+  float: right
+
+.amt
+  font-weight: 700
+
+.clr
+  background-color: #6ac451
+  color: #FFF
+
+.packagenames.tags li
+  margin-bottom: 5px!important
+
+.payment-btn
+  margin-left: 10%
+
+.payment-header
+  width: 89.5%
+
+.payment-p
+  margin-top: 1.7%
+
+.payment-order
+  margin-left: 35%
+
+.payment-alert
+  color: red
+
+@media print
+  .payment-print
+    display: none
+
+  .payment-print-summary
+    font-size: 18px
+    font-weight: bold
+
+  .payment-noprint
+    display: none
+.nobdr
+  border: none!important
+.upload-gap
+
+@media only screen and (min-width: 1025px)
+  .upload-doc
+    width: 10% !important
+
+
+@media (min-width: 700px) and (max-width: 1030px)
+  .nav-main
+    margin-top: 0 !important
+
+@media only screen and (min-width: 2560px)
+  .media-cancel-upload
+    width: 8% !important
+
+@media (min-width: 320px) and (max-width: 568px)
+  .nav-main
+    margin-top: 100px
+  .upload_sec
+    text-align: center
+  .package_list
+    height: auto!important
+    margin-top: 30px
+  #customer_medical_record_form
+    display: none
+
+@media (min-width: 600px) and (max-width: 1024px)
+  .upload-doc
+    width: 10% !important
+  .media-button-upload
+    margin-top: 1%
+  .upload_sec
+    text-align: center
+  .package_list
+    height: auto!important
+    margin-top: 30px
+  .packages_sec
+    margin-top: 55px
+  .nav-main
+    margin-top: 100px
+  .package_address > div, .package_list > div
+    width: 100%
+  .dental_Appointment,.vision_Appointment,.body_Appointment
+    margin: 0 28px 0 0!important
+  .package_address
+    height: auto!important
+  .address_heading
+    margin-top: 65px
+  .package-summary
+    padding-top: 10px
+.pad_2
+  padding: 2px!important
+
+#feet_val
+  color: inherit !important
+
+#inches_val
+  color: inherit !important
+
+#weight_val
+  color: inherit !important
+
+.panel-graph-padding
+  padding-bottom: 6%
+
+.medical-condition
+  padding-bottom: 5%
+
+.medical_condition_margin
+  margin-top: 5%
+
+.medical-checkbox-left
+  float: left
+
+//#mother_health_tab label:first-child
+//  padding-top: 5%
+//
+//#father_health_tab label:first-child
+//  padding-top: 5%
+
+.feet-inches-center
+  margin-top: 5%
+  margin-left: 1% !important
+
+.height-center
+  margin-top: 5%
+  margin-bottom: 20px
+
+.weight-center
+  margin-top: 5%
+  margin-left: 38%
+  margin-bottom: 20px
+
+.smoke-center
+  margin-top: 5%
+  margin-bottom: 20px
+
+.graph_text_pad
+  padding: 5%
+
+
+#hypertension_history_chart
+  position: absolute
+  left: -9999px
+#hypertension_history_chart .panel-body
+  height: 195px!important
+  margin-top: 15px
+
+.addr_hide
+  clear: both
+.legend table
+  bottom: 170px!important
+.legend > div
+  height: 0px !important
+
+.mar-b8
+  padding-bottom: 8px !important
+  border-bottom: 1px solid rgb(178, 172, 172) !important
+
+.marg-t9
+  margin-top: 9px !important
+
+#address_info_edit_btn
+  margin-top: -7px
+
+.z_idx_id
+  position: relative
+  z-index: 9999999
+
+.payment_processed
+  float: right
+  margin-top: 3%
