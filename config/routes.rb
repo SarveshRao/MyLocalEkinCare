@@ -140,6 +140,8 @@ Rails.application.routes.draw do
     post 'package_details' => 'package_details#create'
     get 'inbox' => 'dashboard#inbox'
     get 'appointments' => 'dashboard#appointments'
+    post 'send_otp' => 'otp#generate_otp'
+
   end
 
   resources :blog, controller: 'blog_posts', only: [:show, :index]

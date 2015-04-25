@@ -1,7 +1,7 @@
 = javascript_include_tag "jquery"
 = javascript_include_tag "loader"
 :javascript
-  window.isCustomer = false;
+  window.isCustomer = true;
   $(document).ready(function(){
     if(!window.isCustomer)
       $('.is_customer').addClass('hide');

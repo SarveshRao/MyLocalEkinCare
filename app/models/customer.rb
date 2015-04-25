@@ -3,9 +3,9 @@ class Customer < ActiveRecord::Base
   mount_uploader :image , ImageUploader
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :invitable, :database_authenticatable, :registerable, :confirmable,
+  devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :omniauthable, :validatable
-
+  attr_accessor :otp
   has_many :activities
   has_many :timeline_activities, class_name: 'Timeline'
   has_many :inbox_messages, class_name: 'Inbox'
@@ -36,6 +36,9 @@ class Customer < ActiveRecord::Base
   has_many :medical_records, as: :record
   has_many :identities, dependent: :destroy
   has_many :promo_codes
+
+  has_one_time_password
+
   accepts_nested_attributes_for :identities
 
   #validates :first_name, presence: true
@@ -775,4 +778,9 @@ class Customer < ActiveRecord::Base
   def number_of_documents_uploaded
     return self.documents.count
   end
+
+  def need_two_factor_authentication?(request)
+    not otp_secret_key.nil?
+  end
+
 end

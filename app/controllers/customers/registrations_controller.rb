@@ -103,16 +103,10 @@ class Customers::RegistrationsController < Devise::RegistrationsController
   end
 
   def after_sign_up_path_for(resource)
-    channel = params[:online_customer][:channel]
-    if channel.present?
-      case channel
-        when 'ad1'
-          ad1_thankyou_path
-      end
-    else
-      set_flash_message :notice, :confirmation if is_flashing_format?
-      new_online_customer_registration_path
-    end
+    set_flash_message :notice, :sign_in if is_flashing_format?
+    otp=resource.otp_code.to_s()
+    Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ resource[:mobile_number] +'&sender=EKCARE&message=OTP: Dear '+ resource[:first_name] +', your eKincare otp is '+ otp +'. Call 8886783546 for questions.')))
+    new_online_customer_session_path
   end
 
   def accept_signup_with_xhr

@@ -18,6 +18,9 @@ en:
       timeout: "Your session expired. Please sign in again to continue."
       unauthenticated: "You need to sign in or sign up before continuing."
       unconfirmed: "You have to confirm your account before continuing."
+      wrong_otp: "You have entered invalid OTP or it may have been expired, please try again."
+    customers:
+      wrong_otp: "You have entered invalid OTP or it may have been expired, please try again."
     mailer:
       confirmation_instructions:
         subject: "eKincare: Confirmation instructions"
@@ -36,6 +39,7 @@ en:
       updated_not_active: "Your password was changed successfully."
     registrations:
       confirmation: "A confirmation email has been sent to the registered email. Please verify to move forward"
+      sign_in: "Congratulations! your registration is confirmed. Please login with the OTP sent to your registered email."
       destroyed: "Bye! Your account was successfully cancelled. We hope to see you again soon."
       signed_up: "Welcome! You have signed up successfully."
       signed_up_but_inactive: "You have signed up successfully. However, we could not sign you in because your account is not yet activated."
@@ -46,6 +50,7 @@ en:
     sessions:
       online_customer:
         unconfirmed: "You have to confirm your account before continuing."
+        wrong_otp: "You have entered invalid OTP or it may have been expired, please try again."
       signed_in: "Signed in successfully."
       signed_out: "Signed out successfully."
     unlocks:

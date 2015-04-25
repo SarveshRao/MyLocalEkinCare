@@ -209,6 +209,7 @@ ActiveRecord::Schema.define(version: 20150422190319) do
     t.datetime "invitation_accepted_at"
     t.integer  "invitation_limit"
     t.string   "image"
+    t.string   "otp_secret_key"
   end
 
   add_index "customers", ["confirmation_token"], name: "index_customers_on_confirmation_token", unique: true, using: :btree
