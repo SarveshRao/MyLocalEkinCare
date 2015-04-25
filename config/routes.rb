@@ -42,7 +42,7 @@ Rails.application.routes.draw do
 
 
   namespace :staff do
-    get 'staff_analysis/index'
+    get 'staff_analysis/get_stats'
   end
 
   get 'customer_vitals/update'

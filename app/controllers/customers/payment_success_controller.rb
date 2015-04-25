@@ -45,7 +45,10 @@ class Customers::PaymentSuccessController < CustomerAppController
       @customer_coupon=CustomerCoupon.where("customer_id = ? AND coupon_id = ?",@customer.id, @coupon.id).first
       if((@customer_coupon.is_coupon_applied?) and (@customer_coupon.is_coupon_used? ==false))
         CustomerCoupon.update(@customer_coupon.id,txn_id:@txnid)
-        usage_count=@coupon.no_of_users_used
+        usage_count=@coupon.no_of_users_used rescue 0
+        if usage_count.nil?
+          usage_count = 0
+        end
         Coupon.update(@coupon.id,no_of_users_used:usage_count+1)
       end
       unless @package.appointment_body.nil?

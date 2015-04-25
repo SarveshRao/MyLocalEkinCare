@@ -1878,7 +1878,7 @@
                   %input#package_id{:name =>"package_id", :type => "hidden", :value => "#{@package_info.id}"}
                   %section.pull-left.col-sm-9#coupon_section
                     %div.col-sm-8
-                      %input{:id=>"coupon_code",:class=>"form-control",:name =>"coupon", :type => "text", :value => ""}
+                      %input{:id=>"coupon_code",:class=>"form-control",:name =>"coupon", 'placeholder' => 'Apply Coupon', :type => "text", :value => ""}
                     %div.col-sm-3.no_padding
                       %span#coupon_button.btn.btn-success
                         Apply
@@ -1960,7 +1960,7 @@
                         %div.col-sm-12.addr_hide
                           %p.block.col-sm-12
                             = @address.details rescue '-'
-              %div.pull-left.p-t
+              %div.pull-left
                 = form_tag @url, method: :post, :id => "payment" do |payment|
                   %input#key{:name =>"key", :type => "hidden", :value => "#{@key}"}
                   %input#txnid{:name =>"txnid", :type => "hidden", :value => "#{@transID}"}
@@ -1976,16 +1976,16 @@
                   %input#service_provider{:name =>"service_provider", :type => "hidden", :value => "payu_paisa"}
                   %input#customer_id{:name =>"customer_id", :type => "hidden", :value => "#{@customer_id}"}
                   %input#package_id{:name =>"package_id", :type => "hidden", :value => "#{@package_info.id}"}
-                  %section.pull-left.col-sm-9#coupon_section
-                    %div.col-sm-8
-                      %input{:id=>"coupon_code",:class=>"form-control",:name =>"coupon", :type => "text", :value => ""}
+                  %section.pull-left.col-sm-8#coupon_section
+                    %div.col-sm-9
+                      %input{:id=>"coupon_code",:class=>"form-control",:name =>"coupon", 'placeholder' => 'Apply Coupon', :type => "text", :value => ""}
                     %div.col-sm-3.no_padding
                       %span#coupon_button.btn.btn-success
                         Apply
                   %section.pull-left.col-sm-6#coupon_success.hide
                     %div.col-sm-12
                       Coupon Applied Successfully
-                  %span.btn.btn-success.checkOutContinue.payment_processed{:disabled => ""}
+                  %span.btn.btn-success.checkOutContinue{:disabled => ""}
                     Proceed to payment
                 .slimScrollBar{:style => "width: 10px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 164.797507788162px; background: rgb(0, 0, 0);"}
                 .slimScrollRail{:style => "width: 10px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; opacity: 0.2; z-index: 90; right: 1px; background: rgb(51, 51, 51);"}

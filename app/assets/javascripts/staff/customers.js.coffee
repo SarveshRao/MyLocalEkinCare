@@ -1053,6 +1053,10 @@ $(document).ready ->
       { 'mData': 'mobile_number' }
       { 'mData': 'email' }
       { 'mData': 'date_of_birth' }
+      { 'mData': 'is_hypertensive' }
+      { 'mData': 'is_diabetic' }
+      { 'mData': 'is_obesity' }
+      { 'mData': 'is_overweight' }
     ]
   return
 

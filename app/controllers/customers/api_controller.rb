@@ -54,9 +54,108 @@ class Customers::ApiController < BaseApiController
   def getCustomers
     @customers_temp = Customer.search(params[:sSearch])
     @customer = @customers_temp.page((params[:iDisplayStart].to_i/params[:iDisplayLength].to_i) + 1).per(params[:iDisplayLength]).select(:id, :created_at, :gender, :last_name, :customer_id, :first_name, :mobile_number, :email, :date_of_birth, :status).order(created_at: :desc)
-    render json: { aaData: JSON.parse(@customer.to_json()), iTotalRecords: Customer.count, iTotalDisplayRecords: @customers_temp.size }
+    @customer.each do |customer|
+      customer.class_eval do
+        attr_accessor :is_hypertensive
+        attr_accessor :is_diabetic
+        attr_accessor :is_obesity
+        attr_accessor :is_overweight
+      end
+
+      customer.is_hypertensive = self.has_hypertension customer.id
+      customer.is_diabetic = is_diabetic customer.id
+
+      if self.obesity_overweight_checkup==3
+        customer.is_overweight = true
+      else
+        customer.is_overweight = false
+      end
+
+      if self.obesity_overweight_checkup==4
+        customer.is_obesity = true
+      else
+        customer.is_obesity = false
+      end
+    end
+    render json: { aaData: JSON.parse(@customer.to_json(:methods => [:is_hypertensive, :is_diabetic, :is_obesity, :is_overweight])), iTotalRecords: Customer.count, iTotalDisplayRecords: @customers_temp.size }
   end
 
+  def obesity_overweight_checkup
+    if(self.bmi_customer.to_f<18.5)
+      return 1#underweight
+    elsif((18.5..23.9).include?(self.bmi_customer.to_f))
+      return 2#healthy
+    elsif((24..26.9).include?(self.bmi_customer.to_f))
+      return 3#overweight
+    elsif((self.bmi_customer.to_f>=27))
+      return 4#obese
+    else
+      return 0
+    end
+  end
+
+  def bmi_customer
+    begin
+      inches = (CustomerVitals.find_by(customer_id: @customer.id.to_s).feet * 12) + CustomerVitals.find_by(customer_id: @customer.id.to_s).inches
+      height_in_meters = (inches * 0.0254)
+      weight = CustomerVitals.find_by(customer_id: @customer.id.to_s).weight.to_i
+      bmi = (weight / (height_in_meters * height_in_meters)).to_i
+    rescue
+      '-'
+    end
+  end
+
+  def is_diabetic customer_id
+    customer = Customer.find(customer_id)
+    assessments =  customer.health_assessments.recent_body_assessment.first
+    if assessments
+      blood_glucose=LabTest.find_by(name: 'Blood Glucose', enterprise_id: assessments.enterprise_id ? assessments.enterprise_id : self.default_enterprise)
+      blood_glucose.test_components.each do |test_component|
+        result_color=self.resulted_component_value1(test_component.name, customer)[:color]
+        if(result_color=='text-warning' or result_color=='text-danger')
+          return true
+        end
+      end
+    end
+    return false
+  end
+
+  def has_hypertension customer_id
+    if abnormal_bp customer_id
+      return true
+    end
+    return false
+  end
+
+  def abnormal_bp customer_id
+    customer = Customer.find(customer_id)
+    body_assessment =  customer.health_assessments.recent_body_assessment
+    body_assessment.each do |assessment|
+      component = TestComponent.where("lower(name) IN ('systolic','diastolic') and enterprise_id=#{assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise}")
+      systolic=TestComponent.find_by(name:'Systolic', enterprise_id: assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise)
+      systolic_id=systolic.id rescue '-'
+      diastolic=TestComponent.find_by(name:'Diastolic', enterprise_id: assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise)
+      diastolic_id=diastolic.id rescue '-'
+      ids = component.collect(&:id).join(',')
+      if ids
+        lab_results = LabResult.where("test_component_id IN (#{ids}) AND body_assessment_id=?", assessment.id)
+        lab_results.each do |lab_result|
+          if(lab_result.test_component_id==systolic_id)
+            if(lab_result.result.to_i>119)
+              return true
+            end
+          elsif(lab_result.test_component_id==diastolic_id)
+            if(lab_result.result.to_i>79)
+              return true
+            end
+          end
+        end
+        return false
+      end
+      return false
+    end
+    return false
+  end
 
   def upload_avatar
     @customer = Customerfind(params[:id])
@@ -226,6 +325,23 @@ class Customers::ApiController < BaseApiController
   def default_enterprise
     @default_enterprise = Enterprise.find_by(enterprise_id: 'EK')
     return @default_enterprise_id = @default_enterprise.id
+  end
+
+  def resulted_component_value1 component_name, customer
+    begin
+      assessments = customer.health_assessments.body_assessment_done
+      assessments.each do |assessment|
+        assessment.lab_results.each do |lab_result|
+          component = TestComponent.where("lower(name) = ? and enterprise_id =?", component_name.downcase, assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise).first
+          if lab_result.test_component_id == component.id
+            return {result: lab_result.result, color: lab_result.colored_value, units: component.units, date: assessment.request_date}
+          end
+        end
+      end
+      {result: '-', color: '', units: ''}
+    rescue
+      {result: '-', color: '', units: ''}
+    end
   end
 
   def resulted_component_value component_name
