@@ -1034,29 +1034,58 @@ $(document).ready ->
     }
     "bStateSave": true
     "bLengthChange": true
-    "bAutoWidth": false
+    "bAutoWidth": true
 #    "bScrollCollapse": true
 #    "pagingType": "full_numbers"
 #    "scrollY": 300,
-#    "scrollX": true
+    "scrollX": true
     'aoColumns': [
-      { 'mData': 'id'}
       {
+        'sTitle': 'ID',
+        'mData': 'id'
+      }
+      {
+        'sTitle': 'Registration Date'
         'mData': 'created_at'
         mRender: ( data, type, row ) -> return new Date(row.created_at).toLocaleDateString()
       }
-      { 'mData': 'customer_id' }
       {
+        'sTitle': 'Customer ID'
+        'mData': 'customer_id'
+      }
+      {
+        'sTitle': 'Customer Name'
         'mData': 'first_name'
         mRender: ( data, type, row ) -> return row.first_name+' '+row.last_name
       }
-      { 'mData': 'mobile_number' }
-      { 'mData': 'email' }
-      { 'mData': 'date_of_birth' }
-      { 'mData': 'is_hypertensive' }
-      { 'mData': 'is_diabetic' }
-      { 'mData': 'is_obesity' }
-      { 'mData': 'is_overweight' }
+      {
+        'sTitle': 'Phone'
+        'mData': 'mobile_number'
+      }
+      {
+        'sTitle': 'Email'
+        'mData': 'email'
+      }
+      {
+        'sTitle': 'Date of Birth'
+        'mData': 'date_of_birth'
+      }
+      {
+        'sTitle': 'Is Hypertensive'
+        'mData': 'is_hypertensive'
+      }
+      {
+        'sTitle': 'Is Diabetic'
+        'mData': 'is_diabetic'
+      }
+      {
+        'sTitle': 'Is Obesity'
+        'mData': 'is_obesity'
+      }
+      {
+        'sTitle': 'Is Overweight'
+        'mData': 'is_overweight'
+      }
     ]
   return
 

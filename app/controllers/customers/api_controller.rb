@@ -66,15 +66,15 @@ class Customers::ApiController < BaseApiController
       customer.is_diabetic = is_diabetic customer.id
 
       if self.obesity_overweight_checkup==3
-        customer.is_overweight = true
+        customer.is_overweight = "Yes"
       else
-        customer.is_overweight = false
+        customer.is_overweight = "No"
       end
 
       if self.obesity_overweight_checkup==4
-        customer.is_obesity = true
+        customer.is_obesity = "Yes"
       else
-        customer.is_obesity = false
+        customer.is_obesity = "No"
       end
     end
     render json: { aaData: JSON.parse(@customer.to_json(:methods => [:is_hypertensive, :is_diabetic, :is_obesity, :is_overweight])), iTotalRecords: Customer.count, iTotalDisplayRecords: @customers_temp.size }
@@ -113,18 +113,18 @@ class Customers::ApiController < BaseApiController
       blood_glucose.test_components.each do |test_component|
         result_color=self.resulted_component_value1(test_component.name, customer)[:color]
         if(result_color=='text-warning' or result_color=='text-danger')
-          return true
+          return "Yes"
         end
       end
     end
-    return false
+    return "No"
   end
 
   def has_hypertension customer_id
     if abnormal_bp customer_id
-      return true
+      return "Yes"
     end
-    return false
+    return "No"
   end
 
   def abnormal_bp customer_id

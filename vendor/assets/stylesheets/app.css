@@ -3649,3 +3649,14 @@ input[readonly] {
   background-color: white !important;
   cursor: text !important;
 }
+
+
+#customer_grid_wrapper .table:first-child th{
+  padding: 8px 2px;
+  border-top: 1px solid #eaeef1;
+}
+
+#customer_grid_wrapper #customer_grid td{
+  padding: 8px 7px;
+  border-top: 1px solid #eaeef1;
+}
