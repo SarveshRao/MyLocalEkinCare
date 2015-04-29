@@ -14,3 +14,5 @@
 #= require_tree ./staff
 #= require jquery.datetimepicker
 #= require jquery.dataTables.editable
+#= require html5shiv
+#= require about

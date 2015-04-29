@@ -121,11 +121,20 @@ Rails.application.routes.draw do
                                                                          registrations: 'customers/registrations',
                                                                          confirmations: 'customers/confirmations',
                                                                          sessions: 'customers/sessions'}
+  devise_scope :online_customer do
+    get 'doctors_signin' => 'customers/sessions#sign_in_doctor'
+  end
 
   resources :home do
     collection do
-      get :index, :faq, :about_us, :contact_us, :dashboard, :terms_and_conditions,:provider_address
+      get :index, :dashboard, :provider_address
       post :send_sms
+    end
+  end
+
+  resources :about do
+    collection do
+      get :faq, :about_us, :contact_us, :terms_and_conditions, :team, :doctors,:advisers
     end
   end
 
@@ -141,6 +150,9 @@ Rails.application.routes.draw do
     post 'package_details' => 'package_details#create'
     get 'inbox' => 'dashboard#inbox'
     get 'appointments' => 'dashboard#appointments'
+    post 'send_otp' => 'otp#generate_otp'
+    get 'dashboard/share_with_doctor'
+    post 'dashboard/send_to_doctor'
   end
 
   resources :blog, controller: 'blog_posts', only: [:show, :index]

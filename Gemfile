@@ -30,6 +30,9 @@ gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'
 gem 'dotenv'
 
+#OTP gem
+gem 'active_model_otp'
+
 #asset upload
 gem 'carrierwave'
 gem 'mini_magick'

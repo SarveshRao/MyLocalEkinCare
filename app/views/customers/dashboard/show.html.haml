@@ -29,6 +29,10 @@
     %small.pull-right
       Contact: 888-678-EKIN (3546) /
       %a{href: 'mailto:founder@ekincare.com'} founder@ekincare.com
+  - if session[:is_customer]
+    %ol.padder
+      %small.pull-right
+        %a.btn.btn-sm.btn-default{"data-toggle" => "ajaxModal", :href => customers_dashboard_share_with_doctor_path} Share With Doctor
 
 %div{style: 'min-height: 1000px'}
   %section.scrollable.wrapper.w-f
@@ -332,8 +336,8 @@
                   Blood Glucose
                 %b.caret
               %ul.dropdown-menu.text-left#blood_glucose
-                - if current_online_customer.recent_health_assessment_done
-                  - LabTest.find_by(name: "Blood Glucose", enterprise_id: "#{current_online_customer.recent_health_assessment_done.enterprise_id ? current_online_customer.recent_health_assessment_done.enterprise_id : Enterprise.find_by_enterprise_id('EK').id}").test_components.each do |test_component|
+                - if current_online_customer.recent_body_assessment
+                  - LabTest.find_by(name: "Blood Glucose", enterprise_id: "#{current_online_customer.recent_body_assessment.enterprise_id ? current_online_customer.recent_body_assessment.enterprise_id : Enterprise.find_by_enterprise_id('EK').id}").test_components.each do |test_component|
                     %li.active
                       %a{"data-toggle" => "tab", :href => "#"+test_component.id.to_s, :value=> test_component.id}
                         = test_component.name
@@ -344,8 +348,8 @@
                         = test_component.name
             .panel-body.text-center.pad_2
               .tab-content
-                - if current_online_customer.recent_health_assessment_done
-                  - LabTest.find_by(name: "Blood Glucose", enterprise_id: "#{current_online_customer.recent_health_assessment_done.enterprise_id ? current_online_customer.recent_health_assessment_done.enterprise_id : Enterprise.find_by_enterprise_id('EK').id}").test_components.each_with_index do |test_component, index|
+                - if current_online_customer.recent_body_assessment
+                  - LabTest.find_by(name: "Blood Glucose", enterprise_id: "#{current_online_customer.recent_body_assessment.enterprise_id ? current_online_customer.recent_body_assessment.enterprise_id : Enterprise.find_by_enterprise_id('EK').id}").test_components.each_with_index do |test_component, index|
                     .tab-pane{:id => "#{test_component.id}", :class => "#{(index == 0) ? 'active' : 'fade'}"}
                       .inline
                         %h4.font-bold

@@ -12,16 +12,12 @@ class Customers::DocumentsController < CustomerAppController
       @medical_record = @customer.medical_records.build(emr: file, date: Time.now())
       if @medical_record.save!
         # Adding the post call after successful upload starts here
-        uri = URI('https://crm.zoho.com/crm/private/json/Leads/insertRecords')
+        raw_xml = "<Contacts><row no='1'><FL val='Phone'>"+ @customer.customer_id+ "</FL><FL val='Last Activity Time'>" + Time.now().to_s() + "</FL><FL val='Last Name'>" + @customer.last_name + "</FL></row></Contacts>"
+        encoded_xml = CGI::escape(raw_xml)
+        uri = URI.parse('https://crm.zoho.com/crm/private/json/Contacts/insertRecords?authtoken=460110734aed45ea412ab6637dd4cbf8&xmlData='+encoded_xml)
         http = Net::HTTP.new(uri.host, uri.port)
         http.use_ssl = true
-        params =
-            {
-                'authtoken' => '460110734aed45ea412ab6637dd4cbf8',
-                'xmlData' => CGI.escape("<Contacts><row no='1'><FL val='Phone'>" + @customer.mobile_number + "</FL><FL val='Last Activity Time'>" + Time.now().to_s() + "</FL></row></Contacts>")
-            }
-        post_request = Net::HTTP::Post.new(uri.path, {'Content-Type' =>'text/xml'})
-        post_request.body = URI.encode_www_form(params)
+        post_request = Net::HTTP::Post.new(uri, {'Content-Type' =>'text/xml'})
         response = http.request(post_request)
         # Adding the post call after successful upload ends here
         url = request.protocol + request.host_with_port

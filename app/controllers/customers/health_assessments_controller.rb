@@ -12,7 +12,9 @@ class Customers::HealthAssessmentsController < CustomerAppController
     end
     if @type == 'Body'
       @body_assessments = current_online_customer.health_assessments.body_assessment_done
-      @body_assessment = HealthAssessment.find(@body_assessments.first.id)
+      if @body_assessments.first
+        @body_assessment = HealthAssessment.find(@body_assessments.first.id)
+      end
       # body_assessment
     elsif @type == 'Dental'
       dental_assessment

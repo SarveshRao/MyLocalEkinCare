@@ -34,8 +34,9 @@
                           %span.hidden-nav-xs.clear
 
           - icons = ['fa-file-text', 'fa-male']
-          - @timeline_count = current_online_customer.timeline_activities.count || 2
-          - current_online_customer.timeline_activities.each_with_index do |activity, index|
+          -#- @timeline_count = current_online_customer.timeline_activities.count || 2
+          - @timeline = Timeline.joins("inner join health_assessments h on h.id=timelines.associated_id where h.customer_id=#{current_online_customer.id}")
+          - @timeline.each_with_index do |activity, index|
             - description = activity.activity_type == 'MedicalRecord' ? "#{activity.description} <p><a href=#{activity.url} download=download>#{activity.file_name}</a></p>".html_safe : "#{activity.description}"
             - if activity.activity_type =~ /Assessment/
               %article.timeline-item{class: index.even? ? 'alt' : ''}

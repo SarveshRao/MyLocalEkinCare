@@ -45,6 +45,7 @@
           %small Customer Type
           .text-lt.font-bold
             = @customer.customer_type ||= '-'
+    - if session['is_customer']
       .vbox.row.padder-v.p-l
         %a.btn.btn-primary#customer_bio_edit_btn
           %i.fa.fa-pencil

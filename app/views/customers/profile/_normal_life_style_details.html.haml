@@ -24,6 +24,7 @@
           .text-lt.font-bold
             = @customer.diet || '-'
         .col-xs-4
+    - if session['is_customer']
       .vbox.row.padder-v.p-l
         %a.btn.btn-primary#customer_life_style_edit_btn
           %i.fa.fa-pencil

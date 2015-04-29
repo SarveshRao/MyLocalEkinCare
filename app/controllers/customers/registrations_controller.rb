@@ -2,6 +2,11 @@ class Customers::RegistrationsController < Devise::RegistrationsController
  
   # GET /resource/sign_up
   def new
+    if request.referer and request.referer.index('?') != nil
+      utm_source = CGI::parse(request.referer[request.referer.index('?')+1,request.referer.length])['utm_source'].to_s
+      session[:utm_source] = nil
+      session[:utm_source] = utm_source[2..utm_source.length-3]
+    end
     provider_data = session["devise.facebook_data"] || session["devise.google_oauth2_data"]
 
     new_customer_data =
@@ -53,19 +58,18 @@ class Customers::RegistrationsController < Devise::RegistrationsController
       else
         puts "\n\n************************from else provider data************************\n\n"
         if resource.save
-          # Adding the post call after successful registration ends here
-          uri = URI('https://crm.zoho.com/crm/private/json/Leads/insertRecords')
-          http = Net::HTTP.new(uri.host, uri.port)
-          http.use_ssl = true
-          params =
-              {
-                  'authtoken' => '460110734aed45ea412ab6637dd4cbf8',
-                  'xmlData' => CGI.escape('<Leads><row no="1"><FL val="Phone">' + resource.mobile_number + '</FL><FL val="Lead Source">FB-Diabetes Package-23to40-creative1</FL></row></Leads>')
-              }
-          request = Net::HTTP::Post.new(uri.path, {'Content-Type' =>'text/xml'})
-          request.body = URI.encode_www_form(params)
-          response = http.request(request)
-          # Adding the post call after successful registration ends here
+          if session[:utm_source]
+            # Adding the post call after successful registration ends here
+            raw_xml = "<Leads><row no='1'><FL val='Phone'>" + resource.customer_id+ "</FL><FL val='Lead Source'>" + session[:utm_source].to_s + "</FL><FL val='Last Name'>-</FL></row></Leads>"
+            encoded_xml = CGI::escape(raw_xml)
+            uri = URI.parse('https://crm.zoho.com/crm/private/json/Leads/insertRecords?authtoken=460110734aed45ea412ab6637dd4cbf8&xmlData='+encoded_xml)
+            http = Net::HTTP.new(uri.host, uri.port)
+            http.use_ssl = true
+            post_request = Net::HTTP::Post.new(uri, {'Content-Type' =>'text/xml'})
+            response = http.request(post_request)
+            session[:utm_source] = nil
+            # Adding the post call after successful registration ends here
+          end
           yield resource if block_given?
           if resource.active_for_authentication?
             #sign_up(resource_name, resource)
@@ -117,16 +121,10 @@ class Customers::RegistrationsController < Devise::RegistrationsController
   end
 
   def after_sign_up_path_for(resource)
-    channel = params[:online_customer][:channel]
-    if channel.present?
-      case channel
-        when 'ad1'
-          ad1_thankyou_path
-      end
-    else
-      set_flash_message :notice, :confirmation if is_flashing_format?
-      new_online_customer_registration_path
-    end
+    set_flash_message :notice, :sign_in if is_flashing_format?
+    otp=resource.otp_code.to_s()
+    Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ resource[:mobile_number] +'&sender=EKCARE&message=OTP: Dear '+ resource[:first_name] +', your eKincare otp is '+ otp +'. Call 8886783546 for questions.')))
+    new_online_customer_session_path
   end
 
   def accept_signup_with_xhr

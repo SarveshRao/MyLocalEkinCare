@@ -1,0 +1,27 @@
+.modal-dialog
+  .modal-content{:style => "width: 500px"}
+    .modal-header
+      %button.close{"data-dismiss" => "modal", :type => "button"} ×
+      %h4.modal-title Share with doctor
+    .modal-body
+      .label.error Please fill all the fields
+      %form#share_with_doctor_form{:method => "post", :action => customers_dashboard_send_to_doctor_path}
+        %input.form-control.required{required: true, :placeholder => 'Enter doctor name', :name => "doctor_name", :type => "text"}/
+        -#%label#doctor_name_error.error{:for => "doctor_name"} This field is required.
+        %br
+        %input.form-control.required{required: true, :placeholder => 'Enter doctor mobile number', :name => "doctor_mobile_number", :type => "text"}
+        -#%label#doctor_mobile_number_error.error{:for => "doctor_mobile_number"} This field is required.
+        %br
+        %input.form-control.required{required: true, :placeholder => 'Enter doctor email', :name => "doctor_email", :type => "email"}
+        -#%label#doctor_email_error.error{:for => "doctor_name"} This field is required.
+        %div.clearfix.m-b
+    .modal-footer
+      %a.btn.btn-default{"data-dismiss" => "modal", :href => "#"} Cancel
+      %a.btn.btn-primary#send_to_doctor{:type => 'submit', :href => "#"} Send
+
+:javascript
+  $(document).ready(function(){
+    $('#send_to_doctor').click(function(){
+      $('#share_with_doctor_form').submit();
+    });
+  });

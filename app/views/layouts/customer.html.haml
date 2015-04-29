@@ -22,7 +22,10 @@
       %section
         %section.hbox.stretch
           / .aside
-          = render partial: 'layouts/customer/left_nav'
+          - if session[:is_customer]
+            = render partial: 'layouts/customer/left_nav'
+          - else
+            = render partial: 'layouts/customer/left_nav_doctor'
           / /.aside
           %section#content
             - if flash[:welcome]

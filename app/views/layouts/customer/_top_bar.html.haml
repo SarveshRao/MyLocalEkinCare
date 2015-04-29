@@ -11,7 +11,10 @@
       $('#browseBtn').removeClass('btn-default').addClass('btn-success');
     });
   });
-
+- if session[:is_customer]
+  %input#is_customer{type: "hidden", value: "true"}
+- else
+  %input#is_customer{type: "hidden", value: "false"}
 %header.bg-primary.header.header-md.navbar.navbar-fixed-top-xs.box-shadow
   .navbar-header.aside-md.dk
     %a.btn.btn-link.visible-xs.m-r{"data-target" => "#nav,html", "data-toggle" => "class:nav-off-screen,open"}
@@ -22,57 +25,58 @@
     %a.btn.btn-link.visible-xs{"data-target" => ".user", "data-toggle" => "dropdown"}
       %i.fa.fa-cog
 
-  = form_for MedicalRecord.new, remote: true, authenticity_token: true, url: customer_documents_path(current_online_customer), html: {method: 'post', id: 'customer_medical_record_form', class: 'form-inline'} do |f|
-    .form-group.col-sm-4.p-t
-      .input-group.pull-left.col-sm-12
-        %span.input-group-btn.upload-doc
-          %span.btn.btn-success.btn-file#browseBtn
-            Browse…
-            = f.file_field :medical_record, {class: 'parsley-validated', 'data-required' => 'true', multiple: true, name: 'files[]'}
-        %input.form-control#documentToUpload{readonly: "readonly", type: "text",class: "upload-gap", placeholder: 'Any new medical records to upload?'}
-        %span.input-group-btn.media-cancel-upload
-          %span.btn.btn-default
-            %i.fa.fa-times-circle.upload-cancle#uploadCancel
+  - if session[:is_customer]
+    = form_for MedicalRecord.new, remote: true, authenticity_token: true, url: customer_documents_path(current_online_customer), html: {method: 'post', id: 'customer_medical_record_form', class: 'form-inline'} do |f|
+      .form-group.col-sm-4.p-t
+        .input-group.pull-left.col-sm-12
+          %span.input-group-btn.upload-doc
+            %span.btn.btn-success.btn-file#browseBtn
+              Browse…
+              = f.file_field :medical_record, {class: 'parsley-validated', 'data-required' => 'true', multiple: true, name: 'files[]'}
+          %input.form-control#documentToUpload{readonly: "readonly", type: "text",class: "upload-gap", placeholder: 'Any new medical records to upload?'}
+          %span.input-group-btn.media-cancel-upload
+            %span.btn.btn-default
+              %i.fa.fa-times-circle.upload-cancle#uploadCancel
 
 
-    .form-group.col-sm-2.p-r.p-t.upload_sec
-      %button#btn-1.btn.btn-default.disabled.media-button-upload.row.n-m.start_upload_loader.pull-left.m-r-sm#uploadBtn{type: 'submit'}
-        %i.fa.fa-cloud-upload.text
-        %span.text Upload
-        %i.fa.fa-check.text-active
-        %span.text-active Success
-      %span#loaderUploadImage{:style => "z-Index:99999; height:32px; width:32px;display: inline-block;"}
+      .form-group.col-sm-2.p-r.p-t.upload_sec
+        %button#btn-1.btn.btn-default.disabled.media-button-upload.row.n-m.start_upload_loader.pull-left.m-r-sm#uploadBtn{type: 'submit'}
+          %i.fa.fa-cloud-upload.text
+          %span.text Upload
+          %i.fa.fa-check.text-active
+          %span.text-active Success
+        %span#loaderUploadImage{:style => "z-Index:99999; height:32px; width:32px;display: inline-block;"}
 
-
-  %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
-    %li
-      = link_to("Sign out", destroy_online_customer_session_path)
-  - recent_activities = current_online_customer.recent_activities
-  %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
-    %li.hidden-xs
-      %a.dropdown-toggle#notifications_count{"data-toggle" => "dropdown", href: "#"}
-        - inbox_activities = current_online_customer.inbox_messages
-        Inbox
-        - inbox_count = inbox_activities.where(activity_type: 'BodyAssessment').count-inbox_activities.where(status:true, activity_type: 'BodyAssessment').count
-        -if inbox_count>0
-          %span.badge.badge-sm.up.bg-danger.count
-            =  inbox_count
-      %section.dropdown-menu.aside-xl.animated.flipInY
-        #dashboard_notifications.hide
-  - recent_activities = current_online_customer.recent_activities
-  %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
-    %li.hidden-xs
-      %a.dropdown-toggle#appointments_count{"data-toggle" => "dropdown", href: "#"}
-        - inbox_activities = current_online_customer.inbox_messages
-        %i.fa.fa-bell-o
-        - appoint_count =  inbox_activities.where("activity_type='Appointment' and associated_date> CURRENT_TIMESTAMP - INTERVAL '1 day'").count
-        -if appoint_count>0
-          %span.badge.badge-sm.up.bg-danger.count
-            = appoint_count
-          -#-inbox_activities.where(status:true, activity_type: "Appointment and associated_date>CURRENT_TIMESTAMP - INTERVAL '1 day'").count
-          -#=  inbox_activities.where("case when activity_type = 'Appointment' then associated_date>CURRENT_TIMESTAMP - INTERVAL '1 day' and customer_id = #{current_online_customer.id} when activity_type != 'Appointment' then customer_id = #{current_online_customer.id} end").count-inbox_activities.where(status:true).count
-      %section.dropdown-menu.aside-xl.animated.flipInY
-        #dashboard_appointments.hide
+  - if session[:is_customer]
+    %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
+      %li
+        = link_to("Sign out", destroy_online_customer_session_path)
+    - recent_activities = current_online_customer.recent_activities
+    %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
+      %li.hidden-xs
+        %a.dropdown-toggle#notifications_count{"data-toggle" => "dropdown", href: "#"}
+          - inbox_activities = current_online_customer.inbox_messages
+          Inbox
+          - inbox_count = inbox_activities.where(activity_type: 'BodyAssessment').count-inbox_activities.where(status:true, activity_type: 'BodyAssessment').count
+          -if inbox_count>0
+            %span.badge.badge-sm.up.bg-danger.count
+              =  inbox_count
+        %section.dropdown-menu.aside-xl.animated.flipInY
+          #dashboard_notifications.hide
+    - recent_activities = current_online_customer.recent_activities
+    %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
+      %li.hidden-xs
+        %a.dropdown-toggle#appointments_count{"data-toggle" => "dropdown", href: "#"}
+          - inbox_activities = current_online_customer.inbox_messages
+          %i.fa.fa-bell-o
+          - appoint_count =  inbox_activities.where("activity_type='Appointment' and associated_date> CURRENT_TIMESTAMP - INTERVAL '1 day'").count
+          -if appoint_count>0
+            %span.badge.badge-sm.up.bg-danger.count
+              = appoint_count
+            -#-inbox_activities.where(status:true, activity_type: "Appointment and associated_date>CURRENT_TIMESTAMP - INTERVAL '1 day'").count
+            -#=  inbox_activities.where("case when activity_type = 'Appointment' then associated_date>CURRENT_TIMESTAMP - INTERVAL '1 day' and customer_id = #{current_online_customer.id} when activity_type != 'Appointment' then customer_id = #{current_online_customer.id} end").count-inbox_activities.where(status:true).count
+        %section.dropdown-menu.aside-xl.animated.flipInY
+          #dashboard_appointments.hide
     -#%li.hidden-xs
       %a.dropdown-toggle#notifications_count{"data-toggle" => "dropdown", href: "#"}
         %i.i.i-chat3
@@ -116,5 +120,4 @@
                   %br/
                   %small.text-muted
                     = time_ago_in_words activity.created_at
-
 

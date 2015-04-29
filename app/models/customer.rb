@@ -3,9 +3,12 @@ class Customer < ActiveRecord::Base
   mount_uploader :image , ImageUploader
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :invitable, :database_authenticatable, :registerable, :confirmable,
-         :recoverable, :rememberable, :trackable, :omniauthable, :validatable
+  devise :invitable, :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :omniauthable, :validatable,
+         :timeoutable, :timeout_in => 2880.minutes
 
+  attr_accessor :otp
+  attr_accessor :is_customer
   has_many :activities
   has_many :timeline_activities, class_name: 'Timeline'
   has_many :inbox_messages, class_name: 'Inbox'
@@ -36,6 +39,10 @@ class Customer < ActiveRecord::Base
   has_many :medical_records, as: :record
   has_many :identities, dependent: :destroy
   has_many :promo_codes
+
+  has_one_time_password
+  has_many :doctor_opinions
+
   accepts_nested_attributes_for :identities
 
   #validates :first_name, presence: true
@@ -429,6 +436,10 @@ class Customer < ActiveRecord::Base
     self.health_assessments.recent_health_assessment.first rescue nil
   end
 
+  def recent_body_assessment
+    self.health_assessments.recent_body_assessment.first rescue nil
+  end
+
   def documents
     (self.medical_records.flatten + self.health_assessments.collect(&:medical_records).flatten).reverse
   end
@@ -775,4 +786,9 @@ class Customer < ActiveRecord::Base
   def number_of_documents_uploaded
     return self.documents.count
   end
+
+  def need_two_factor_authentication?(request)
+    not otp_secret_key.nil?
+  end
+
 end

@@ -26,6 +26,7 @@
           - else
             -#hi
             %p No other body parts found
+    - if session['is_customer']
       .vbox.row.padder-v.p-l
         %a.btn.btn-primary#customer_current_complaints_edit_btn
           %i.fa.fa-pencil

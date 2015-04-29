@@ -1,3 +1,4 @@
+= javascript_include_tag "jquery"
 = content_for :title, 'Sign in'
 
 %section#content.m-t-lg.wrapper-md.animated.fadeInUp
@@ -8,15 +9,13 @@
     %section.m-b-lg
       = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
         .list-group
-          .list-group-item
-            = f.email_field :email, {class: 'form-control no-border p-t-n', placeholder: 'Email',autofocus: true, required: true }
-          .list-group-item
-            = f.password_field :password, {class: 'form-control no-border', placeholder: 'Password', required: true}
-        = f.submit 'Sign in', {class: 'btn btn-lg btn-primary btn-block'}
-        .text-center.m-t.m-b
-          %a{href: new_password_path(resource_name)}
-            %small Forgot password?
-        .line.line-dashed
+          .list-group-item.m-b-sm
+            = f.text_field :mobile_number, {id: 'mobile_number', class: 'numeric form-control no-border p-t-n', placeholder: 'Enter your registered mobile number',autofocus: true, required: true }
+          %a.btn.btn-lg.btn-primary.btn-block.m-b-sm#send_otp{href: "#", ajax_path: customers_send_otp_path} Send OTP
+          %a.m-b-sm#send_otp_link.hide{href: "#", ajax_path: customers_send_otp_path, style:"text-decoration: underline;"} Resend OTP
+          .list-group-item.after_mobile_number_entry.m-b-sm.hide
+            = f.text_field :otp, {id: 'otp_code', class: 'numeric form-control no-border p-t-n', placeholder: 'OTP',autofocus: true, required: true}
+        = f.submit 'Sign in', {class: 'btn btn-lg btn-primary btn-block after_mobile_number_entry hide'}
         %p.text-muted.text-center
           %small Do not have an account?
         %a.btn.btn-lg.btn-default.btn-block{href: new_registration_path(resource_name)} Create an account
@@ -28,4 +27,88 @@
         -#%br>/
         eKincare
 
+:javascript
+  $(document).ready(function(){
+    $('.after_mobile_number_entry').hide();
+    $("#send_otp, #send_otp_link").click(function(){
+    //set cookie for mobile number when user clicks on sen otp
+    document.cookie="mobile_number=" + $('#mobile_number').val();
+    $('#invalid_user_id, #signed_out').remove();
+      $.ajax({
+        type: "POST",
+        url: $(this).attr('ajax_path'),
+        data: {mobile_number: $('#mobile_number').val()},
+        success: function(page){
+          if(page.statusCode == 404)
+          {
+            $('#invalid_user_id, #signed_out').remove();
+            var invalid_user = $('<div id="invalid_user_id" class="alert alert-danger text-center"> <button class="close" data-dismiss="alert" type="button">×</button> <i class="fa fa-ok-sign"></i> Mobile number you have entered is not registered with eKincare. Please register before you login. </div>');
+            $('#content').prepend(invalid_user);
+          }
+          if(page.statusCode == 200)
+          {
+            $('#mobile_number').attr('readonly', 'readonly');
+            $('.after_mobile_number_entry').show();
+            $('#send_otp').hide();
+            $('#send_otp_link').removeClass('hide');
+            $('.after_mobile_number_entry').removeClass('hide');
+            var received_otp = $('<div id="signed_out" class="alert alert-success text-center"> <button class="close" data-dismiss="alert" type="button">×</button> <i class="fa fa-ok-sign"></i> We have sent OTP to your mobile. Please enter the OTP to login. OTP is valid only for next 15minutes </div>');
+            $('#content').prepend(received_otp);
+          }
+        },
+        error: function(data){
+          console.log(data);
+        },
+        dataType: 'json'
+      });
+    });
 
+    var cookies = document.cookie.split(';');
+    for(i=0; i<cookies.length; i++){
+      C = cookies[i].split('=');
+      cookies[C[0]] = C[1];
+    }
+
+    if(typeof cookies['mobile_number'] !== 'undefined')
+    {
+      // Need to show Mobile Number, Resend OTP, OTP, Sign in
+      $('#mobile_number').val(cookies['mobile_number']);
+      $('.after_mobile_number_entry, #send_otp_link').removeClass('hide');
+      $('.after_mobile_number_entry').show();
+      $('#send_otp').hide();
+      $('#send_otp_link').show();
+    }
+
+    //Mobile number validation
+    $(".numeric").keydown(function (e) {
+      // Allow: backspace, delete, tab, escape, enter and .
+      if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+              // Allow: Ctrl+A
+          (e.keyCode == 65 && e.ctrlKey === true) ||
+              // Allow: home, end, left, right, down, up
+          (e.keyCode >= 35 && e.keyCode <= 40)) {
+          // let it happen, don't do anything
+          return;
+      }
+      // Ensure that it is a number and stop the keypress
+      if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+          e.preventDefault();
+      }
+
+      if($(this).attr('id') == 'mobile_number')
+      {
+        var pattern_mobile_number = /^\d{10}$/;
+        if (pattern_mobile_number.test($(this).val())) {
+          e.preventDefault();
+        }
+      }
+
+      if($(this).attr('id') == 'otp_code')
+      {
+        var pattern_otp = /^\d{6}$/;
+        if (pattern_otp.test($(this).val())) {
+          e.preventDefault();
+        }
+      }
+    });
+  });

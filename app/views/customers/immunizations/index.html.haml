@@ -18,6 +18,7 @@
       %h4.panel-heading
         %a.font-bold{href: "#"}
           Immunizations &nbsp;&nbsp;
+      - if session['is_customer']
         %a.btn.btn-default.btn-s-mdsche.m-b-xs#create_customer_immunization
           &nbsp;
           %i.fa.fa-plus
@@ -75,9 +76,11 @@
                         = immunization.customer_immunizations.map(&:dosage).join(' ')
                       %td
                         = immunization.customer_immunizations.map(&:instructions).join(' ')
+                    -if session[:is_customer]
                       %td
                         %a.pull-right.dropdown-toggle.customer-immunization-edit-pencil{"data-toggle" => "dropdown", href: "#"}
                           %i.fa.fa-pencil
+                    -if session[:is_customer]
                       %td
                         %a.pull-right.dropdown-toggle.customer-immunization-delete-row{"data-toggle" => "dropdown", href: "#"}
                           %i.i.i-trashcan

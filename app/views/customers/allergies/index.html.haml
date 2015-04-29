@@ -18,6 +18,7 @@
       %h4.panel-heading
         %a.font-bold{href: "#"}
           Allergies &nbsp;&nbsp;
+      - if session['is_customer']
         %a.btn.btn-default.btn-s-mdsche.m-b-xs#create_customer_allergy
           &nbsp;
           %i.fa.fa-plus
@@ -59,9 +60,11 @@
                         = allergy.reaction
                       %td
                         = @customer.customer_allergies.find_by(allergy_id: allergy.id).severity
+                    -if session[:is_customer]
                       %td
                         %a.pull-right.dropdown-toggle.customer-allergy-edit-pencil{"data-toggle" => "dropdown", href: "#"}
                           %i.fa.fa-pencil
+                    -if session[:is_customer]
                       %td
                         %a.pull-right.dropdown-toggle.customer-allergy-delete-row{"data-toggle" => "dropdown", href: "#"}
                           %i.i.i-trashcan

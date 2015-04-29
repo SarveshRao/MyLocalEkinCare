@@ -1,0 +1,79 @@
+!!!
+%html{:lang => "en"}
+  %head
+    %meta{:charset => "utf-8"}
+      %meta{:content => "IE=Edge", "http-equiv" => "X-UA-Compatible"}
+        %title
+          Contact Us | eKincare
+        %meta{:content => "Omada Health", :name => "author"}
+          %meta{:content => "", :name => "description"}
+            %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}
+              = stylesheet_link_tag 'about_us'
+  %body
+    %header
+      .row{:style => "height:100%;"}
+        #ekin-logo
+          %img#ekin-logo-img{:src => asset_path("ekincare-logo.png")}/
+        #ekin-links
+          %a.signin{:href => online_customer_session_path} Signin
+          %a.register{:href => new_online_customer_registration_path} Register Now
+    %section.row.page-container
+      %section.topMenuHolder
+        %nav.topMenu
+          %a.sidebar__link{:href => about_us_about_index_path} About Us
+          %a.sidebar__link{:href => team_about_index_path} The Team
+          %a.sidebar__link{:href => doctors_about_index_path} Our Doctors
+          %a.sidebar__link{:href => advisers_about_index_path} Our Advisors
+          %a.sidebar__link{:href => faq_about_index_path} FAQ
+          %a.sidebar__link{:href => terms_and_conditions_about_index_path} Terms &amp; Policies
+          %a.sidebar__link{:href => "https://angel.co/ekincare/jobs", :target => "_blank"} Jobs
+          %a.sidebar__link{:href => "http://ekincare.wordpress.com", :target => "_blank"} Blog
+          %a.sidebar__link.active{:href => contact_us_about_index_path} Contact Us
+      %aside.col2
+        %section.sidebar
+          %nav.nav--sidebar.mb20
+            %a.sidebar__link{:href => about_us_about_index_path} About Us
+            %a.sidebar__link{:href => team_about_index_path} The Team
+            %a.sidebar__link{:href => doctors_about_index_path} Our Doctors
+            %a.sidebar__link{:href => advisers_about_index_path} Our Advisors
+            %a.sidebar__link{:href => faq_about_index_path} FAQ
+            %a.sidebar__link{:href => terms_and_conditions_about_index_path} Terms &amp; Policies
+            %a.sidebar__link{:href => "https://angel.co/ekincare/jobs", :target => "_blank"} Jobs
+            %a.sidebar__link{:href => "http://ekincare.wordpress.com", :target => "_blank"} Blog
+            %a.sidebar__link.active{:href => contact_us_about_index_path} Contact Us
+      / /sidebar
+      / nav-sidebar
+      %section.page-content.col8
+        %h1.font-light.mb10 Contact Us
+        %p.fs-s.c-grey.mb0
+          We always love to hear from our users and from others who want to know more about us.
+        .row
+          %section.contact-container
+            /
+              <div class="col3 contact--info-hq">
+              <h6 class="c-light-grey uppercase mb10">eKincare</h6>
+              <p class="fs-xs mb0 contact--address">
+              Madhapur
+              <br>
+              Hyderabad
+              </p>
+              </div>
+            .col12
+              .contact--info-bordered
+                %h6.c-light-grey.uppercase.mb10.fs-xxs Phone Number
+                %p.fs-s.c-dark-grey.mb0 8886783546
+              .contact--info-bordered
+                %h6.c-light-grey.uppercase.mb10.fs-xxs Email Address
+                %p.fs-s.c-dark-grey.mb0
+                  %a.c-dark-grey{:href => "mailto:info@ekincare.com"} info@ekincare.com
+              .contact--info-bordered
+                %h6.c-light-grey.uppercase.mb10.fs-xxs Zippr Code
+                %p.fs-s.c-dark-grey.mb0
+                  %a.c-dark-grey{:href => "http://zip.pr/IN/GSKR1832"} GSKR1832
+            .map.col12{"data-color" => "", "data-height" => "22.222", "data-img" => asset_path("img/marker.png"), "data-info" => "Your location", "data-maplat" => "17.4422717", "data-maplon" => "78.3976381", "data-mapzoom" => "15", :style => "width:100%;margin-top:50px;"}
+    / /page-content
+    / page
+    / Scripts
+    -#%script{:src => "https://code.jquery.com/jquery-2.1.3.js"}
+    %script{:src => "https://maps.googleapis.com/maps/api/js?sensor=false"}
+    -#%script{:src => "./about.js"}

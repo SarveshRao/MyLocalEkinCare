@@ -376,7 +376,7 @@ class Customers::ApiController < BaseApiController
 
   def timeline
     @customer = Customer.find(params[:id])
-    @timeline = Timeline.where(customer_id: @customer.id, activity_type: 'BodyAssessment')
+    @timeline = Timeline.joins("inner join health_assessments h on h.id=timelines.associated_id where h.customer_id=#{@customer.id}")
     @timeline.each do |timeline|
       timeline.class_eval do
         attr_accessor :doctor_name
@@ -390,8 +390,12 @@ class Customers::ApiController < BaseApiController
           appointment_provider = AppointmentProvider.find_by_appointment_id(appointments.id)
           if appointment_provider
             provider_name = Provider.find(appointment_provider.provider_id)
-            enterprise_name = Enterprise.find(provider_name.enterprise_id).name
-            timeline.provider_name= enterprise_name
+            if provider_name and provider_name.id>0
+              enterprise_name = Enterprise.find(provider_name.enterprise_id).name
+              timeline.provider_name= enterprise_name
+            else
+              timeline.provider_name = 'At Home'
+            end
           else
             timeline.provider_name = 'At Home'
           end
@@ -430,8 +434,12 @@ class Customers::ApiController < BaseApiController
         appointment_provider = AppointmentProvider.find_by_appointment_id(appointments.id)
         if appointment_provider
           provider_name = Provider.find(appointment_provider.provider_id)
-          enterprise_name = Enterprise.find(provider_name.enterprise_id).name
-          assessment.provider_name= enterprise_name
+          if provider_name and provider_name.id>0
+            enterprise_name = Enterprise.find(provider_name.enterprise_id).name
+            assessment.provider_name= enterprise_name
+          else
+            assessment.provider_name = 'At Home'
+          end
         else
           assessment.provider_name = 'At Home'
         end
@@ -455,8 +463,12 @@ class Customers::ApiController < BaseApiController
       if appointment_provider
         if appointment_provider.provider_id != 0
           provider_name = Provider.find(appointment_provider.provider_id)
-          enterprise_name = Enterprise.find(provider_name.enterprise_id).name
-          @assessment.provider_name= enterprise_name
+          if provider_name and provider_name.id>0
+            enterprise_name = Enterprise.find(provider_name.enterprise_id).name
+            @assessment.provider_name= enterprise_name
+          else
+            @assessment.provider_name = 'At Home'
+          end
         else
           @assessment.provider_name = 'At Home'
         end
