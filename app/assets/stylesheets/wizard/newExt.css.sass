@@ -1,0 +1,300 @@
+@charset "utf-8"
+
+/* CSS Document
+
+body
+  background-color: #FFF
+
+.head3
+  color: #000
+
+.logo-heading
+  background-color: #FFF !important
+  padding: 20px !important
+
+.reg-tabs
+  font-size: 14px
+  color: #999
+  li
+    border-bottom: solid #E5E5E5 1px
+    padding: 5px
+    a
+      border: none !important
+  .completed
+    background-color: #FFF !important
+    a
+      background-color: #FFF !important
+  .active
+    a
+      background-color: #3570CE !important
+      color: #FFF !important
+    background-color: #3570CE !important
+
+.height-input
+  -webkit-border-radius: 8px
+  -moz-border-radius: 8px
+  border-radius: 8px
+  width: 55px
+  height: 45px
+  background-color: #E8E8E8
+  margin-bottom: 10px
+
+.dropdown-custom
+  min-width: 50px
+
+.inch-wrap
+  height: 200px
+  overflow: scroll
+
+.inp-signs
+  position: relative
+  top: 20px
+  font-size: 15px
+
+.wt-inp
+  background-color: #FFF
+
+.height-wrapper
+  margin: 35px 0 20px 0
+
+.about-text
+  width: 50%
+  margin: 0 auto
+
+.about
+  font-size: 16px
+
+.about2
+  font-size: 14px
+  color: #000 !important
+  opacity: 1
+  width: 70%
+
+.form-wrapper
+  margin-top: 80px
+  margin-left: 30px
+  padding-bottom: 80px
+
+//.i-checks i
+  width: 18px
+  height: 18px
+  line-height: 1
+  border: 1px solid #cbd5dd
+  background-color: #fff
+  margin-left: -20px
+  margin-top: -2px
+  display: inline-block
+  vertical-align: middle
+  margin-right: 4px
+  position: relative
+  font-size: 12px
+
+//.i-chk
+  i
+    width: 20px
+    height: 20px
+    line-height: 1
+    border: 1px solid #cbd5dd
+    background-color: #fff
+    margin-left: -20px
+    margin-top: -2px
+    display: inline-block
+    vertical-align: middle
+    margin-right: 4px
+    position: relative
+    font-size: 15px
+  span
+    font-size: 12px
+
+.radio-space
+  margin-right: 60px
+  margin-bottom: 30px
+  font-size: 14px
+
+input[type="radio"]:checked ~ span
+  color: #000
+
+.radio-space
+  &:hover >
+  i
+    border: 1px solid #326AC3
+    span
+      color: #000
+  span:hover
+    color: #000
+
+.fam-wrap
+  padding-bottom: 10px
+
+.fam-wrap2
+  padding: 0px
+  margin: 0px
+  padding-bottom: 10px
+
+.family-radio
+  padding-left: 10%
+
+.family-checkbox
+  padding-left: 10%
+  font-size: 16px
+
+.family-wrap
+  margin-top: 10px
+
+.icon-img1
+  background-image: url(asset_path('wizard/father.png'))
+  background-repeat: no-repeat
+  background-position: 25% 50%
+
+.icon-img2
+  background-image: url(asset_path('wizard/mother.png'))
+  background-repeat: no-repeat
+  background-position: 25% 50%
+
+.icon-img3
+  background-image: url(asset_path('wizard/sibling.png'))
+  background-repeat: no-repeat
+  background-position: 20% 50%
+
+.lifestyle-h
+  color: #000
+  margin-bottom: 20px
+
+.zip-inp
+  margin-top: 20px
+  margin-bottom: 20px
+  width: 130px
+  height: 35px
+
+.r-submit
+  -webkit-border-radius: 5px
+  -moz-border-radius: 5px
+  border-radius: 5px
+  background-color: #ABD037
+  border: none
+  padding: 10px
+  width: 180px
+  font-size: 18px
+
+.left-h1
+  position: relative
+  left: 40px
+  top: 10px
+  font-size: 12px
+  color: #000
+
+.left-h2
+  position: relative
+  left: 40px
+  top: 100px
+  font-size: 12px
+  color: #000
+
+.left-h3
+  position: relative
+  left: 40px
+  top: 130px
+  font-size: 12px
+  color: #000
+
+.left-h4
+  position: relative
+  left: 40px
+  top: 20px
+  font-size: 12px
+  color: #000
+
+.alert-zip, .alert-exercise, .alert-alcohol, .alert-smoke, .alert-height
+  width: 86%
+  display: none
+  background-color: #F7F8BE
+
+.alert-family
+  display: none
+  background-color: #F7F8BE
+
+/*SECOND PAGE
+
+.upload-inp
+  margin-top: 50px
+
+.uploaderImg
+  /*display:;
+  margin-top: 20px
+
+.file-list
+  margin-top: 30px
+  font-size: 14px
+  cursor: pointer
+
+.file-item
+  i
+    font-size: 18px
+    color: #0C3
+  &:hover
+    color: #000
+    > i
+      color: #F00
+
+.imgSteps-wrap
+  margin-top: 30px
+
+.img-step
+  max-width: 150px
+
+.how-wrap
+  width: 55%
+  margin: 0 auto
+
+.step-p
+  font-size: 14px
+
+.thankyou-img
+  margin-top: 30px
+  margin-bottom: 0px
+  padding-bottom: 0px
+
+.completed i
+  font-size: 20px
+  color: #0C3 !important
+  position: relative
+  top: 3px
+  padding-right: 5px
+
+.active i
+  //font-size: 18px
+  color: #FFF  !important
+  position: relative
+  top: 2px
+  padding-right: 5px
+
+.next
+  i
+    font-size: 20px
+    color: #A3A3A3 !important
+    position: relative
+    top: 2px
+    padding-right: 5px
+  a
+    color: #A3A3A3
+
+/* Retina display
+@media screen and (min-width: 1024px)
+
+/* Desktop
+@media screen and (min-width: 980px) and (max-width: 1024px)
+  .icon-img3
+    background-position: 0% 50%
+
+/* Tablet
+@media screen and (min-width: 760px) and (max-width: 980px)
+  .icon-img1, .icon-img2
+    background-position: 10% 50%
+  .icon-img3
+    background-position: 0% 50%
+
+/* Mobile HD
+@media screen and (min-width: 350px) and (max-width: 760px)
+
+/* Mobile LD
+@media screen and (max-width: 350px)

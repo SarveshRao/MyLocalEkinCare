@@ -1,0 +1,44 @@
+= content_for :title, 'New promotion'
+
+%section#content
+  %ol.breadcrumb
+    = render_breadcrumbs seperator: ''
+  %section.vbox
+    %section.scrollable.padder
+      .m-b-md
+        %h4
+          %a.font-bold{href: "#"}
+            New Promotion
+      .row
+        .col-md-8
+          %section.panel.panel-default
+            %header.panel-heading.font-bold Promotion Form
+            .panel-body.row
+              = form_for @promotion, html: {"data-validate" => "parsley", id: 'promotion_form'}, url:staff_promotions_path(@promotion) do |f|
+                .col-md-6
+                  .form-group
+                  .form-group
+                    = f.label :title
+                    %sup.text-danger
+                      *
+                    = f.text_field :title,{class: 'form-control parsley-validated', 'data-required' => 'true', autofocus: true}
+
+                  .form-group
+                    = f.label :Description
+                    %sup.text-danger
+                    = f.text_area :description, {class: 'form-control'}
+                  .form-group
+                    = f.label :start_date
+                    %sup.text-danger
+                      *
+                    = f.text_field :start_date,{placeholder: 'dd-mm-yyyy', class: 'form-control datepicker-input datepicker', 'data-date-format' => 'dd-mm-yyyy'}
+
+                  .form-group
+                    = f.label :number_of_codes
+                    %sup.text-danger
+                      *
+                    = f.text_field :generate_codes,{class: 'form-control parsley-validated', 'data-required' => 'true', autofocus: true}
+
+                  .form-group
+                    = f.submit "submit",{class: 'btn btn-md btn-primary pull-right' }
+        .col-md-4

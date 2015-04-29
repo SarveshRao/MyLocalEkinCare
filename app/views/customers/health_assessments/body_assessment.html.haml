@@ -1,0 +1,199 @@
+= content_for :title, 'Body assessment'
+
+%div.clearfix.breadcrumb
+  %ol.padder
+    = render_breadcrumbs :separator => ' / '
+    %small.pull-right
+      Contact: 888-678-EKIN (3546) /
+      %a{href: 'mailto:founder@ekincare.com'} founder@ekincare.com
+
+- if @body_assessment.nil?
+  %div
+    .m-b-md.padder.text-center
+      %h4.text-center
+        %a.font-bold Body Assessment
+    -#= paginate @body_assessment, params: {id: nil}
+    .row.p-t.padder
+      .text-center
+        No assessments found
+      .col-lg-3.col-md-3.text-center
+
+    .row.p-t.padder
+      .text-center
+        %h4 Please upload your recent diagnostic records
+      .text-center.p-t
+        %a.btn.btn-s-md.btn-primary{:href => customers_documents_path} Get Started
+
+    .row.p-t.padder
+      .text-center.col-md-6.col-md-offset-3
+        Regular check ups help diagnose chronic diseases early when chances of treatment are better. If you haven’t  had one in the recent past, call now to schedule an annual health assessment. Includes,  home collection, online delivery of the reports and a free dental and vision check.
+    .row.p-t.padder
+      .text-center
+        %h3 888-678-EKIN (3546)
+-else
+  %section
+    %section.hbox.stretch
+      %aside.aside-lg
+        %section.scrollable.hover.w-f
+          %ul#reportList.list-group.auto.no-radius.m-b-none.m-t-n-xxs.list-group-lg.scrollable.col-sm-12.padder-v{:style => "padding-right:8px;background:white"}
+            -@body_assessments.each do |body_assessment|
+              %li.list-group-item
+                -inbox_id=Inbox.find_by_associated_id(body_assessment.id)
+                %a.clear.text-ellipsis{href: customers_health_assessment_path({type: 'Body', id: body_assessment.id,inbox_id:inbox_id})}
+                  %strong.block
+                    Assessment ID:
+                    %span
+                      &nbsp;:
+                    %span
+                    = body_assessment.health_assessment_id
+                    -#= formatted_date body_assessment.request_date
+                  %strong.block
+                    Provider Name
+                    %span
+                      &nbsp;:
+                    %span
+                      -unless(body_assessment.appointments.empty?)
+                        -unless(body_assessment.appointments.first.partner_name1.nil?)
+                          =body_assessment.appointments.first.partner_name1 rescue ''
+                  %small.block
+                    Doctor Name
+                    %span
+                      &nbsp;:
+                    %span.pull-right{:style => "white-space:normal;width:58%"}
+                      -unless(body_assessment.nil?)
+                        =body_assessment.doctor_name rescue ''
+                  %strong.block.pull-left
+                    Date:
+                    %span
+                      &nbsp;:
+                    %span
+                    = formatted_date body_assessment.request_date rescue ''
+
+      %aside.lter#reportHolder
+        %section.vbox
+          %section.scrollable.padder
+            .col-lg-12.col-md-12.m-b.bg-white.padder.padder-v
+              %div
+                .col-md-6.nopadding
+                  %div
+                    .col-md-12.no-padder
+                      %h5
+                        %span.font-bold
+                          Provider Name
+                        %span
+                          &nbsp;:
+                        %span
+                          -if @body_assessment
+                            -unless @body_assessment.appointments.empty? || @body_assessment.appointments.nil?
+                              -unless(@body_assessment.appointments.first.partner_name1.nil?)
+                                =@body_assessment.appointments.first.partner_name1 rescue ''
+                      %h5
+                        %span.font-bold
+                          Doctor Name
+                        %span
+                          &nbsp;:
+                        %span
+                          -unless @body_assessment.nil?
+                            =@body_assessment.doctor_name rescue ''
+              %div
+                .col-md-6.nopadding.text-right.provider_doctor_name
+                  %h5
+                    %span.font-bold
+                      Date
+                    %span
+                      &nbsp;:
+                    %span
+                      = formatted_date @body_assessment.request_date rescue ''
+            .row#healthAssessment
+              .col-sm-12
+                - if @body_assessment
+                  - if @body_assessment.categorize_components.nil? || @body_assessment.categorize_components.empty?
+                    No components had been added
+                  -else
+                    -@body_assessment.categorize_components.each do |lab_test_name, test_components|
+                      %section.panel.panel-default
+                        .row.padder.padder-v
+                          .col-sm-12
+                            %h3.rTitle.m-b-xs
+                              =lab_test_name
+                            %p
+                              -if @body_assessment
+                                -unless @body_assessment.appointments.empty? || @body_assessment.appointments.nil?
+                                  -unless(@body_assessment.appointments.first.get_enterprise_id.nil?)
+                                    - enterprise_id =@body_assessment.appointments.first.get_enterprise_id
+                                    = LabTest.find_by(name: lab_test_name, enterprise_id: enterprise_id).info
+                                -else
+                                  = LabTest.find_by(name: lab_test_name, enterprise_id: Enterprise.find_by_enterprise_id('EK')).info rescue ''
+                              -#It is recomended that healthy adults with no other risk factors for heart disease be tested with a fasting lipid profile once every five years. Individuals may also be screened using only a cholesterol test and not a full lipid profile. However, if the cholesterol test result is high, there maybe the need to have follow-up testing with a lipid profile
+                        %table#rTable.table.m-b-none
+                          %thead
+                            %tr
+                              %th
+                                %h4.m-b-none Component
+                                .explaination.m-t-xs.b-t.b-light
+                                  %span &nbsp;
+                              %th.history
+                                %h4.m-b-none History
+                                .explaination.m-t-xs.b-t.b-light
+                                  &nbsp;
+                              %th
+                                %h4.m-b-none Results
+                                .explaination.m-t-xs.b-t.b-light
+                                  %span.pull-right.rDanger CONCERNING
+                                  %span.pull-left.rSafe DOING WELL
+                          %tbody
+                            - test_components.each_with_index do |lab_result,index|
+                              - info = lab_result.info
+                              -test_component_name=info[:test_component_diff][:name]
+                              %tr{:id => "#{test_component_name}"}
+                                %td{:colspan => '3'}
+                                  .moreInfo
+                                    .rTitle.col-sm-4
+                                      = info[:test_component_diff][:name]
+                                      .rSubTitle
+                                        ideal is
+                                        =current_online_customer.standard_range(info[:test_component_diff][:name]).split(',')[1]
+                                    .history.col-sm-2.no_padding
+                                      -result=info[:test_component].test_component_values(current_online_customer).split(',')
+                                      -if(result.length<2)
+                                        %img{:alt => "", :src => asset_path("no_history.png")}/
+                                      -else
+                                        .sparkline{"data-line-color" => "#788288", "data-type" => "line", "data-width" => "70"}
+                                          = info[:test_component].test_component_values(current_online_customer)
+                                      .rDirection
+                                        -#%i.fa.fa-2x.fa-caret-up
+                                        -color=current_online_customer.resulted_component_value1(info[:test_component_diff][:name], info[:test_component_diff][:value], @body_assessment.id)[:color]
+                                        -if(info[:test_component].lab_result_increased?(current_online_customer))
+                                          %i.fa.fa-2x.fa-caret-up{:class => color}
+                                        -else
+                                          %i.fa.fa-2x.fa-caret-down{:class => color}
+                                    .rResult.col-sm-6.pull-right{"data-percent" => "98"}
+                                      -if current_online_customer.resulted_component_value1(info[:test_component_diff][:name], info[:test_component_diff][:value], @body_assessment.id)[:color]=='text-warning'
+                                        .rResultValue{:style => "left:40%;top:-44px"}
+                                          .warning Warning
+                                          .value
+                                            = info[:test_component_diff][:value]
+                                            %span.units
+                                              = info[:test_component_diff][:units]
+                                          .arrowDown
+                                      -elsif current_online_customer.resulted_component_value1(info[:test_component_diff][:name], info[:test_component_diff][:value], @body_assessment.id)[:color]=='text-success'
+                                        .rResultValue{:style => "left:5%;"}
+                                          .verdict Good
+                                          .value
+                                            = info[:test_component_diff][:value]
+                                            %span.units
+                                              = info[:test_component_diff][:units]
+                                          .arrowDown
+                                      -else
+                                        .rResultValue{:style => "left:60%;"}
+                                          .danger Danger
+                                          .value
+                                            = info[:test_component_diff][:value]
+                                            %span.units
+                                              = info[:test_component_diff][:units]
+                                          .arrowDown
+                                  .info_sec.bg-light.col-sm-12.padder-v{:style => "display:none"}
+                                    .col-sm-6
+                                      =TestComponent.find_by_name(info[:test_component_diff][:name]).info
+                                      -div_id=test_component_name.gsub(/[ \/()!@%&"]/,'')
+                                    %div.col-sm-6{:id => "f-line#{div_id}",:style => "height:75px"}

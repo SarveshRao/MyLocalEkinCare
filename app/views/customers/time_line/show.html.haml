@@ -1,0 +1,82 @@
+= content_for :title, 'Timeline'
+
+%div.clearfix.breadcrumb
+  %ol.padder
+    = render_breadcrumbs :separator => ' / '
+    %small.pull-right
+      Contact: 888-678-EKIN (3546) /
+      %a{href: 'mailto:founder@ekincare.com'} founder@ekincare.com
+
+%div{style: 'min-height: 1000px'}
+  %section.vbox.w-b
+    %section.scrollable.wrapper
+      - if current_online_customer.timeline_activities.empty?
+        %p.text-center
+          No Activities to display
+      - else
+        .timeline
+          %article.timeline-item.active
+            .timeline-caption
+              .panel.bg-primary.lt.no-borders
+                .panel-body
+                  %div{style: 'width: 250px'}
+                    .col-md-2
+                    .col-md-8.text-center
+                      %span.thumb-avatar
+                        %img.img-circle.dker{alt: "...", src: asset_path(current_online_customer.image_url), height: 70, width: 70}/
+                        -#%i.on.md.b-black
+                    .col-md-2
+                    .row
+                      .col-md-12.text-center
+                        %p.row.font-bold
+                          %a{href: customers_profile_path}
+                            = current_online_customer.name
+                          %span.hidden-nav-xs.clear
+
+          - icons = ['fa-file-text', 'fa-male']
+          - @timeline_count = current_online_customer.timeline_activities.count || 2
+          - current_online_customer.timeline_activities.each_with_index do |activity, index|
+            - description = activity.activity_type == 'MedicalRecord' ? "#{activity.description} <p><a href=#{activity.url} download=download>#{activity.file_name}</a></p>".html_safe : "#{activity.description}"
+            - if activity.activity_type =~ /Assessment/
+              %article.timeline-item{class: index.even? ? 'alt' : ''}
+                .timeline-caption
+                  .panel.panel-default
+                    .panel-body
+                      %span.arrow{class: index.even? ? 'right' : 'left'}
+                      %span.timeline-icon
+                        %i.fa.time-icon.bg-primary{class: activity.badge =~ /^HA[0-9]*/ ? icons[1] : icons[0]}
+                      %span.timeline-date
+                        - if activity.activity_type =~ /Assessment/
+                          = formatted_date activity.assessment_date
+                      .text-sm
+                        -  if activity.activity_type =~ /Assessment/
+                          %a{href: customers_health_assessments_path({type: activity.activity_type.gsub!(/Assessment/, ''), id: activity.associated_id})}
+                            = activity.title
+                            %br
+                            %span.label.label-info
+                              = activity.badge
+
+                          %h5
+                            = description
+                          - @medical_record_activities = activity.associated_medical_records
+                          - unless @medical_record_activities.empty?
+                            %br
+                            %b Medical records
+                            %ul
+                            - @medical_record_activities.each do |medical_record_activity|
+                              - description = "#{medical_record_activity.description} <p><a href=#{medical_record_activity.url} download=download>#{medical_record_activity.file_name}</a></p>".html_safe
+                              %li
+                                = description
+
+          .timeline-footer
+            %a{href: "#"}
+            .timeline-caption
+              .panel.panel-default
+                .panel-body
+                  %span.arrow{class: 'left'}
+                  %span.timeline-icon
+                    %i.fa.fa-plus.time-icon.inline-block.bg-dark
+                  %span.timeline-date
+                    = formatted_date current_online_customer.date_of_birth
+                  .text-sm
+                    Date of Birth

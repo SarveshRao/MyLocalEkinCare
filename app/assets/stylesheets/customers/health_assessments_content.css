@@ -1,0 +1,172 @@
+.rTitle{
+    color: #00BEB2;
+    font-weight: bold;
+}
+
+.rSubTitle{
+    color: #A0A0A0;
+    font-style: italic;
+}
+
+#healthAssessment .panel .table#rTable td, #healthAssessment .panel .table th {
+    border-top: none;
+    border-bottom: none;
+    position: relative;
+    padding: 30px 10px;
+}
+
+.panel .table#rTable thead > tr > th{
+    border-top: none;
+    border-bottom: none;
+}
+
+#rTable  thead > tr > th > h4{
+    text-transform: uppercase;
+}
+
+#rTable  thead > tr > th > .explaination{
+    width: 90%;
+}
+
+#rTable  thead > tr > th > .explaination:last-child{
+    width: 100%;
+}
+
+#rTable tbody tr td{
+    cursor: pointer;
+}
+
+.sparkline{
+    margin-top: 10px;
+}
+
+.rDirection{
+    position: absolute;
+    left: 95px;
+    top:0px;
+    color:#00BEB2;
+}
+
+.concern .rDirection{
+    color:#b8001b;
+}
+
+.rResult{
+    /*width: 100%;*/
+    margin-top: 15px;
+    height: 10px;
+    display: block;
+    background: #b8001b; /* Old browsers */
+    background: -moz-linear-gradient(left,  #b8001b 0%, #f1c40f 51%, #00beb2 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#b8001b), color-stop(51%,#f1c40f), color-stop(100%,#00beb2)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left,  #b8001b 0%,#f1c40f 51%,#00beb2 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left,  #00beb2 0%,#f1c40f 51%,#b8001b 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left,  #00beb2 0%,#f1c40f 51%,#b8001b 100%); /* IE10+ */
+    background: linear-gradient(to right,  #00beb2 0%,#f1c40f 51%,#b8001b 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b8001b', endColorstr='#00beb2',GradientType=1 ); /* IE6-9 */
+
+
+}
+
+.rDanger{
+    color: #b8001b;
+}
+
+.rSafe{
+    color: #00BEB2;
+}
+
+.rResultValue{
+    position: absolute;
+    top:-45px;
+    min-width: 100px;
+    background: #F2F4F8;
+    border-radius: 3px;
+    height: 40px;
+    white-space: nowrap;
+}
+
+.arrowDown{
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+
+    border-top: 5px solid #F2F4F8;
+    position: absolute;
+    bottom:-5px;
+    left: 50%;
+    margin-left: -3px;
+}
+
+.rResultValue .verdict{
+    text-align: center;
+    width:100%;
+    background: #00BEB2;
+    color: white;
+    border-radius: 3px;
+}
+
+.rResultValue .danger{
+    text-align: center;
+    width:100%;
+    background: #e33244;
+    color: white;
+    border-radius: 3px;
+}
+
+.rResultValue .warning{
+    text-align: center;
+    width:100%;
+    background: #fcc633;
+    color: white;
+    border-radius: 3px;
+}
+
+/*.concern .rResultValue .verdict{*/
+    /*background: #b8001b;*/
+/*}*/
+
+.rResultValue .value{
+    text-align: center;
+    font-weight: bold;
+    font-size:16px;
+}
+.rResultValue .value span{
+    font-weight: normal;
+    font-size:12px;
+}
+
+
+@media (max-width: 600px) {
+    .history {
+        display: none;
+    }
+    #rTable  thead > tr > th > .explaination{
+        display: none;
+    }
+    #rTable thead > tr > th > h4{
+        border-bottom: 1px solid #e1e6ef;
+    }
+    .rResultValue{
+        width: 75px;
+    }
+}
+
+
+.rAttachment{
+    margin-right: 10px;
+}
+
+.moreInfo > td > div{
+    padding-bottom: 20px;
+}
+
+.table#rTable thead > tr > th:nth-child(1){
+    width:32%;
+}
+.table#rTable thead > tr > th:nth-child(2){
+    width:17%;
+}
+
+html, body{ min-height: 100%}

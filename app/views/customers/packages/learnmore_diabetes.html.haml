@@ -1,0 +1,66 @@
+= content_for :title, 'Learnmore'
+%section.vbox
+  %section.scrollable.padder
+    %div.m-t
+      %h4
+        = @package.name
+      %p
+        Fasting glucose tests provide an indication of your current glucose levels only, whereas the HbA1c test serves as an overall marker of what your average levels are over a period of 2-3 months.
+      %div.col-md-12
+        %a.btn.btn-success.pull-right.m-t{:href => customers_venus_path(:distance => 3, :package => params[:package])} check Out
+    %div.clearfix{style: 'min-height: 1000px'}
+      .entry-content
+        -#%ul.tabs
+        %ul.tabs
+          %a#baseline_btn.baseline.active{:href => "javascript:void(0)", :rel => "#baseline"} What's Included
+          -#%li
+            %a#metabolic_btn.metabolic{:href => "javascript:void(0)", :rel => "#metabolic"} Metabolic
+        / Begin baseline
+        #baseline.tab-content.tab_sec.packagenames
+          %ul
+            %li.ico-heart.first
+              %span.label_bg.blue_label_bg
+                %i.glyphicon.glyphicon-heart-empty
+              %h4 Heart
+              %p These are the types of cholesterol and fat in your blood. With the exception of ‘good’ HDL, higher levels are usually tied to higher risk of heart disease
+              %h5 Tests
+              %ul.tags
+                %li.enable TC/ HDL CHOLESTEROL RATIO
+                %li.enable TRIGLYCERIDES
+                %li.enable VLDL CHOLESTEROL
+                %li.enable HDL CHOLESTEROL - DIRECT
+                %li.enable TOTAL CHOLESTEROL
+                %li.enable LDL CHOLESTEROL - DIRECT
+                %li.enable LDL / HDL RATIO
+            %li.ico-heart.first
+              %span.label_bg.blue_label_bg
+                %i.glyphicon.glyphicon-blood
+              %span.label_bg.blue_label_darkbg
+              %h4 Blood Sugar
+              %p Glucose is a main energy source for the body and brain but when it builds up in the blood it can be a sign of insulin insensitivity – a precursor to diabetes.
+              %h5 Tests
+              %ul.tags
+                %li.enable HbA1c
+            %li.ico-heart.first
+              %span.label_bg.blue_label_bg
+              -#%i.glyphicon.glyphicon-heart-empty
+              %h4 Eyes
+              %p Health care professionals often recommend that all people should have periodic and thorough eye examinations as part of routine primary care, especially since many eye diseases are asymptomatic. Eye examinations may detect potentially treatable blinding eye diseases, ocular manifestations of systemic disease, or signs of tumours or other anomalies of the brain.
+              %h5 Tests
+              %ul.tags
+                %li.enable Eye pressure check
+                %li.enable Autorefraction @ manual refraction
+                %li.enable Pupil dilation (if required)
+            %li.ico-heart.first
+              %span.label_bg.blue_label_bg
+              -#%i.glyphicon.glyphicon-blood
+              %span.label_bg.blue_label_darkbg
+              %h4 Dental
+              %p Regular dental exams are an important part of preventive health care. During a dental exam, the dentist identifies gum inflammation or bone loss. It helps evaluate your risk of developing tooth decay and other oral health problems
+              %h5 Tests
+              %ul.tags
+                %li.enable Gum check
+                %li.enable Cavity check
+
+  %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"}
+  %script{:src => "prac.js"}

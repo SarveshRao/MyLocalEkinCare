@@ -1,0 +1,15 @@
+Soy:
+  name: Soy
+  reaction: Hives and itching
+Shellfish:
+  name: Shellfish
+  reaction: Hives
+Peanuts:
+  name: Peanuts
+  reaction: Anaphylactic shock
+Latex:
+  name: Latex
+  reaction: Hives and difficulty breathing
+Dogs/Pets:
+  name: Dogs/Pets
+  reaction: Sneezing and runny nose

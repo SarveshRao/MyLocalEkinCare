@@ -1,0 +1,127 @@
+= content_for :title, 'Learnmore'
+%section.vbox
+  %section.scrollable.padder
+    %div.m-t
+      %h4
+        = @package.name
+      %p
+        With the rise in chronic diseases, regular body, dental and vision checks can help diagnose problems before they start and can help detect problems early, when your chances for cure are better.
+      %p
+        The Basic checkup is a great starting point. It includes 30+ tests that checks various importants systems within the body along with your eyes and teeth. It checks your cholesterol and triglycerides, blood sugar, and basic liver function and takes a more comprehensive look at the liver, and tests kidney function and electrolytes.
+      %div.col-md-12
+        %a.btn.btn-success.pull-right.m-t{:href => customers_venus_path(:distance => 3, :package => params[:package])} check Out
+    %div.clearfix{style: 'min-height: 1000px'}
+      .entry-content
+        -#%ul.tabs
+        %ul.tabs
+          %a#baseline_btn.baseline.active{:href => "javascript:void(0)", :rel => "#baseline"}What's Included
+          -#%li
+            %a#metabolic_btn.metabolic{:href => "javascript:void(0)", :rel => "#metabolic"} Metabolic
+        / Begin baseline
+        #baseline.tab-content.tab_sec.packagenames
+          %ul
+            %li.ico-heart.first
+              %span.label_bg.blue_label_bg
+                %i.glyphicon.glyphicon-heart-empty
+              %h4 Heart
+              %p These are the types of cholesterol and fat in your blood. With the exception of ‘good’ HDL, higher levels are usually tied to higher risk of heart disease
+              %h5 Tests
+              %ul.tags
+                %li.enable TC/ HDL CHOLESTEROL RATIO
+                %li.enable TRIGLYCERIDES
+                %li.enable VLDL CHOLESTEROL
+                %li.enable HDL CHOLESTEROL - DIRECT
+                %li.enable TOTAL CHOLESTEROL
+                %li.enable LDL CHOLESTEROL - DIRECT
+                %li.enable LDL / HDL RATIO
+            %li.ico-heart.first
+              %span.label_bg.blue_label_bg
+                %i.glyphicon.glyphicon-blood
+              %span.label_bg.blue_label_darkbg
+              %h4 Electrolytes
+              %p Salts from your diet become electrically charged minerals that work together to keep the body in sync. The Metabolic panel checks to see if they are in balance.
+              %h5 Tests
+              %ul.tags
+                %li.enable SODIUM
+                %li.enable CHLORIDE
+            %li.ico-heart.first
+              %span.label_bg.blue_label_bg
+                %i.glyphicon.glyphicon-blood
+              %h4 Liver
+              %p Measuring these markers gives a glimpse of how well your liver is regulating chemicals, producing proteins, or performing its countless other vital functions.
+              %h5 Tests
+              %ul.tags
+                %li.enable ALKALINE PHOSPHATASE
+                %li.enable BILIRUBIN -DIRECT
+                %li.enable BILIRUBIN (INDIRECT)
+                %li.enable BILIRUBIN - TOTAL
+                %li.enable GAMMA GLUTAMYL TRANSFERASE (GGT)
+                %li.enable PROTEIN - TOTAL
+                %li.enable SERUM GLOBULIN
+                %li.enable ASPARTATE AMINOTRANSFERASE (SGOT )
+                %li.enable ALANINE TRANSAMINASE (SGPT)
+                %li.enable ALBUMIN - SERUM
+            %li.ico-heart.first
+              %span.label_bg.blue_label_bg
+                %i.glyphicon.glyphicon-blood
+              %h4 Kidney
+              %p The kidneys filter your blood and produce urine. These markers can indicate how well they are keeping up with these important tasks.
+              %h5 Tests
+              %ul.tags
+                %li.enable BUN / Sr.CREATININE RATIO
+                %li.enable BLOOD UREA NITROGEN (BUN)
+                %li.enable CALCIUM
+                %li.enable URIC ACID
+                %li.enable CREATININE - SERUM
+            %li.ico-heart.first
+              %span.label_bg.blue_label_bg
+                %i.glyphicon.glyphicon-blood
+              %h4 Pancreas
+              %p Pancreas play an essential role in converting the food we eat into fuel for the body cells. These biomarkers test to see if fat is correctly being absorbed and starch in your food is converted into fuel
+              %h5 Tests
+              %ul.tags
+                %li.enable LIPASE
+                %li.enable AMYLASE
+            %li.ico-heart.first
+              %span.label_bg.blue_label_bg
+                %i.glyphicon.glyphicon-blood
+              %h4 Thyroid
+              %p The thyroid secretes several hormones, collectively called thyroid hormones. The main hormone is thyroxine, also called T4. Thyroid hormones act throughout the body, influencing metabolism, growth and development, and body temperature.
+              %h5 Tests
+              %ul.tags
+                %li.enable THYROID STIMULATING HORMONE (TSH)
+                %li.enable TOTAL TRIIODOTHYRONINE (T3)
+                %li.enable TOTAL THYROXINE (T4)
+            %li.ico-heart.first
+              %span.label_bg.blue_label_bg
+                %i.glyphicon.glyphicon-blood
+              %h4 Iron Deficiency
+              %p Iron is present in all cells in the human body and has several vital functions, such as: carrying oxygen to the tissues from the lungs as a key component of the hemoglobin protein. Too little iron can interfere with these vital functions and lead to morbidity and death.
+              %h5 Tests
+              %ul.tags
+                %li.enable TOTAL IRON BINDING CAPACITY (TIBC)
+                %li.enable IRON
+                %li.enable % TRANSFERRIN SATURATION
+            %li.ico-heart.first
+              %span.label_bg.blue_label_bg
+              -#%i.glyphicon.glyphicon-heart-empty
+              %h4 Eyes
+              %p Health care professionals often recommend that all people should have periodic and thorough eye examinations as part of routine primary care, especially since many eye diseases are asymptomatic. Eye examinations may detect potentially treatable blinding eye diseases, ocular manifestations of systemic disease, or signs of tumours or other anomalies of the brain.
+              %h5 Tests
+              %ul.tags
+                %li.enable Eye pressure check
+                %li.enable Autorefraction @ manual refraction
+                %li.enable Pupil dilation (if required)
+            %li.ico-heart.first
+              %span.label_bg.blue_label_bg
+              -#%i.glyphicon.glyphicon-blood
+              %span.label_bg.blue_label_darkbg
+              %h4 Dental
+              %p Regular dental exams are an important part of preventive health care. During a dental exam, the dentist identifies gum inflammation or bone loss. It helps evaluate your risk of developing tooth decay and other oral health problems
+              %h5 Tests
+              %ul.tags
+                %li.enable Gum check
+                %li.enable Cavity check
+
+  %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"}
+  %script{:src => "prac.js"}

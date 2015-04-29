@@ -1,0 +1,43 @@
+- if @provider && !@provider.new_record?
+  / .aside
+  %aside#nav.bg-light.lt.b-r.b-light.aside-md.hidden-print.hidden-xs
+    %section.vbox
+      %section.w-f
+        %div
+          / nav
+          %nav.nav-primary.hidden-xs
+            .text-muted.text-sm.hidden-nav-xs.padder.m-t-sm.m-b-sm &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            %ul.nav.nav-main{"data-ride" => "collapse"}
+              %li.start_loader{class: @dashboard_active ? 'active': ''}
+                %a.auto{href: providers_dashboard_path}
+                  %span.pull-right.text-muted
+                    %i.i.i-circle-sm-o.text
+                    %i.i.i-circle-sm.text-active
+                  %i.fa.fa-home.icon
+                  %span.font-bold Dashboard
+              %li.start_loader{class: @customer_active ? 'active': ''}
+                %a.auto{href: _path}
+                  %span.pull-right.text-muted
+                    %i.i.i-circle-sm-o.text
+                    %i.i.i-circle-sm.text-active
+                  %i.i.i-users3.icon
+                  %span.font-bold Customers
+
+- else
+  %aside#nav.bg-light.lt.b-r.b-light.aside-md.hidden-print.hidden-xs
+    %section.vbox
+      %section.w-f
+        %div
+          / nav
+          %nav.nav-primary.hidden-xs
+            .text-muted.text-sm.hidden-nav-xs.padder.m-t-sm.m-b-sm &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            %ul.nav.nav-main{"data-ride" => "collapse"}
+              %li.start_loader{class: @dashboard_active ? 'active': ''}
+                %a.auto{href: providers_dashboard_path}
+                  %span.pull-right.text-muted
+                    %i.i.i-circle-sm-o.text
+                    %i.i.i-circle-sm.text-active
+                  %i.fa.fa-home.icon
+                  %span.font-bold Dashboard
+
+

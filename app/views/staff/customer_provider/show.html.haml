@@ -1,0 +1,59 @@
+= content_for :title, "#{@customer.name} | customer page"
+
+%section.vbox
+  %section.scrollable
+    %section.hbox.stretch
+      %section#content
+        %div.clearfix.breadcrumb
+          %ol
+            = render_breadcrumbs :separator => ' / '
+            %small.pull-right
+              contact: 888-678-EKIN (3546) /
+              %a{href: 'mailto:help@ekincare.com'} help@ekincare.com
+        %section.vbox
+          %section
+            %section.hbox.stretch
+              %aside.col-lg-12.padder
+
+                %div
+                  = render partial: '/staff/medical_records/main'
+                  .text-left#health_assessments_panel
+                    .vbox
+                      %h4.padder-v
+                        %a.font-bold{href: "#"}
+                          Assessments &nbsp;&nbsp;
+                      .scrollable
+                        %section.panel.panel-default
+                          .table-responsive
+                            %table.table.table-striped.b-light#assessments_table
+                              %thead
+                                %tr
+                                  %th{width: '10%'}
+                                    Assessment ID
+                                  %th{width: '10%'}
+                                    Assessment date
+                                  %th{width: '20%'} Assessment Type
+                                  -#%th{width: '13%'} Paid
+                                  %th{width: '42%'} Status
+                                  %th{width: '5%'}
+                                  %th{width: '5%'}
+                              %tbody
+
+                                - @health_assessments.each do |assessment|
+                                  %tr{class: 'assessment-row-ck', url: customer_health_assessment_path(@customer, assessment)}
+                                    %td
+                                      = assessment.health_assessment_id
+                                    %td
+                                      = formatted_date assessment.request_date
+                                    %td
+                                      = assessment.assessment_type
+                                    %td
+                                      = assessment.status_message
+                                    %td
+                                      %a.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#"}
+                                        %i.fa.fa-pencil
+                                    %td
+                                      %a.pull-right.dropdown-toggle.assessment-delete-row{"data-toggle" => "dropdown", href: "#"}
+                                        %i.i.i-trashcan
+
+  %a.hide.nav-off-screen-block{"data-target" => "#nav,html", "data-toggle" => "class:nav-off-screen", href: "#"}

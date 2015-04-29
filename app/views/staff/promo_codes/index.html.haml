@@ -1,0 +1,61 @@
+= content_for :title, 'PromoCodes Listing'
+
+%div.clearfix.breadcrumb
+  %ol.padder
+    = render_breadcrumbs :separator => ' / '
+    %small.pull-right
+      contact: 888-678-EKIN (3546) /
+      %a{href: 'mailto:help@ekincare.com'} help@ekincare.com
+
+#content
+  .vbox.padder
+    %h4
+      %a.font-bold{href: "#"}
+        PromoCodes Listing &nbsp;&nbsp;
+      %div
+        &nbsp
+    .scrollable
+      %aside
+        %section.panel.panel-default
+          .table-responsive
+            %table.table.table-striped.b-light#promo_code_list
+              %thead
+                %tr
+                  %th{width: '5%'} Serial No
+                  %th{width: '15%'} Promo Code
+                  %th{width: '15%'} Partner
+                  %th{width: '15%'} Status
+                  %th{width: '5%'}
+              %tbody
+                - @promo_codes.each do |promo_code|
+                  %tr
+                    %td
+                      = 'PNCD'+ promo_code.id.to_s.rjust(5, "0")
+                    %td
+                      = promo_code.code
+                    %td
+                      -unless(promo_code.partner_id.nil?)
+                        = Partner.find(promo_code.partner_id).title
+                      -if(promo_code.partner_id.nil?)
+                        Not Assigned
+                    %td
+                      -if(promo_code.status==true)
+                        used
+                      -else
+                        unused
+                    %td
+                      %a.pull-right.dropdown-toggle.edit-promo-code-result-pencil{"data-toggle" => "dropdown", href: "#"}
+                        %i.fa.fa-pencil
+                  = form_for promo_code, url: staff_promo_code_path(promo_code), remote: true do |f|
+                    %tr.promo_code_edit_row.hide{promo_code_id: promo_code.id}
+                      %td
+                        = promo_code.code
+                      %td
+                        = f.select :partner_id, options_for_select(Partner.pluck(:code), selected: 'Primary'),{}, {class: 'form-control partner'}
+                      %td
+                        = f.select :status,['Used','Unused'],{}, {class: 'form-control status'}
+                      %td
+                        = f.submit 'save', {class:'btn btn-sm small-btn btn-primary save-edit-promo-code-result-form pull-right'}
+                      %td{colspan: 2}
+                        %a{class: 'btn btn-sm small-btn btn-danger promo-code-cancel-btn'} cancel
+                        %input{type: 'reset', class: 'hide'}

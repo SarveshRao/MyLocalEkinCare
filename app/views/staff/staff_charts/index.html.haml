@@ -1,0 +1,121 @@
+
+%body
+  %section.vbox
+    %section
+      %div.clearfix.breadcrumb
+        %ol.padder
+          = render_breadcrumbs :separator => ' / '
+          %small.pull-right
+            contact: 888-678-EKIN (3546) /
+            %a{href: 'mailto:help@ekincare.com'} help@ekincare.com
+      %section.hbox.stretch
+        / /.aside
+        %section#content{:style=>"padding-bottom:30px"}
+          %section.vbox
+            %section.scrollable.padder
+              %section.panel.panel-default
+                %header.panel-heading.font-bold
+                  Last Week Customer Statistics
+                  %span.pull-right.text-uc
+                    Total Customers:
+                    %strong
+                      =@total_customer_count
+                .panel-body
+                  #flot-1ine{:style => "height:250px"}
+                -#%footer.panel-footer.bg-white
+                  .row.text-center.no-gutter
+                    .col-xs-3.b-r.b-light
+                      %p.h3.font-bold.m-t
+                        =@total_customer_count
+                      %p.text-muted Total Customers
+              .row
+                .col-md-6
+                  %section.panel.panel-default
+                    %header.panel-heading.font-bold Customer Documents
+                    .panel-body
+                      #flot-pie{:style => "height:240px"}
+                    %footer.panel-footer.bg-white
+                      .row.text-center.no-gutter
+                        .col-xs-6.b-r.b-light
+                          %p.h3.font-bold.m-t#uploaded_customers
+                            =@uploaded_customers_count
+                          %p.text-muted Customers Uploaded Documents
+                        .col-xs-6.b-light
+                          %p.h3.font-bold.m-t#not_uploaded_customers
+                            =@not_uploaded_customers
+                          %p.text-muted Customers Not Uploaded Documents
+                .col-md-6
+                  %section.panel.panel-default
+                    %header.panel-heading.font-bold Customer Vitals
+                    .panel-body
+                      #flot-pie-donut{:style => "height:240px"}
+                    %footer.panel-footer.bg-white
+                      .row.text-center.no-gutter
+                        .col-xs-4.b-r.b-light
+                          %p.h3.font-bold.m-t#obesity
+                            =@number_of_customers_who_are_obese_and_overweight
+                          %p.text-muted Customers with Obesity
+                        .col-xs-4.b-r.b-light
+                          %p.h3.font-bold.m-t#overweight
+                            =@over_weight
+                          %p.text-muted overweight
+                        .col-xs-4.b-light
+                          %p.h3.font-bold.m-t#healthy
+                            =@healthy_customers
+                          %p.text-muted Healthy Customers
+              .row
+                .col-lg-4
+                  %section.panel.panel-default
+                    %header.panel-heading.font-bold
+                      Total Unverified Emails
+                    .panel-body.text-center
+                      %h4#unverified_email_count
+                        =@unverified_email_count
+                      %small.text-muted.block Customers
+                      .inline#unverified_email_piechart
+                        .easypiechart{"data-bar-color" => "#fcc633", "data-line-width" => "6", "data-loop" => "false", "data-percent" => @percentage_of_unverified, "data-size" => "188"}
+                          %div
+                            %span.h2.m-l-sm.step>
+                            %span#unverified_email_percentage
+                            =@percentage_of_unverified
+                            \%
+                            .text.text-sm total
+                    .panel-footer
+                      %small % of customers
+                .col-lg-4
+                  %section.panel.panel-default
+                    %header.panel-heading.font-bold
+                      Assessments are not in 'Done' state
+                    .panel-body.text-center
+                      %h4#assessments_not_done_count
+                        =@not_done_state_assessments
+                      %small.text-muted.block Assessmensts
+                      .inline#assessments_not_done_piechart
+                        .easypiechart{"data-bar-color" => "#aa5585", "data-line-width" => "6", "data-loop" => "false", "data-percent" => @percentage_of_not_done_assessments, "data-size" => "188"}
+                          %div
+                            %span.h2.m-l-sm.step>
+                            %span#assessments_not_done_percentage
+                              =@percentage_of_not_done_assessments
+                            \%
+                            .text.text-sm total
+                    .panel-footer
+                      %small % of customers
+                .col-lg-4
+                  %section.panel.panel-default
+                    %header.panel-heading.font-bold
+                      Customers with Abnormal BP
+                    .panel-body.text-center
+                      %h4#abnormal_bp_count
+                        =@number_of_customers_who_have_abnormal_bp
+                      %small.text-muted.block Customers
+                      .inline#abnormal_bp_piechart
+                        .easypiechart{"data-bar-color" => "#d46a6a", "data-line-cap" => "butt", "data-line-width" => "6", "data-percent" => @percentage_with_bps, "data-scale-color" => "#fff", "data-size" => "188", "data-track-color" => "#eee"}
+                          %div
+                            %span.h2.m-l-sm.step>
+                            %span#abnormal_bp_percentage
+                              =@percentage_with_bps
+                            \%
+                            .text.text-sm total
+                    .panel-footer
+                      %small % of customers
+            %a.hide.nav-off-screen-block{"data-target" => "#nav", "data-toggle" => "class:nav-off-screen", :href => "#"}

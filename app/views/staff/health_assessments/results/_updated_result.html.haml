@@ -1,0 +1,14 @@
+%td
+  = @result.dentition
+%td
+  = "#{@result.tooth_number} (#{Examination.notation(@result.dentition, @result.tooth_number)})"
+%td
+  = @result.diagnosis
+%td
+  = @result.recommendation
+%td
+  %a.pull-right.dropdown-toggle.edit-dental-result-pencil{"data-toggle" => "dropdown", href: "#"}
+    %i.fa.fa-pencil
+%td
+  %a.pull-right.dropdown-toggle.dental-result-delete-row{"data-toggle" => "dropdown", href: "#"}
+    %i.i.i-trashcan

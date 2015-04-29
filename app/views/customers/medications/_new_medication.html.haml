@@ -1,0 +1,54 @@
+%tr.medication-row
+  %td
+    = @medication.name
+  %td
+    = @medication.medication_type
+  %td
+    = formatted_date @medication.date
+  -#%td
+    = @medication.instructions
+  %td
+    = @medication.dose_quantity
+  %td
+    = @medication.rate_quantity
+  %td
+    = @medication.prescriber_name
+  %td
+    -if @medication.active
+      %a.active{href: "#"}
+        %i.fa.fa-check.text-success.text-active
+        %i.fa.fa-times.text-danger.text
+    -else
+      %a{href: "#"}
+        %i.fa.fa-check.text-success.text-active
+        %i.fa.fa-times.text-danger.text
+  %td
+    %a.pull-right.dropdown-toggle.customer-medication-edit-pencil{"data-toggle" => "dropdown", href: "#"}
+      %i.fa.fa-pencil
+  %td
+    %a.pull-right.dropdown-toggle.customer-medication-delete-row{"data-toggle" => "dropdown", href: "#"}
+      %i.i.i-trashcan
+
+%tr.edit_medication_row.hide{customer_id: @customer.id, medication_id: @medication.id}
+  = form_for @medication, url:  customers_medication_path(@medication), html: {class: 'edit-customer-medication'}, remote: true do |f|
+    %td
+      = f.text_field :name, {placeholder: 'Name', class: 'form-control'}
+    %td
+      = f.select :medication_type,['Liquid','Tablet'],{}, {placeholder: 'Type', class: 'form-control'}
+    %td
+      = f.text_field :date, {value: numeric_date_format(@medication.date), placeholder: 'dd-mm-yyyy', class: 'form-control datepicker-input datepicker', 'data-date-format' => 'dd-mm-yyyy'}
+    -#%td
+      = f.text_area :instructions, {placeholder: 'Instructions', class: 'form-control'}
+    %td
+      = f.text_field :dose_quantity, {placeholder: 'Dose quantity', class: 'form-control'}
+    %td
+      = f.text_field :rate_quantity, {placeholder: 'Rate quantity', class: 'form-control'}
+    %td
+      = f.text_field :prescriber_name, {placeholder: 'Prescriber name', class: 'form-control'}
+    %td
+      = f.select :active, [['yes','true'],['no','false']],{}, {class: 'form-control'}
+    %td
+      = f.submit 'save', {class:'btn btn-sm small-btn btn-primary customer-medication-save-btn'}
+    %td
+      %a{class: 'btn btn-sm small-btn btn-danger customer-medication-cancel-btn'} cancel
+      %input{type: 'reset', class: 'hide reset-medication-row-btn'}

@@ -1,0 +1,196 @@
+%div#normal_current_complaints_details_div
+  .row.m-b#normal_current_complaints_details_view
+    .col-md-12
+      .vbox.row.padder-v
+        .col-xs-6
+          - @general_issues = @customer.general_issues.split(',') rescue ['']
+          - @other_body_parts = @customer.other_body_parts.split(',') rescue ['']
+          %h5 General issues
+          - if @general_issues && !@general_issues.empty?
+            %ul
+              - @general_issues.each do |general_issue|
+                %br
+                %li
+                  = general_issue
+          - else
+            -#hi
+            %p No general issues found
+        .col-xs-6
+          %h5 Other body parts
+          - if @other_body_parts && !@other_body_parts.empty?
+            %ul
+              - @other_body_parts.each do |other_body_part|
+                %br
+                %li
+                  = other_body_part
+          - else
+            -#hi
+            %p No other body parts found
+      .vbox.row.padder-v.p-l
+        %a.btn.btn-primary#customer_current_complaints_edit_btn
+          %i.fa.fa-pencil
+          Edit
+  .row.m-b.hide#edit_current_complaints_form
+    = form_for @customer, url: "profile/edit", method: "patch", remote: true, html: {id: 'customer_current_complaints_form'}  do |f|
+      .row.p-l.m-t
+        .col-md-12
+          %label.m-b
+            %span.h5.font-bold General Issues
+      .row.p-l
+        .col-md-4
+          .checkbox.i-checks.m-n
+            %input{type: 'hidden',name: 'customer[general_issues][]', value: ""}
+            %label
+              = check_box_tag "customer[general_issues][]", "Weight gain", @general_issues.include?("Weight gain") ? true : false
+              %i
+              Weight gain
+
+        .col-md-4
+          .checkbox.i-checks.m-n
+            %label
+              = check_box_tag "customer[general_issues][]", "Weight loss", @general_issues.include?("Weight loss") ? true : false
+              %i
+              Weight loss
+        .col-md-4
+          .checkbox.i-checks.m-n
+            %label
+              = check_box_tag "customer[general_issues][]", "Fatigue", @general_issues.include?("Fatigue") ? true : false
+              %i
+              Fatigue
+      .row.p-l
+        .col-md-4
+          .checkbox.i-checks.m-n
+            %label
+              = check_box_tag "customer[general_issues][]", "Weakness", @general_issues.include?("Weakness") ? true : false
+              %i
+              Weakness
+        .col-md-4
+          .checkbox.i-checks.m-n
+            %label
+              = check_box_tag "customer[general_issues][]", "Fever", @general_issues.include?("Fever") ? true : false
+              %i
+              Fever
+
+        .col-md-4
+          .checkbox.i-checks.m-n
+            %label
+              = check_box_tag "customer[general_issues][]", "Night sweats", @general_issues.include?("Night sweats") ? true : false
+              %i
+              Night sweats
+      .row.p-l
+        .col-md-4
+          .checkbox.i-checks.m-n
+            %label
+              = check_box_tag "customer[general_issues][]", "None", @general_issues.include?("None") ? true : false
+              %i
+              None
+      .row.p-l.m-t
+        .col-md-12
+          %label.m-b
+            %span.h5.font-bold Any other specific issues?
+      .row.p-l
+        .col-md-4
+          .checkbox.i-checks.m-n
+            %label
+              = check_box_tag "customer[other_body_parts][]","Heart", @other_body_parts.include?("Heart") ? true : false
+              %i
+              Heart
+        .col-md-4
+          .checkbox.i-checks.m-n
+            %label
+              = check_box_tag "customer[other_body_parts][]","Lungs", @other_body_parts.include?("Lungs") ? true : false
+              %i
+              Lungs
+        .col-md-4
+          .checkbox.i-checks.m-n
+            %label
+              = check_box_tag "customer[other_body_parts][]","Ears", @other_body_parts.include?("Ears") ? true : false
+              %i
+              Ears
+      .row.p-l
+        .col-md-4
+          .checkbox.i-checks.m-n
+            %label
+              = check_box_tag "customer[other_body_parts][]","Throat", @other_body_parts.include?("Throat") ? true : false
+              %i
+              Throat
+        .col-md-4
+          .checkbox.i-checks.m-n
+            %label
+              = check_box_tag "customer[other_body_parts][]","Muscles", @other_body_parts.include?("Muscles") ? true : false
+              %i
+              Muscles
+        .col-md-4
+          .checkbox.i-checks.m-n
+            %label
+              = check_box_tag "customer[other_body_parts][]","Joints", @other_body_parts.include?("Joints") ? true : false
+              %i
+              Joints
+      .row.p-l
+        .col-md-4
+          .checkbox.i-checks.m-n
+            %label
+              = check_box_tag "customer[other_body_parts][]","Bones", @other_body_parts.include?("Bones") ? true : false
+              %i
+              Bones
+        .col-md-4
+          .checkbox.i-checks.m-n
+            %label
+              = check_box_tag "customer[other_body_parts][]","Nervous system", @other_body_parts.include?("Nervous system") ? true : false
+              %i
+              Nervous system
+        .col-md-4
+          .checkbox.i-checks.m-n
+            %label
+              = check_box_tag "customer[other_body_parts][]","Stomach", @other_body_parts.include?("Stomach") ? true : false
+              %i
+              Stomach
+      .row.p-l
+        .col-md-4
+          .checkbox.i-checks.m-n
+            %label
+              = check_box_tag "customer[other_body_parts][]","Skin", @other_body_parts.include?("Skin") ? true : false
+              %i
+              Skin
+        .col-md-4
+          .checkbox.i-checks.m-n
+            %label
+              = check_box_tag "customer[other_body_parts][]","Blood", @other_body_parts.include?("Blood") ? true : false
+              %i
+              Blood
+        .col-md-4
+          .checkbox.i-checks.m-n
+            %label
+              = check_box_tag "customer[other_body_parts][]","Kidney", @other_body_parts.include?("Kidney") ? true : false
+              %i
+              Kidney
+      .row.p-l
+        .col-md-4
+          .checkbox.i-checks.m-n
+            %label
+              = check_box_tag "customer[other_body_parts][]","Urine", @other_body_parts.include?("Urine") ? true : false
+              %i
+              Urine
+        .col-md-4
+          .checkbox.i-checks.m-n
+            %label
+              = check_box_tag "customer[other_body_parts][]","Psychiatric", @other_body_parts.include?("Psychiatric") ? true : false
+              %i
+              Psychiatric
+        .col-md-4
+          .checkbox.i-checks.m-n
+            %label
+              = check_box_tag "customer[other_body_parts][]","Other", @other_body_parts.include?("Other") ? true : false
+              %i
+              Other
+      .row.p-l
+        .col-md-4
+          .checkbox.i-checks.m-n
+            %label
+              = check_box_tag "customer[general_issues][]", "None", @other_body_parts.include?("None") ? true : false
+              %i
+              None
+
+          .form-group
+            = f.submit 'save', {class:'btn btn-sm small-btn btn-primary'}
+            %a{class: 'btn btn-sm small-btn btn-danger customer-current-complaints-cancel-btn'} cancel

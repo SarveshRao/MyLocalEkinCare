@@ -1,0 +1,70 @@
+%div.clearfix.breadcrumb
+  %ol.padder
+    = render_breadcrumbs :separator => ' / '
+    %small.pull-right
+      Contact: 888-678-EKIN (3546) /
+      %a{href: 'mailto:founder@ekincare.com'} founder@ekincare.com
+
+%div{style: 'min-height: 1000px'}
+  .row.p-t.padder
+    .col-lg-12.col-md-12
+      %section.row.m-l-none.m-r-none.m-b.text-center.box-shadow
+        .col-xs-4.bg-primary.dk.lter.r-l
+          .wrapper
+            %i.fa.fa-facebook.fa.fa-3x.m-t.m-b-sm.text-white
+            %p.text.font-bold Body
+            .h4.font-bold
+        .col-xs-4.bg-warning.lt
+          .wrapper
+            %i.fa.fa-twitter.fa.fa-3x.m-t.m-b-sm.text-white
+            %p.text-muted.font-bold Dental
+            .h4.font-bold
+        .col-xs-4.bg-success.lt.r-r
+          .wrapper
+            %i.fa.fa-dribbble.fa.fa-3x.m-t.m-b-sm.text-white
+            %p.text-muted.font-bold Vision
+            .h4.font-bold
+
+  .row.p-t.padder
+    .col-lg-12.col-md-12
+      %section.panel.panel-default
+        %header.panel-heading Stats
+        %table.table.table-striped.m-b-none
+          %thead
+            %tr
+              %th Graph
+              %th Item
+              %th{width: "70"}
+          %tbody
+            %tr
+              %td
+                .sparkline{"data-bar-color" => "#1bb399", "data-height" => "19", "data-type" => "bar"}
+                  %canvas{height: "19", style: "display: inline-block; width: 59px; height: 19px; vertical-align: top;", width: "59"}
+              %td App downloads
+              %td.text-success
+                %i.fa.fa-level-up
+                40%
+            %tr
+              %td
+                .sparkline{"data-bar-color" => "#1aabbb", "data-height" => "19", "data-type" => "bar"}
+                  %canvas{height: "19", style: "display: inline-block; width: 64px; height: 19px; vertical-align: top;", width: "64"}
+              %td Social connection
+              %td.text-success
+                %i.fa.fa-level-up
+                20%
+            %tr
+              %td
+                .sparkline{"data-bar-color" => "#fcc633", "data-height" => "19", "data-type" => "bar"}
+                  %canvas{height: "19", style: "display: inline-block; width: 59px; height: 19px; vertical-align: top;", width: "59"}
+              %td Revenue
+              %td.text-warning
+                %i.fa.fa-level-down
+                5%
+            %tr
+              %td
+                .sparkline{"data-bar-color" => "#e33244", "data-height" => "19", "data-type" => "bar"}
+                  %canvas{height: "19", style: "display: inline-block; width: 59px; height: 19px; vertical-align: top;", width: "59"}
+              %td Customer increase
+              %td.text-danger
+                %i.fa.fa-level-down
+                20%

@@ -1,0 +1,69 @@
+= content_for :title, 'Sign up'
+
+- content_for :zopim_chat do
+  :javascript
+    window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
+    d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+    _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute('charset','utf-8');
+    $.src='//v2.zopim.com/?2Um2B0Y0KEgOyEsT8WLIjMFjSeBkufvQ';z.t=+new Date;$.
+    type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
+
+%section#content.m-t-lg.wrapper-md.animated.fadeInUp
+  .container.aside-xl
+    %section
+      %header.text-center
+        %a.h3.font-bold{href: root_path} eKincare
+    %section
+      %header.wrapper.text-center
+        %p
+          Assess, track and stay informed about your and your family's health with minimal effort
+    %section.m-b-lg
+      = form_for(resource, as: resource_name, url: registration_path(resource_name), html:{id: 'new_customer_registration'} ) do |f|
+        .list-group
+          .list-group-item
+            = f.text_field :first_name, class: 'form-control no-border ', required: true, autofocus: true,  placeholder: 'First name'
+          .list-group-item
+            = f.text_field :last_name, class: 'form-control no-border ', required: true,  placeholder: 'Last name'
+          .list-group-item
+            = f.email_field :email, class: 'form-control no-border ', required: true,  placeholder: 'Email'
+          .list-group-item
+            = f.text_field :mobile_number, class: 'form-control no-border ', required: true,  placeholder: 'Phone number', rangelength: [10, 13]
+          .list-group-item
+            = f.text_field :date_of_birth, {class: 'form-control no-border datepicker_1 p-l', 'readonly' => 'readonly', required: true, 'data-date-format' => 'dd-mm-yyyy', placeholder: 'Date of birth (DD-MM-YYYY)'}
+          .list-group-item
+            .i-checks.m-none
+              .row.no-gutter
+                .col-md-4.col-sm-4
+                  %label{style: 'padding-left: 10px'}
+                    &nbsp;
+                    = f.radio_button :gender, :Male, checked: true, required: true, class: 'p-l'
+                    %i
+                    Male
+                .col-md-4.col-sm-4
+                  %label{style: 'padding-left: 16px'}
+                    = f.radio_button :gender, :Female, required: true, html: {class: 'p-l', style: 'padding-left: 15px !important pull-right'}
+                    %i
+                    Female
+                .col-md-4.col-sm-4
+
+          .list-group-item
+            = f.password_field :password, class: 'form-control no-border ', required: true, 'data-parsley-length' => '[8, 20]', autocomplete: "off",  placeholder: 'Password'
+        .checkbox.m-b
+          %label
+            %input{:type => "checkbox", name: 'license', required: true, id: 'agreement' }
+            Agree the
+            %a{:href => "/home/terms_and_conditions", id: 'terms_and_policy_link', style: 'color: #177bbb !important'} terms and conditions
+        = f.submit "Sign up", {class: 'btn btn-lg btn-primary btn-block '}
+        .line.line-dashed.m-b-none
+        %p.text-muted.text-center
+          %small Already have an account?
+        %a.btn.btn-lg.btn-default.btn-block{href: online_customer_session_path} Sign in
+
+
+%footer#footer
+  .text-center.padder
+    %p
+      %small
+        \© 2014
+        -#%br>/
+        eKincare

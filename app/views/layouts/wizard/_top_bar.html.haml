@@ -1,0 +1,58 @@
+%header.bg-primary.header.header-md.navbar.navbar-fixed-top-xs.box-shadow{style: 'opacity: 0.8; z-index: 0 !important'}
+  .navbar-header.aside-md.dk
+    %a.btn.btn-link.visible-xs{"data-target" => "#nav,html", "data-toggle" => "class:nav-off-screen,open"}
+      %i.fa.fa-bars
+    %a.navbar-brand
+      %img.m-r-sm{alt: "eKincare", src: asset_path('logo.png')}/
+      %span.hidden-nav-xs
+    %a.btn.btn-link.visible-xs{"data-target" => ".user", "data-toggle" => "dropdown"}
+      %i.fa.fa-cog
+  - recent_activities = current_online_customer.recent_activities
+  %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
+    %li.hidden-xs
+      %a.dropdown-toggle#notifications_count{"data-toggle" => "dropdown"}
+        %i.i.i-chat3
+        - unless recent_activities.count == 0
+          %span.badge.badge-sm.up.bg-danger.count#count{style: "display: inline-block;"}
+            = recent_activities.count
+      %section.dropdown-menu.aside-xl.animated.flipInY
+        %section.panel.bg-white
+          .panel-heading.b-light.bg-light
+            %strong
+              You have
+              %span.count{style: "display: inline;"}
+                = recent_activities.count
+              notifications
+          .list-group.list-group-alt
+            - recent_activities.each do |activity|
+              - if activity.activity_type =~ /Assessment/
+                %a.media.list-group-item
+                  %span.media-body.block.m-b-none
+                    = activity.description
+                  %span.label.label-success
+                    = activity.badge
+                  %br/
+                  %small.text-muted
+                    = time_ago_in_words activity.created_at
+              - elsif activity.activity_type == 'MedicalRecord'
+                %a.media.list-group-item
+                  %span.media-body.block.m-b-none
+                    = activity.title
+                  %span.label.label-success
+                    = activity.badge
+                  %br/
+                  %small.text-muted
+                    = time_ago_in_words activity.created_at
+              - else
+                %a.media.list-group-item
+                  %span.media-body.block.m-b-none
+                    = activity.title
+                  %span.label.label-success
+                    = activity.badge
+                  %br/
+                  %small.text-muted
+                    = time_ago_in_words activity.created_at
+
+    %li
+      %a
+        Sign out

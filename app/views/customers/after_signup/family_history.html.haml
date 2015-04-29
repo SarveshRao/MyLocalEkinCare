@@ -1,0 +1,77 @@
+= content_for :title, 'Family history'
+
+- content_for :zopim_chat do
+  :javascript
+    window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
+    d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+    _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute('charset','utf-8');
+    $.src='//v2.zopim.com/?2Um2B0Y0KEgOyEsT8WLIjMFjSeBkufvQ';z.t=+new Date;$.
+    type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
+
+%section.panel.panel-default.m-n.b-n
+  .panel-body{style: 'background-color: #556270 !important;color: #fff; border: 4px solid #fff; -moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px; '}
+    %span.h3
+      3: Family Medical History
+    %p
+    %br
+    %span.h5
+      This information is used to assess your family's impact on your health.
+
+    #contact_info.tab-pane.padder-v
+      .row.m-b
+        .col-md-12
+          = form_for @customer, url: after_signup_path(id: @customer.current_state.to_sym), html: {id: 'family_medical_histories'}  do |f|
+            .list-group
+              %section.panel.panel-default.m-n.b-n.accordion-toggle{"data-toggle" => "", :href => "", id: ""}
+                %header.panel.panel-heading.m-n
+                  Father's Medical Condition
+              .collapse.panel-collapse.in{id: "", 'data-parent' => ''}
+                = f.fields_for 'family_medical_histories[]', @father_medical_history do |mh|
+                  = mh.hidden_field :relation, { value: 'Father' }
+                -#.list-group-item
+                  = f.fields_for 'family_medical_histories[]', @father_medical_history do |mh|
+                    = mh.text_field :name, {class: 'form-control no-border', placeholder: 'Name', required: true}
+                .list-group-item
+                  = f.fields_for 'family_medical_histories[]', @father_medical_history do |mh|
+                    = mh.select :medical_condition_1,options_for_select(['Blood pressure/Hypertension','Diabetics','Cardiovascular dissease','Cancer','Other'], @father_medical_history.medical_condition_1), {include_blank: 'Select a medical condition - 1'}, {class: 'form-control no-border' }
+                .list-group-item
+                  = f.fields_for 'family_medical_histories[]', @father_medical_history do |mh|
+                    = mh.select :medical_condition_2,options_for_select(['Blood pressure/Hypertension','Diabetics','Cardiovascular dissease','Cancer','Other'], @father_medical_history.medical_condition_2), {include_blank: 'Select a medical condition - 2'}, {class: 'form-control no-border' }
+                .list-group-item
+                  = f.fields_for 'family_medical_histories[]', @father_medical_history do |mh|
+                    = mh.select :medical_condition_3,options_for_select(['Blood pressure/Hypertension','Diabetics','Cardiovascular dissease','Cancer','Other'], @father_medical_history.medical_condition_3), {include_blank: 'Select a medical condition - 3'}, {class: 'form-control no-border' }
+                .list-group-item
+                  = f.fields_for 'family_medical_histories[]', @father_medical_history do |mh|
+                    = mh.select :status, options_for_select(['Alive','Deceased'], @father_medical_history.status), {include_blank:'Select their status'}, {class: 'form-control no-border ', required: true, name: 'status[father]', id: 'status[father]'}
+
+            .row.m-b
+              .col-md-12
+                .list-group
+                  %section.panel.panel-default.m-n.b-n.accordion-toggle{"data-toggle" => "collapse", :href => "", id: ""}
+                    %header.panel.panel-heading.m-n
+                      Mother's Medical Condition
+                  .collapse.panel-collapse.in{id: "", 'data-parent' => ''}
+                    = f.fields_for 'family_medical_histories[]', @mother_medical_history do |mh|
+                      = mh.hidden_field :relation, { value: 'Mother' }
+                    -#.list-group-item
+                      = f.fields_for 'family_medical_histories[]', @mother_medical_history do |mh|
+                        = mh.text_field :name, {class: 'form-control no-border', placeholder: 'Name', required: true }
+                    .list-group-item
+                      = f.fields_for 'family_medical_histories[]', @mother_medical_history do |mh|
+                        = mh.select :medical_condition_1,options_for_select(['Blood pressure','Diabetics','Cardiovascular dissease','Cancer','Other'], @mother_medical_history.medical_condition_1), {include_blank: 'Select a medical condition - 1'}, {class: 'form-control no-border' }
+                    .list-group-item
+                      = f.fields_for 'family_medical_histories[]', @mother_medical_history do |mh|
+                        = mh.select :medical_condition_2,options_for_select(['Blood pressure','Diabetics','Cardiovascular dissease','Cancer','Other'], @mother_medical_history.medical_condition_2), {include_blank: 'Select a medical condition - 2'}, {class: 'form-control no-border' }
+                    .list-group-item
+                      = f.fields_for 'family_medical_histories[]', @mother_medical_history do |mh|
+                        = mh.select :medical_condition_3, options_for_select(['Blood pressure','Diabetics','Cardiovascular dissease','Cancer','Other'], @mother_medical_history.medical_condition_3), {include_blank: 'Select a medical condition - 3'}, {class: 'form-control no-border' }
+
+                    .list-group-item
+                      = f.fields_for 'family_medical_histories[]', @mother_medical_history do |mh|
+                        = mh.select :status, options_for_select(['Alive','Deceased'], @mother_medical_history.status),{include_blank: 'Select their status'}, {class: 'form-control no-border', required: true, name: 'status[mother]', id: 'status[mother]'}
+
+
+            .list-group
+              %a{class: 'btn btn-md btn-danger customer-bio-cancel-btn pull-left', href: "#{previous_wizard_path}"} Back
+              = f.submit 'Next', {class:'btn btn-md btn-primary pull-right save-all-records'}
+

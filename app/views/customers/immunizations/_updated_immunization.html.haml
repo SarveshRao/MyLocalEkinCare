@@ -1,0 +1,16 @@
+%td
+  = @immunization.name
+%td
+  = @immunization.immunization_type
+%td
+  = formatted_dates(@immunization.customer_immunizations.map(&:date)).join(' ') rescue ''
+%td
+  = @immunization.customer_immunizations.map(&:dosage).join(' ')
+%td
+  = @immunization.customer_immunizations.map(&:instructions).join(' ')
+%td
+  %a.pull-right.dropdown-toggle.customer-immunization-edit-pencil{"data-toggle" => "dropdown", href: "#"}
+    %i.fa.fa-pencil
+%td
+  %a.pull-right.dropdown-toggle.customer-immunization-delete-row{"data-toggle" => "dropdown", href: "#"}
+    %i.i.i-trashcan

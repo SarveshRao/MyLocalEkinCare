@@ -1,0 +1,42 @@
+= content_for :title, 'Health assessments'
+
+%div.clearfix.breadcrumb
+  %ol.padder
+    = render_breadcrumbs :separator => ' / '
+    %small.pull-right
+      contact: 888-678-EKIN (3546) /
+      %a{href: 'mailto:help@ekincare.com'} help@ekincare.com
+
+#content
+  .vbox.padder
+    %h4.padder-v
+      %a.font-bold{href: "#"}
+        Assessments
+    .scrollable
+      %section.panel.panel-default
+        .row
+        .table-responsive
+          %table.table.table-striped.b-t.b-light#health_assessments_list
+            %thead
+              %tr
+                %th Assessment date
+                %th Assessment ID
+                %th
+                  Requested customer
+                %th Assessment Type
+                %th Status
+            %tbody
+              - @assessments.each do |assessment|
+                %tr{class: 'health-assessment-row',url: customer_health_assessment_path(assessment.customer, assessment)}
+                  %td
+                    = formatted_date assessment.request_date rescue 'None'
+                  %td
+                    = assessment.health_assessment_id
+                  %td
+                    = assessment.customer.name
+                  %td
+                    = assessment.assessment_type
+                  %td
+                    = assessment.status_message
+
+  %a.hide.nav-off-screen-block{"data-target" => "#nav", "data-toggle" => "class:nav-off-screen", href: "#"}

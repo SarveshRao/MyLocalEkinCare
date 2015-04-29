@@ -1,0 +1,28 @@
+!!!
+%html
+  %head
+    %title
+      = yield(:title).empty? ? 'eKincare' : "eKincare | #{yield(:title)}"
+    = stylesheet_link_tag 'application', media: 'all'
+    = csrf_meta_tags
+    %link{href: asset_path('fav.ico'), rel: "shortcut icon"}
+    /[if lt IE 9]
+      <script src="vendor/assets/javascripts/ie/html5shiv.js"></script>
+      <script src="vendor/assets/javascripts/ie/respond.min.js"></script>
+      <script src="vendor/assets/javascripts/ie/excanvas.js"></script>
+
+  %body
+
+    - if flash[:notice]
+      .alert.alert-success.alert-block
+        %button.close{"data-dismiss" => "alert", type: "button"} ×
+        %p
+          = flash[:notice]
+    - if flash[:alert]
+      .alert.alert-danger.alert-block
+        %button.close{"data-dismiss" => "alert", type: "button"} ×
+        %p
+          = flash[:alert]
+
+    = yield
+    = javascript_include_tag 'application'

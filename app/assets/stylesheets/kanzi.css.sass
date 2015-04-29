@@ -1,0 +1,183 @@
+/**
+ *
+ *= require_tree ./kanzi
+ *= require_self
+ **/
+
+/* Loading
+
+.double-bounce1, .double-bounce2
+  background-color: rgba(37, 128, 177, 0.5)
+
+/* Navigation
+
+.navigation > li
+  &:hover
+    > a, > a > i
+      color: #2580b1
+  >
+  a:hover, .activelink
+    color: #2580b1
+  > a
+    &:hover > span.label-nav-sub::before, &:focus > span.label-nav-sub::before
+      color: #2580b1
+
+.mobile-menu-button, .mobile-nav, .slider-fixed-container
+  background-color: #2580b1
+
+.navigation > li
+  >
+  a:after, .activelink:after
+    background-color: #2580b1
+  &:hover > a > span.label-nav-sub::before
+    color: #2580b1
+
+/* Page Content Colors
+
+.body-wrapper a:hover, .tab a:hover, accordion .title:hover, .top-body a:hover, .bottom-body a:hover
+  color: #2580b1
+
+.accordion
+  .active h4, .title:hover h4
+    color: #2580b1
+
+.side-navigation .menu-item
+  &.current-menu-item a
+    color: #2580b1
+  &:hover a
+    &:after
+      color: #2580b1
+    color: #2580b1
+
+a.tool-tip, .team-member .team-member-position, .team-member-progress .team-member-position, .item-img-overlay i, ul.icon-content-list-container li.icon-content-single .icon-box i, .item-img-overlay .portfolio-zoom:hover, .navigation ul li:hover > a, .blog_post_quote:after, .item-img-overlay .portfolio-zoom, body .white-text .feature-details a:hover
+  color: #2580b1
+
+::selection, ::-moz-selection
+  background-color: #2580b1
+
+.item-img-overlay .portfolio-zoom:hover, .tab a.active
+  color: #2580b1 !important
+
+.callout-box
+  border-left-color: #2580b1
+
+.feature .feature-content, .team-member .team-member-content
+  border-top-color: #2580b1
+
+.progress .progress-bar
+  background-color: #2580b1
+
+.blog-masonry .blog_post_quote
+  border-top: 2px solid #2580b1
+
+.tab a.active:after
+  background-color: #2580b1
+  border-color: #2580b1
+
+.blog-post .blog-post-type, .subscribe-button
+  background: #2580b1
+
+.blog-post-details-item.blog-post-details-item-right a:hover i, .blog_post_quote .quote-author
+  color: #2580b1
+
+.pagination > li > a
+  &.prev, &.next, &:hover, &.current
+    color: #2580b1
+
+.testimonial-by-name
+  color: #2580b1
+
+.skin-text
+  color: #2580b1 !important
+
+body .section-content.section-image
+  background-color: rgba(37, 128, 177, 0.6)
+
+.item-img-overlay .item_img_overlay_content
+  background: #2580b1
+
+.button
+  background-color: #2580b1
+
+.body-wrapper input
+  &[type="submit"], &[type="button"]
+    background-color: #2580b1
+
+.section-content.section-color-bg, .content-box.content-style4 h4 i, button.button-main, .body-wrapper .tags a:hover, .callout-box.callout-box2, .blog-search .blog-search-button, .top-title-wrapper, .testimonial-big, .content-style3:hover .content-style3-icon, table.table thead tr
+  background-color: #2580b1
+
+.price-table
+  .price-label-badge, .price-table-header
+    background-color: #2580b1
+
+.section-subscribe .subscribe-button.icon-envelope-alt, .btn.btn-flat, .rev-slider-full .button.btn-flat, .rev-slider-fixed .button.btn-flat, .btn
+  background-color: #2580b1
+
+input
+  &[type="submit"], &[type="button"]
+    background-color: #2580b1
+
+button.btn, .btn-primary, .btn:hover
+  background-color: #2580b1
+
+input
+  &[type="submit"]:hover, &[type="button"]:hover
+    background-color: #2580b1
+
+button.btn:hover, .btn-primary:hover, .btn:focus
+  background-color: #2580b1
+
+input
+  &[type="submit"]:focus, &[type="button"]:focus
+    background-color: #2580b1
+
+button.btn:focus, .btn-primary:focus, .blog-post-icon, .comments-list .children .comment:before
+  background-color: #2580b1
+
+.portfolio-filter li a
+  &.portfolio-selected, &:hover
+    background-color: #2580b1
+
+.dropcaps.dropcaps-color-style, .carousel-container .carousel-icon:hover, .team-member-image.img-overlay .item_img_overlay_content
+  background-color: #2580b1
+
+.comments-list .children .comment:after
+  border-color: transparent transparent transparent #2580b1
+
+.highlighted-text
+  background-color: #2580b1
+  color: #ffffff
+
+.icons-list.colored-list li:before
+  color: #2580b1
+
+.blog-post-date
+  .day, .month
+    color: #2580b1
+
+strong.colored, span.colored, .content-style3 .content-style3-icon
+  color: #2580b1
+
+.content-box
+  h4 i
+    color: #2580b1
+  &.content-style2 h4 i, &.style5 h4 i
+    border-color: #2580b1
+    color: #2580b1
+  &.content-style2:hover i, &.style5:hover i
+    background-color: #2580b1
+
+.pagination
+  .prev, .next
+    color: #2580b1
+  a
+    &:hover, &.current
+      color: #2580b1
+
+.price-table .price-label
+  color: #2580b1
+
+/* Footer Area Colors
+
+.footer .copyright, .flickr_badge_wrapper .flickr_badge_image img:hover
+  border-color: #2580b1

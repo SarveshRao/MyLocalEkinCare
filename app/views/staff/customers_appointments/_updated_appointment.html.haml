@@ -1,0 +1,22 @@
+%td
+  = @appointment.appointmentee.health_assessment_id rescue '-'
+%td
+  = formatted_date @appointment.appointment_date
+%td
+  = full_time @appointment.date
+%td
+  = @appointment.description
+%td
+  = @appointment.partner_id
+%td
+  .address
+    = @appointment.appointment_location
+  .c-address.hide
+    %p At Home
+
+%td
+  %a.pull-right.dropdown-toggle.edit-appointment-pencil{"data-toggle" => "dropdown", href: "#"}
+    %i.fa.fa-pencil
+%td
+  %a.pull-right.dropdown-toggle.appointment-delete-row{"data-toggle" => "dropdown", href: "#"}
+    %i.i.i-trashcan

@@ -1,0 +1,3 @@
+module HealthCalculationsHelper
+
+end

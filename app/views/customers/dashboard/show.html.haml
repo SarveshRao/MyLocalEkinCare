@@ -1,0 +1,407 @@
+= content_for :title, 'Dashboard'
+
+- content_for :zopim_chat do
+  :javascript
+    window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
+    d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+    _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute('charset','utf-8');
+    $.src='//v2.zopim.com/?2Um2B0Y0KEgOyEsT8WLIjMFjSeBkufvQ';z.t=+new Date;$.
+    type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
+%head
+  <script>(function() {
+  var _fbq = window._fbq || (window._fbq = []);
+  if (!_fbq.loaded) {
+  var fbds = document.createElement('script');
+  fbds.async = true;
+  fbds.src = '//connect.facebook.net/en_US/fbds.js';
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(fbds, s);
+  _fbq.loaded = true;
+  }
+  })();
+  window._fbq = window._fbq || [];
+  window._fbq.push(['track', '6025689838855', {'value':'0.01','currency':'USD'}]);
+  </script>
+  <noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?ev=6025689838855&amp;cd[value]=0.01&amp;cd[currency]=USD&amp;noscript=1" /></noscript>
+%div.clearfix.breadcrumb
+  %ol.padder
+    = render_breadcrumbs :separator => ' / '
+    %small.pull-right
+      Contact: 888-678-EKIN (3546) /
+      %a{href: 'mailto:founder@ekincare.com'} founder@ekincare.com
+
+%div{style: 'min-height: 1000px'}
+  %section.scrollable.wrapper.w-f
+    %div.row
+      .col-sm-6#question_wizard.hide
+        %form#wizardform
+          %section.panel.panel-default
+            .panel-heading.no-border.bg-primary.lt
+              %ul.nav.nav-tabs.pull-right.hide
+                %li
+                  %a{"data-toggle" => "tab", :href => "#height_tab"} Height
+                %li
+                  %a{"data-toggle" => "tab", :href => "#weight_tab"} Weight
+                %li
+                  %a{"data-toggle" => "tab", :href => "#blood_group_tab"} BloodGroup
+                %li
+                  %a{"data-toggle" => "tab", :href => "#waist_tab"} Waist
+                %li
+                  %a{"data-toggle" => "tab", :href => "#smoke_tab"} Smoke
+                %li
+                  %a{"data-toggle" => "tab", :href => "#alcohol_tab"} Alcohol
+                %li
+                  %a{"data-toggle" => "tab", :href => "#exercise_tab"} Exercise
+                %li
+                  %a{"data-toggle" => "tab", :href => "#father_health_tab"} father_health
+                %li
+                  %a{"data-toggle" => "tab", :href => "#mother_health_tab"} mother_health
+              %span.h4.text-lt.m-t-sm.m-b-sm.block.font-bold{:href => "#", :style => "color:white"} Let's customize your account
+            .panel-body
+              .tab-content
+                #height_tab.tab-pane.text-center
+                  %p.text-center.h4.m-t.m-b What's your height?
+                  .col-sm-12{:style => 'left: 17%;'}
+                    %div.col-sm-4.text-center.height-center
+                      %input.numeric#feet.form-control{:placeholder => "feet", :type => "text"}
+                    %div.col-sm-4.text-center.height-center
+                      %input.numeric#inches.form-control{:placeholder => "inches", :type => "text"}
+                #weight_tab.tab-pane.text-center.form-horizontal
+                  %p.text-center.h4.m-t.m-b How much do you weigh?
+                  %div.col-sm-3.text-center.weight-center
+                    %input.numeric#weight.form-control{:type => "text", :placeholder => "in Kgs"}
+                #blood_group_tab.tab-pane
+                  %p.text-center.h4.m-t.m-b Select your blood group?
+                  .radio.i-checks.h4.small
+                    .row{:style => "padding: 15px;"}
+                      - BloodGroup.all.each do |blood_group|
+                        .col-lg-3.col-sm-4.fam-wrap.padder-v
+                          %label.radio-space
+                            %input{:name => "blood_group", :type => "radio", :value => "#{blood_group.id}", checked: ()}
+                              %i
+                              %span
+                                = blood_group.blood_type
+                #waist_tab.tab-pane.text-center.form-horizontal
+                  %p.text-center.h4.m-t.m-b What's your waist size?
+                  %div.col-sm-3.text-center.weight-center
+                    %input.numeric#waist.form-control{:type => "text", :placeholder => "inches"}
+                #smoke_tab.tab-pane.text-center
+                  %p.text-center.h4.m-t.m-b Do you Smoke?
+                  .btn-group.col-sm-12.smoke-center{"data-toggle" => "buttons"}
+                    - ['Frequently', 'Occasionally', 'Never'].each do |smoke_level|
+                      %label.col-sm-4.btn.btn-sm.btn-default
+                        %input{:name => "smoke", :type => "radio", :value => "#{smoke_level}", checked: ()}
+                        %i.fa.fa-check.text-active
+                        %span.h4.small
+                          = smoke_level
+                #alcohol_tab.tab-pane.text-center
+                  %p.text-center.h4.m-t.m-b Do you consume alcohol?
+                  .btn-group.col-sm-12.smoke-center{"data-toggle" => "buttons"}
+                    - ['Frequently', 'Occasionally', 'Never'].each do |alcohol_level|
+                      %label.col-sm-4.btn.btn-sm.btn-default
+                        %input{:name => "alcohol", :type => "radio", :value => "#{alcohol_level}", checked: ()}
+                        %i.fa.fa-check.text-active
+                        %span.h4.small
+                          = alcohol_level
+                #exercise_tab.tab-pane.text-center
+                  %p.text-center.h4.m-t.m-b How often do you exercise?
+                  .btn-group.col-sm-12.smoke-center{"data-toggle" => "buttons"}
+                    - ['Frequently', 'Occasionally', 'Never'].each do |exercise_level|
+                      %label.col-sm-4.btn.btn-sm.btn-default
+                        %input{:name => "exercise", :type => "radio", :value => "#{exercise_level}", checked: ()}
+                        %i.fa.fa-check.text-active
+                        %span.h4.small
+                          = exercise_level
+                #father_health_tab.tab-pane.text-center
+                  %p.text-center.h4.m-t.m-b Does your father have any medical issues?
+                  %label.checkbox-inline.i-checks.i-chk.col-sm-10.medical_condition_margin{:style => 'left:18%'}
+                    -MedicalCondition.all.each do |medical_condition|
+                      .row.medical-condition.col-sm-6
+                        %label.checkbox-inline.i-checks.i-chk.medical-checkbox-left
+                          %input#inlineCheckbox2{:name => "chk-father_medicals", :type => "checkbox", :value => medical_condition.id, checked: false}
+                            %i
+                            %span
+                              =medical_condition.name
+                    .row.medical-condition.col-sm-6
+                      %label.checkbox-inline.i-checks.i-chk.medical-checkbox-left
+                        %input#inlineCheckbox2{:name => "chk-father_medicals", :type => "checkbox", :value => 'None', checked: false}
+                          %i
+                          %span None
+                #mother_health_tab.tab-pane.text-center
+                  %p.text-center.h4.m-t.m-b Does your mother have any medical issues?
+                  %label.checkbox-inline.i-checks.i-chk.col-sm-10.medical_condition_margin{:style => 'left:18%'}
+                    -MedicalCondition.all.each do |medical_condition|
+                      .row.medical-condition.col-sm-6
+                        %label.checkbox-inline.i-checks.i-chk.medical-checkbox-left
+                          %input#inlineCheckbox2{:name => "chk-mother_medicals", :type => "checkbox", :value => medical_condition.id, checked: false}
+                            %i
+                            %span
+                              =medical_condition.name
+                    .row.medical-condition.col-sm-6
+                      %label.checkbox-inline.i-checks.i-chk.medical-checkbox-left
+                        %input#inlineCheckbox2{:name => "chk-mother_medicals", :type => "checkbox", :value => 'None'}
+                          %i
+                          %span None
+            %footer.panel-footer.text-right.bg-light.lter
+              %ul.pager.wizard.m-n
+                %li.next.pull-right#next_btn
+                  %div.next_btn.btn.btn-s-md.btn-success{:style => "color: white", :href => "#", :disabled => "disabled"} Next
+      .col-sm-6#message_prompts_wizard.hide
+        %form#messagepromptsform{:style => "height: 200px"}
+          %section.panel.panel-default
+            .panel-heading.no-border.bg-info.lt
+              %span.h4.text-lt.m-t-sm.m-b-sm.block.font-bold{:href => "#", :style => "color:white"} Your personalized health details
+            .panel-body
+              .tab-content
+                .tab-pane.text-center.form-horizontal
+                %p.text-center.h4.m-t.m-b
+                  %span Hey
+                  = current_online_customer.first_name
+                  %div.text-center.h4.small.m-t.m-b#message_content Did you know that your Heart beats about 100,000 times in a day?
+      .col-lg-4.col-md-4
+        %section.panel.b-a#hypertension_score_chart.hide
+          .panel-heading.no-border.bg-primary.lt
+            %a.h4.text-lt.m-t-sm.m-b-sm.block.font-bold{:href => "#"} Risk of Hypertension
+          .panel-body
+            #b-c.text-center
+              .hypertension_chart.inline.m-b.m-t{"data-animate" => "2000", "data-bar-Color" => "#afc5de", "data-line-cap" => "butt", "data-line-width" => "10", "data-percent" => @hypertension_percentage, "data-scale-Color" => "false", "data-size" => "150", "data-track-Color" => "#f2f4f8"}
+                %div
+                  %span.h1.m-l-sm.step.font-bold#hypertension-score>
+                    =@hypertension_percentage
+                  \%
+                  .text.text-xs.text-muted
+                    Probability of risk
+                    .br
+                      for the next year
+          .clearfix.panel-footer.panel-graph-padding
+            .col-md-9.b-r
+              %a#score-graph
+                %i.i.i-graph.text-muted
+            .col-md-3.b-r.text-center
+              %small.text-muted
+                %i.i.i-info{title: "If your risk is above the optimal profile, please consider serious lifestyle changes like exercising regularly, losing weight"}
+
+        %div
+          %section.panel.panel-default#hypertension_history_chart
+            .panel-heading.no-border.bg-primary.lt
+              %a.h4.text-lt.m-t-sm.m-b-sm.block.font-bold{:href => "#"} Hypertension Prediction
+            .panel-body.text-center
+              #flot-bar{:style => "height:180px"}
+            .clearfix.panel-footer.panel-graph-padding
+              .col-md-9.b-r
+                %a#hypertension_history_graph
+                  %i.fa.fa-toggle-left
+              .col-md-3.b-r.text-center
+                %small.text-muted
+                  %i.i.i-info{title: "If your risk is above the optimal profile, please consider serious lifestyle changes like exercising regularly, losing weight"}
+      .col-lg-4.col-md-4
+        %section.panel.b-a#diabetes_score_chart.hide
+          .panel-heading.no-border.bg-info.lt
+            %a.h4.text-lt.m-t-sm.m-b-sm.block.font-bold{:href => "#"} Risk of Diabetes
+          .panel-body
+            #b-c.text-center
+              .diabetes_chart.inline.m-b.m-t{"data-animate" => "2000", "data-bar-Color" => "#c2f0f1", "data-line-cap" => "butt", "data-line-width" => "10", "data-percent" => @diabetic_score, "data-scale-Color" => "false", "data-size" => "150", "data-track-Color" => "#f2f4f8"}
+                %div
+                  %span.h1.m-l-sm.step.font-bold#diabetes-score>
+                    =@diabetic_score
+                  \%
+                  .text.text-xs.text-muted
+                    Probability of risk
+                    .br
+                      for the next year
+          .clearfix.panel-footer.panel-graph-padding
+            .col-md-9.b-r
+              %a{:href => "#"}
+                %i &nbsp;
+            .col-md-3.b-r.text-center
+              %small.text-muted
+                %i.i.i-info{title: "A simplified Diabetes Risk Score to screen undiagnosed diabetics. If your score is above 60% we highly recommend visiting your nearest physician and serious lifestyle changes."}
+    %div.row.p-t
+      .col-lg-3.col-md-3.m-b
+        %section.panel.panel-default.m-n
+          %header.panel-heading.text-center
+            Age
+          .panel-body.text-center
+            .inline
+              %h4.h4.font-bold
+                %span.h4
+                = current_online_customer.age['year']
+                %span.h4
+                %small year
+                =current_online_customer.age['month']
+                %small month
+          %header.panel-heading.text-center
+            %small.text-muted
+              = formatted_date DateTime.now
+
+      .col-lg-3.col-md-3.hide.m-b
+        %section.panel.panel-default.m-n#height_section
+          %header.panel-heading.text-center
+            Height
+          .panel-body.text-center
+            .inline
+              %h4.h4.font-bold
+                %span#feet_val.h4.font-bold
+                  = current_online_customer.customer_vitals.feet
+                %small feet
+                %span#inches_val.h4.font-bold
+                  = current_online_customer.customer_vitals.inches
+                %small inches
+          %header.panel-heading.text-center
+            %small.text-muted#height_date
+              = formatted_date current_online_customer.customer_vitals.updated_at rescue '-'
+      .col-lg-3.col-md-3.hide.m-b
+        %section.panel.panel-default.m-n#weight_section
+          %header.panel-heading.text-center
+            Weight
+          .panel-body.text-center
+            .inline
+              %h4.h4.font-bold
+                %span.h4.font-bold#weight_val
+                  =current_online_customer.customer_vitals.weight
+                %small Kgs
+          %header.panel-heading.text-center
+            %small.text-muted#weight_date
+              = formatted_date current_online_customer.customer_vitals.updated_at rescue '-'
+      .col-lg-3.col-md-3.hide.m-b
+        %section.panel.panel-default.m-n#bmi_section
+          %header.panel-heading.text-center
+            Body Mass Index
+          .panel-body.text-center
+            .inline
+              %h4.font-bold
+                %span.h4.font-bold
+                  %b#bmi{class: "#{current_online_customer.colored_bmi}"}
+                    = current_online_customer.bmi
+                %small
+          %header.panel-heading.text-center
+            %small.text-muted#bmi_date
+              = formatted_date current_online_customer.customer_vitals.updated_at rescue '-'
+
+      .col-lg-3.col-md-3.hide.m-b
+        %section.panel.panel-default.m-n#blood_group_section
+          %header.panel-heading.text-center
+            Blood group
+          .panel-body.text-center
+            .inline
+              %h4.h4.font-bold
+                %span.h4#blood_group_val
+                  = current_online_customer.customer_vitals.blood_group.blood_type rescue '-'
+          %header.panel-heading.text-center
+            %small.text-muted#blood_group_date
+              = formatted_date current_online_customer.customer_vitals.updated_at rescue '-'
+      .col-lg-3.col-md-3.m-b
+        %section.panel.panel-default.m-n#recent_body_assessment_section
+          %header.panel-heading.text-center
+            Recent assessment
+          .panel-body.text-center
+            .inline
+              %h4.h4.font-bold
+                %span.h4#recent_assessment_val
+                  =current_online_customer.assessment_type.assessment_type rescue '-'
+          %header.panel-heading.text-center
+            %small.text-muted#recent_assessment_date
+              - if current_online_customer.recent_health_assessment_done.nil?
+                \-
+              - else
+                = "#{formatted_date current_online_customer.recent_health_assessment_done.request_date}"
+      .col-lg-3.col-md-3.m-b
+        %section.panel.panel-default.m-n.bp_Values#blood_pressure_section
+          %header.panel-heading.text-center
+            Blood pressure
+          .panel-body.text-center
+            .inline
+              %a.h4.font-bold{ id: "blood_pressure", data: {type: "blood_pressure"} }
+                %input#customer_id{:type => "hidden", :value => current_online_customer.id}/
+                %span.h4.font-bold#systolic_val.systolic_color{class: "#{current_online_customer.systolic[:color]}"}
+                  = "#{current_online_customer.systolic[:result]}"
+                \/
+                %span.h4.font-bold#diastolic_val.diastolic_color{class: "#{current_online_customer.diastolic[:color]}"}
+                  = "#{current_online_customer.diastolic[:result]}"
+              %small{:style => "color:#999"}
+                = "#{current_online_customer.diastolic[:units]}"
+          %header.panel-heading.text-center.clearfix.panel-footer
+            %small.text-muted#bp_date
+              = formatted_date current_online_customer.assessment_body_bp
+      .col-lg-3.col-md-3
+        %section.panel.panel-default.m-n
+          %ul.nav.nav-tabs
+            %header.panel-heading.text-center
+              %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                %small#heading
+                  Blood Glucose
+                %b.caret
+              %ul.dropdown-menu.text-left#blood_glucose
+                - if current_online_customer.recent_health_assessment_done
+                  - LabTest.find_by(name: "Blood Glucose", enterprise_id: "#{current_online_customer.recent_health_assessment_done.enterprise_id ? current_online_customer.recent_health_assessment_done.enterprise_id : Enterprise.find_by_enterprise_id('EK').id}").test_components.each do |test_component|
+                    %li.active
+                      %a{"data-toggle" => "tab", :href => "#"+test_component.id.to_s, :value=> test_component.id}
+                        = test_component.name
+                - else
+                  - LabTest.find_by(name: "Blood Glucose", enterprise_id: Enterprise.find_by_enterprise_id('EK').id).test_components.each do |test_component|
+                    %li.active
+                      %a{"data-toggle" => "tab", :href => "#"+test_component.id.to_s, :value=> test_component.id}
+                        = test_component.name
+            .panel-body.text-center.pad_2
+              .tab-content
+                - if current_online_customer.recent_health_assessment_done
+                  - LabTest.find_by(name: "Blood Glucose", enterprise_id: "#{current_online_customer.recent_health_assessment_done.enterprise_id ? current_online_customer.recent_health_assessment_done.enterprise_id : Enterprise.find_by_enterprise_id('EK').id}").test_components.each_with_index do |test_component, index|
+                    .tab-pane{:id => "#{test_component.id}", :class => "#{(index == 0) ? 'active' : 'fade'}"}
+                      .inline
+                        %h4.font-bold
+                          %span.h4.font-bold#blood_sugar_color
+                            %b{ class: "#{current_online_customer.blood_sugar(test_component.name)[:color]}"}
+                              = editable current_online_customer.blood_sugar_result(test_component.name), :result,url: customers_customer_lab_results_update_blood_sugar_path({customer_id:current_online_customer.id,id: current_online_customer.blood_sugar_result(test_component.name),test_component_id:test_component.id})
+                          %small
+                            = "#{current_online_customer.blood_sugar(test_component.name)[:units]}"
+                      %small.clearfix#type_of_sugar
+                        =test_component.name
+                - else
+                  - LabTest.find_by(name: "Blood Glucose", enterprise_id: Enterprise.find_by_enterprise_id('EK').id).test_components.each_with_index do |test_component, index|
+                    .tab-pane{:id => "#{test_component.id}", :class => "#{(index == 0) ? 'active' : 'fade'}"}
+                      .inline
+                        %h4.font-bold
+                          %span.h4.font-bold#blood_sugar_color
+                            %b{ class: "#{current_online_customer.blood_sugar(test_component.name)[:color]}"}
+                              = editable current_online_customer.blood_sugar_result(test_component.name), :result,url: customers_customer_lab_results_update_blood_sugar_path({customer_id:current_online_customer.id,id: current_online_customer.blood_sugar_result(test_component.name),test_component_id:test_component.id})
+                          %small
+                            = "#{current_online_customer.blood_sugar(test_component.name)[:units]}"
+                      %small.clearfix#type_of_sugar
+                        =test_component.name
+          %header.panel-heading.text-center.clearfix.panel-footer
+            %small.text-muted#blood_sugar_date
+              = formatted_date current_online_customer.assessment_body_sugar
+    %div.row.p-t
+      - icons = ['i-plus2', 'i-users2', 'i-location', 'i-alarm']
+      - if !current_online_customer.insufficient_results.nil?
+        - index = -1
+        - current_online_customer.insufficient_results.each do |test_name, test_components|
+          - test_components.each do |component|
+            - index = index + 1
+            - pr = (0 == index % 3)
+            - pl = (2 == index % 3)
+            - body_assessment = component[:lab_result].body_assessment
+            .col-md-3.lt.col-lg-3
+              %a{href: customers_health_assessments_path({id: body_assessment.id, type: 'Body'})}
+                %section.panel.panel-default.m-n.b-n
+                  %header.panel-heading.text-center
+                    = "#{test_name} abnormality".truncate(35)
+                .bg-white.text-center.b
+                  %section.block.hover.m-s
+                    %span.m-xs.clear
+                      %h4.m-xs.font-bold
+                        %span.m-xs{class: "#{component[:color]}"}
+                          = component[:value]
+                          &nbsp;
+                        %small
+                          = component[:units]
+                          &nbsp;
+                      %small.text-muted.text-c
+                        = component[:name].truncate(35)
+                  .padder-v.text-center.clearfix.panel-footer
+                    .col-md-9.b-r
+                      %small.text-muted
+                        = formatted_date body_assessment.request_date
+                    .col-md-3.b-r
+                      %small.text-muted
+                        %i.i.i-info{title: component[:lab_result].test_component.info}

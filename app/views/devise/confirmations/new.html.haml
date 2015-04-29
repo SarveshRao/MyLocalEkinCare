@@ -1,0 +1,23 @@
+%section#content.m-t-lg
+  .container.aside-xl.text-center
+    %a.h3.font-bold{href: root_path} eKincare
+    %header.wrapper
+      %strong
+        Resend confirmation instructions
+    %section.m-b-lg
+      = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
+        %small
+          - unless resource.errors.empty?
+            .text-danger.m-b
+              = resource.errors.full_messages.map { |msg| msg }.join('<br>').html_safe
+
+          -#= devise_error_messages!
+          -#= messages = resource.errors.full_messages.map { |msg| msg }.join
+        .list-group
+          .list-group-item
+            = f.email_field :email, class: 'form-control no-border parsley-validated', required: true, autofocus: true,  placeholder: 'Email'
+        = f.submit "Resend confirmation instructions", class: 'btn btn-primary m-b'
+
+      %p.text-muted.text-center.m-b
+        %small Already email was confirmed?
+      %a.btn.btn-lg.btn-default.btn-block{href: online_customer_session_path} Sign in

@@ -1,0 +1,79 @@
+!!!
+%html{:lang => "en"}
+  %head
+    %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}
+      %title
+  %body{:style => "font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;font-size: 13px;color: #788288;background-color: rgba(0, 0, 0, 0);-webkit-font-smoothing: antialiased;line-height: 1.53846154;"}
+    %div{:style => "width: 1170px;padding-right: 15px;padding-left: 15px;margin-right: auto;margin-left: auto;"}
+      %section{:style => "width: 100%;float: left;position: relative;min-height: 1px;padding-right: 15px;padding-left: 15px;"}
+        %div{:style => "width: 58%;float: left;position: relative;color: #FFF;margin-top: 1%;font-size: 16PX;margin-bottom: 15px;min-height: 50px;padding: 0 15px;background-color: #428BCA;font-weight: bold;line-height: 1;"}
+          %p{:style => " inline-block; margin: 0px 230px 20px;margin-top: 15px;"} Thank You! for transacting with eKincare
+        %div
+          %div{:style => "width: 58.33333333%;left: 8.33333333%;float: left;position: relative;min-height: 1px;padding-right: 15px;padding-left: 15px;"}
+            %img{:height => "50", :src => "#{@image}/assets/payment_logo.png", :style => "vertical-align: middle;", :width => "170"}
+              %br
+                %br
+                  %p{:style => "margin: 0px 14px 10px !important;"}
+                    = "Dear "+@name
+                  %br
+                    %p{:style => "margin: 0px 14px 10px !important;"}Thank you for paying with eKincare. Your Payment has been successfully processed.
+        %div
+          %div{:style => "width: 58.33333333%;left: 8.33333333%;float: left;margin-top: 20px;position: relative;min-height: 1px;padding-right: 15px;padding-left: 15px;"}
+            %section{:style => "border-color: #EAEEF1;margin-bottom: 20px;background-color: #FFF;border: 1px solid rgba(0, 0, 0, 0);"}
+              %table.table.table-striped.m-b-none{:style => "width: 100%;max-width: 100%;border-bottom-right-radius: 3px;border-bottom-left-radius: 3px;display: table;border-collapse: separate;border-spacing: 0px;border-color: #808080;"}
+                %tbody{:style => "display: table-row-group;vertical-align: middle;border-color: inherit;"}
+                  %tr{:style => "display: table-row;vertical-align: inherit;border-color: inherit;"}
+                    %td{:style => "border-top-left-radius: 3px;border-top: 0;background-color: #F9FAFC;background-color: #F9F9F9;padding: 8px 15px;border-top: 1px solid #EAEEF1;line-height: 1.42857143;vertical-align: top;box-sizing: border-box;"}
+                      Merchant Name:
+                      %span{:style => "font-weight: 600;"} eKincare
+                    %td{:style => "border-top-left-radius: 3px;border-top: 0;background-color: #F9FAFC;background-color: #F9F9F9;padding: 8px 15px;border-top: 1px solid #EAEEF1;line-height: 1.42857143;vertical-align: top;"}
+                      %span{:style => "margin-right:25px; "} Order Amount:
+                      %span{:style => "font-weight: 600;float:right"}
+                        = "Rs "+number_with_precision(@amount,precision: 2)
+                  %tr{:style => "display: table-row;vertical-align: inherit;border-color: inherit;"}
+                    %td{:style => "border-top-left-radius: 3px;border-top: 0;background-color: #F9FAFC;background-color: #F9F9F9;padding: 8px 15px;border-top: 1px solid #EAEEF1;line-height: 1.42857143;vertical-align: top; background-color:#FFF;"}
+                      Payment ID:
+                      %span{:style => "font-weight: 600;"}
+                        = @payu_id
+                    %td{:style => "border-top-left-radius: 3px;border-top: 0;background-color: #F9FAFC;background-color: #F9F9F9;padding: 8px 15px;border-top: 1px solid #EAEEF1;line-height: 1.42857143;vertical-align: top; background-color:#FFF;"}
+                      You saved:
+                      %span{:style => "font-weight: 600;color: #17D37F; float:right"}
+                        = "Rs "+number_with_precision(@discount,precision: 2)
+                  %tr{:style => "display: table-row;vertical-align: inherit;border-color: inherit;"}
+                    %td{:style => "border-top-left-radius: 3px;border-top: 0;background-color: #F9FAFC;background-color: #F9F9F9;padding: 8px 15px;border-top: 1px solid #EAEEF1;line-height: 1.42857143;vertical-align: top;"}
+                      Merchant Order ID:
+                      %span{:style => "font-weight: 600;"}
+                        =@txnid
+                    %td{:style => "border-top-left-radius: 3px;border-top: 0;background-color: #F9FAFC;background-color: #F9F9F9;padding: 8px 15px;border-top: 1px solid #EAEEF1;line-height: 1.42857143;vertical-align: top;"}
+                      Customer ID:
+                      %span{:style => "font-weight: 600; float:right"}
+                        =@customer_id
+        %div{:style => "width: 58.33333333%;left: 8.33333333%;float: left;margin-top: 20px;position: relative;min-height: 1px;padding-right: 15px;padding-left: 15px;"}
+          %section{:style => "border-color: #EAEEF1;margin-bottom: 20px;background-color: #FFF;border: 1px solid rgba(0, 0, 0, 0);"}
+            %table.table.table-striped.m-b-none{:style => "width: 100%;max-width: 100%;border-spacing: 0;border-collapse: collapse;"}
+              %tbody
+                %thead
+                  %td{:style => "border-top-left-radius: 3px;border-top: 0;background-color: #F9FAFC;background-color: #F9F9F9;padding: 8px 15px;border-top: 1px solid #EAEEF1;line-height: 1.42857143;vertical-align: top;box-sizing: border-box; background-color: #6AC451;color: #FFF;"} Payment Summary
+                  %td{:style => "border-top-left-radius: 3px;border-top: 0;background-color: #F9FAFC;background-color: #F9F9F9;padding: 8px 15px;border-top: 1px solid #EAEEF1;line-height: 1.42857143;vertical-align: top;box-sizing: border-box;background-color: #6AC451;color: #FFF;"}
+                    %span{:style => "float:right"} Amount
+                %tr
+                  %td{:style => "border-top-left-radius: 3px;border-top: 0;background-color: #F9FAFC;background-color: #F9F9F9;padding: 8px 15px;border-top: 1px solid #EAEEF1;line-height: 1.42857143;vertical-align: top;box-sizing: border-box;"}
+                    = @mode
+                  %td{:style => "border-top-left-radius: 3px;border-top: 0;background-color: #F9FAFC;background-color: #F9F9F9;padding: 8px 15px;border-top: 1px solid #EAEEF1;line-height: 1.42857143;vertical-align: top;box-sizing: border-box;"}
+                    %span{:style => "float:right"}
+                      = "Rs "+number_with_precision(@reduced_amount,precision: 2)
+                %tr
+                  %td{:style => "border-top-left-radius: 3px;border-top: 0;background-color: #F9FAFC;background-color: #F9F9F9;padding: 8px 15px;border-top: 1px solid #EAEEF1;line-height: 1.42857143;vertical-align: top;box-sizing: border-box; background-color:#FFF;"}
+                    Discount
+                    %span
+                      %img{:src => asset_path("#{@image}/assets/saving.png")}/
+                  %td{:style => "border-top-left-radius: 3px;border-top: 0;background-color: #F9FAFC;background-color: #F9F9F9;padding: 8px 15px;border-top: 1px solid #EAEEF1;line-height: 1.42857143;vertical-align: top;box-sizing: border-box; background-color:#FFF;"}
+                    %span{:style => "float:right"}
+                      = "Rs "+number_with_precision(@discount,precision: 2)
+                %tr
+                  %td{:style => "border-top-left-radius: 3px;border-top: 0;background-color: #F9FAFC;background-color: #F9F9F9;padding: 8px 15px;border-top: 1px solid #EAEEF1;line-height: 1.42857143;vertical-align: top;box-sizing: border-box;"}
+                    %span{:style => "font-weight: 700;"} Amount Paid
+                  %td{:style => "border-top-left-radius: 3px;border-top: 0;background-color: #F9FAFC;background-color: #F9F9F9;padding: 8px 15px;border-top: 1px solid #EAEEF1;line-height: 1.42857143;vertical-align: top;box-sizing: border-box;"}
+                    %span{:style => "font-weight: 700;"}
+                      %span{:style => "float:right"}
+                        = "Rs "+number_with_precision(@amount,precision: 2)

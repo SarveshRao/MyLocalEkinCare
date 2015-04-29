@@ -1,0 +1,533 @@
+.text-left#vision_result_panel{class: @health_assessment.assessment_type == 'Vision' ? '' : 'hide'}
+  .vbox
+    %h4.panel-heading.no-padder
+      - @prescription = @health_assessment.prescription rescue nil
+      %a.font-bold{href: "#"}
+        Vision Checkup Results &nbsp;&nbsp;
+      %a.btn.btn-default.btn-s-mdsche.m-b-xs#create_prescription{class: "#{@prescription.nil? ? '' : 'hide'}"}
+        &nbsp;
+        %i.fa.fa-plus
+        &nbsp;Add new &nbsp;&nbsp;
+
+      %a.btn.btn-default.btn-s-mdsche.m-b-xs#edit_prescription_btn{class: "#{@prescription.nil? ? 'hide' : ''}"}
+        &nbsp;
+        %i.fa.fa-pencil
+        &nbsp; Edit &nbsp;&nbsp;
+      = link_to  health_assessment_prescription_path(@health_assessment), method: :delete, class: "btn btn-default btn-s-mdsche m-b-xs #{@prescription.nil? ? 'hide' : ''}", id: 'prescription_delete_btn', data: { confirm: "Are you sure?" } do
+        &nbsp;
+        %i.i.i-trashcan
+        &nbsp; Delete &nbsp;&nbsp;
+      .col-lg-6.col-md-6.pull-right
+        %p.font-bold.padding-left.pull-right
+          -#Doctor
+          %small.pull-left.font-bold{id: 'Doctor_Name'}
+            = @health_assessment.doctor_name
+          -if(@health_assessment.doctor_name?)
+            %span
+              &nbsp;
+              %a.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#",id:'message'}
+                %i.fa.fa-pencil.small.pull-left
+          -else
+            %span
+              &nbsp;
+              %a.hide.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#",id:'message'}
+                %i.fa.fa-pencil.small.pull-left
+          -if(@health_assessment.doctor_name?)
+            %div.hide.doctor.pull-right{id:'SAVE_DOCTOR'}
+              = form_for @health_assessment, as: :health_assessment, remote: true, html: {health_assessment_id: @health_assessment.id}, url: customer_health_assessment_path(@customer, @health_assessment) do |f|
+                = f.label :doctor_name, 'Doctor Name',{class:'font-bold'}
+                = f.text_field :doctor_name,{class: 'parsley-validated', 'data-required' => 'true', autofocus: true}
+                &nbsp;
+                = f.submit 'save', {class:'btn btn-xs small-btn btn-primary doctor-name-save-btn pull-right'}
+          -else
+            %div.doctor.pull-right{id:'SAVE_DOCTOR'}
+              = form_for @health_assessment, as: :health_assessment, remote: true, html: {health_assessment_id: @health_assessment.id}, url: customer_health_assessment_path(@customer, @health_assessment) do |f|
+                = f.label :doctor_name, 'Doctor Name',{class:'font-bold'}
+                = f.text_field :doctor_name,{class: 'parsley-validated', 'data-required' => 'true', autofocus: true}
+                &nbsp;
+                = f.submit 'save', {class:'btn btn-xs small-btn btn-primary doctor-name-save-btn pull-right'}
+
+    .scrollable
+      %aside.hide#new_prescription_block
+        = form_for Prescription.new, url: health_assessment_prescription_path(@health_assessment) do |f|
+          -#= fields_for :corrections, Correction.new do |c|
+          -#= fields_for :vision_component, VisionComponent.new do |lvc|
+          -#= fields_for :vision_component, VisionComponent.new do |rvc|
+          %section.panel.panel-default
+            %header.panel-heading
+              %b Corrections
+            .table-responsive
+              %table.table.table-striped.b-light#Vision_prescription_table
+                %thead
+                  %tr
+                    %th{width: '10%'}
+                      Eye
+                      -#%span.th-sort
+                        %i.fa.fa-sort-down.text
+                        %i.fa.fa-sort-up.text-active
+                        %i.fa.fa-sort
+                    %th UCVA
+                    %th{} SPHE
+                    %th CYL
+                    %th AXIS
+                    %th{} ADD
+                    %th CVA
+                %tbody
+
+                  %tr#vision_prescription_form
+                    %td
+                      Left Eye
+                      = text_field_tag :eye, '', {class: 'hide', value: :left, name: 'eye[left]'}
+                    %td
+                      = text_field_tag :ucva, '', {class: 'form-control', name: 'ucva[left]'}
+                    %td
+                      = select_tag :spherical, options_for_select(VisionComponent::SPHERICAL_VALUES), {class: 'form-control', name: 'spherical[left]', prompt: 'Select spherical value'}
+                    %td
+                      = select_tag :cylindrical, options_for_select(VisionComponent::CYLINDRICAL_VALUES), {class: 'form-control', name: 'cylindrical[left]', prompt: 'Select cylindrical value'}
+                    %td
+                      = select_tag :axis, options_for_select(VisionComponent::AXIS_VALUES), {class: 'form-control', name: 'axis[left]', prompt: 'Select axis value'}
+                    %td
+                      = select_tag :add, options_for_select(VisionComponent::ADD_VALUES), {class: 'form-control', name: 'add[left]', prompt: 'Select add value'}
+                    %td
+                      = text_field_tag :cva, '', {class: 'form-control', name: 'cva[left]'}
+
+
+                  %tr#vision_prescription_form
+                    %td
+                      Right Eye
+                      = text_field_tag :eye, '', {class: 'hide', value: :right, name: 'eye[right]'}
+                    %td
+                      = text_field_tag :ucva, '', {class: 'form-control', name: 'ucva[right]'}
+                    %td
+                      = select_tag :spherical, options_for_select(VisionComponent::SPHERICAL_VALUES), {class: 'form-control', name: 'spherical[right]', prompt: 'Select spherical value'}
+                    %td
+                      = select_tag :cylindrical, options_for_select(VisionComponent::CYLINDRICAL_VALUES), {class: 'form-control', name: 'cylindrical[right]', prompt: 'Select cylindrical value'}
+                    %td
+                      = select_tag :axis, options_for_select(VisionComponent::AXIS_VALUES), {class: 'form-control', name: 'axis[right]', prompt: 'Select axis value'}
+                    %td
+                      = select_tag :add, options_for_select(VisionComponent::ADD_VALUES), {class: 'form-control', name: 'add[right]', prompt: 'Select aix value'}
+                    %td
+                      = text_field_tag :cva, '', {class: 'form-control', name: 'cva[right]'}
+
+          %section.panel.panel-default
+            %header.panel-heading
+              %b Prism
+            .table-responsive
+              %table.table.table-striped.b-light#Vision_prescription_table
+                %thead
+                  %tr
+                    %th{width: '10%'}
+                      Eye
+                    %th Prism1
+                    %th Units
+                    %th prism2
+                    %th units
+                %tbody
+
+                  %tr#vision_prescription_form
+                    %td
+                      Left Eye
+                      %td
+                        = text_field_tag :prism, '',  {class: 'form-control', name: 'prism[left]'}
+                      %td
+                        = select_tag :units, options_for_select(['BO', 'BI', "BU","BD"]), {class: 'form-control', name: 'units[left]', prompt: 'Select units'}
+                      %td
+                        = text_field_tag :prism2, '', {class: 'form-control', name: 'prism2[left]'}
+                      %td
+                        = select_tag :units2, options_for_select(['BO', 'BI', "BU","BD"]), {class: 'form-control', name: 'units2[left]', prompt: 'Select units'}
+                  %tr#vision_prescription_form
+                    %td
+                      Right Eye
+                      %td
+                        = text_field_tag :prism, '',  {class: 'form-control', name: 'prism[right]'}
+                      %td
+                        = select_tag :units, options_for_select(['BO', 'BI', "BU","BD"]), {class: 'form-control', name: 'units[right]',prompt: 'Select units' }
+                      %td
+                        = text_field_tag :prism2, '', {class: 'form-control', name: 'prism2[right]'}
+                      %td
+                        = select_tag :units2, options_for_select(['BO', 'BI', "BU","BD"]), {class: 'form-control', name: 'units2[right]', prompt: 'Select units'}
+
+
+
+          %section.panel.panel-default
+            %header.panel-heading
+              %b Lens Type
+            .table-responsive
+              %table.table.table-striped.b-light
+                %tbody
+                  %tr
+                    %td{colspan: '9'}
+                      .row
+                        .col-md-3
+                          .checkbox.i-checks
+                            %label
+                              = check_box_tag "lens_type[]", "Single Vision"
+                              %i
+                              Single Vision
+                        .col-md-3
+                          .checkbox.i-checks
+                            %label
+                              = check_box_tag "lens_type[]", "Bifocal"
+                              %i
+                              Bifocal
+                        .col-md-3
+                          .checkbox.i-checks
+                            %label
+                              = check_box_tag "lens_type[]", "Progressive (Invisible Bifocal)"
+                              %i
+                              Progressive (Invisible Bifocal)
+                        .col-md-3
+                          .checkbox.i-checks
+                            %label
+                              =check_box_tag "lens_type[]", "Glass"
+                              %i
+                              Glass
+                      .row
+                        .col-md-3
+                          .checkbox.i-checks
+                            %label
+                              = check_box_tag "lens_type[]", "K-bifocal"
+                              %i
+                              K-bifocal
+                        .col-md-3
+                          .checkbox.i-checks
+                            %label
+                              = check_box_tag "lens_type[]", "Normal Progressive"
+                              %i
+                              Normal Progressive
+                        .col-md-3
+                          .checkbox.i-checks
+                            %label
+                              = check_box_tag "lens_type[]", "CR-39"
+                              %i
+                              CR-39
+                        .col-md-3
+                          .checkbox.i-checks
+                            %label
+                              = check_box_tag "lens_type[]", "D-bifocal"
+                              %i
+                              D-bifocal
+                      .row
+                        .col-md-3
+                          .checkbox.i-checks
+                            %label
+                              = check_box_tag "lens_type[]", "Polycarbonate (For Children)"
+                              %i
+                              Polycarbonate (For Children)
+                        .col-md-3
+                          .checkbox.i-checks
+                            %label
+                              = check_box_tag "lens_type[]", "Internal Progressive"
+                              %i
+                              Internal Progressive
+                        .col-md-3
+                          .checkbox.i-checks
+                            %label
+                              = check_box_tag "lens_type[]", "Executive (Glass/CR)"
+                              %i
+                              Executive (Glass/CR)
+                      .row
+                        .col-md-2
+                        .col-md-2
+                        .col-md-2
+                          %div
+                            = f.submit "save",{class: 'btn btn-sm small-btn btn-primary'}
+                            %a{id: 'prescription_cancel_btn', class: 'btn btn-sm small-btn btn-danger'} cancel
+                            %input{type: 'reset', class: 'hide', id: 'reset_prescription_btn'}
+                        .col-md-2
+                        .col-md-2
+                        .col-md-2
+    - if @prescription
+      %aside#prescription_details_block
+        %section.panel.panel-default
+          %header.panel-heading
+            %b Corrections
+          .table-responsive
+            %table.table.table-striped.b-light#Vision_prescription_table
+              %thead
+                %tr
+                  %th{width: '10%'}
+                    Eye
+                    -#%span.th-sort
+                      %i.fa.fa-sort-down.text
+                      %i.fa.fa-sort-up.text-active
+                      %i.fa.fa-sort
+                  %th UCVA
+                  %th{width: '12%'} SPHE
+                  %th CYL
+                  %th AXIS
+                  %th{width: '12%'} ADD
+                  %th CVA
+              %tbody
+                - @left_correction = @health_assessment.prescription.corrections.find_by(eye: 'left').vision_component
+                - @right_correction = @health_assessment.prescription.corrections.find_by(eye: 'right').vision_component
+
+                %tr#vision_prescription_form
+                  %td
+                    Left Eye
+                  %td
+                    = @left_correction.ucva rescue '-'
+                  %td
+                    = @left_correction.spherical rescue '-'
+                  %td
+                    = @left_correction.cylindrical rescue '-'
+                  %td
+                    = @left_correction.axis rescue '-'
+                  %td
+                    = @left_correction.add rescue '-'
+                  %td
+                    = @left_correction.cva rescue '-'
+
+                %tr#vision_prescription_form
+                  %td
+                    Right Eye
+                  %td
+                    = @right_correction.ucva
+                  %td
+                    = @right_correction.spherical
+                  %td
+                    = @right_correction.cylindrical
+                  %td
+                    = @right_correction.axis
+                  %td
+                    = @right_correction.add
+                  %td
+                    = @right_correction.cva
+
+        %section.panel.panel-default
+          %header.panel-heading
+            %b Prism
+          .table-responsive
+            %table.table.table-striped.b-light#Vision_prescription_table
+              %thead
+                %tr
+                  %th{width: '10%'}
+                    Eye
+                  %th Prism1
+                  %th Units
+                  %th prism2
+                  %th units
+              %tbody
+                %tr
+                  %td
+                    Left Eye
+                    %td
+                      = @left_correction.prism
+                    %td
+                      = @left_correction.units
+                    %td
+                      = @left_correction.prism2
+                    %td
+                      = @left_correction.units2
+
+                %tr
+                  %td
+                    Right Eye
+                    %td
+                      = @right_correction.prism
+                    %td
+                      = @right_correction.units
+                    %td
+                      = @right_correction.prism2
+                    %td
+                      = @right_correction.units2
+
+        %section.panel.panel-default
+          %header.panel-heading
+            %b Lens Type
+          .table-responsive
+            %table.table.table-striped.b-light
+              %tbody
+                - @lens_types = @health_assessment.prescription.lens_type.split(',') rescue '-'
+                %tr
+                  %td{colspan: '9'}
+                    .row.p-l
+                      .col-md-12
+                        %ol
+                          - @lens_types.each do |lens_type|
+                            %li
+                              = lens_type
+
+      %aside.hide#edit_prescription_block
+        = form_for @prescription, url: health_assessment_prescription_path(@health_assessment) do |f|
+          %section.panel.panel-default
+            %header.panel-heading
+              %b Corrections
+            .table-responsive
+              %table.table.table-striped.b-light#Vision_prescription_table
+                %thead
+                  %tr
+                    %th{width: '10%'}
+                      Eye
+                      -#%span.th-sort
+                        %i.fa.fa-sort-down.text
+                        %i.fa.fa-sort-up.text-active
+                        %i.fa.fa-sort
+                    %th UCVA
+                    %th CYL
+                    %th AXIS
+                    %th PRISM
+                    %th{width: '12%'} ADD
+                    %th{colspan: 2} CVA
+                %tbody
+
+                  %tr
+                    %td
+                      Left Eye
+                      = text_field_tag :eye, '', {class: 'hide', value: :left, name: 'eye[left]'}
+                    %td
+                      = text_field_tag :ucva, '', {class: 'form-control', value: @left_correction.ucva,  name: 'ucva[left]'}
+                    %td
+                      = select_tag :spherical, options_for_select(VisionComponent::SPHERICAL_VALUES, @left_correction.spherical), {class: 'form-control', name: 'spherical[left]', prompt: 'Select spherical value'}
+                    %td
+                      = select_tag :cylindrical, options_for_select(VisionComponent::CYLINDRICAL_VALUES, @left_correction.cylindrical), {class: 'form-control', name: 'cylindrical[left]', prompt: 'Select cylindrical value'}
+                    %td
+                      = select_tag :axis, options_for_select(VisionComponent::AXIS_VALUES, @left_correction.axis), {class: 'form-control', name: 'axis[left]', prompt: 'Select axis value'}
+                    %td
+                      = select_tag :add, options_for_select(VisionComponent::ADD_VALUES, @left_correction.add), {class: 'form-control', name: 'add[left]', prompt: 'Select add value'}
+                    %td
+                      = text_field_tag :cva, '', {class: 'form-control', value: @left_correction.cva, name: 'cva[left]'}
+
+                  %tr
+                    %td
+                      Right Eye
+                      = text_field_tag :eye, '', {class: 'hide', value: :right, name: 'eye[right]'}
+                    %td
+                      = text_field_tag :ucva, '', {class: 'form-control', name: 'ucva[right]', value: @right_correction.ucva}
+                    %td
+                      = select_tag :spherical, options_for_select(VisionComponent::SPHERICAL_VALUES, @right_correction.spherical), {class: 'form-control', name: 'spherical[right]', prompt: 'Select spherical value'}
+                    %td
+                      = select_tag :cylindrical, options_for_select(VisionComponent::CYLINDRICAL_VALUES, @right_correction.cylindrical), {class: 'form-control', name: 'cylindrical[right]', prompt: 'Select cylindrical value'}
+                    %td
+                      = select_tag :axis, options_for_select(VisionComponent::AXIS_VALUES, @right_correction.axis), {class: 'form-control', name: 'axis[right]', prompt: 'Select axis value'}
+                    %td
+                      = select_tag :add, options_for_select(VisionComponent::ADD_VALUES, @right_correction.add), {class: 'form-control', name: 'add[right]', prompt: 'Select aix value'}
+                    %td
+                      = text_field_tag :cva, '', {class: 'form-control', value: @right_correction.cva, name: 'cva[right]'}
+
+          %section.panel.panel-default
+            %header.panel-heading
+              %b Prism
+            .table-responsive
+              %table.table.table-striped.b-light#Vision_prescription_table
+                %thead
+                  %tr
+                    %th{width: '10%'}
+                      Eye
+                    %th Prism1
+                    %th Units
+                    %th prism2
+                    %th units
+                %tbody
+
+                  %tr#vision_prescription_form
+                    %td
+                      Left Eye
+                      %td
+                        = text_field_tag :prism, '',  {class: 'form-control', name: 'prism[left]', value: @left_correction.prism}
+                      %td
+                        = select_tag :units, options_for_select(['BO', 'BI', "BU","BD"], @left_correction.units), {class: 'form-control', name: 'units[left]', prompt: 'Select units'}
+                      %td
+                        = text_field_tag :prism2, '', {class: 'form-control', name: 'prism2[left]', value: @left_correction.prism2}
+                      %td
+                        = select_tag :units2, options_for_select(['BO', 'BI', "BU","BD"], @left_correction.units2), {class: 'form-control', name: 'units2[left]', prompt: 'Select units'}
+                  %tr#vision_prescription_form
+                    %td
+                      Right Eye
+                      %td
+                        = text_field_tag :prism, '',  {class: 'form-control', name: 'prism[right]' ,value: @right_correction.prism}
+                      %td
+                        = select_tag :units, options_for_select(['BO', 'BI', "BU","BD"], @right_correction.units), {class: 'form-control', name: 'units[right]',prompt: 'Select units' }
+                      %td
+                        = text_field_tag :prism2, '', {class: 'form-control', name: 'prism2[right]', value: @right_correction.prism2}
+                      %td
+                        = select_tag :units2, options_for_select(['BO', 'BI', "BU","BD"], @right_correction.units2), {class: 'form-control', name: 'units2[right]', prompt: 'Select units'}
+
+
+          %section.panel.panel-default
+            %header.panel-heading
+              %b Lens Type
+            .table-responsive
+              %table.table.table-striped.b-light
+                %tbody
+                  %tr
+                    %td{colspan: '9'}
+                      .row
+                        .col-md-3
+                          .checkbox.i-checks
+                            %label
+                              = check_box_tag "lens_type[]", "Single Vision", @lens_types.include?('Single Vision') ? true : false
+                              %i
+                              Single Vision
+                        .col-md-3
+                          .checkbox.i-checks
+                            %label
+                              = check_box_tag "lens_type[]", "Bifocal", @lens_types.include?('Bifocal') ? true : false
+                              %i
+                              Bifocal
+                        .col-md-3
+                          .checkbox.i-checks
+                            %label
+                              = check_box_tag "lens_type[]", "Progressive (Invisible Bifocal)", @lens_types.include?('Progressive (Invisible Bifocal)') ? true : false
+                              %i
+                              Progressive (Invisible Bifocal)
+                        .col-md-3
+                          .checkbox.i-checks
+                            %label
+                              =check_box_tag "lens_type[]", "Glass", @lens_types.include?('Glass') ? true : false
+                              %i
+                              Glass
+                      .row
+                        .col-md-3
+                          .checkbox.i-checks
+                            %label
+                              = check_box_tag "lens_type[]", "K-bifocal", @lens_types.include?('K-bifocal') ? true : false
+                              %i
+                              K-bifocal
+                        .col-md-3
+                          .checkbox.i-checks
+                            %label
+                              = check_box_tag "lens_type[]", "Normal Progressive", @lens_types.include?('Normal Progressive') ? true : false
+                              %i
+                              Normal Progressive
+                        .col-md-3
+                          .checkbox.i-checks
+                            %label
+                              = check_box_tag "lens_type[]", "CR-39", @lens_types.include?('CR-39') ? true : false
+                              %i
+                              CR-39
+                        .col-md-3
+                          .checkbox.i-checks
+                            %label
+                              = check_box_tag "lens_type[]", "D-bifocal", @lens_types.include?('D-bifocal') ? true : false
+                              %i
+                              D-bifocal
+                      .row
+                        .col-md-3
+                          .checkbox.i-checks
+                            %label
+                              = check_box_tag "lens_type[]", "Polycarbonate (For Children)", @lens_types.include?('Polycarbonate (For Children)') ? true : false
+                              %i
+                              Polycarbonate (For Children)
+                        .col-md-3
+                          .checkbox.i-checks
+                            %label
+                              = check_box_tag "lens_type[]", "Internal Progressive", @lens_types.include?('Internal Progressive') ? true : false
+                              %i
+                              Internal Progressive
+                        .col-md-3
+                          .checkbox.i-checks
+                            %label
+                              = check_box_tag "lens_type[]", "Executive (Glass/CR)", @lens_types.include?('Executive (Glass/CR)') ? true :false
+                              %i
+                              Executive (Glass/CR)
+                      .row
+                        .col-md-2
+                        .col-md-2
+                        .col-md-2
+                          %div
+                            = f.submit "save",{class: 'btn btn-sm small-btn btn-primary'}
+                            %a{id: 'edit_prescription_cancel_btn', class: 'btn btn-sm small-btn btn-danger'} cancel
+                        .col-md-2
+                        .col-md-2
+                        .col-md-2

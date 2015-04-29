@@ -1,0 +1,36 @@
+= content_for :title, 'Promo Codes Listing'
+
+%div.clearfix.breadcrumb
+  %ol.padder
+    = render_breadcrumbs :separator => ' / '
+    %small.pull-right
+      contact: 888-678-EKIN (3546) /
+      %a{href: 'mailto:help@ekincare.com'} help@ekincare.com
+
+#content
+  .vbox.padder
+    %h4.panel-heading.no-padder
+      %a.font-bold{href: "#"}
+        Promo Codes &nbsp;&nbsp;
+    .scrollable
+      %section.panel.panel-default
+        .table-responsive
+          %table.table.table-striped.b-t.b-light#customer_list
+            %thead
+              %tr
+                %th Code
+                %th Created
+                %th Updated
+            %tbody
+              - @promo_codes.each do |promo_code|
+                %tr{class: 'customer-row', url:'#'}
+                  %td
+                    = promo_code.code
+                  %td
+                    = formatted_date promo_code.created_at
+                  %td
+                    = formatted_date promo_code.updated_at
+
+  %a.hide.nav-off-screen-block{"data-target" => "#nav", "data-toggle" => "class:nav-off-screen", href: "#"}
+
+

@@ -1,0 +1,1133 @@
+---
+#  -
+#    name: "Lipid profile"
+#    test_components:
+#      -
+#        name: "Total cholesterol/HDL"
+#        units: null
+#        info: "Total cholesterol-to-HDL ratio reflects your cholesterol balance by weighing the good with the bad. This number provides a indication of your relative cholesterol risk"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 3.3-4.4, 4.5-7.1, 7.2-11.0, "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 3.3-4.4, 4.5-7.1, 7.2-11.0, "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "LDL/HDL"
+#        units: null
+#        info: "The ratio of LDL to HDL is considered to be a marker of carotid plaque, or how much plaque you have built up in your arteries."
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 0.5 - 3.0, 3.0 - 6.0, >6, "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 0.5 - 3.0, 3.0 - 6.0, >6, "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Total cholesterol"
+#        units: "mg/dL"
+#        info: "Total cholesterol is a measurement of all the cholesterol (a waxy fat-like substance made in the liver) in your blood to assess the overall risk for heart diesease."
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: "<=160, >160-<200, 200-<240, 240-<300, 300+"
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: "<=160, >160-<200, 200-<240, 240-<300, 300+"
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "HDL"
+#        units: "mg/dL"
+#        info: "HDL cholesterol protects against heart disease by taking the \"bad\" cholesterol out of your blood and keeping it from building up in your arteries"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", >50 mg/dL, 40-49 mg/dL, <40 mg/dL, "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", >60 mg/dL, 50-59 mg/dL, <50 mg/dL, "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "LDL"
+#        units: "mg/dL"
+#        info: "LDL (bad) cholesterol  can build up on the walls of your arteries and increase your chances of getting heart disease"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: "<100 mg/dL, 100 - 129, 130-159, 160-189, >190"
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: "<100 mg/dL, 100 - 129, 130-159, 160-189, >190"
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "VLDL"
+#        units: "mg/dL"
+#        info: "Having a high VLDL is linked to an increased risk of heart disease. Excercising regularly and limiting sugar, processed carbs and alcohol can improve your VLDL levels."
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", <30 mg/dL, ,>=30 mg/dL , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", <30 mg/dL, ,>=30 mg/dL , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Triglycerides"
+#        units: "mg/dL"
+#        info: "Triglycerides are important to human life and are the main form of fat in the body, but in excess can lead to a heart disease"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", <150 mg/dL, 150 - 199 mg/dL, 200-499 mg/dL, >500 mg/dL"
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", <150 mg/dL, 150 - 199 mg/dL, 200-499 mg/dL, >500 mg/dL"
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+  -
+    name: "Blood Glucose"
+    test_components:
+      -
+#        name: "Fasting blood sugar"
+#        units: "mg/dL"
+#        info: "Your body converts carbohydrates into glucose for energy. A harmone called insulin helps regulate glucose by taking it from your bloodstream into your cells. Over time, a diet that is high in 'empty' calories ad stripped fiber can contribute to weight gain and insulin resistance resulting in increase in glucose in the blood and raising the risk of type 2 diabetes. Other reasons glucose can be elevated include overeating, an overative thyroid, or a bout of the flu."
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 90-<100, 100-<126, 126+, "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 90-<100, 100-<126, 126+, "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+        name: "Average Blood Glucose(ABG)"
+        units: "mg/dL"
+        info: "."
+        standard_ranges:
+          -
+            gender: "M"
+            range_value: ", <150, 151-<180, >181, "
+            age_limit: null
+            age_male_range_value: null
+            age_female_range_value: null
+          -
+            gender: "F"
+            range_value: ", <150, 151-<180, >181, "
+            age_limit: null
+            age_male_range_value: null
+            age_female_range_value: null
+
+      -
+        name: "HbA1c"
+        units: ""
+        info: ""
+        standard_ranges:
+          -
+            gender: "M"
+            range_value: ", <8%, 8.1%-10%, 10.1%, "
+            age_limit: null
+            age_male_range_value: null
+            age_female_range_value: null
+          -
+            gender: "F"
+            range_value: ", <8%, 8.1%-10%, 10.1%, "
+            age_limit: null
+            age_male_range_value: null
+            age_female_range_value: null
+      -
+        name: "Postprandial"
+        units: "mg/dL"
+        info: ""
+        standard_ranges:
+          -
+            gender: "M"
+            range_value: ", <140, 140-<200, 200+, "
+            age_limit: null
+            age_male_range_value: null
+            age_female_range_value: null
+          -
+            gender: "F"
+            range_value: ", <140, 140-<200, 200+, "
+            age_limit: null
+            age_male_range_value: null
+            age_female_range_value: null
+#  -
+#    name: "LFT (Liver function test)"
+#    test_components:
+#      -
+#        name: "ALT/SGOT"
+#        units: "U/L"
+#        info: "ALT stands for \"Alanine Aminotransferase\", an enzyme found in liver. Mild elevations are common and usually not a concern. However, a number more than twice the normal limit can signal more serious liver damage."
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 0-37, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 0-35, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "AST/SGPT"
+#        units: "U/L"
+#        info: "AST stands for \"aspartate transaminase'. It is especially abundant in the cells of your liver and muscles, which release this enzyme when they are damaged. Higher than normal levels indicate some form of liver damage."
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 0-50, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 0 -35, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "ALP/ALKP"
+#        units: "U/L"
+#        info: "ALP stands for \"Alkaline Phosphate\", an enzyme found in bones and liver. Mild elevations are common and can be normal, especially in adolescents and pregnant women. When it shows up in the blood in higher concentrations, 2 or 3 times the normal limit, it usually means the liver or bile ducts are inflamed."
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 53-128, ,>128 , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 42-98, ,>98 , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Total Bilirubin"
+#        units: "mg/dL"
+#        info: "When oxygen-rich red blood cells dies, they leave bilirubin in their wake. This yellowish substance is then metabolized by the liver and excreted through the bile ducts to help digest fat. If red blood cells are breaking down too quickly, or if the liver is struggling to pass it, bilirubin can build up in the blood. This can lead to jaundice, where the skin and eyes take on a yellowish tinge. High levels may be a sign of liver damage or disease."
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 0.3 - 1.2 mg/dL, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 0.3 - 1.2 mg/dL, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Albumin"
+#        units: "g/dL"
+#        info: "Albumin is the most abundant type of protein in the blood. Your liver makes it to keep fluid in your blood and kidneys, nourish body tissues, and transport important cargo - like harmones, vitamins, and minerals - throughout the body. A low albumin level (protein deficiency) can result from a poor diet, a weakened liver, or damaged kidneys that are losing protein."
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 3.5 - 5.2 g/dL, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 3.5 - 5.2 g/dL, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Globulin"
+#        units: "g/dL"
+#        info: "Your globulin levels will affect the amount of ample proteins in the blood stream. If these proteins are not kept at the proper ration, it can be difficult for the body to properly fight infection, clot or transport nutrients to the muscles, leading to health difficulties"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 1.8 - 3.6 g/dL, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 1.8 - 3.6 g/dL, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "A/G ratio"
+#        units: null
+#        info: "The albumin/globulin (A/G) ratio is useful in the evaluation of liver and kidney disease"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 1.2 - 1.5, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 1.2 - 1.5, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Total protein"
+#        units: "g/dL"
+#        info: "This measures the total amount of the two main claisees of protein found in the fluid portion of the blood - albumin & globulins. Though globulins sound evil, they are actually very beneficial since these proteins include antibodies for fighting infections. A high total protein level could signal inflammation or infection, whereas a low value can range from a poor diet to kidney or liver damage."
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 6.6 - 8.3 g/dL, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 6.6 - 8.3 g/dL, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#  -
+#    name: "Kidney function test"
+#    test_components:
+#      -
+#        name: "BUN"
+#        units: "mg/dL"
+#        info: "A common blood test, the blood urea nitrogen (BUN) test reveals important information about how well your kidneys and liver are working. A BUN test measures the amount of urea nitrogen that's in your blood"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 6-20 mg/dL, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 6-20 mg/dL, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Creatinine"
+#        units: "mg/dL"
+#        info: "Creatinine is a waste product that is formed when your muscles burn a naturally occuring chemical called creatine. The more muscle mass you have the more creatinine gets released into the blood. Most creatinine is cleared by the kidneys in your urine. That's why measuring the amount in the blood can help reveal how well your kidneys are filtering it out. Beyond kidney function, a high or low creatinine result can have a rnage of other health implications."
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 0.7-1.2 mg/dL, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 0.7-1.2 mg/dL, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#  -
+#    name: "Eletrolytes"
+#    test_components:
+#      -
+#        name: "Sodium"
+#        units: "mmol/L"
+#        info: "When salt form your diet is absorbed into the body, it becomes an electrolyte that helps regulate fluid balance and other vital functions. The body uses what it needs and the kidneys excrete the rest to maintain proper balance in the blood. A common cause of elevated sodium is dehydration. Low sodium often results from too much water or weakend kidneys."
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 136 - 145 mmol/L, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 136 - 145 mmol/L, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Potasium"
+#        units: "mmol/L"
+#        info: "Potassium works closely with sodium to maintain the body's fluid balance. It also helps transport nutrients into cells and carry waste out. Most importantly it provides an electrochemical switch for triggering muscle contractions, including your heart beat. Because of it's vital role, even small changes in potassium levels can set nerve and muscle function out of sync."
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 3.5 - 5.1 mmol/L, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 3.5 - 5.1 mmol/L, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Calcium"
+#        units: "mg/dL"
+#        info: "Calcium is one of the most important minerals in the body. Like potassium and sodium, it helps with muscle and nerve function as well as blood clotting and bone building. About 99% of calcium is stored in your bones. Of the remaining 1%, half circulates freely in the blood and the other half piggybacks onto the protein albumin. This means abnormal calcium levels can be closely connected with albumin. But there can be many other explanations as well, including too much or too little vitamin D."
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 8.8 - 10.6 mg/dL, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 8.8 - 10.6 mg/dL, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Chloride"
+#        units: "mmol/L"
+#        info: "Chloride is a negatively charged mineral that helps balance the positive electrolytes in your body, like sodium and potassium. It also helps maintain the right acidic-case balance. An abnormal chloride level usually isn’t a problem on its own. A slightly low chloride, for example can simply be a sign of dehydration."
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 97 - 111 mmol/L, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 97 - 111 mmol/L, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#  -
+#    name: "Thyroid test"
+#    test_components:
+#      -
+#        name: "TSH"
+#        units: "μIU/mL"
+#        info: "Serum TSH is the most vital thyroid function index, in confirming or ruling out thyroid dysfunction. It is regarded as the frontline test by the thyroidologist"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 0.30 - 5.5, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 0.30 - 5.5, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "T3"
+#        units: "ng/mL"
+#        info: "T3 is a thyroid harmone that plays an important role in the body's control of metabolism"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 60 - 200, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 60 - 200, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "T4"
+#        units: "μg/dL"
+#        info: "T4 is the the main hormone produced by the thyroid gland, acting to increase metabolic rate and so regulating growth and development."
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 4.5 - 12.0, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 4.5 - 12.0, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#  -
+#    name: "Blood pressure"
+#    test_components:
+#      -
+#        name: "Systolic"
+#        units: "mm Hg"
+#        info: "Systolic pressure measures the pressure in the arteries when the heart beats (when the heart muscle contracts)"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 90-119, 120-139, 140-159, >160"
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 90-119, 120-139, 140-159, >160"
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Diastolic"
+#        units: "mm Hg"
+#        info: "Diastolic pressure is a measure of the minimum arterial pressure during relaxation and dilation of the ventricles of the heart when the ventricles fill with blood"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 60-79, 80-89, 90-99, >100"
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 60-79, 80-89, 90-99, >100"
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#  -
+#    name: "Complete blood picture"
+#    test_components:
+#      -
+#        name: "Haemoglobin"
+#        units: "g/dL"
+#        info: "Hemoglobin is a protein used by red blood cells to distribute oxygen to other tissues and cells in the body. Low levels indicate anemia."
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 13.8 - 17.2, , <13.8, >17.2"
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 12.1 - 15.1, , <12.1, >15.1"
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Total RBC count"
+#        units: "million cells/mcL"
+#        info: "Measures the number of cells that deliver oxygen throughout the body and make blood look red. A low RBC can indicate anemia, which can lead to fatigue"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 4.7 - 6.1, , <4.7, >6.1"
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 4.2 - 5.4, , <4.2, >5.4"
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Total WBC count"
+#        units: "cells/mcL"
+#        info: "A WBC count is a test to measure the number of white blood cells (WBCs) in the blood. WBCs help fight infections."
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 4500 - 10000, , <4500, >10000"
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 4500 - 10000, , <4500, >10000"
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Neutrophils"
+#        units: null
+#        info: "Measures the number or percentage of neutrophils, which are normally the most abundant circulating white blood cells and respond quickly to infection"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 40 - 80%, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 40 - 80%, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Lymphocytes"
+#        units: null
+#        info: "Measures the number or percentage of lymphocytes, which are white blood cells that include B-cells, T-cells, and natural killer cells"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 20 - 45%, , >45%, "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 20 - 45%, ,>45% , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Eosinophils"
+#        units: null
+#        info: "Measures the number or percentage of eosinophils, which combat parasitic infections and are involved in asthma or allergy responses"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 1 - 6%, ,>6% , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 1 - 6%, ,>6% , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Monocytes"
+#        units: null
+#        info: "Measures the number or percentage of monocytes, which are white blood cells that move out of the circulating blood and into the tissues, where they mature into macrophages. Macrophages are important cells of the immune system that are formed in response to an infection or accumulating damaged or dead cells."
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 2 - 10%, ,<2% , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 2 - 10%, ,<2% , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Basophils"
+#        units: null
+#        info: "Measures the number or pecentage of basophils, which are involved in allergy responses"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 0 - 1%, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 0 - 1%, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Platelet count"
+#        units: null
+#        info: "Measures the number of platelets, which are important for blood clotting"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 150000 - 410000, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 150000 - 410000, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Hematocrit (HCT)"
+#        units: null
+#        info: "The % of red blood cells"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 40.7 - 50.3%, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 36.1 - 44.3%, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Mean corpuscular volume (MCV)"
+#        units: "cu microns"
+#        info: "Average size of red blood cell"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 78-100, , <78, "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 78-100, , <78, "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Mean corpuscular hemoglobin (MCH)"
+#        units: "pico gms"
+#        info: "The amount of hemoglobin per red blood cell"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 27 - 32, ,<27 , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 27 - 32, ,<27 , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Mean corpuscular hemaglobin concentration (MCHC)"
+#        units: null
+#        info: "The average concentration of hemoglobin in a given volume of red blood cells"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 30 - 38%, ,<30%, "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 30 - 38%, ,<30% , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Red cell distribution width (RDW)"
+#        units: null
+#        info: "A measurement of the variation in red blood cell (RBC) size. RBCs contain hemoglobin, which carries oxygen."
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 11.5-14%, ,>14%, "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 11.5-14%, ,>14%, "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Mean platelet volume (MPV)"
+#        units: null
+#        info: "Measures the average volume (size) of your platelets.  Higher-than-normal MPV is associated with an increased risk of heart attacks and stroke"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 7.5 - 11.5, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 7.5 - 11.5, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "ESR"
+#        units: null
+#        info: ""
+#        standard_ranges:
+#           -
+#             gender: "M"
+#             range_value: ", 0-20, , , "
+#             age_limit: null
+#             age_male_range_value: null
+#             age_female_range_value: null
+#           -
+#             gender: "F"
+#             range_value: ", 0-20, , , "
+#             age_limit: null
+#             age_male_range_value: null
+#             age_female_range_value: null
+#      -
+#        name: "Packed Cell Volume"
+#        units: null
+#        info: ""
+#        standard_ranges:
+#           -
+#             gender: "M"
+#             range_value: ", 42-52, , , "
+#             age_limit: null
+#             age_male_range_value: null
+#             age_female_range_value: null
+#           -
+#             gender: "F"
+#             range_value: ", 42-52, , , "
+#             age_limit: null
+#             age_male_range_value: null
+#             age_female_range_value: null
+#      -
+#        name: "Bandcells"
+#        units: null
+#        info: ""
+#        standard_ranges:
+#           -
+#             gender: "M"
+#             range_value: ", 00-03, , , "
+#             age_limit: null
+#             age_male_range_value: null
+#             age_female_range_value: null
+#           -
+#             gender: "F"
+#             range_value: ", 00-03, , , "
+#             age_limit: null
+#             age_male_range_value: null
+#             age_female_range_value: null
+#  -
+#    name: "Complete urine exam"
+#    test_components:
+#      -
+#        name: "Colour"
+#        units: null
+#        info: "Many things affect urine color, including fluid balance, diet, medicines, and diseases. How dark or light the color is tells you how much water is in it"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", Pale yellow, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", Pale yellow, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Appearance"
+#        units: null
+#        info: "Urine is normally clear. Bacteria, blood, sperm, crystals, or mucus can make urine look cloudy"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", Clear, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", Clear, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Specific Gravity"
+#        units: null
+#        info: "Specific gravity checks the amount of substances in the urine. It also shows how well the kidneys balance the amount of water in urine. The higher the specific gravity, the more solid material is in the urine. When you drink a lot of fluid, your kidneys make urine with a high amount of water in it, which has a low specific gravity. When you do not drink fluids, your kidneys make urine with a small amount of water in it, which has a high specific gravity"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 1.016 - 1.022, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 1.016 - 1.022, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Reaction.pH"
+#        units: null
+#        info: "The pH is a measure of how acidic or alkaline (basic) the urine is. A urine pH of 4 is strongly acidic, 7 is neutral (neither acidic nor alkaline), and 9 is strongly alkaline. Sometimes the pH of urine is affected by certain treatments. For example, your doctor may instruct you how to keep your urine either acidic or alkaline to prevent some types of kidney stones from forming"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 4.6 - 8, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 4.6 - 8, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Protein"
+#        units: null
+#        info: "Protein normally isn't found in the urine. Fever, hard exercise, pregnancy, and some diseases, especially kidney disease, may cause protein to be in the urine"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", Nil, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", Nil, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Sugar (Glucose)"
+#        units: null
+#        info: "Glucose is the type of sugar found in blood. Normally there is very little or no glucose in urine. When the blood sugar level is very high, as in uncontrolled diabetes, the sugar spills over into the urine. Glucose can also be found in urine when the kidneys are damaged or diseased"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", Nil, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", Nil, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Urobilinogen"
+#        units: "mg/dL"
+#        info: "An increased urobilinogen concentration in urine is a sensitive index of liver dysfunction or hemolytic diseases. Urobilinogenuria is caused by e. g. virus hepatitis, chronic hepatitis, liver cirrhosis, infections, poisonings, congestion or carcinoma of liver, hemolytic, and pernicious anemina, polycythemia and pathological state of the intestinal tract with an increased resorbence."
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 0.2 - 1, ,<0.2 , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 0.2 - 1, ,<0.2, "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Bilirubin"
+#        units: "mg/dL"
+#        info: "Bilirubin is a yellowish pigment found in bile, a fluid produced by the liver. Bilirubin is not normally found in the urine and could be an indicator of liver or biliary tract disease."
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 0 - 0.02, ,<0, "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 0 - 0.02, ,<0, "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Ketones"
+#        units: null
+#        info: "When fat is broken down for energy, the body makes substances called ketones (or ketone bodies). These are passed in the urine. Large amounts of ketones in the urine may mean a very serious condition, diabetic ketoacidosis, is present. A diet low in sugars and starches (carbohydrates), starvation, or severe vomiting may also cause ketones to be in the urine."
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", Negative, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", Negative, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Nitrites"
+#        units: null
+#        info: "Bacteria that cause a urinary tract infection (UTI) make an enzyme that changes urinary nitrates to nitrites. Nitrites in urine show a UTI is present"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", Negative, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", Negative, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Pus cells"
+#        units: "HPF"
+#        info: "Presence of pus cells in urine is a definite indication of some type of infection. Pus is a whitish or yellowish or slightly green substance which is thick like glue. Pus in urine signifies that the body is fighting an infection in the lower or upper urinary tract."
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 0 - 5, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 0 - 5, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "R.B.C"
+#        units: "HPF"
+#        info: "Blood cells aren't found in urine normally. Inflammation, disease, or injury to the kidneys, ureters, bladder, or urethra can cause blood in urine. Strenuous exercise, such as running a marathon, can also cause blood in the urine. White blood cells may be a sign of infection or kidney disease."
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 0 - 2, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 0 - 2, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Epithelial cells"
+#        units: "HPF"
+#        info: "Increased quantity of epithelial cells in urine could indicate infections and inflammation"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", 0 - 8, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", 0 - 8, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Casts"
+#        units: null
+#        info: "Some types of kidney disease can cause plugs of material (called casts) to form in tiny tubes in the kidneys. The casts then get flushed out in the urine. Casts can be made of red or white blood cells, waxy or fatty substances, or protein. The type of cast in the urine can help show what type of kidney disease may be present"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", Nil, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", Nil, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Crystals"
+#        units: null
+#        info: "Healthy people often have only a few crystals in their urine. A large number of crystals, or certain types of crystals, may mean kidney stones are present or there is a problem with how the body is using food (metabolism)"
+#        standard_ranges:
+#          -
+#            gender: "M"
+#            range_value: ", Nil, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#          -
+#            gender: "F"
+#            range_value: ", Nil, , , "
+#            age_limit: null
+#            age_male_range_value: null
+#            age_female_range_value: null
+#      -
+#        name: "Albumin"
+#        units: null
+#        info: ""
+#        standard_ranges:
+#           -
+#             gender: "M"
+#             range_value: ", Nil, , , "
+#             age_limit: null
+#             age_male_range_value: null
+#             age_female_range_value: null
+#           -
+#             gender: "F"
+#             range_value: ", Nil, , , "
+#             age_limit: null
+#             age_male_range_value: null
+#             age_female_range_value: null
+#      -
+#        name: "Amorphous Substance"
+#        units: null
+#        info: ""
+#        standard_ranges:
+#            -
+#              gender: "M"
+#              range_value: ", Nil, , , "
+#              age_limit: null
+#              age_male_range_value: null
+#              age_female_range_value: null
+#            -
+#              gender: "F"
+#              range_value: ", Nil, , , "
+#              age_limit: null
+#              age_male_range_value: null
+#              age_female_range_value: null

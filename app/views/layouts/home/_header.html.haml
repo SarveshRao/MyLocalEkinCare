@@ -1,0 +1,18 @@
+%header.transparent.light{:role => "banner"}
+  .row
+    .nav-inner.row-content.buffer-left.buffer-right.even.clear-after
+      #brand
+        %h1.reset
+          %img{:alt => "logo", :src => asset_path("ekincare-logo.png"), :style => "height:55px;"}
+      %a#menu-toggle{:href => "#"}
+        %i.fa.fa-bars.fa-lg
+      %nav
+        %ul.reset{:role => "navigation"}
+          / <li class="menu-item"><a><i class="fa fa-phone"></i> 888-678-3546</a></li>
+          / <li class="menu-item"><a><i class="fa fa-envelope"></i> customercare@ekincare.com</a></li>
+          -#%li.menu-item
+          -#  %a.underl{:href => about_us_home_index_path} About us
+          %li.menu-item
+            %a.underl{:href => online_customer_session_path} Sign in
+          %li.menu-item
+            %a.button.green{:href => new_online_customer_registration_path, :style => "text-transform:none;"} Register Now

@@ -1,0 +1,94 @@
+%aside#nav.bg-light.lt.b-r.b-light.aside-md.hidden-print.hidden-xs
+  %section.vbox
+    %section.w-f.scrollable
+      %div{"data-disable-fade-out" => "true", "data-distance" => "0", "data-height" => "auto", "data-railopacity" => "0.2", "data-size" => "10px"}
+        .clearfix.wrapper.dk.nav-user.hidden-xs
+          .dropdown
+            %a.dropdown-toggle{"data-toggle" => "dropdown"}
+              %span.pull-left.m-r
+                - customer_profile_image = current_online_customer.image_url
+                %img.img-circle#customer_avatar{alt: "", width: 70, height: 70, src: asset_path(customer_profile_image)}/
+              %span.hidden-nav-xs.clear
+                %span.block.m-t-xs
+                  %strong.font-bold.text-lt
+                    = current_online_customer.name
+        %nav.nav-primary.hidden-xs
+          &nbsp;
+          %ul.nav.nav-main{"data-ride" => "collapse"}
+            %li.start_loader
+              %a.auto{href: customers_dashboard_path}
+                %i.i.i-statistics.icon
+                %span.font-bold Overview
+            %li.start_loader{class: "#{@customer_health_assessment ? 'active' :''}"}
+              %a.auto{href: customers_health_assessments_path(type: 'Body')}
+                %span.pull-right.text-muted
+                  %i.i.i-circle-sm-o.text
+                  %i.i.i-circle-sm.text-active
+                -#%b.badge.bg-danger.pull-right
+                  = current_online_customer.health_assessments.count
+                %i.i.i-lab.icon
+                %span.font-bold Assessments
+              %ul.nav.dk
+                %li.start_loader
+                  %a.auto{href: '/customers/health_assessments?type=Body'}
+                    %b.badge.bg-success.lt.pull-right
+                    %i.i.i-dot
+                    %span Body Assessment
+                %li.start_loader
+                  %a.auto{href: '/customers/health_assessments?type=Dental'}
+                    %i.i.i-dot
+                    %span Dental Assessment
+                %li.start_loader
+                  %a.auto{href: '/customers/health_assessments?type=Vision'}
+                    %i.i.i-dot
+                    %span Vision Assessment
+            %li.start_loader{class: "#{@customer_time_line ? 'active' : ''}"}
+              %a.auto{href: customers_timeline_path}
+                %span.pull-right.text-muted
+                  %i.i.i-circle-sm-o.text
+                  %i.i.i-circle-sm.text-active
+                %i.i.i-calendar.icon
+                %span.font-bold Timeline
+            %li.start_loader{class: "#{@customer_documents_page ? 'active' : ''}"}
+              %a.auto{href: customers_documents_path}
+                %span.pull-right.text-muted
+                  %i.i.i-circle-sm-o.text
+                  %i.i.i-circle-sm.text-active
+                %i.i.i-docs.icon
+                %span.font-bold Documents
+            %li{class: "#{@customer_packages_page ? 'active' : ''}"}
+              %a.auto{href: customers_packages_path}
+                %span.pull-right.text-muted
+                  %i.i.i-circle-sm-o.text
+                  %i.i.i-circle-sm.text-active
+                %i.i.i-docs.icon
+                %span.font-bold Packages
+            %li.start_loader{class: "#{@customer_profile_page ? 'active' : ''}"}
+              %a.auto{href: customers_profile_path}
+                %span.pull-right.text-muted
+                  %i.i.i-circle-sm-o.text
+                  %i.i.i-circle-sm.text-active
+                %i.i.i-user3.icon
+                %span.font-bold Profile
+              %ul.nav.dk
+                %li.start_loader
+                  %a.auto{href: customers_profile_path}
+                    %b.badge.bg-success.lt.pull-right
+                    %i.i.i-dot
+                    %span Basic Information
+                %li.start_loader
+                  %a.auto{href: customers_family_medical_histories_path}
+                    %i.i.i-dot
+                    %span Family History
+                %li.start_loader
+                  %a.auto{href: customers_allergies_path}
+                    %i.i.i-dot
+                    %span Allergies
+                %li.start_loader
+                  %a.auto{href: customers_medications_path}
+                    %i.i.i-dot
+                    %span Medications
+                %li.start_loader
+                  %a.auto{href: customers_immunizations_path}
+                    %i.i.i-dot
+                    %span Immunizations

@@ -1,0 +1,209 @@
+%div{style: 'opacity: 0.8'}
+  %section.scrollable.wrapper.w-f
+    %section.panel.panel-default.m-n.b-n
+      %header.panel-heading.b-n
+        Profile overview
+    %div.panel-footer.bg-white
+      .row.text-center.no-gutter
+        .col-xs-3.b-r.b-light
+          %h4.font-bold.m-t
+            = current_online_customer.age['year']
+            %small years
+          %p.text-muted Age
+        .col-xs-3.b-r.b-light
+          %h4.font-bold.m-t
+            = current_online_customer.customer_vitals.feet
+            %small feet
+            = current_online_customer.customer_vitals.inches
+            %small inches
+          %p.text-muted Height
+        .col-xs-3.b-r.b-light
+          %h4.font-bold.m-t
+            %span
+              = current_online_customer.customer_vitals.blood_group.blood_type rescue '-'
+          %p.text-muted Blood group
+        .col-xs-3.b-light
+          %h4.font-bold.m-t
+            - if current_online_customer.recent_body_assessment_done.nil?
+              \-
+            - else
+              = "#{formatted_date current_online_customer.recent_body_assessment_done.updated_at}"
+          %p.text-muted Last assessment
+
+  %section.scrollable.wrapper.w-f.p-b
+    %section.panel.panel-default.m-n.b-n
+      %header.panel-heading.b-n
+        Basic vitals
+    %div.panel-footer.bg-white
+      .row.text-center.no-gutter
+        .col-xs-3.b-r.b-light
+          %h4.font-bold.m-t
+            = current_online_customer.customer_vitals.weight
+            %small
+              Kgs
+          %p.text-muted Weight
+        .col-xs-3.b-r.b-light
+          %h4.font-bold.m-t
+            %span{class: "#{current_online_customer.colored_bmi}"}
+              = current_online_customer.bmi
+          %p.text-muted BMI
+        .col-xs-3.b-r.b-light
+          %h4.font-bold.m-t
+            %span{class: "#{current_online_customer.systolic[:color]}"}
+              = "#{current_online_customer.systolic[:result]}"
+            \/
+            %span{class: "#{current_online_customer.diastolic[:color]}"}
+              = "#{current_online_customer.diastolic[:result]}"
+            %small
+              = "#{current_online_customer.diastolic[:units]}"
+          %p.text-muted Blood pressure
+        .col-xs-3
+          %h4.font-bold.m-t
+            %span{class: "#{current_online_customer.blood_sugar[:color]}"}
+              = "#{current_online_customer.blood_sugar[:result]}"
+            %small
+              = "#{current_online_customer.blood_sugar[:units]}"
+          %p.text-muted Blood Sugar
+
+    %div.row.p-t
+      .col-lg-4.col-md-4
+        %section.panel.panel-default.m-n
+          %header.panel-heading
+            Conversion
+          .panel-body.text-center
+            %h4
+              62.5
+              %small hrs
+            %small.text-muted.block Updated at 2 minutes ago
+            .inline
+              .easypiechart.easyPieChart{"data-bar-color" => "#fcc633", "data-line-width" => "16", "data-loop" => "false", "data-percent" => "75", "data-size" => "188", style: "width: 188px; height: 188px; line-height: 188px;"}
+                %div
+                  %span.h2.m-l-sm.step> 75
+                  \%
+                  .text.text-sm new
+                %canvas{height: "188", width: "188"}
+          .panel-footer
+            %small % of avarage rate of the Conversion
+      .col-lg-8.col-md-8
+        %section.panel.panel-default.m-n
+          - inbox_activities = current_online_customer.inbox_messages
+          %header.panel-heading
+            %span.label.bg-danger.pull-right
+              =  inbox_activities.count
+            Inbox
+          #dashboard_notifications.hide
+            - if inbox_activities.count == 0
+              %section.panel-body
+                No messages
+            - else
+            %section.panel-body
+              - inbox_activities.each do |activity|
+                %article.media
+                  %span.pull-left.thumb-sm
+                    - if activity.activity_type == 'MedicalRecord'
+                      %i.fa.fa-clipboard.fa.fa-2x
+                    - elsif activity.activity_type == 'BodyAssessment'
+                      %i.fa.fa-file-o.fa-2x.icon-muted
+                    - elsif activity.activity_type == 'DentalAssessment'
+                      %i.fa.fa-file-o.fa-2x.icon-muted
+                    - elsif activity.activity_type == 'VisionAssessment'
+                      %i.fa.fa-file-o.fa-2x.icon-muted
+                    - else
+                      %i.fa.fa-file-o.fa-2x.icon-muted
+
+                  .media-body
+                    .pull-right.media-xs.text-center.text-muted
+                      - if activity.associated_date.to_date > Date.today.to_date
+                        %strong.h4
+                          = day activity.associated_date
+                        %br
+                        %small.label.bg-light
+                          = month_name activity.associated_date
+                          -#= time_stamp activity.created_at
+                          -#= am_pm activity.created_at
+                      - else
+                        - if activity.is_appointment_message?
+                          %strong.h4
+                            = time_stamp activity.appointment.date
+                          %br
+                          %small.label.bg-light
+                            = am_pm activity.appointment.date
+                        - else
+                          %strong.h4
+                            = day activity.associated_date
+                          %br
+                          %small.label.bg-light
+                            = month_name activity.associated_date
+
+                      %br/
+                      -#%small.label.bg-light
+                        -#= formatted_date activity.created_at
+                    - if activity.activity_type =~ /Assessment/
+                      %a.h4{href: customers_health_assessments_path({type: activity.activity_type.gsub!(/Assessment/, ''), id: activity.associated_id})}
+                        = activity.title
+                    - elsif activity.activity_type == 'MedicalRecord'
+                      %a.h4{href: customers_documents_path}
+                        = activity.title
+                    -else
+                      %a.h4
+                        = activity.title
+                    %small.block
+                      -#%a{href: "#"} John Smith
+                      %span.label.label-success
+                        = activity.badge
+                    - if activity.is_appointment_message?
+                      %small.block.m-t-sm
+                        - if activity.appointment.is_partner?
+                          Assessment provider:
+                          %b
+                            = activity.appointment.partner_name
+                          %br
+                        - unless activity.appointment.location.nil?
+                          Assessment location:
+                          = activity.appointment.location.details rescue ''
+
+                    - elsif activity.is_recommendation_message?
+                      - description = activity.recommendation.description
+                      %small.block.m-t-sm
+                        Title:
+                        %b
+                          = activity.recommendation.title
+                        %br
+                        Description:
+                        = description.empty? ? 'None' : description
+
+                .line.pull-in
+    .m-n
+      - icons = ['i-plus2', 'i-users2', 'i-location', 'i-alarm']
+      - if !current_online_customer.insufficient_results.empty?
+        - index = -1
+        - current_online_customer.insufficient_results.each do |test_name, test_components|
+          - test_components.each do |component|
+            - index = index + 1
+            - pr = (0 == index % 3)
+            - pl = (2 == index % 3)
+            - body_assessment = component[:lab_result].body_assessment
+            .col-md-4.lt.padder.padder-v{class: "#{'p-l' if pl} #{'p-r' if pr}"}
+              %a{href: customers_health_assessments_path({id: body_assessment.id, type: 'Body'})}
+                %section.panel.panel-default.m-n.b-n
+                  %header.panel-heading.b-n
+                    = "#{test_name} abnormality".truncate(35)
+                .bg-white.text-center.b
+                  %section.block.hover.padder-v
+                    %span.clear
+                      %h4.font-bold
+                        %span.m-t-xs{class: "#{component[:color]}"}
+                          = component[:value]
+                          &nbsp;
+                        %small
+                          = component[:units]
+                          &nbsp;
+                      %small.text-muted.text-u-c
+                        = component[:name].truncate(35)
+                  .padder-v.text-center.clearfix.panel-footer
+                    .col-md-6.b-r
+                      %small.text-muted
+                        = formatted_date component[:date]
+                    .col-md-6.b-r
+                      %small.text-muted
+                        %i.i.i-info{title: component[:lab_result].test_component.info}

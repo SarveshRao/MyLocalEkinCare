@@ -1,0 +1,38 @@
+%section.hbox.stretch
+  %section.panel.panel-default
+    %header.panel-heading
+      Notes
+      %span.label.bg-success
+        = @notes.count
+    %section.panel-body
+      - @notes.each do |note|
+        %article.media
+          %span.pull-left.thumb-sm
+            -#%img{src: note.staff_id}
+          .media-body
+            .pull-right.media-xs.text-center.text-muted
+              %strong.h4
+                = note.created_at.day
+              %br/
+              %small.label.bg-light
+                = month_name note.created_at
+            %a.h4{href: "#"}
+              = note.title
+            %small.block.m-t-sm
+              = simple_format note.description
+            .comment-action.m-t-sm
+              %a.edit_note{href: health_assessment_note_path(@health_assessment, note), 'data-method' => 'delete', 'data-remote' => true}
+                %i.fa.fa-trash-o.text-muted
+                -#Remove
+
+:javascript
+  try{
+  $('.edit_note').bind('click', function(event){
+    $(event.currentTarget).parents('.media').remove();
+    notes_count_ele = $('#notes_panel header').find('.label');
+    notes_count_ele.text(parseInt(notes_count_ele.text()) - 1);
+  })
+  }
+  catch(e){
+  }
+

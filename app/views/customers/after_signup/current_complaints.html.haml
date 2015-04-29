@@ -1,0 +1,196 @@
+= content_for :title, 'Current complaints'
+
+- content_for :zopim_chat do
+  :javascript
+    window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
+    d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+    _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute('charset','utf-8');
+    $.src='//v2.zopim.com/?2Um2B0Y0KEgOyEsT8WLIjMFjSeBkufvQ';z.t=+new Date;$.
+    type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
+
+%section.panel.panel-default.m-n.b-n
+  -#%header.panel.panel-heading.m-n.b-n{style: 'background-color: #556270 !important;color: #fff'}
+    %span.h4.font-bold
+      Registration/Contact details
+  .panel-body{style: 'background-color: #556270 !important; color: #fff; border: 4px solid #fff; -moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px; '}
+    %span.h3
+      4: Current Medical Complaints
+    %p
+    -#%span.h5.font-bold
+      Why are we asking this?
+    %br
+    %span.h5
+      This information is used to understand your current medical condition
+
+    #contact_info.tab-pane.padder-v
+      - general_issues = current_online_customer.general_issues || ['']
+      - other_body_parts = current_online_customer.other_body_parts || ['']
+      = form_for current_online_customer, url: after_signup_path(id: current_online_customer.current_state.to_sym), method: 'put', html:{id: 'customer_current_complaints'} do |f|
+        %div.padder.padder-v.m-b{style: 'background-color: #fff;color: #000;border-radius: 4px'}
+          .row.p-l.m-t
+            .col-md-12
+              %label.m-b
+                %span.h5.font-bold General Issues
+          .row.p-l
+            .col-md-4
+              .checkbox.i-checks.m-n
+                %input{type: 'hidden',name: 'customer[general_issues][]',value: ''}
+                %label
+                  = check_box_tag "customer[general_issues][]", "Weight gain", general_issues.include?("Weight gain") ? true : false
+                  %i
+                  Weight gain
+
+            .col-md-4
+              .checkbox.i-checks.m-n
+                %label
+                  = check_box_tag "customer[general_issues][]", "Weight loss", general_issues.include?("Weight loss") ? true : false
+                  %i
+                  Weight loss
+            .col-md-4
+              .checkbox.i-checks.m-n
+                %label
+                  = check_box_tag "customer[general_issues][]", "Fatigue", general_issues.include?("Fatigue") ? true : false
+                  %i
+                  Fatigue
+          .row.p-l
+            .col-md-4
+              .checkbox.i-checks.m-n
+                %label
+                  = check_box_tag "customer[general_issues][]", "Weakness", general_issues.include?("Weakness") ? true : false
+                  %i
+                  Weakness
+            .col-md-4
+              .checkbox.i-checks.m-n
+                %label
+                  = check_box_tag "customer[general_issues][]", "Fever", general_issues.include?("Fever") ? true : false
+                  %i
+                  Fever
+
+            .col-md-4
+              .checkbox.i-checks.m-n
+                %label
+                  = check_box_tag "customer[general_issues][]", "Night sweats", general_issues.include?("Night sweats") ? true : false
+                  %i
+                  Night sweats
+          .row.p-l
+            .col-md-4
+              .checkbox.i-checks.m-n
+                %label
+                  = check_box_tag "customer[general_issues][]", "None", general_issues.include?("None") ? true : false
+                  %i
+                  None
+          .row.p-l.m-t
+            .col-md-12
+              %label.m-b
+                %span.h5.font-bold Any other specific issues?
+          .row.p-l
+            .col-md-4
+              .checkbox.i-checks.m-n
+                %label
+                  = check_box_tag "customer[other_body_parts][]","Heart", other_body_parts.include?("Heart") ? true : false
+                  %i
+                  Heart
+            .col-md-4
+              .checkbox.i-checks.m-n
+                %label
+                  = check_box_tag "customer[other_body_parts][]","Lungs", other_body_parts.include?("Lungs") ? true : false
+                  %i
+                  Lungs
+            .col-md-4
+              .checkbox.i-checks.m-n
+                %label
+                  = check_box_tag "customer[other_body_parts][]","Ears", other_body_parts.include?("Ears") ? true : false
+                  %i
+                  Ears
+          .row.p-l
+            .col-md-4
+              .checkbox.i-checks.m-n
+                %label
+                  = check_box_tag "customer[other_body_parts][]","Throat", other_body_parts.include?("Throat") ? true : false
+                  %i
+                  Throat
+            .col-md-4
+              .checkbox.i-checks.m-n
+                %label
+                  = check_box_tag "customer[other_body_parts][]","Muscles", other_body_parts.include?("Muscles") ? true : false
+                  %i
+                  Muscles
+            .col-md-4
+              .checkbox.i-checks.m-n
+                %label
+                  = check_box_tag "customer[other_body_parts][]","Joints", other_body_parts.include?("Joints") ? true : false
+                  %i
+                  Joints
+          .row.p-l
+            .col-md-4
+              .checkbox.i-checks.m-n
+                %label
+                  = check_box_tag "customer[other_body_parts][]","Bones", other_body_parts.include?("Bones") ? true : false
+                  %i
+                  Bones
+            .col-md-4
+              .checkbox.i-checks.m-n
+                %label
+                  = check_box_tag "customer[other_body_parts][]","Nervous system", other_body_parts.include?("Nervous system") ? true : false
+                  %i
+                  Nervous system
+            .col-md-4
+              .checkbox.i-checks.m-n
+                %label
+                  = check_box_tag "customer[other_body_parts][]","Stomach", other_body_parts.include?("Stomach") ? true : false
+                  %i
+                  Stomach
+          .row.p-l
+            .col-md-4
+              .checkbox.i-checks.m-n
+                %label
+                  = check_box_tag "customer[other_body_parts][]","Skin", other_body_parts.include?("Skin") ? true : false
+                  %i
+                  Skin
+            .col-md-4
+              .checkbox.i-checks.m-n
+                %label
+                  = check_box_tag "customer[other_body_parts][]","Blood", other_body_parts.include?("Blood") ? true : false
+                  %i
+                  Blood
+            .col-md-4
+              .checkbox.i-checks.m-n
+                %label
+                  = check_box_tag "customer[other_body_parts][]","Kidney", other_body_parts.include?("Kidney") ? true : false
+                  %i
+                  Kidney
+          .row.p-l
+            .col-md-4
+              .checkbox.i-checks.m-n
+                %label
+                  = check_box_tag "customer[other_body_parts][]","Urine", other_body_parts.include?("Urine") ? true : false
+                  %i
+                  Urine
+            .col-md-4
+              .checkbox.i-checks.m-n
+                %label
+                  = check_box_tag "customer[other_body_parts][]","Psychiatric", other_body_parts.include?("Psychiatric") ? true : false
+                  %i
+                  Psychiatric
+            .col-md-4
+              .checkbox.i-checks.m-n
+                %label
+                  = check_box_tag "customer[other_body_parts][]","Other", other_body_parts.include?("Other") ? true : false
+                  %i
+                  Other
+          .row.p-l
+            .col-md-4
+              .checkbox.i-checks.m-n
+                %label
+                  = check_box_tag "customer[general_issues][]", "None", other_body_parts.include?("None") ? true : false
+                  %i
+                  None
+
+        .row.padder.padder-v.m-b
+          .col-md-12.no-padder
+            .list-group
+              %a{class: 'btn btn-md btn-danger customer-bio-cancel-btn pull-left', href: "#{previous_wizard_path}"} Back
+              = f.submit 'Next', {class:'btn btn-md  btn-primary pull-right'}
+      -#['Weight gain','Weight loss','Fatigue','Weakness','Fever','Night sweats']
+      -#
+      -#['Heart', 'Lungs', 'Ears', 'Eyes', 'Throat', 'Muscles', 'Joints', 'Bones', 'Nervous system', 'Stomach', 'Skin', 'Blood', 'Kidney', 'Urine', 'Psychiatric', 'Other']

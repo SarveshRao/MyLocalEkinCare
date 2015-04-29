@@ -1,0 +1,74 @@
+= content_for :title, 'Provider dashboard'
+= content_for :title, 'Provider Listing'
+= content_for :title, 'Appointment Listing'
+
+#content
+  .vbox.padder
+    %h4
+      %a.font-bold{href: "#"}
+        Customer Listing &nbsp;&nbsp;
+    .scrollable
+      %section.panel.panel-default
+        .table-responsive
+          %table.table.table-striped.b-t.b-light#customer_list
+            %thead
+              %tr
+                %th Registration Date
+                %th Customer ID
+                %th Customer Name
+                %th Phone
+                %th Email
+                %th Date Of Birth
+                %th Wizard Status
+            %tbody
+              -if ((@customers_list.nil?)==false)
+                - @customers_list.each do |customer|
+                  %tr{class: 'customer-row'}
+                    %td
+                      =formatted_date customer.created_at
+                    %td
+                      = customer.id
+                    %td
+                      = customer.name
+                    %td
+                      = customer.mobile_number
+                    %td
+                      = customer.email
+                    %td
+                      = customer.date_of_birth
+                    %td
+                      =customer.status
+#content
+  .vbox.padder
+    %h4
+      %a.font-bold{href: "#"}
+        Appointments &nbsp;&nbsp;
+    .scrollable
+      %section.panel.panel-default
+        .table-responsive
+          %table.table.table-striped.b-t.b-light#appointments_list
+            %thead
+              %tr
+                %th ID
+                %th Appointment Date
+                %th Time
+                %th Appointmentee Type
+                %th Description
+            %tbody
+              -if ((@appointment_list.nil?)==false)
+                -@appointment_list.each do |appointment|
+                  %tr{class: 'customer-row'}
+                    %td
+                      = appointment.id
+                    %td
+                      = formatted_date appointment.appointment_date
+                    %td
+                      = appointment.time
+                    %td
+                      = appointment.appointmentee_type
+                    %td
+                      = appointment.description
+
+
+
+  %a.hide.nav-off-screen-block{"data-target" => "#nav", "data-toggle" => "class:nav-off-screen", href: "#"}

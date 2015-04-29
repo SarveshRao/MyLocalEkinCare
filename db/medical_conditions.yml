@@ -1,0 +1,8 @@
+Diabetic:
+  name: 'Diabetic'
+Hypertension:
+  name: 'Hypertension'
+HeartCondition:
+  name: 'Heart Condition'
+Cancer:
+  name: 'Cancer'  
