@@ -5,9 +5,6 @@ class Customers::SessionsController < Devise::SessionsController
 
   # GET /resource/sign_in
   def new
-    if session[:is_customer] == false
-      super.destroy
-    end
     self.resource = resource_class.new(sign_in_params)
     clean_up_passwords(resource)
     respond_with(resource, serialize_options(resource))
@@ -15,6 +12,7 @@ class Customers::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   def create
+    session[:is_customer] = true
     self.resource = Customer.find_by(mobile_number: params[:online_customer][:mobile_number])
     if self.resource.authenticate_otp(params[:online_customer][:otp], drift: 900) == true
       session[:is_customer] = true

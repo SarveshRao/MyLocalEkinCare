@@ -388,11 +388,15 @@ class Customers::ApiController < BaseApiController
         appointments = Appointment.find_by_appointmentee_id(assessment.id)
         if appointments
           appointment_provider = AppointmentProvider.find_by_appointment_id(appointments.id)
-          if appointment_provider
-            provider_name = Provider.find(appointment_provider.provider_id)
-            if provider_name and provider_name.id>0
-              enterprise_name = Enterprise.find(provider_name.enterprise_id).name
-              timeline.provider_name= enterprise_name
+          if appointment_provider.present?
+            if appointment_provider.provider_id>0
+              provider_name = Provider.find(appointment_provider.provider_id) rescue nil
+              if provider_name
+                enterprise_name = Enterprise.find(provider_name.enterprise_id).name rescue nil
+                timeline.provider_name= enterprise_name
+              else
+                timeline.provider_name = 'At Home'
+              end
             else
               timeline.provider_name = 'At Home'
             end
@@ -432,11 +436,15 @@ class Customers::ApiController < BaseApiController
       appointments = Appointment.find_by_appointmentee_id(assessment.id)
       if appointments
         appointment_provider = AppointmentProvider.find_by_appointment_id(appointments.id)
-        if appointment_provider
-          provider_name = Provider.find(appointment_provider.provider_id)
-          if provider_name and provider_name.id>0
-            enterprise_name = Enterprise.find(provider_name.enterprise_id).name
-            assessment.provider_name= enterprise_name
+        if appointment_provider.present?
+          if appointment_provider.provider_id>0
+            provider_name = Provider.find(appointment_provider.provider_id) rescue nil
+            if provider_name
+              enterprise_name = Enterprise.find(provider_name.enterprise_id).name rescue nil
+              assessment.provider_name= enterprise_name
+            else
+              assessment.provider_name = 'At Home'
+            end
           else
             assessment.provider_name = 'At Home'
           end
@@ -460,11 +468,11 @@ class Customers::ApiController < BaseApiController
     appointments = Appointment.find_by_appointmentee_id(@assessment.id)
     if appointments
       appointment_provider = AppointmentProvider.find_by_appointment_id(appointments.id)
-      if appointment_provider
-        if appointment_provider.provider_id != 0
-          provider_name = Provider.find(appointment_provider.provider_id)
-          if provider_name and provider_name.id>0
-            enterprise_name = Enterprise.find(provider_name.enterprise_id).name
+      if appointment_provider.present?
+        if appointment_provider.provider_id > 0
+          provider_name = Provider.find(appointment_provider.provider_id) rescue nil
+          if provider_name
+            enterprise_name = Enterprise.find(provider_name.enterprise_id).name rescue nil
             @assessment.provider_name= enterprise_name
           else
             @assessment.provider_name = 'At Home'
@@ -494,12 +502,12 @@ class Customers::ApiController < BaseApiController
           if @assessment.appointments.first
             if @assessment.appointments.first.get_enterprise_id
               enterprise_id =@assessment.appointments.first.get_enterprise_id
-              @lab_test_info = LabTest.find_by(name: lab_test_name, enterprise_id: enterprise_id ? enterprise_id : Enterprise.find_by_enterprise_id('EK')).info
+              @lab_test_info = LabTest.find_by(name: lab_test_name, enterprise_id: enterprise_id ? enterprise_id : Enterprise.find_by_enterprise_id('EK')).info rescue nil
             else
-              @lab_test_info = LabTest.find_by(name: lab_test_name, enterprise_id: Enterprise.find_by_enterprise_id('EK')).info
+              @lab_test_info = LabTest.find_by(name: lab_test_name, enterprise_id: Enterprise.find_by_enterprise_id('EK')).info rescue nil
             end
           else
-            @lab_test_info = LabTest.find_by(name: lab_test_name, enterprise_id: Enterprise.find_by_enterprise_id('EK')).info
+            @lab_test_info = LabTest.find_by(name: lab_test_name, enterprise_id: Enterprise.find_by_enterprise_id('EK')).info rescue nil
           end
         end
         @mainHash['lab_test_name'] = @lab_test_name

@@ -2111,8 +2111,9 @@ jQuery(document).ready(function ($) {
                         map: map,
                         icon: icon
                     });
+
                     for(var i=0; i<pro_locations.length;i++ ){
-                        marker[i] = new google.maps.Marker({
+                        var setmark  = new google.maps.Marker({
                             position: new google.maps.LatLng(pro_locations[i][0],pro_locations[i][1]), // loc is a variable with my lngLat object
                             title: pro_locations[i][2],
                             map: map,

@@ -16,7 +16,8 @@
     %header
       .row{:style => "height:100%;"}
         #ekin-logo
-          %img#ekin-logo-img{:src => asset_path("ekincare-logo.png")}/
+          %a.navbar-brand{href: home_index_path}
+            %img.m-r-sm{alt: "eKincare", src: asset_path('ekincare-logo.png')}
         #ekin-links
           %a.signin{:href => online_customer_session_path} Signin
           %a.register{:href => new_online_customer_registration_path} Register Now

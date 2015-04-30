@@ -12,13 +12,13 @@ class HomeController < ApplicationController
     @address = Address.find_by_zip_code(given_pin_code)
     locations=Array.new
     if @address
-      @location=[@address.longitude,@address.latitude,@address.city]
-      @address.venus1(5).each do |address|
+      @location=[@address.latitude,@address.longitude,@address.city]
+      @address.venus1(10).each do |address|
         loc=Array.new
         unless(address.nil?)
           loc.push(address.latitude)
           loc.push(address.longitude)
-          place=address.line1+','+address.line2+','+address.city rescue '-'
+          place=address.details rescue '-'
           loc.push(place)
           locations.push(loc)
         end

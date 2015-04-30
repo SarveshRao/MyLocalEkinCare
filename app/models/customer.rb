@@ -4,8 +4,9 @@ class Customer < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :invitable, :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :omniauthable, :validatable,
-         :timeoutable, :timeout_in => 2880.minutes
+         :recoverable, :rememberable, :trackable, :omniauthable, :validatable
+
+  validates_uniqueness_of :mobile_number
 
   attr_accessor :otp
   attr_accessor :is_customer

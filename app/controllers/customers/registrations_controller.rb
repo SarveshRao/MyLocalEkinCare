@@ -111,7 +111,6 @@ class Customers::RegistrationsController < Devise::RegistrationsController
           #     end
           #   end
         end
-
         # respond_to do |format|
         #   format.html
         #   format.json {render json: {msg: 'Signed up successfully'}}
