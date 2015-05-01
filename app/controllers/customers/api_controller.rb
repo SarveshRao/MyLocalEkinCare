@@ -376,7 +376,7 @@ class Customers::ApiController < BaseApiController
 
   def timeline
     @customer = Customer.find(params[:id])
-    @timeline = Timeline.joins("inner join health_assessments h on h.id=timelines.associated_id where h.customer_id=#{@customer.id}")
+    @timeline = Timeline.joins("inner join health_assessments h on h.id=timelines.associated_id where h.customer_id=#{@customer.id} and activity_type in ('BodyAssessment', 'DentalAssessment', 'VisionAssessment') order by timelines.updated_at DESC")
     @timeline.each do |timeline|
       timeline.class_eval do
         attr_accessor :doctor_name
@@ -488,7 +488,8 @@ class Customers::ApiController < BaseApiController
     end
 
     if @assessment.categorize_components.empty?
-      @list = 'No components had been added'
+      @list = nil
+      render json: {assessment_info: @list}.to_json(:methods => :provider_name)
     else
       @lab_info = Array.new
       @assesmentHash = Hash.new
@@ -530,9 +531,10 @@ class Customers::ApiController < BaseApiController
         @lab_info.push(@mainHash)
       end
       @assesmentHash['assessments_lab_info'] = @lab_info
+      render json: {assessment_info: @assesmentHash}.to_json(:methods => :provider_name)
     end
     # lab_test_name: @lab_test_name, test_components: @test_components, lab_test_info: @lab_test_info,
-    render json: {assessment_info: @assesmentHash}.to_json(:methods => :provider_name)
+
   end
 
   def insert_family_medical_history (family_history,medical_conditions)
