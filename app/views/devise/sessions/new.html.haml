@@ -42,6 +42,7 @@
           if(page.statusCode == 404)
           {
             $('#invalid_user_id, #signed_out').remove();
+            $('.alert.alert-danger.text-center, .alert.alert-success.text-center').remove();
             var invalid_user = $('<div id="invalid_user_id" class="alert alert-danger text-center"> <button class="close" data-dismiss="alert" type="button">×</button> <i class="fa fa-ok-sign"></i> Mobile number you have entered is not registered with eKincare. Please register before you login. </div>');
             $('#content').prepend(invalid_user);
           }
@@ -52,6 +53,7 @@
             $('#send_otp').hide();
             $('#send_otp_link').removeClass('hide');
             $('.after_mobile_number_entry').removeClass('hide');
+            $('.alert.alert-danger.text-center, .alert.alert-success.text-center').remove();
             var received_otp = $('<div id="signed_out" class="alert alert-success text-center"> <button class="close" data-dismiss="alert" type="button">×</button> <i class="fa fa-ok-sign"></i> We have sent OTP to your mobile. Please enter the OTP to login. OTP is valid only for next 15minutes </div>');
             $('#content').prepend(received_otp);
           }
