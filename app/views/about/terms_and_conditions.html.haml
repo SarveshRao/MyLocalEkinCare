@@ -1,107 +1,61 @@
-!!!
-%html{:lang => "en"}
-  %head
-    %meta{:charset => "utf-8"}
-      %meta{:content => "IE=Edge", "http-equiv" => "X-UA-Compatible"}
-        %title
-          FAQ | eKincare
-        %meta{:content => "Omada Health", :name => "author"}
-          %meta{:content => "", :name => "description"}
-            %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}
-              = stylesheet_link_tag 'about_us'
-  %body
-    %header
-      .row{:style => "height:100%;"}
-        #ekin-logo
-          %a.navbar-brand{href: home_index_path}
-            %img.m-r-sm{alt: "eKincare", src: asset_path('ekincare-logo.png')}
-        #ekin-links
-          %a.signin{:href => online_customer_session_path} Signin
-          %a.register{:href => new_online_customer_registration_path} Register Now
-    %section.row.page-container
-      %section.topMenuHolder
-        %nav.topMenu
-          %a.sidebar__link{:href => about_us_about_index_path} About Us
-          %a.sidebar__link{:href => team_about_index_path} The Team
-          %a.sidebar__link{:href => doctors_about_index_path} Our Doctors
-          %a.sidebar__link{:href => advisers_about_index_path} Our Advisors
-          %a.sidebar__link{:href => faq_about_index_path} FAQ
-          %a.sidebar__link.active{:href => terms_and_conditions_about_index_path} Terms &amp; Policies
-          %a.sidebar__link{:href => "https://angel.co/ekincare/jobs", :target => "_blank"} Jobs
-          %a.sidebar__link{:href => "http://ekincare.wordpress.com", :target => "_blank"} Blog
-          %a.sidebar__link{:href => contact_us_about_index_path} Contact Us
-      %aside.col2
-        %section.sidebar
-          %nav.nav--sidebar.mb20
-            %a.sidebar__link{:href => about_us_about_index_path} About Us
-            %a.sidebar__link{:href => team_about_index_path} The Team
-            %a.sidebar__link{:href => doctors_about_index_path} Our Doctors
-            %a.sidebar__link{:href => advisers_about_index_path} Our Advisors
-            %a.sidebar__link{:href => faq_about_index_path} FAQ
-            %a.sidebar__link.active{:href => terms_and_conditions_about_index_path} Terms &amp; Policies
-            %a.sidebar__link{:href => "https://angel.co/ekincare/jobs", :target => "_blank"} Jobs
-            %a.sidebar__link{:href => "http://ekincare.wordpress.com", :target => "_blank"} Blog
-            %a.sidebar__link{:href => contact_us_about_index_path} Contact Us
-      / /sidebar
-      / nav-sidebar
-      %section.page-content.col8
-        %h1.font-light.mb30 Terms &amp; Conditions
-        %h5 GENERAL
-        %ul
-          %li These Terms and Conditions along with Privacy Policy (“Agreement”) governs the use of the services that are made available by eKincare (“website”) to any individual or entity that uses our services (“client”) or visits the website (“user”). The person(s) who will be the subject of these services as and when subscribed and identified accordingly by the client will be referred to as “beneficiary”.
-          %li
-            Our services are very diverse and so from time to time, we may incorporate additional terms or modify the existing terms, with or without notice, and the additional terms or requirements should be read as a part of this Agreement. It will be the client’s responsibility to comply with the latest terms and conditions.
-            Please read this agreement carefully. We also advise you to regularly read the terms and conditions.
-          %li The Agreement will be applicable to clients who subscribe to any of the services from the website or visit/browse the website. By visiting and/or using the website or its services you have agreed to comply and be bound by the agreement.
-        %h5 ACCEPTABLE USE
-        %ul
-          %li For all purposes, this website is the property of eKincare, a sole proprietary concern established under the Laws of India. You may not use this website or services rendered therein in any way that causes, or may cause, damage to the website or impairment of the availability or accessibility of the website; or in any way which is unlawful, illegal, fraudulent or harmful, or in connection with any unlawful, illegal, fraudulent or harmful purpose or activity.
-          %li We may restrict, suspend or terminate the access to our website or its services, at our sole discretion, if we find that the client is not complying with the agreement. Our services are very diverse and so from time to time, we may incorporate additional terms or modify the existing terms, with or without notice, and the additional terms or requirements should be read as a part of this Agreement. It will be the client’s responsibility to comply with the latest terms and conditions.
-          %li This website contains material which is owned by or is licensed to us. This material includes, but is not limited to, the design, layout, look, appearance and graphics. Reproduction is prohibited other than in accordance with the copyright notice, which forms part of these terms and conditions. Using our services does not give you ownership of intellectual property rights in our services or the content you access. All trademarks reproduced in this website, which are not the property of, or licensed to us, are acknowledged on the website. Unauthorized use of this website by the user/client shall be a criminal offence and may give rise to a claim of damages. Please read this agreement carefully. We also advise you to regularly read the terms and conditions.
-        %h5 RECORDS AND CONTENT
-        %ul
-          %li The user/client/beneficiary or persons authorized by them may be asked to enter personal information including medical records on the website or its services. Personal Information means and includes all information that can be linked to a specific individual or to identify any individual, such as name, address, mailing address, telephone number, e – mail address, credit card number, cardholder name, expiration date, medical scans, reports, prescriptions or any information requested from the user/client while visits/usage of the website or its services.
-          %li This website is designed to store your and your beneficiary’s personal information on the website. The manner in which it is used, processed or retained by us will be elaborated in the privacy policy hereunder. We encourage you to read and understand the privacy policy and become familiar with it.
-          %li The user/client consents to receive electronic communications and agrees that all agreements, notices, disclosures and other communications that we provide to you satisfy any legal requirement that such communications be in writing.
-        %h5 USER’S/CLIENT’S RISK AND RESPONSIBILITY
-        %ul
-          %li With regard to the information found on the website including user’s/client’s/beneficiary’s information, we or any third party provide no warranty/guarantee as to the accuracy, timeliness, performance, completeness or suitability. The user/client has to exercise caution while accessing/using information found on this website and the same is entirely at his/her risk. The website does not bear any liability for the same. It shall be user’s/client’s responsibility to ensure that any products, services or information available through this website meet their specific requirements. For the purpose of this Agreement, beneficiary and client will be read as same party and eKincare bears no additional responsibility towards the beneficiary.
-          %li eKincare shall not bear any responsibility for the services provided by any third parties to this agreement even if they are in association with eKincare.
-          %li For matters of administration while using the services, beneficiary will be provided with an access card before the initiation of services. This card shall be kept safe and should be used at all times by the beneficiary while receiving eKincare’s services. Upon first use of the card by the beneficiary, it shall be deemed, for all purposes that he/she has consented to eKincare’s services. It shall be deemed that he/she has read and understood the policies, terms and conditions of using eKincare’s services and he/she authorizes eKincare and/or its agents or any entity so authorized by eKincare, to collect, record, store or distribute his/her personal information. It shall also be deemed that the beneficiary records his/her consent to co-operate and assist in the course of administering/conducting medical tests/procedures or any other relevant activity. This consent shall be in operation until the expiry of the client’s subscription with us or withdrawal of services by eKincare. The onus of communicating the above to the beneficiary is upon respective client only.
-          %li From time to time, this website may also include links to other websites. These links are provided for your convenience to provide further information. They do not signify that we endorse the website(s). We have no responsibility for the content of the linked website(s).
-        %h5 LAW AND JURISDICTION
-        %ul
-          %li The agreement will be governed and construed in accordance with the laws of Republic of India and any disputes arising from the agreement or relating thereto will be subject to the exclusive jurisdiction of the Courts in Hyderabad.
-        %h5 OTHER TERMS AND CONDITIONS
-        %ul
-          %li Tests in our packages are conducted as a screening procedure for early detection of medical condition, if any.
-          %li Some medical tests are dependent upon the centre where the tests are conducted; medical tests may vary according to the subscription packages opted by the client.
-          %li No eKincare’s service will be conducted or provided to pregnant women or nursing mothers. It shall be the responsibility of the client to ensure that he/she does not seek procedures of pregnant or nursing women.
-        %h5 Cancellation/Refund policies
-        eKincare strongly believes in “Good customer experience”, and has therefore a liberal cancellation and refind policy. Under this policy:
-        %ul
-          %li Cancellations will be considered only if the request is made within 72 hours of placing an order. However, the cancellation request will not be entertained if the orders have been communicated to the health care partners and they have initiated the process of scheduling for the checks.
-          %li No cancellations are entertained for those products that the eKincare marketing team has obtained on special offers. These are limited occasion offers and therefore cancellations are not possible.
-          %li We take customer feedback very seriously and use it to constantly improve our quality of service. In case you are not satisfied with the summary of the reports please send your grievances within 24 hours of the receipt of the reports along with a short summary as to why you are not satisfied toFounder@eKincare.com to consider for a refund. Refunds would be processed within 21 days period.
-        %h5 Privacy policies
-        %ul
-          %li As our esteemed client, your privacy is essential to us. Here, at www.eKincare.com, we believe that privacy is a top priority. We know that you care how information about you is used and shared. Thus, we provide this Privacy Policy to summarize our procedures and practices as regards to information collection and use. This will serve you as a guide in making an intelligent decision in sharing your information with us. By deciding to share and store your medical record at www.eKincare.com, you agree to be bound by this Privacy Policy and hereby accept the procedures and practices stated herein.
-        %h5 SCOPE
-        %ul
-          %li This Privacy Policy applies to all the transactions involving your information, which are undertaken by eKincare. This would describe and explain how we take care and handle your personal information you shared to us. By accepting the Privacy Policy and the Agreement while initial registration, you expressly consent to our collection, storage, use and disclosure of your personal information as described in this Privacy Policy.
-        %h5 DATA COLLECTION
-        %ul
-          %li If the user/client/beneficiary chooses to provide information on the website while browsing or subscription to any of the packages available or both, eKincare shall collect such information from them. For the purpose of data collection from the user/client/beneficiary, the website may also make telephone calls, e-mails, facsimile, postal communication in addition to online entries by the user/client/beneficiary.
-        %h5 CONSENT
-        %ul
-          %li Consent for the service and/or use of user information shall be taken only once during user’s/client’s initial enrollment with us which will continue until express withdrawal of his/her consent or upon termination of his/her subscription. Such withdrawal of consent should be sent in writing to help@eKincare. eKincare shall upload the records of the clients, which are available with the hospitals and diagnostic centers, to the user’s/client’s account and no additional permission shall be taken from the client or the beneficiary. The beneficiaries’ medical records shall be updated timely as and when medical tests/procedures are undertaken in their case.
-          %li eKincare may share the information without client’s/beneficiary’s prior consent with government agencies mandated by law to obtain such information upon a request sent in writing to eKincare stating clearly the purpose of seeking such information.
-        %h5 USE OF DATA COLLECTED
-        %ul
-          %li eKincare’s administrators, agents and other persons or entities authorized by eKincare shall have full access to user/client information and shall use this information only for the purpose of recommending /helping the user/client/beneficiary with treatment, health check-ups and any other advice which the user/client may want. eKincare can use this data for spreading awareness about the importance of prevention or early detection of diseases and for other services provided by the organization like making the medical history of the beneficiary available ‘on the go’ for ease of consultation with his/her physician, and reminding the beneficiary about his/her appointment with his/her doctors via email/text messages. This information includes, but is not limited to, name, address, telephone number, mobile number and/or email address, medical history, medications history and the name of the treating doctor.
-          %li Once collected, eKincare will store user’s/client’s/beneficiary’s information for a reasonable period of time with respect to the limitations of space and other administrative functions in the course of eKincare’s business. The information that we store is sometimes deleted and we cannot be held liable to the same. 8. In the event that the client withdraws from the program or alternatively refuse to provide information, eKincare shall use its discretion to provide its services to the said client.
-    -#/ /page-content
-    -#/ page
-    -#/ Scripts
-    -#%script{:src => "https://code.jquery.com/jquery-2.1.3.js"}
-    -#%script{:src => "./about.js"}
+%section.page-content.col8
+  %h1.font-light.mb30 Terms &amp; Conditions
+  %h5 GENERAL
+  %ul
+    %li These Terms and Conditions along with Privacy Policy (“Agreement”) governs the use of the services that are made available by eKincare (“website”) to any individual or entity that uses our services (“client”) or visits the website (“user”). The person(s) who will be the subject of these services as and when subscribed and identified accordingly by the client will be referred to as “beneficiary”.
+    %li
+      Our services are very diverse and so from time to time, we may incorporate additional terms or modify the existing terms, with or without notice, and the additional terms or requirements should be read as a part of this Agreement. It will be the client’s responsibility to comply with the latest terms and conditions.
+      Please read this agreement carefully. We also advise you to regularly read the terms and conditions.
+    %li The Agreement will be applicable to clients who subscribe to any of the services from the website or visit/browse the website. By visiting and/or using the website or its services you have agreed to comply and be bound by the agreement.
+  %h5 ACCEPTABLE USE
+  %ul
+    %li For all purposes, this website is the property of eKincare, a sole proprietary concern established under the Laws of India. You may not use this website or services rendered therein in any way that causes, or may cause, damage to the website or impairment of the availability or accessibility of the website; or in any way which is unlawful, illegal, fraudulent or harmful, or in connection with any unlawful, illegal, fraudulent or harmful purpose or activity.
+    %li We may restrict, suspend or terminate the access to our website or its services, at our sole discretion, if we find that the client is not complying with the agreement. Our services are very diverse and so from time to time, we may incorporate additional terms or modify the existing terms, with or without notice, and the additional terms or requirements should be read as a part of this Agreement. It will be the client’s responsibility to comply with the latest terms and conditions.
+    %li This website contains material which is owned by or is licensed to us. This material includes, but is not limited to, the design, layout, look, appearance and graphics. Reproduction is prohibited other than in accordance with the copyright notice, which forms part of these terms and conditions. Using our services does not give you ownership of intellectual property rights in our services or the content you access. All trademarks reproduced in this website, which are not the property of, or licensed to us, are acknowledged on the website. Unauthorized use of this website by the user/client shall be a criminal offence and may give rise to a claim of damages. Please read this agreement carefully. We also advise you to regularly read the terms and conditions.
+  %h5 RECORDS AND CONTENT
+  %ul
+    %li The user/client/beneficiary or persons authorized by them may be asked to enter personal information including medical records on the website or its services. Personal Information means and includes all information that can be linked to a specific individual or to identify any individual, such as name, address, mailing address, telephone number, e – mail address, credit card number, cardholder name, expiration date, medical scans, reports, prescriptions or any information requested from the user/client while visits/usage of the website or its services.
+    %li This website is designed to store your and your beneficiary’s personal information on the website. The manner in which it is used, processed or retained by us will be elaborated in the privacy policy hereunder. We encourage you to read and understand the privacy policy and become familiar with it.
+    %li The user/client consents to receive electronic communications and agrees that all agreements, notices, disclosures and other communications that we provide to you satisfy any legal requirement that such communications be in writing.
+  %h5 USER’S/CLIENT’S RISK AND RESPONSIBILITY
+  %ul
+    %li With regard to the information found on the website including user’s/client’s/beneficiary’s information, we or any third party provide no warranty/guarantee as to the accuracy, timeliness, performance, completeness or suitability. The user/client has to exercise caution while accessing/using information found on this website and the same is entirely at his/her risk. The website does not bear any liability for the same. It shall be user’s/client’s responsibility to ensure that any products, services or information available through this website meet their specific requirements. For the purpose of this Agreement, beneficiary and client will be read as same party and eKincare bears no additional responsibility towards the beneficiary.
+    %li eKincare shall not bear any responsibility for the services provided by any third parties to this agreement even if they are in association with eKincare.
+    %li For matters of administration while using the services, beneficiary will be provided with an access card before the initiation of services. This card shall be kept safe and should be used at all times by the beneficiary while receiving eKincare’s services. Upon first use of the card by the beneficiary, it shall be deemed, for all purposes that he/she has consented to eKincare’s services. It shall be deemed that he/she has read and understood the policies, terms and conditions of using eKincare’s services and he/she authorizes eKincare and/or its agents or any entity so authorized by eKincare, to collect, record, store or distribute his/her personal information. It shall also be deemed that the beneficiary records his/her consent to co-operate and assist in the course of administering/conducting medical tests/procedures or any other relevant activity. This consent shall be in operation until the expiry of the client’s subscription with us or withdrawal of services by eKincare. The onus of communicating the above to the beneficiary is upon respective client only.
+    %li From time to time, this website may also include links to other websites. These links are provided for your convenience to provide further information. They do not signify that we endorse the website(s). We have no responsibility for the content of the linked website(s).
+  %h5 LAW AND JURISDICTION
+  %ul
+    %li The agreement will be governed and construed in accordance with the laws of Republic of India and any disputes arising from the agreement or relating thereto will be subject to the exclusive jurisdiction of the Courts in Hyderabad.
+  %h5 OTHER TERMS AND CONDITIONS
+  %ul
+    %li Tests in our packages are conducted as a screening procedure for early detection of medical condition, if any.
+    %li Some medical tests are dependent upon the centre where the tests are conducted; medical tests may vary according to the subscription packages opted by the client.
+    %li No eKincare’s service will be conducted or provided to pregnant women or nursing mothers. It shall be the responsibility of the client to ensure that he/she does not seek procedures of pregnant or nursing women.
+  %h5 Cancellation/Refund policies
+  eKincare strongly believes in “Good customer experience”, and has therefore a liberal cancellation and refind policy. Under this policy:
+  %ul
+    %li Cancellations will be considered only if the request is made within 72 hours of placing an order. However, the cancellation request will not be entertained if the orders have been communicated to the health care partners and they have initiated the process of scheduling for the checks.
+    %li No cancellations are entertained for those products that the eKincare marketing team has obtained on special offers. These are limited occasion offers and therefore cancellations are not possible.
+    %li We take customer feedback very seriously and use it to constantly improve our quality of service. In case you are not satisfied with the summary of the reports please send your grievances within 24 hours of the receipt of the reports along with a short summary as to why you are not satisfied toFounder@eKincare.com to consider for a refund. Refunds would be processed within 21 days period.
+  %h5 Privacy policies
+  %ul
+    %li As our esteemed client, your privacy is essential to us. Here, at www.eKincare.com, we believe that privacy is a top priority. We know that you care how information about you is used and shared. Thus, we provide this Privacy Policy to summarize our procedures and practices as regards to information collection and use. This will serve you as a guide in making an intelligent decision in sharing your information with us. By deciding to share and store your medical record at www.eKincare.com, you agree to be bound by this Privacy Policy and hereby accept the procedures and practices stated herein.
+  %h5 SCOPE
+  %ul
+    %li This Privacy Policy applies to all the transactions involving your information, which are undertaken by eKincare. This would describe and explain how we take care and handle your personal information you shared to us. By accepting the Privacy Policy and the Agreement while initial registration, you expressly consent to our collection, storage, use and disclosure of your personal information as described in this Privacy Policy.
+  %h5 DATA COLLECTION
+  %ul
+    %li If the user/client/beneficiary chooses to provide information on the website while browsing or subscription to any of the packages available or both, eKincare shall collect such information from them. For the purpose of data collection from the user/client/beneficiary, the website may also make telephone calls, e-mails, facsimile, postal communication in addition to online entries by the user/client/beneficiary.
+  %h5 CONSENT
+  %ul
+    %li Consent for the service and/or use of user information shall be taken only once during user’s/client’s initial enrollment with us which will continue until express withdrawal of his/her consent or upon termination of his/her subscription. Such withdrawal of consent should be sent in writing to help@eKincare. eKincare shall upload the records of the clients, which are available with the hospitals and diagnostic centers, to the user’s/client’s account and no additional permission shall be taken from the client or the beneficiary. The beneficiaries’ medical records shall be updated timely as and when medical tests/procedures are undertaken in their case.
+    %li eKincare may share the information without client’s/beneficiary’s prior consent with government agencies mandated by law to obtain such information upon a request sent in writing to eKincare stating clearly the purpose of seeking such information.
+  %h5 USE OF DATA COLLECTED
+  %ul
+    %li eKincare’s administrators, agents and other persons or entities authorized by eKincare shall have full access to user/client information and shall use this information only for the purpose of recommending /helping the user/client/beneficiary with treatment, health check-ups and any other advice which the user/client may want. eKincare can use this data for spreading awareness about the importance of prevention or early detection of diseases and for other services provided by the organization like making the medical history of the beneficiary available ‘on the go’ for ease of consultation with his/her physician, and reminding the beneficiary about his/her appointment with his/her doctors via email/text messages. This information includes, but is not limited to, name, address, telephone number, mobile number and/or email address, medical history, medications history and the name of the treating doctor.
+    %li Once collected, eKincare will store user’s/client’s/beneficiary’s information for a reasonable period of time with respect to the limitations of space and other administrative functions in the course of eKincare’s business. The information that we store is sometimes deleted and we cannot be held liable to the same. 8. In the event that the client withdraws from the program or alternatively refuse to provide information, eKincare shall use its discretion to provide its services to the said client.
+-#/ /page-content
+-#/ page
+-#/ Scripts
+-#%script{:src => "https://code.jquery.com/jquery-2.1.3.js"}
+-#%script{:src => "./about.js"}

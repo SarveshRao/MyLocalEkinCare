@@ -15,7 +15,11 @@ class Customers::VenusController < CustomerAppController
         if @package_info.service_type[0] == "B"
           @location_body = @address.venus(params[:distance],"Body")
         elsif @package_info.service_type[0] == "D"
-          @location_dental = @address.venus(params[:distance],"Dental")
+          if @package_info.name=="Apollo Smile Dental Package"
+            @location_dental = @address.venus2(params[:distance],"Dental", "AD")
+          else
+            @location_dental = @address.venus(params[:distance],"Dental")
+          end
         elsif @package_info.service_type[0] == "V"
           @location_vision = @address.venus(params[:distance],"Vision")
         end
@@ -23,7 +27,11 @@ class Customers::VenusController < CustomerAppController
         if @package_info.service_type[2] == "B"
           @location_body = @address.venus(params[:distance],"Body")
         elsif @package_info.service_type[2] == "D"
-          @location_dental = @address.venus(params[:distance],"Dental")
+          if @package_info.name=="Apollo Smile Dental Package"
+            @location_dental = @address.venus2(params[:distance],"Dental", "AD")
+          else
+            @location_dental = @address.venus(params[:distance],"Dental")
+          end
         elsif @package_info.service_type[2] == "V"
           @location_vision = @address.venus(params[:distance],"Vision")
         end
@@ -31,14 +39,22 @@ class Customers::VenusController < CustomerAppController
         if @package_info.service_type[4] == "B"
           @location_body = @address.venus(params[:distance],"Body")
         elsif @package_info.service_type[4] == "D"
-          @location_dental = @address.venus(params[:distance],"Dental")
+          if @package_info.name=="Apollo Smile Dental Package"
+            @location_dental = @address.venus2(params[:distance],"Dental", "AD")
+          else
+            @location_dental = @address.venus(params[:distance],"Dental")
+          end
         elsif @package_info.service_type[4] == "V"
           @location_vision = @address.venus(params[:distance],"Vision")
         end
 
         unless @location_dental.nil?
           if @location_dental.length < 1
-            @location_dental = @address.venus(6,"Dental")
+            if @package_info.name=="Apollo Smile Dental Package"
+              @location_dental = @address.venus2(6,"Dental", "AD")
+            else
+              @location_dental = @address.venus(6,"Dental")
+            end
           end
         end
         unless @location_vision.nil?
@@ -48,7 +64,11 @@ class Customers::VenusController < CustomerAppController
         end
         unless @location_dental.nil?
           if @location_dental.length < 1
-            @location_dental = @address.venus(10,"Dental")
+            if @package_info.name=="Apollo Smile Dental Package"
+              @location_dental = @address.venus2(10,"Dental", "AD")
+            else
+              @location_dental = @address.venus(10,"Dental")
+            end
           end
         end
         unless @location_vision.nil?

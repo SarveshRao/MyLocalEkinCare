@@ -21,6 +21,10 @@
           %p{:style => "color:#1787d4; font-weight:bold;font-size:15px;margin-bottom: 0px;"}
             = @package_name
           %p{:style => "color:#808993"} includes:
+          -if @package_name == "Apollo Smile Dental Package"
+            %p{:style => "margin-left: 4%; color:#808993; margin-top:0px !important; margin-bottom:5px !important"} Comprehensive dental check
+            %p{:style => "margin-left: 4%; color:#808993; margin-top:0px !important; margin-bottom:5px !important"} For a family of 4 members
+            %p{:style => "margin-left: 4%; color:#808993; margin-top:0px !important; margin-bottom:5px !important"} Free online reports
           -if @package_name == "Pro Package"
             %p{:style => "margin-left: 4%; color:#808993; margin-top:0px !important; margin-bottom:5px !important"} 60+ test
             %p{:style => "margin-left: 4%; color:#808993; margin-top:0px !important; margin-bottom:5px !important"} Dental & Vision check

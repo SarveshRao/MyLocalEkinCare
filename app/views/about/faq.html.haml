@@ -1,111 +1,62 @@
-!!!
-%html{:lang => "en"}
-  %head
-    %meta{:charset => "utf-8"}
-      %meta{:content => "IE=Edge", "http-equiv" => "X-UA-Compatible"}
-        %title
-          FAQ | eKincare
-        %meta{:content => "Omada Health", :name => "author"}
-          %meta{:content => "", :name => "description"}
-            %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}
-              = stylesheet_link_tag 'about_us'
-              -#  /[if lt IE 9]
-              -#<link href="./ie8.css" rel="stylesheet">
-              -#  <script src="./html5shiv.js"></script>
-  %body
-    %header
-      .row{:style => "height:100%;"}
-        #ekin-logo
-          %a.navbar-brand{href: home_index_path}
-            %img.m-r-sm{alt: "eKincare", src: asset_path('ekincare-logo.png')}
-        #ekin-links
-          %a.signin{:href => online_customer_session_path} Signin
-          %a.register{:href => new_online_customer_registration_path} Register Now
-    %section.row.page-container
-      %section.topMenuHolder
-        %nav.topMenu
-          %a.sidebar__link{:href => about_us_about_index_path} About Us
-          %a.sidebar__link{:href => team_about_index_path} The Team
-          %a.sidebar__link{:href => doctors_about_index_path} Our Doctors
-          %a.sidebar__link{:href => advisers_about_index_path} Our Advisors
-          %a.sidebar__link.active{:href => faq_about_index_path} FAQ
-          %a.sidebar__link{:href => terms_and_conditions_about_index_path} Terms &amp; Policies
-          %a.sidebar__link{:href => "https://angel.co/ekincare/jobs", :target => "_blank"} Jobs
-          %a.sidebar__link{:href => "http://ekincare.wordpress.com", :target => "_blank"} Blog
-          %a.sidebar__link{:href => contact_us_about_index_path} Contact Us
-      %aside.col2
-        %section.sidebar
-          %nav.nav--sidebar.mb20
-            %a.sidebar__link{:href => about_us_about_index_path} About Us
-            %a.sidebar__link{:href => team_about_index_path} The Team
-            %a.sidebar__link{:href => doctors_about_index_path} Our Doctors
-            %a.sidebar__link{:href => advisers_about_index_path} Our Advisors
-            %a.sidebar__link.active{:href => faq_about_index_path} FAQ
-            %a.sidebar__link{:href => terms_and_conditions_about_index_path} Terms &amp; Policies
-            %a.sidebar__link{:href => "https://angel.co/ekincare/jobs", :target => "_blank"} Jobs
-            %a.sidebar__link{:href => "http://ekincare.wordpress.com", :target => "_blank"} Blog
-            %a.sidebar__link{:href => contact_us_about_index_path} Contact Us
-      / /sidebar
-      / nav-sidebar
-      %section.page-content.col8
-        %h1.font-light.mb10 FAQ
-        %p
-          %br/
-        %section.faq
-          %h5.faq__title.uppercase The Basics
-          %a.faq__trigger{:href => "#"}
-            What is eKincare?
-          %section.faq__content.content
-            eKincare is an offline and online solution to assess, track and stay informed about your wellbeing, with minimal effort.
-          %a.faq__trigger{:href => "#"}
-            Who can register for eKincare?
-          %section.faq__content.content
-            Anyone who wants to take charge of their health or family’s health. Research has shown that when consumers actively participate in their own care, the outcomes are better, inexpensive and more responsive.
-        %section.faq
-          %h5.faq__title.uppercase Why eKincare
-          %a.faq__trigger{:href => "#"}
-            I am healthy, why would I subscribe to eKincare?
-          %section.faq__content
-            %p In short you have nothing to lose and everything to gain. In India. 52% of them aren’t aware that they have Diabetes and 67% of them didn’t know they were suffering from high blood pressure until they were diagnosed. 70% of urban Indians are at risk of heart diseases. With the rise of chronic diseases, regular body, dental and vision checks can help find problems before they start. They also can help detect problems early, when your chances for treatment and cure are better.
-          %a.faq__trigger{:href => "#"}
-            Why would I want to digitize my past medical records?
-          %section.faq__content
-            Your health information is scattered across multiple providers and files. Keeping your own complete, updated and easily accessible health record means you can play a more active role in your healthcare. You wouldn’t write checks without keeping a check register. The same level of responsibility makes sense for your healthcare.
-            %br/
-            = succeed "It" do
-              %br/
-            can reduce or eliminate duplicate procedures or processes, which saves your time and money. And the information you gather gives you knowledge that assists your preparation for appointments.
-          %a.faq__trigger{:href => "#"}
-            Why digitize with eKincare?
-          %section.faq__content
-            %p Medical records are records. Just that. And we carry them as couriers from one doctor to another without understanding what’s in them. When your store your records with eKincare, that data from those records are analyzed which helps spots any chronic health risks early when chances of treatment are better. Also, we convert that data into easy to understand formats which helps you to:
-        %section.faq
-          %h5.faq__title.uppercase Sign-up, Cost and Getting Started
-          %a.faq__trigger{:href => "#"}
-            How much does it cost?
-          %section.faq__content
-            %p Nothing, it’s free.
-          %a.faq__trigger{:href => "#"}
-            Where are your services currently offered?
-          %section.faq__content
-            %p We currently offer our services across India through our health partners. Below is the map of our partner centers.
-          %a.faq__trigger{:href => "#"}
-            I just uploaded my documents, what happens next?
-          %section.faq__content
-            Congratulations! You’ve taken your first step towards a healthy future. We update your profile with the data from your records, for you to understand your past in a simple and useful format for better insights and anomalies into your health. Our digitization take on an average of 2 working business days and we will notify you once we update your profile.
-          %a.faq__trigger{:href => "#"}
-            Can I mail my medical records to eKincare instead of uploading?
-          %section.faq__content
-            Surely you can. Please send a copy of your records with your name, date of birth, contact address and phone number to reports@eKincare.com
-        %section.faq
-          %h5.faq__title.uppercase Cancellation and Privacy
-          %a.faq__trigger{:href => "#"}
-            What if I want to delete my profile?
-          %section.faq__content
-            We really think you’ll like our program, but we understand that the realities of life can make it difficult to fully commit. If you’d like to cancel just send us an email at info@eKincare.com with the subject line “Cancellation” and your name, date of birth, registered phone number and address and we will process your cancellation immediately.
-          %a.faq__trigger{:href => "#"}
-            What privacy measures are in place?
-          %section.faq__content
-            We understand that your personal health is private, and we take that seriously. You can find out more by reading our
-            = succeed "." do
-              %a privacy policies
+%section.page-content.col8
+  %h1.font-light.mb10 FAQ
+  %p
+    %br/
+  %section.faq
+    %h5.faq__title.uppercase The Basics
+    %a.faq__trigger{:href => "#"}
+      What is eKincare?
+    %section.faq__content.content
+      eKincare is an offline and online solution to assess, track and stay informed about your wellbeing, with minimal effort.
+    %a.faq__trigger{:href => "#"}
+      Who can register for eKincare?
+    %section.faq__content.content
+      Anyone who wants to take charge of their health or family’s health. Research has shown that when consumers actively participate in their own care, the outcomes are better, inexpensive and more responsive.
+  %section.faq
+    %h5.faq__title.uppercase Why eKincare
+    %a.faq__trigger{:href => "#"}
+      I am healthy, why would I subscribe to eKincare?
+    %section.faq__content
+      %p In short you have nothing to lose and everything to gain. In India. 52% of them aren’t aware that they have Diabetes and 67% of them didn’t know they were suffering from high blood pressure until they were diagnosed. 70% of urban Indians are at risk of heart diseases. With the rise of chronic diseases, regular body, dental and vision checks can help find problems before they start. They also can help detect problems early, when your chances for treatment and cure are better.
+    %a.faq__trigger{:href => "#"}
+      Why would I want to digitize my past medical records?
+    %section.faq__content
+      Your health information is scattered across multiple providers and files. Keeping your own complete, updated and easily accessible health record means you can play a more active role in your healthcare. You wouldn’t write checks without keeping a check register. The same level of responsibility makes sense for your healthcare.
+      %br/
+      = succeed "It" do
+        %br/
+      can reduce or eliminate duplicate procedures or processes, which saves your time and money. And the information you gather gives you knowledge that assists your preparation for appointments.
+    %a.faq__trigger{:href => "#"}
+      Why digitize with eKincare?
+    %section.faq__content
+      %p Medical records are records. Just that. And we carry them as couriers from one doctor to another without understanding what’s in them. When your store your records with eKincare, that data from those records are analyzed which helps spots any chronic health risks early when chances of treatment are better. Also, we convert that data into easy to understand formats which helps you to:
+  %section.faq
+    %h5.faq__title.uppercase Sign-up, Cost and Getting Started
+    %a.faq__trigger{:href => "#"}
+      How much does it cost?
+    %section.faq__content
+      %p Nothing, it’s free.
+    %a.faq__trigger{:href => "#"}
+      Where are your services currently offered?
+    %section.faq__content
+      %p We currently offer our services across India through our health partners. Below is the map of our partner centers.
+    %a.faq__trigger{:href => "#"}
+      I just uploaded my documents, what happens next?
+    %section.faq__content
+      Congratulations! You’ve taken your first step towards a healthy future. We update your profile with the data from your records, for you to understand your past in a simple and useful format for better insights and anomalies into your health. Our digitization take on an average of 2 working business days and we will notify you once we update your profile.
+    %a.faq__trigger{:href => "#"}
+      Can I mail my medical records to eKincare instead of uploading?
+    %section.faq__content
+      Surely you can. Please send a copy of your records with your name, date of birth, contact address and phone number to reports@eKincare.com
+  %section.faq
+    %h5.faq__title.uppercase Cancellation and Privacy
+    %a.faq__trigger{:href => "#"}
+      What if I want to delete my profile?
+    %section.faq__content
+      We really think you’ll like our program, but we understand that the realities of life can make it difficult to fully commit. If you’d like to cancel just send us an email at info@eKincare.com with the subject line “Cancellation” and your name, date of birth, registered phone number and address and we will process your cancellation immediately.
+    %a.faq__trigger{:href => "#"}
+      What privacy measures are in place?
+    %section.faq__content
+      We understand that your personal health is private, and we take that seriously. You can find out more by reading our
+      = succeed "." do
+        %a privacy policies

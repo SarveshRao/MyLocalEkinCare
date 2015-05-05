@@ -1076,15 +1076,15 @@ $(document).ready ->
       }
       {
         'sTitle': 'Is Diabetic'
-        'mData': 'is_diabetic'
+        'mData': 'diabetic'
       }
       {
-        'sTitle': 'Is Obesity'
-        'mData': 'is_obesity'
+        'sTitle': 'Is Obese'
+        'mData': 'is_obese'
       }
       {
         'sTitle': 'Is Overweight'
-        'mData': 'is_overweight'
+        'mData': 'is_over_weight'
       }
     ]
   return

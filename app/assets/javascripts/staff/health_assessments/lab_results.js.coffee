@@ -6,77 +6,132 @@ $ ->
     $('#notes_panel').show()
 
   rangeNotifierColorRow = (row) ->
-    result_ele = row.children().eq(2)
-    range_ele = row.children().eq(3)
-    val=result_ele.text().trim()
-    if /^[a-zA-Z ]+$/.test(val)
-      result_val=val
-    else
-      result_val = result_ele.text().replace(/[\µ\%a-zA-Z\(\)\(/)\u03bc]*/g, '')
-      result_val = result_val.replace('10³', '')
-      result_val = result_val.replace('10^', '')
+    result_value_element = row.children().eq(2)
+    result_ele = row.children().eq(3)
+    range_ele = row.children().eq(4)
+#    val=result_ele.text().trim()
+#    if /^[a-zA-Z ]+$/.test(val)
+#      result_val=val
+#    else
+#      result_val = result_ele.text().replace(/[\µ\%a-zA-Z\(\)\(/)\u03bc]*/g, '')
+#      result_val = result_val.replace('10³', '')
+#      result_val = result_val.replace('10^', '')
+#    range_eles = range_ele.find('a')
+#    range_eles_status = []
+#    if result_val.trim().length isnt 0
+#      for current_range_ele in range_eles
+#        current_range = $(current_range_ele).text()
+#        compare_literals = current_range.replace(/[\µ\%0-9\+\/\.\(\)a-zA-Z\s\%\u03bc]*/g, '')
+#        if /[0-9]+/g.test(current_range)
+#          if /\-/.test compare_literals
+#            compare_literal_nums = current_range.replace(/[\µ\%\>\<\+\=\/\(\)a-zA-Z\s\%\u03bc]*/g, '')
+#            eval_values = compare_literal_nums.split(/[-]/).filter(Boolean).sort((a, b) -> return a - b)
+#            min_val = parseFloat(eval_values[0])
+#            max_val = parseFloat(eval_values[1])
+#            status = eval(min_val < result_val < max_val)
+#            if status is false
+#              status = (min_val is parseFloat(result_val)) || (max_val is parseFloat(result_val))
+#          else
+#            compare_literal_nums = current_range.replace(/[\µ\%\-\+\=\/\(\)a-zA-Z\s\%\u03bc]*/g, '')
+#            if /[\>\<]+/.test compare_literals
+#              eval_values = compare_literal_nums.split(/[><]/).filter(Boolean).sort()
+#              min_val = parseFloat(eval_values[0])
+#              max_val = parseFloat(eval_values[1])
+#              status = eval(min_val < parseFloat(result_val) < max_val)
+#
+#            if /[\>|\<]+/.test compare_literals
+#              if /[<]+/.test compare_literals
+#                status = eval("#{result_val} #{compare_literal_nums}")
+#              if /[>]+/.test compare_literals
+#                status = eval("#{result_val} #{compare_literal_nums}")
+#
+#            compare_literals = current_range.replace(/[\µ\%0-9\>\<\=\/\.\(\)a-zA-Z\s\%\u03bc]*/g, '')
+#            if /[\-|\+]+/.test compare_literals
+#              compare_literal_nums = current_range.replace(/[\µ\%\-\>\<\+\/\(\)a-zA-Z\s\%\u03bc]*/g, '')
+#              if /\-/.test compare_literals
+#                status = eval("#{result_val} < #{compare_literal_nums}")
+#              if /\+/.test compare_literals
+#                status = eval("#{result_val} > #{compare_literal_nums}")
+#
+#          compare_literals = current_range.replace(/[\µ\%\>\<\+\/\(\)a-zA-Z\s\%\u03bc]*/g, '')
+#          if status is false && /\=/.test compare_literals
+#            result_exp = new RegExp(result_val.trim(), 'g')
+#            status = result_exp.test current_range
+#        else
+#          res_val=result_val.toString().trim()
+#          res_val=res_val.replace('null','').trim()
+#          status = current_range.trim().toLowerCase() is res_val.toLowerCase()
+#        range_eles_status.push(status)
+#        if status == true
+#          break
+
+#      for range_ele_status, index in range_eles_status
+#        if range_ele_status
+#          standard_range_ele_class = $(range_eles[index]).attr('class')
+#          if standard_range_ele_class.search('success') isnt -1
+#            color_class = 'text-success'
+#          if standard_range_ele_class.search('warning') isnt -1
+#            color_class = 'text-warning'
+#          if standard_range_ele_class.search('danger') isnt -1
+#            color_class = 'text-danger'
+#          result_ele.attr('class', color_class)
+#        else
+#          color_class = 'text-danger'
+#          result_ele.attr('class', color_class)
+
+    result_ele.attr('class', 'text-danger')
     range_eles = range_ele.find('a')
-    range_eles_status = []
-    if result_val.trim().length isnt 0
-      for current_range_ele in range_eles
-        current_range = $(current_range_ele).text()
-        compare_literals = current_range.replace(/[\µ\%0-9\+\/\.\(\)a-zA-Z\s\%\u03bc]*/g, '')
-        if /[0-9]+/g.test(current_range)
-          if /\-/.test compare_literals
-            compare_literal_nums = current_range.replace(/[\µ\%\>\<\+\=\/\(\)a-zA-Z\s\%\u03bc]*/g, '')
-            eval_values = compare_literal_nums.split(/[-]/).filter(Boolean).sort((a, b) -> return a - b)
-            min_val = parseFloat(eval_values[0])
-            max_val = parseFloat(eval_values[1])
-            status = eval(min_val < result_val < max_val)
-            if status is false
-              status = (min_val is parseFloat(result_val)) || (max_val is parseFloat(result_val))
-          else
-            compare_literal_nums = current_range.replace(/[\µ\%\-\+\=\/\(\)a-zA-Z\s\%\u03bc]*/g, '')
-            if /[\>\<]+/.test compare_literals
-              eval_values = compare_literal_nums.split(/[><]/).filter(Boolean).sort()
-              min_val = parseFloat(eval_values[0])
-              max_val = parseFloat(eval_values[1])
-              status = eval(min_val < parseFloat(result_val) < max_val)
-
-            if /[\>|\<]+/.test compare_literals
-              if /[<]+/.test compare_literals
-                status = eval("#{result_val} #{compare_literal_nums}")
-              if /[>]+/.test compare_literals
-                status = eval("#{result_val} #{compare_literal_nums}")
-
-            compare_literals = current_range.replace(/[\µ\%0-9\>\<\=\/\.\(\)a-zA-Z\s\%\u03bc]*/g, '')
-            if /[\-|\+]+/.test compare_literals
-              compare_literal_nums = current_range.replace(/[\µ\%\-\>\<\+\/\(\)a-zA-Z\s\%\u03bc]*/g, '')
-              if /\-/.test compare_literals
-                status = eval("#{result_val} < #{compare_literal_nums}")
-              if /\+/.test compare_literals
-                status = eval("#{result_val} > #{compare_literal_nums}")
-
-          compare_literals = current_range.replace(/[\µ\%\>\<\+\/\(\)a-zA-Z\s\%\u03bc]*/g, '')
-          if status is false && /\=/.test compare_literals
-            result_exp = new RegExp(result_val.trim(), 'g')
-            status = result_exp.test current_range
+    for current_range_ele in range_eles
+#      Write the updated logic here
+#      Logic:
+#        - try to identify if the standard_range contains any digits
+#        - No => need to compare like a simple string
+#        - Yes => need to consider
+#          - removing white spaces
+#          - ignore all characters other than (0-9.<>=+-)
+#          - ignore all characters other than (0-9.-) if this contains - which means a range between
+#          - check if starts with "<" or "<=" or ">" or ">="
+#          - check if ends "+"
+      current_range_value = current_range_ele.text.replace RegExp(' ', 'g'), ''
+      isDigitPresent = /\d/.test(current_range_value)
+      if isDigitPresent
+#        write logic for range comparision
+        result_value = result_value_element.text().replace /[^0-9.]/ig, ''
+        current_range_value = current_range_value.replace /[^0-9.<>=+-]/ig, ''
+#        Now try to compare range-wise
+        if(/^<=/.test current_range_value)
+          current_range_value = current_range_value.split("<=")[1]
+          if(parseFloat(result_value) <= parseFloat(current_range_value))
+            result_ele.attr('class', 'text-'+$(current_range_ele).attr('class').split(" ")[0].split("-")[1])
+        else if(/^</.test current_range_value)
+          current_range_value = current_range_value.split("<")[1]
+          if(parseFloat(result_value) < parseFloat(current_range_value))
+            result_ele.attr('class', 'text-'+$(current_range_ele).attr('class').split(" ")[0].split("-")[1])
+        else if(/^>=/.test current_range_value)
+          current_range_value = current_range_value.split(">=")[1]
+          if(parseFloat(result_value) >= parseFloat(current_range_value))
+            result_ele.attr('class', 'text-'+$(current_range_ele).attr('class').split(" ")[0].split("-")[1])
+        else if(/^>/.test current_range_value)
+          current_range_value = current_range_value.split(">")[1]
+          if(parseFloat(result_value) > parseFloat(current_range_value))
+            result_ele.attr('class', 'text-'+$(current_range_ele).attr('class').split(" ")[0].split("-")[1])
+        else if(/\+$/.test current_range_value)
+          current_range_value = current_range_value.split("+")[0]
+          if(parseFloat(result_value) > parseFloat(current_range_value))
+            result_ele.attr('class', 'text-'+$(current_range_ele).attr('class').split(" ")[0].split("-")[1])
+        else if(/-/.test current_range_value)
+          current_range_value_array = current_range_value.split("-")
+          if(parseFloat(result_value) >= parseFloat(current_range_value_array[0]) && parseFloat(result_value) <= parseFloat(current_range_value_array[1]))
+            result_ele.attr('class', 'text-'+$(current_range_ele).attr('class').split(" ")[0].split("-")[1])
         else
-          res_val=result_val.toString().trim()
-          res_val=res_val.replace('null','').trim()
-          status = current_range.trim().toLowerCase() is res_val.toLowerCase()
-        range_eles_status.push(status)
-        if status == true
-          break
+          if(parseFloat(result_value) == parseFloat(current_range_value))
+            result_ele.attr('class', 'text-'+$(current_range_ele).attr('class').split(" ")[0].split("-")[1])
+      else
+#        write logic for string comparision
+        result_value = result_value_element.text().toLowerCase().replace /[^a-z]/ig, ''
+        if(current_range_value.toLowerCase() == result_value)
+          result_ele.attr('class', 'text-'+$(current_range_ele).attr('class').split(" ")[0].split("-")[1])
 
-      for range_ele_status, index in range_eles_status
-        if range_ele_status
-          standard_range_ele_class = $(range_eles[index]).attr('class')
-          if standard_range_ele_class.search('success') isnt -1
-            color_class = 'text-success'
-          if standard_range_ele_class.search('warning') isnt -1
-            color_class = 'text-warning'
-          if standard_range_ele_class.search('danger') isnt -1
-            color_class = 'text-danger'
-          result_ele.attr('class', color_class)
-        else
-          color_class = 'text-danger'
-          result_ele.attr('class', color_class)
 
   rangeNotifierColor = ->
     $('.lab-result-view').each (index) ->
@@ -202,6 +257,7 @@ $ ->
     $(event.currentTarget).parents('tr').prev().removeClass('hide')
     $(event.currentTarget).parents('tr').prev().html("<td>#{data.lab_test.name}</td>
                                                                 <td>#{data.test_component.name}</td>
+                                                                <td class='hide'>#{data.lab_result.result}</td>
                                                                 <td>#{data.lab_result.result} #{units}</td>
                                                                 <td><div class='component_standard_range'>#{ data.standard_range}</div> </td>
                                                                 <td><div style='width:40px;float: right;'><a class='pull-left dropdown-toggle edit-lab-result-pencil' data-toggle='dropdown' href=#'>
@@ -306,6 +362,7 @@ $ ->
     range_val =  data.range.range_value.split(',')
     lab_result_row = "<tr class='lab-result-view'><td> #{data.lab_test.name} </td>
                                   <td> #{data.test_component.name} </td>
+                                  <td class='hide'>#{data.lab_result.result}</td>
                                   <td> #{data.lab_result.result} #{units}</td>
                                   <td><div class='component_standard_range'>#{ data.standard_range}</div> </td>
                                   <td><div style='width:40px;float: right;'><a class='pull-left dropdown-toggle edit-lab-result-pencil' data-toggle='dropdown' href=#'>
@@ -410,6 +467,7 @@ $ ->
     units = if data.test_component.units is null then '' else data.test_component.units
     $(event.currentTarget).prev().html("<td> #{data.lab_test.name} </td>
                                                   <td> #{data.test_component.name} </td>
+                                                  <td class='hide'>#{data.lab_result.result}</td>
                                                   <td> #{data.lab_result.result} #{units}</td>
                                                   <td><div class='component_standard_range'>#{ data.standard_range}</div> </td>
                                                   <td><div style='width:40px;float: right;'><a class='pull-left dropdown-toggle edit-lab-result-pencil' data-toggle='dropdown' href=#'>

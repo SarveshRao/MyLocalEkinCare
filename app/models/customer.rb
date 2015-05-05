@@ -9,6 +9,7 @@ class Customer < ActiveRecord::Base
   validates_uniqueness_of :mobile_number
 
   attr_accessor :otp
+  attr_accessor :otp_expire
   attr_accessor :is_customer
   has_many :activities
   has_many :timeline_activities, class_name: 'Timeline'
@@ -371,34 +372,10 @@ class Customer < ActiveRecord::Base
     return '-'
   end
 
-  # def hdl
-  #   body_assessment =  health_assessments.recent_body_assessment
-  #   body_assessment.each do |assessment|
-  #     component = TestComponent.find_by(name: 'HDL', enterprise_id: assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise)
-  #     lab_results = LabResult.where("test_component_id =? AND body_assessment_id=?",component.id, assessment.id).first
-  #     unless lab_results.nil?
-  #       return lab_results.result
-  #     end
-  #   end
-  #   return '-'
-  # end
-  #
-  # def triglycerides
-  #   body_assessment =  health_assessments.recent_body_assessment
-  #   body_assessment.each do |assessment|
-  #     component = TestComponent.find_by(name: 'Triglycerides', enterprise_id: assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise)
-  #     lab_results = LabResult.where("test_component_id =? AND body_assessment_id=?",component.id, assessment.id).first
-  #     unless lab_results.nil?
-  #       return lab_results.result
-  #     end
-  #   end
-  #   return '-'
-  # end
-  #
   def fasting_blood_sugar
     body_assessment =  health_assessments.recent_body_assessment
     body_assessment.each do |assessment|
-      component = TestComponent.find_by(name: 'Fasting blood sugar', enterprise_id: assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise)
+      component = TestComponent.find_by("lower(name)='fasting blood sugar' and enterprise_id=?", assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise)
       lab_results = LabResult.where("test_component_id =? AND body_assessment_id=?",component.id, assessment.id).first
       unless lab_results.nil?
         return lab_results.result
@@ -411,7 +388,7 @@ class Customer < ActiveRecord::Base
   def fasting_blood_sugar2
     body_assessment =  health_assessments.recent_body_assessment
     body_assessment.each do |assessment|
-      component = TestComponent.find_by(name: 'Fasting blood sugar', enterprise_id: assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise)
+      component = TestComponent.find_by("lower(name)='fasting blood sugar' and enterprise_id=?", assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise)
       lab_results = LabResult.where("test_component_id =? AND body_assessment_id=?",component.id, assessment.id).first
       unless lab_results.nil?
         return {bllod_sugar: lab_results.result, date: assessment.request_date}
@@ -526,14 +503,10 @@ class Customer < ActiveRecord::Base
     return false
   end
 
-  def is_diabetic
-    # if(self.fasting_blood_sugar.to_f>99)
-    #   return true
-    # end
-    # return false
+  def is_diabetic_or_hypertensive component
     assessments =  health_assessments.recent_body_assessment.first
     if assessments
-      blood_glucose=LabTest.find_by(name: 'Blood Glucose', enterprise_id: assessments.enterprise_id ? assessments.enterprise_id : self.default_enterprise)
+      blood_glucose=LabTest.find_by("lower(name)=? and enterprise_id=?", component.downcase,assessments.enterprise_id ? assessments.enterprise_id : self.default_enterprise)
       blood_glucose.test_components.each do |test_component|
         result_color=self.resulted_component_value(test_component.name)[:color]
         if(result_color=='text-warning' or result_color=='text-danger')
@@ -542,6 +515,10 @@ class Customer < ActiveRecord::Base
       end
     end
     return false
+  end
+
+  def is_diabetic
+    return is_diabetic_or_hypertensive 'Blood Glucose'
   end
 
   def has_hypertension
@@ -584,61 +561,21 @@ class Customer < ActiveRecord::Base
   end
 
   def pre_hypertensive
-    body_assessment =  health_assessments.recent_body_assessment
-    body_assessment.each do |assessment|
-      component = TestComponent.where("lower(name) IN ('systolic','diastolic') and enterprise_id=#{assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise}")
-      systolic=TestComponent.find_by(name:'Systolic', enterprise_id: assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise)
-      systolic_id=systolic.id rescue '-'
-      diastolic=TestComponent.find_by(name:'Diastolic', enterprise_id: assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise)
-      diastolic_id=diastolic.id rescue '-'
-      ids = component.collect(&:id).join(',')
-      if ids
-        lab_results = LabResult.where("test_component_id IN (#{ids}) AND body_assessment_id=?", assessment.id)
-        lab_results.each do |lab_result|
-          if(lab_result.test_component_id==systolic_id)
-            if(lab_result.result.to_i>119 and lab_result.result.to_i<=139)
-              return true
-            end
-          elsif(lab_result.test_component_id==diastolic_id)
-            if(lab_result.result.to_i>79 and lab_result.result.to_i<=89)
-              return true
-            end
-          end
+    assessments =  health_assessments.recent_body_assessment.first
+    if assessments
+      blood_pressure=LabTest.find_by(name: 'Blood pressure', enterprise_id: assessments.enterprise_id ? assessments.enterprise_id : self.default_enterprise)
+      blood_pressure.test_components.each do |test_component|
+        result_color=self.resulted_component_value(test_component.name)[:color]
+        if(result_color=='text-warning')
+          return true
         end
-        return false
       end
-      return false
     end
     return false
   end
 
   def abnormal_bp
-    body_assessment =  health_assessments.recent_body_assessment
-    body_assessment.each do |assessment|
-      component = TestComponent.where("lower(name) IN ('systolic','diastolic') and enterprise_id=#{assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise}")
-      systolic=TestComponent.find_by(name:'Systolic', enterprise_id: assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise)
-      systolic_id=systolic.id rescue '-'
-      diastolic=TestComponent.find_by(name:'Diastolic', enterprise_id: assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise)
-      diastolic_id=diastolic.id rescue '-'
-      ids = component.collect(&:id).join(',')
-      if ids
-        lab_results = LabResult.where("test_component_id IN (#{ids}) AND body_assessment_id=?", assessment.id)
-        lab_results.each do |lab_result|
-          if(lab_result.test_component_id==systolic_id)
-            if(lab_result.result.to_i>119)
-              return true
-            end
-          elsif(lab_result.test_component_id==diastolic_id)
-            if(lab_result.result.to_i>79)
-              return true
-            end
-          end
-        end
-        return false
-      end
-      return false
-    end
-    return false
+    return self.is_diabetic_or_hypertensive 'Blood pressure'
   end
 
   def diabetic_score
@@ -773,7 +710,7 @@ class Customer < ActiveRecord::Base
     if search.nil? || search.empty?
       self.all
     else
-      self.where("LOWER(first_name) LIKE :search OR LOWER(last_name) LIKE :search OR mobile_number LIKE :search OR LOWER(customer_id) LIKE :search OR LOWER(email) LIKE :search" , search: "%#{search.downcase}%")
+      self.where("LOWER(first_name) LIKE :search OR LOWER(last_name) LIKE :search OR mobile_number LIKE :search OR LOWER(customer_id) LIKE :search OR LOWER(email) LIKE :search OR LOWER(is_hypertensive) LIKE :search OR LOWER(diabetic) LIKE :search OR LOWER(is_obese) LIKE :search OR LOWER(is_over_weight) LIKE :search" , search: "%#{search.downcase}%")
     end
   end
 
@@ -790,6 +727,10 @@ class Customer < ActiveRecord::Base
 
   def need_two_factor_authentication?(request)
     not otp_secret_key.nil?
+  end
+
+  def password_required?
+    false
   end
 
 end

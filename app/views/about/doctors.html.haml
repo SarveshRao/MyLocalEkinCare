@@ -1,89 +1,40 @@
-!!!
-%html{:lang => "en"}
-  %head
-    %meta{:charset => "utf-8"}
-      %meta{:content => "IE=Edge", "http-equiv" => "X-UA-Compatible"}
-        %title
-          Our Doctors | eKincare
-        %meta{:content => "Omada Health", :name => "author"}
-          %meta{:content => "", :name => "description"}
-            %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}
-              = stylesheet_link_tag 'about_us'
-              -#  /[if lt IE 9]
-              -#<link href="./ie8.css" rel="stylesheet">
-              -#  <script src="./html5shiv.js"></script>
-  %body
-    %header
-      .row{:style => "height:100%;"}
-        #ekin-logo
-          %a.navbar-brand{href: home_index_path}
-            %img.m-r-sm{alt: "eKincare", src: asset_path('ekincare-logo.png')}
-        #ekin-links
-          %a.signin{:href => online_customer_session_path} Signin
-          %a.register{:href => new_online_customer_registration_path} Register Now
-    %section.row.page-container
-      %section.topMenuHolder
-        %nav.topMenu
-          %a.sidebar__link{:href => about_us_about_index_path} About Us
-          %a.sidebar__link{:href => team_about_index_path} The Team
-          %a.sidebar__link.active{:href => doctors_about_index_path} Our Doctors
-          %a.sidebar__link{:href => advisers_about_index_path} Our Advisors
-          %a.sidebar__link{:href => faq_about_index_path} FAQ
-          %a.sidebar__link{:href => terms_and_conditions_about_index_path} Terms &amp; Policies
-          %a.sidebar__link{:href => "https://angel.co/ekincare/jobs", :target => "_blank"} Jobs
-          %a.sidebar__link{:href => "http://ekincare.wordpress.com", :target => "_blank"} Blog
-          %a.sidebar__link{:href => contact_us_about_index_path} Contact Us
-      %aside.col2
-        %section.sidebar
-          %nav.nav--sidebar.mb20
-            %a.sidebar__link{:href => about_us_about_index_path} About Us
-            %a.sidebar__link{:href => team_about_index_path} The Team
-            %a.sidebar__link.active{:href => doctors_about_index_path} Our Doctors
-            %a.sidebar__link{:href => advisers_about_index_path} Our Advisors
-            %a.sidebar__link{:href => faq_about_index_path} FAQ
-            %a.sidebar__link{:href => terms_and_conditions_about_index_path} Terms &amp; Policies
-            %a.sidebar__link{:href => "https://angel.co/ekincare/jobs", :target => "_blank"} Jobs
-            %a.sidebar__link{:href => "http://ekincare.wordpress.com", :target => "_blank"} Blog
-            %a.sidebar__link{:href => contact_us_about_index_path} Contact Us
-      / /sidebar
-      / nav-sidebar
-      %section.page-content.col8
-        %h1.font-light.mb10 Our Doctors
-        / <p>Meet the people who help us make our program better, keep up on the latest science, and ensure that we're dreaming big.<br></p>
-        %section.about__advisor-list
-          %section.media.advisor-grid
-            %section.media__img.advisor-grid__img
-              %img{:src =>asset_path("doctors/1.png")}/
-            %section.media__body.advisor-grid__body
-              %h3.about__advisor-name.font-reg.font3em{:style => "margin-bottom:0"} Dr. M S S Mukherjee
-              %p.font-reg.font14 MD, DM (Cardiology), DNB (Cardiology)
-              .mb30.font13
-                A senior in the field of cardiology, Dr. Mukharjee has more than 2500 angioplasties including complex angioplasties such as Bifurcation, left main, Rotablation, BVS etc. to his credit. He has worked in senior cardiology positions in reputed corporate hospitals both in India and abroad. He is also the founder of “ECG made easy” program for the medical professionals.
-          %section.media.advisor-grid
-            %section.media__img.advisor-grid__img
-              %img{:src =>asset_path("doctors/2.png")}/
-            %section.media__body.advisor-grid__body
-              %h3.about__advisor-name.font-reg.font3em{:style => "margin-bottom:0"} Dr. Hormuzd K. Vakil
-              %p.font-reg.font14 MDS, FICOI, DICOI, FISOI, DICOI (PhD)
-              .mb30.font13
-                With more than 15 years of national and international experience in reputed healthcare centres, Dr. Hormuzd’s special interests include Oral Rehabilitation, Implantology and TMJ disorders and Facial reconstructions. Elected as a key opinion leader for 3M, GSK, Simplant, Noble Bio-care, he has papers published in several international publications.
-          %section.media.advisor-grid
-            %section.media__img.advisor-grid__img
-              %img{:src => asset_path("doctors/3.jpg")}/
-            %section.media__body.advisor-grid__body
-              %h3.about__advisor-name.font-reg.font3em{:style => "margin-bottom:0"} Dr. Babu Krishna Murthy
-              %p.font-reg.font14 M.S., FRCS (Edin), PGDHRM
-              .mb30.font13
-                A senior General and Laproscopic surgeon with more than 20 years of practice. His associations include Yashoda, Image and Breach Candy hospitals.
-          %section.media.advisor-grid
-            %section.media__img.advisor-grid__img
-              %img{:src => asset_path("doctors/4.jpg")}/
-            %section.media__body.advisor-grid__body
-              %h3.about__advisor-name.font-reg.font3em{:style => "margin-bottom:0"} Dr. Unnikrishnan K N
-              %p.font-reg.font14 MD, GRAMIT, BS (Medical Sciences)
-              .mb30.font13
-                With more than 19 years of experience in the healthcare industry and contributing to various verticals, Dr. Unnikrishnan is an expert in wellness programs, medical imaging, devices and healthcare IT. He was associated with Apollo Group R&amp;D, SIEMENS Healthcare and contributed towards the Healthcare vision of the UAE
-    -#/ /page-content
+%section.page-content.col8
+  %h1.font-light.mb10 Our Doctors
+  / <p>Meet the people who help us make our program better, keep up on the latest science, and ensure that we're dreaming big.<br></p>
+  %section.about__advisor-list
+    %section.media.advisor-grid
+      %section.media__img.advisor-grid__img
+        %img{:src =>asset_path("doctors/1.png")}/
+      %section.media__body.advisor-grid__body
+        %h3.about__advisor-name.font-reg.font3em{:style => "margin-bottom:0"} Dr. M S S Mukherjee
+        %p.font-reg.font14 MD, DM (Cardiology), DNB (Cardiology)
+        .mb30.font13
+          A senior in the field of cardiology, Dr. Mukharjee has more than 2500 angioplasties including complex angioplasties such as Bifurcation, left main, Rotablation, BVS etc. to his credit. He has worked in senior cardiology positions in reputed corporate hospitals both in India and abroad. He is also the founder of “ECG made easy” program for the medical professionals.
+    %section.media.advisor-grid
+      %section.media__img.advisor-grid__img
+        %img{:src =>asset_path("doctors/2.png")}/
+      %section.media__body.advisor-grid__body
+        %h3.about__advisor-name.font-reg.font3em{:style => "margin-bottom:0"} Dr. Hormuzd K. Vakil
+        %p.font-reg.font14 MDS, FICOI, DICOI, FISOI, DICOI (PhD)
+        .mb30.font13
+          With more than 15 years of national and international experience in reputed healthcare centres, Dr. Hormuzd’s special interests include Oral Rehabilitation, Implantology and TMJ disorders and Facial reconstructions. Elected as a key opinion leader for 3M, GSK, Simplant, Noble Bio-care, he has papers published in several international publications.
+    %section.media.advisor-grid
+      %section.media__img.advisor-grid__img
+        %img{:src => asset_path("doctors/3.jpg")}/
+      %section.media__body.advisor-grid__body
+        %h3.about__advisor-name.font-reg.font3em{:style => "margin-bottom:0"} Dr. Babu Krishna Murthy
+        %p.font-reg.font14 M.S., FRCS (Edin), PGDHRM
+        .mb30.font13
+          A senior General and Laproscopic surgeon with more than 20 years of practice. His associations include Yashoda, Image and Breach Candy hospitals.
+    %section.media.advisor-grid
+      %section.media__img.advisor-grid__img
+        %img{:src => asset_path("doctors/4.jpg")}/
+      %section.media__body.advisor-grid__body
+        %h3.about__advisor-name.font-reg.font3em{:style => "margin-bottom:0"} Dr. Unnikrishnan K N
+        %p.font-reg.font14 MD, GRAMIT, BS (Medical Sciences)
+        .mb30.font13
+          With more than 19 years of experience in the healthcare industry and contributing to various verticals, Dr. Unnikrishnan is an expert in wellness programs, medical imaging, devices and healthcare IT. He was associated with Apollo Group R&amp;D, SIEMENS Healthcare and contributed towards the Healthcare vision of the UAE
+-#/ /page-content
     -#/ page
     -#/ Scripts
     -#%script{:src => "https://code.jquery.com/jquery-2.1.3.js"}

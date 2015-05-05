@@ -1,69 +1,23 @@
--#!!!
-%html{:lang => "en"}
-  %head
-    %meta{:charset => "utf-8"}
-      %meta{:content => "IE=Edge", "http-equiv" => "X-UA-Compatible"}
-        %title
-          Our Advisors | eKincare
-        %meta{:content => "Omada Health", :name => "author"}
-          %meta{:content => "", :name => "description"}
-            %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}
-              = stylesheet_link_tag 'about_us'
-  %body
-    %header
-      .row{:style => "height:100%;"}
-        #ekin-logo
-          %a.navbar-brand{href: home_index_path}
-            %img.m-r-sm{alt: "eKincare", src: asset_path('ekincare-logo.png')}
-        #ekin-links
-          %a.signin{:href => online_customer_session_path} Signin
-          %a.register{:href => new_online_customer_registration_path} Register Now
-    %section.row.page-container
-      %section.topMenuHolder
-        %nav.topMenu
-          %a.sidebar__link{:href => about_us_about_index_path} About Us
-          %a.sidebar__link{:href => team_about_index_path} The Team
-          %a.sidebar__link{:href => doctors_about_index_path} Our Doctors
-          %a.sidebar__link.active{:href => advisers_about_index_path} Our Advisors
-          %a.sidebar__link{:href => faq_about_index_path} FAQ
-          %a.sidebar__link{:href => terms_and_conditions_about_index_path} Terms &amp; Policies
-          %a.sidebar__link{:href => "https://angel.co/ekincare/jobs", :target => "_blank"} Jobs
-          %a.sidebar__link{:href => "http://ekincare.wordpress.com", :target => "_blank"} Blog
-          %a.sidebar__link{:href => contact_us_about_index_path} Contact Us
-      %aside.col2
-        %section.sidebar
-          %nav.nav--sidebar.mb20
-            %a.sidebar__link{:href => about_us_about_index_path} About Us
-            %a.sidebar__link{:href => team_about_index_path} The Team
-            %a.sidebar__link{:href => doctors_about_index_path} Our Doctors
-            %a.sidebar__link.active{:href => advisers_about_index_path} Our Advisors
-            %a.sidebar__link{:href => faq_about_index_path} FAQ
-            %a.sidebar__link{:href => terms_and_conditions_about_index_path} Terms &amp; Policies
-            %a.sidebar__link{:href => "https://angel.co/ekincare/jobs", :target => "_blank"} Jobs
-            %a.sidebar__link{:href => "http://ekincare.wordpress.com", :target => "_blank"} Blog
-            %a.sidebar__link{:href => contact_us_about_index_path} Contact Us
-      / /sidebar
-      / nav-sidebar
-      %section.page-content.col8
-        %h1.font-light.mb10 Our Advisors
-        / <p>Meet the people who help us make our program better, keep up on the latest science, and ensure that we're dreaming big.<br></p>
-        %section.about__advisor-list
-          %section.media.advisor-grid
-            %section.media__img.advisor-grid__img
-              %img{:src => asset_path("advisors/1.jpg")}/
-            %section.media__body.advisor-grid__body
-              %h3.about__advisor-name.font-reg.font3em{:style => "margin-bottom:0"} Sunil Motaparti
-              %p.font-reg.font14
-              .mb30.font13
-                Sunil, as Founder and Director of BitChemy Ventures, brings in overall direction and technological leadership to the group. He has extensive experience in startup development, technology management, business development and marketing. An entrepreneur himself, Sunil led product &amp; business development efforts at his previous venture, KeyPoint Technologies. Before KeyPoint, he played various roles on the product side at Magma, Intel and IBM. Sunil holds M.S. and B.S. degrees in Computer Engineering from Carnegie Mellon
-          %section.media.advisor-grid
-            %section.media__img.advisor-grid__img
-              %img{:src => asset_path("advisors/2.jpg")}/
-            %section.media__body.advisor-grid__body
-              %h3.about__advisor-name.font-reg.font3em{:style => "margin-bottom:0"} Srinath DeviReddy
-              %p.font-reg.font14
-              .mb30.font13
-                Srinath Devireddy ('Sri') is an IT-entrepreneur and runs Adroitent, a business intelligence, quality assurance and healthcare focused IT solutions company. Sri is an angel investor for eKincare and serves on the board. Sri has held several CXO positions in the IT industry prior to starting Adroitent. Sri has extensive experience in the travel domain. Sri rose up the ranks to become Vice President of Operations at Travelocity in-charge of operations management and technology. Post Travelocity, Sri headed global operations for Patni Computers. Sri was President of TRX Asia, a travel technology solutions company.
+%section.page-content.col8
+  %h1.font-light.mb10 Our Advisors
+  / <p>Meet the people who help us make our program better, keep up on the latest science, and ensure that we're dreaming big.<br></p>
+  %section.about__advisor-list
+    %section.media.advisor-grid
+      %section.media__img.advisor-grid__img
+        %img{:src => asset_path("advisors/1.jpg")}/
+      %section.media__body.advisor-grid__body
+        %h3.about__advisor-name.font-reg.font3em{:style => "margin-bottom:0"} Sunil Motaparti
+        %p.font-reg.font14
+        .mb30.font13
+          Sunil, as Founder and Director of BitChemy Ventures, brings in overall direction and technological leadership to the group. He has extensive experience in startup development, technology management, business development and marketing. An entrepreneur himself, Sunil led product &amp; business development efforts at his previous venture, KeyPoint Technologies. Before KeyPoint, he played various roles on the product side at Magma, Intel and IBM. Sunil holds M.S. and B.S. degrees in Computer Engineering from Carnegie Mellon
+    %section.media.advisor-grid
+      %section.media__img.advisor-grid__img
+        %img{:src => asset_path("advisors/2.jpg")}/
+      %section.media__body.advisor-grid__body
+        %h3.about__advisor-name.font-reg.font3em{:style => "margin-bottom:0"} Srinath DeviReddy
+        %p.font-reg.font14
+        .mb30.font13
+          Srinath Devireddy ('Sri') is an IT-entrepreneur and runs Adroitent, a business intelligence, quality assurance and healthcare focused IT solutions company. Sri is an angel investor for eKincare and serves on the board. Sri has held several CXO positions in the IT industry prior to starting Adroitent. Sri has extensive experience in the travel domain. Sri rose up the ranks to become Vice President of Operations at Travelocity in-charge of operations management and technology. Post Travelocity, Sri headed global operations for Patni Computers. Sri was President of TRX Asia, a travel technology solutions company.
     -#/ /page-content
     -#/ page
     -#/ Scripts

@@ -27,6 +27,23 @@ class Customers::ApiController < BaseApiController
     end
   end
 
+  def login_otp
+    @mobile_number = params[:mobile_number]
+    @customer = Customer.find_by_mobile_number(@mobile_number)
+    if @customer
+      # Add otp generation logic here
+      @isValid = true
+      @customer.otp = @customer.otp_code.to_s()
+      @customer.otp_expire = Time.now() + 15.minutes
+    end
+    if @isValid
+      Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ @customer.mobile_number+'&sender=EKCARE&message=OTP: Dear '+ @customer.first_name+', your eKincare otp is '+ @customer.otp+'. Call 8886783546 for questions.')))
+      render json: @customer.to_json(:include => [:customer_vitals, :family_medical_histories], :methods => [:otp, :otp_expire])
+    else
+      render :status => 401, :json => { :error => "The mobile number you provided is not registered with ekincare" }
+    end
+  end
+
   def upload_documents
     @customer = Customer.find(params[:id])
     puts @customer.id
@@ -53,31 +70,34 @@ class Customers::ApiController < BaseApiController
 
   def getCustomers
     @customers_temp = Customer.search(params[:sSearch])
-    @customer = @customers_temp.page((params[:iDisplayStart].to_i/params[:iDisplayLength].to_i) + 1).per(params[:iDisplayLength]).select(:id, :created_at, :gender, :last_name, :customer_id, :first_name, :mobile_number, :email, :date_of_birth, :status).order(created_at: :desc)
+    @customer = @customers_temp.page((params[:iDisplayStart].to_i/params[:iDisplayLength].to_i) + 1).per(params[:iDisplayLength]).select(:id, :created_at, :gender, :last_name, :customer_id, :first_name, :mobile_number, :email, :date_of_birth, :status, :is_hypertensive, :diabetic, :is_obese, :is_over_weight).order(created_at: :desc)
     @customer.each do |customer|
-      customer.class_eval do
-        attr_accessor :is_hypertensive
-        attr_accessor :is_diabetic
-        attr_accessor :is_obesity
-        attr_accessor :is_overweight
-      end
+      # customer.class_eval do
+      #   attr_accessor :is_hypertensive
+      #   attr_accessor :is_diabetic
+      #   attr_accessor :is_obesity
+      #   attr_accessor :is_overweight
+      # end
 
-      customer.is_hypertensive = self.has_hypertension customer.id
-      customer.is_diabetic = is_diabetic customer.id
+      @is_hypertensive = self.has_hypertension customer.id
+      @is_diabetic = self.is_diabetic customer.id
 
       if self.obesity_overweight_checkup(customer) ==3
-        customer.is_overweight = "Yes"
+        @is_overweight = "OverWeigth"
       else
-        customer.is_overweight = "No"
+        @is_overweight = "No"
       end
 
       if self.obesity_overweight_checkup(customer)==4
-        customer.is_obesity = "Yes"
+        @is_obesity = "Obese"
       else
-        customer.is_obesity = "No"
+        @is_obesity = "No"
       end
+      @cust = Customer.find(customer.id)
+      @cust.update(is_hypertensive: @is_hypertensive.to_s, diabetic:  @is_diabetic.to_s, is_obese: @is_obesity.to_s, is_over_weight: @is_overweight.to_s)
     end
-    render json: { aaData: JSON.parse(@customer.to_json(:methods => [:is_hypertensive, :is_diabetic, :is_obesity, :is_overweight])), iTotalRecords: Customer.count, iTotalDisplayRecords: @customers_temp.size }
+    @customer = @customers_temp.page((params[:iDisplayStart].to_i/params[:iDisplayLength].to_i) + 1).per(params[:iDisplayLength]).select(:id, :created_at, :gender, :last_name, :customer_id, :first_name, :mobile_number, :email, :date_of_birth, :status, :is_hypertensive, :diabetic, :is_obese, :is_over_weight).order(created_at: :desc)
+    render json: { aaData: JSON.parse(@customer.to_json()), iTotalRecords: Customer.count, iTotalDisplayRecords: @customers_temp.size }
   end
 
   def obesity_overweight_checkup customer
@@ -109,11 +129,11 @@ class Customers::ApiController < BaseApiController
     customer = Customer.find(customer_id)
     assessments =  customer.health_assessments.recent_body_assessment.first
     if assessments
-      blood_glucose=LabTest.find_by(name: 'Blood Glucose', enterprise_id: assessments.enterprise_id ? assessments.enterprise_id : self.default_enterprise)
+      blood_glucose=LabTest.find_by("lower(name)='blood glucose' and enterprise_id=?", assessments.enterprise_id ? assessments.enterprise_id : self.default_enterprise)
       blood_glucose.test_components.each do |test_component|
         result_color=self.resulted_component_value1(test_component.name, customer)[:color]
         if(result_color=='text-warning' or result_color=='text-danger')
-          return "Yes"
+          return "Diabetic"
         end
       end
     end
@@ -122,37 +142,22 @@ class Customers::ApiController < BaseApiController
 
   def has_hypertension customer_id
     if abnormal_bp customer_id
-      return "Yes"
+      return "Hypertensive"
     end
     return "No"
   end
 
   def abnormal_bp customer_id
     customer = Customer.find(customer_id)
-    body_assessment =  customer.health_assessments.recent_body_assessment
-    body_assessment.each do |assessment|
-      component = TestComponent.where("lower(name) IN ('systolic','diastolic') and enterprise_id=#{assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise}")
-      systolic=TestComponent.find_by(name:'Systolic', enterprise_id: assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise)
-      systolic_id=systolic.id rescue '-'
-      diastolic=TestComponent.find_by(name:'Diastolic', enterprise_id: assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise)
-      diastolic_id=diastolic.id rescue '-'
-      ids = component.collect(&:id).join(',')
-      if ids
-        lab_results = LabResult.where("test_component_id IN (#{ids}) AND body_assessment_id=?", assessment.id)
-        lab_results.each do |lab_result|
-          if(lab_result.test_component_id==systolic_id)
-            if(lab_result.result.to_i>119)
-              return true
-            end
-          elsif(lab_result.test_component_id==diastolic_id)
-            if(lab_result.result.to_i>79)
-              return true
-            end
-          end
+    assessments =  customer.health_assessments.recent_body_assessment.first
+    if assessments
+      blood_glucose=LabTest.find_by("lower(name)='blood pressure' and enterprise_id=?", assessments.enterprise_id ? assessments.enterprise_id : self.default_enterprise)
+      blood_glucose.test_components.each do |test_component|
+        result_color=self.resulted_component_value1(test_component.name, customer)[:color]
+        if(result_color=='text-warning' or result_color=='text-danger')
+          return true
         end
-        return false
       end
-      return false
     end
     return false
   end
@@ -487,7 +492,7 @@ class Customers::ApiController < BaseApiController
       @assessment.provider_name= nil
     end
 
-    if @assessment.categorize_components.empty?
+    if @assessment.categorize_components.nil? or @assessment.categorize_components.empty?
       @list = nil
       render json: {assessment_info: @list}.to_json(:methods => :provider_name)
     else

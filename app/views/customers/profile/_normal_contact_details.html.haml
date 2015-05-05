@@ -1778,7 +1778,7 @@
                         'Zamania',
                         'Zira',
                         'Zirakpur',
-                        'Zunheboto'],  @address.city), {}, {class: 'form-control parsley-validated', 'data-required' => 'true', placeholder: 'City'}
+                        'Zunheboto'],  @address.city), {}, {class: 'form-control parsley-validated', 'data-required' => 'true', placeholder: 'City', autofocus: true}
             .form-group
               = a.select :state, options_for_select(['Andhra Pradesh',
                         'Arunachal Pradesh',
@@ -1808,7 +1808,7 @@
                         'Tripura',
                         'Uttar Pradesh',
                         'Uttarakhand',
-                        'West Bengal'], @address.state), {include_blank:'Select State'}, {class: 'form-control parsley-validated', 'data-required' => 'true'}
+                        'West Bengal'], @address.state), {include_blank:'Select State'}, {class: 'form-control parsley-validated', 'data-required' => 'true', autofocus: true}
             .form-group
               = a.select :country, ['India'], {}, {class: 'form-control parsley-validated', 'data-required' => 'true', placeholder: 'Country'}
             .form-group

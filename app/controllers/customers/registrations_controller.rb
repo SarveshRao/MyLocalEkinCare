@@ -28,6 +28,7 @@ class Customers::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     if params[:format] == 'json'
+      params[:password] = 'dummypwd'
       puts "\n\n*****************from json block*************************\n\n"
       accept_signup_with_xhr
     else
@@ -60,7 +61,7 @@ class Customers::RegistrationsController < Devise::RegistrationsController
         if resource.save
           if session[:utm_source]
             # Adding the post call after successful registration ends here
-            raw_xml = "<Leads><row no='1'><FL val='Phone'>" + resource.customer_id+ "</FL><FL val='Lead Source'>" + session[:utm_source].to_s + "</FL><FL val='Last Name'>-</FL></row></Leads>"
+            raw_xml = "<Leads><row no='1'><FL val='Phone'>" + resource.customer_id + "</FL><FL val='Lead Source'>" + session[:utm_source].to_s + "</FL><FL val='Last Name'>-</FL></row></Leads>"
             encoded_xml = CGI::escape(raw_xml)
             uri = URI.parse('https://crm.zoho.com/crm/private/json/Leads/insertRecords?authtoken=460110734aed45ea412ab6637dd4cbf8&xmlData='+encoded_xml)
             http = Net::HTTP.new(uri.host, uri.port)
@@ -111,6 +112,7 @@ class Customers::RegistrationsController < Devise::RegistrationsController
           #     end
           #   end
         end
+
         # respond_to do |format|
         #   format.html
         #   format.json {render json: {msg: 'Signed up successfully'}}

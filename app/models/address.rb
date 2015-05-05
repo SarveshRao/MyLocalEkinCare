@@ -21,6 +21,10 @@ class Address < ActiveRecord::Base
     Address.select("enterprises.name,branch").joins("inner join providers on providers.id::text = addresses.addressee_id inner join enterprises on enterprises.id = providers.enterprise_id and addressee_type='Provider' and enterprises.service_type='#{service}'").near([self.latitude,self.longitude], distance, :units => :km)
   end
 
+  def venus2(distance, service, enterprise_id)
+    Address.select("enterprises.name,branch").joins("inner join providers on providers.id::text = addresses.addressee_id inner join enterprises on enterprises.id = providers.enterprise_id and addressee_type='Provider' and enterprises.enterprise_id='#{enterprise_id}' and enterprises.service_type='#{service}'").near([self.latitude,self.longitude], distance, :units => :km)
+  end
+
   def venus1(distance)
     Address.select("enterprises.name,branch").joins("inner join providers on providers.id::text = addresses.addressee_id inner join enterprises on enterprises.id = providers.enterprise_id and addressee_type='Provider'").near([self.latitude,self.longitude], distance, :units => :km)
   end

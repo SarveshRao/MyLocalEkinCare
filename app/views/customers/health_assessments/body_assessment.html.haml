@@ -59,7 +59,7 @@
                     Doctor Name
                     %span
                       &nbsp;:
-                    %span.pull-right{:style => "white-space:normal;width:58%"}
+                    %span{:style => "white-space:normal;width:58%"}
                       -unless(body_assessment.nil?)
                         =body_assessment.doctor_name rescue ''
                   %strong.block.pull-left

@@ -240,9 +240,12 @@ Rails.application.routes.draw do
       scope '/login' do
         post '/' => 'customers/api#login'
       end
+      scope '/login_otp' do
+        post '/' => 'customers/api#login_otp'
+      end
       scope '/upload' do
         post '/' => 'customers/api#upload_documents'
-      end
+        end
       scope '/update_customer' do
         post '/' => 'customers/api#update_customer'
       end

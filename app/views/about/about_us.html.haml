@@ -1,66 +1,19 @@
-!!!
-%html{:lang => "en"}
-  %head
-    %meta{:charset => "utf-8"}
-      %meta{:content => "IE=Edge", "http-equiv" => "X-UA-Compatible"}
-        %title
-          About us | eKincare
-        %meta{:content => "Omada Health", :name => "author"}
-          %meta{:content => "", :name => "description"}
-            %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}
-              = stylesheet_link_tag 'about_us'
-  %body
-    %header
-      .row{:style => "height:100%;"}
-        #ekin-logo
-          -#%img#ekin-logo-img{:href => home_index_path, :src => asset_path("ekincare-logo.png")}/
-          %a.navbar-brand{href: home_index_path}
-            %img.m-r-sm{alt: "eKincare", src: asset_path('ekincare-logo.png')}
-        #ekin-links
-          %a.signin{:href => online_customer_session_path} Signin
-          %a.register{:href => new_online_customer_registration_path} Register Now
-    %section.row.page-container
-      %section.topMenuHolder
-        %nav.topMenu
-          %a.sidebar__link.active{:href => about_us_about_index_path} About Us
-          %a.sidebar__link{:href => team_about_index_path} The Team
-          %a.sidebar__link{:href => doctors_about_index_path} Our Doctors
-          %a.sidebar__link{:href => advisers_about_index_path} Our Advisors
-          %a.sidebar__link{:href => faq_about_index_path} FAQ
-          %a.sidebar__link{:href => terms_and_conditions_about_index_path} Terms &amp; Policies
-          %a.sidebar__link{:href => "https://angel.co/ekincare/jobs", :target => "_blank"} Jobs
-          %a.sidebar__link{:href => "http://ekincare.wordpress.com", :target => "_blank"} Blog
-          %a.sidebar__link{:href => contact_us_about_index_path} Contact Us
-      %aside.col2
-        %section.sidebar
-          %nav.nav--sidebar.mb20
-            %a.sidebar__link.active{:href => about_us_about_index_path} About Us
-            %a.sidebar__link{:href => team_about_index_path} The Team
-            %a.sidebar__link{:href => doctors_about_index_path} Our Doctors
-            %a.sidebar__link{:href => advisers_about_index_path} Our Advisors
-            %a.sidebar__link{:href => faq_about_index_path} FAQ
-            %a.sidebar__link{:href => terms_and_conditions_about_index_path} Terms &amp; Policies
-            %a.sidebar__link{:href => "https://angel.co/ekincare/jobs", :target => "_blank"} Jobs
-            %a.sidebar__link{:href => "http://ekincare.wordpress.com", :target => "_blank"} Blog
-            %a.sidebar__link{:href => contact_us_about_index_path} Contact Us
-      / /sidebar
-      / nav-sidebar
-      %section.page-content.col8
-        %h1.font-light.mb10 About Us
-        %p
-          %br/
-        eKincare empowers you to take charge of your health by enabling you to monitor critical medical info and make it available anywhere, anytime. We gather your results from a growing list of dental, body and vision health partners, update your profile and provide you a user-friendly platform to view them. We aim to identify potential health risks, inform you and motivate you to take necessary steps towards improving your health.
-        %br/
-        %br/
-        %br/
-        eKincare is found by a team of seasoned professionals with varied international work experience across product marketing, technology and medicine. eKincare’s founding team shares a passion for solving complex issues seeding from their own personal experiences, a love of technology and a belief that, if you combine the two in an engaging way, customers will ultimately win.
-        %br/
-        %br/
-        %br/
-        Our goal:
-        %br/
-        %br/
-        %ul
-          %li Diagnose chronic diseases early
-          %li Provide better insights into your health
-          %li Empower you to take charge of your health
+%section.page-content.col8
+  %h1.font-light.mb10 About Us
+  %p
+    %br/
+  eKincare empowers you to take charge of your health by enabling you to monitor critical medical info and make it available anywhere, anytime. We gather your results from a growing list of dental, body and vision health partners, update your profile and provide you a user-friendly platform to view them. We aim to identify potential health risks, inform you and motivate you to take necessary steps towards improving your health.
+  %br/
+  %br/
+  %br/
+  eKincare is found by a team of seasoned professionals with varied international work experience across product marketing, technology and medicine. eKincare’s founding team shares a passion for solving complex issues seeding from their own personal experiences, a love of technology and a belief that, if you combine the two in an engaging way, customers will ultimately win.
+  %br/
+  %br/
+  %br/
+  Our goal:
+  %br/
+  %br/
+  %ul
+    %li Diagnose chronic diseases early
+    %li Provide better insights into your health
+    %li Empower you to take charge of your health
