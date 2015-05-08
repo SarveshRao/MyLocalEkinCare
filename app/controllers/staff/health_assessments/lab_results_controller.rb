@@ -15,6 +15,15 @@ class Staff::HealthAssessments::LabResultsController < StaffController
     range.save
     standard_range = test_component.standard_range health_assessment
     # enterprise_all = Enterprise.all
+    test = LabTest.find(test_component.lab_test_id)
+    if test.name.downcase == "blood pressure"
+      @hypertensive = customer.has_hypertension
+      customer.update(is_hypertensive: @hypertensive ? "Hypertensive" : "No")
+    end
+    if test.name.downcase == "blood glucose"
+      @diabetic = customer.is_diabetic
+      customer.update(diabetic: @diabetic ? "Diabetic" : "No")
+    end
 
     render json: {range: range, lab_result: lab_result, test_component: test_component, lab_test: lab_test, lab_tests: lab_tests, lab_test_components: lab_test_components, standard_range: standard_range}
   end
@@ -55,6 +64,18 @@ class Staff::HealthAssessments::LabResultsController < StaffController
     range.update(range_value: range_value)
     range.save
     standard_range = test_component.standard_range health_assessment
+
+    test = LabTest.find(test_component.lab_test_id)
+    puts "test name:"+test.name
+    if test.name.downcase == "blood pressure"
+      @hypertensive = customer.has_hypertension
+      customer.update(is_hypertensive: @hypertensive ? "Hypertensive" : "No")
+    end
+    if test.name.downcase == "blood glucose"
+      puts "hi"
+      @diabetic = customer.is_diabetic
+      customer.update(diabetic: @diabetic ? "Diabetic" : "No")
+    end
 
     render json: {lab_result: lab_result, test_component: test_component, lab_test: lab_test, standard_range: standard_range}
   end

@@ -47,12 +47,12 @@
                 .col-md-4.col-sm-4
           -#This is a hidden password field in order to skip password required from registration(we can also configure this but
           -#there are other roles like staff/enterprise/provider for registration so used this approach.)
-          %input{name: 'online_customer[password]', type: 'hidden', value: 'dummypwd'}
+          -#%input{name: 'online_customer[password]', type: 'hidden', value: 'dummypwd'}
         .checkbox.m-b
           %label
             %input{:type => "checkbox", name: 'license', required: true, id: 'agreement' }
             Agree the
-            %a{:href => "/home/terms_and_conditions", id: 'terms_and_policy_link', style: 'color: #177bbb !important'} terms and conditions
+            %a{:href => terms_and_conditions_about_index_path, id: 'terms_and_policy_link', style: 'color: #177bbb !important'} terms and conditions
         = f.submit "Sign up", {class: 'btn btn-lg btn-primary btn-block '}
         .line.line-dashed.m-b-none
         %p.text-muted.text-center
@@ -64,7 +64,7 @@
   .text-center.padder
     %p
       %small
-        \© 2014
+        \© 2015
         -#%br>/
         eKincare
 :javascript

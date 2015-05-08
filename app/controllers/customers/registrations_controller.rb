@@ -28,7 +28,6 @@ class Customers::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     if params[:format] == 'json'
-      params[:password] = 'dummypwd'
       puts "\n\n*****************from json block*************************\n\n"
       accept_signup_with_xhr
     else

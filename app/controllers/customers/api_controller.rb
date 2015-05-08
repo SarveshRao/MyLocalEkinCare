@@ -83,7 +83,7 @@ class Customers::ApiController < BaseApiController
       @is_diabetic = self.is_diabetic customer.id
 
       if self.obesity_overweight_checkup(customer) ==3
-        @is_overweight = "OverWeigth"
+        @is_overweight = "OverWeight"
       else
         @is_overweight = "No"
       end

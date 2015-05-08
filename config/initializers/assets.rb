@@ -1,4 +1,6 @@
 Rails.application.config.assets.precompile += %w( about_us.css )
+Rails.application.config.assets.precompile += %w( abouts.js )
+
 Rails.application.config.assets.precompile += %w( home.css )
 Rails.application.config.assets.precompile += %w( home.js )
 Rails.application.config.assets.precompile += %w( wizard.js )

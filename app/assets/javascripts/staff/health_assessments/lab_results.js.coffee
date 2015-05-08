@@ -269,7 +269,7 @@ $ ->
     bindChangeEventToLabResult()
     rangeNotifierColor()
     loadSelectComponents()
-    $('.select_lab_test').change (event) ->
+    $(this).find('.select_lab_test').change (event) ->
       loadTestComponentWrapper(event)
 
 
@@ -300,6 +300,7 @@ $ ->
         editLabResultSuccess(event, data)
 
   editRowOnLoad = (event) ->
+    $('.edit_range_flag').val('true')
     event.stopPropagation()
     current_row = $(event.currentTarget).parents('tr')
     current_row_edit = if current_row.next().is('form') then current_row.next().next() else current_row.next()
@@ -340,7 +341,7 @@ $ ->
     editRowOnLoad event
 
   bindClickEventToPencil = ->
-    $('.edit_range_flag').val('true')
+#    $('.edit_range_flag').val('true')
     $('.edit-lab-result-pencil').bind('click', editRowOnLoad)
     $('textarea').autosize()
 
@@ -437,8 +438,10 @@ $ ->
     bindChangeEventToLabResult()
     rangeNotifierColor()
     loadSelectComponents()
-    $('.select_lab_test').change (event) ->
+    $(this).find('.select_lab_test').change (event) ->
       loadTestComponentWrapper(event)
+    $('#select_lab_test option').eq(0).prop 'selected', true
+    $('#select_lab_test.select_lab_test').trigger 'change'
     $('.edit_range_flag').val('false')
 
 
@@ -455,6 +458,8 @@ $ ->
     $('.standard_rangevalue1').val('')
     $('.standard_rangevalue2').val('')
     $('.standard_rangevalue3').val('')
+    $('#select_lab_test option').eq(0).prop 'selected', true
+    $('#select_lab_test.select_lab_test').trigger 'change'
 
   $('.lab-result-cancel-row-btn').click (event) ->
     $('.edit_range_flag').val('false')
@@ -479,7 +484,7 @@ $ ->
     bindChangeEventToLabResult()
     rangeNotifierColor()
     loadSelectComponents()
-    $('.select_lab_test').change (event) ->
+    $(this).find('.select_lab_test').change (event) ->
       loadTestComponentWrapper(event)
 
 

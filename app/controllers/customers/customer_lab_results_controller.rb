@@ -16,6 +16,9 @@ class Customers::CustomerLabResultsController < ApplicationController
     @systolic_color=get_color(@systolic_component_id,systolic_value, @new_health_assessment.id)
     @diastolic_color=get_color(@diastolic_component_id,diastolic_value, @new_health_assessment.id)
 
+    @hypertensive = @current_customer.has_hypertension
+    @current_customer.update(is_hypertensive: @hypertensive ? "Hypertensive" : "No")
+
     respond_to do |format|
       format.json {render :json => {date:@updated_date, systolic_color:@systolic_color,diastolic_color: @diastolic_color,:status => 200 }}
     end
@@ -29,6 +32,9 @@ class Customers::CustomerLabResultsController < ApplicationController
     @updated_date=formatted_date (Time.now)
     @new_health_assessment.lab_results.create(test_component_id: @blood_sugar_component_id, result: result)
     @blood_sugar_color=get_color @blood_sugar_component_id,result, @new_health_assessment.id
+
+    @diabetic = @customer.is_diabetic
+    @customer.update(diabetic: @diabetic ? "Diabetic" : "No")
 
     respond_to do |format|
       format.json {render :json => {date:@updated_date, color:@blood_sugar_color ,name:'Fasting blood sugar',:status => 200 }}

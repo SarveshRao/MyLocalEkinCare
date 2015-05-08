@@ -33,65 +33,66 @@ $ ->
 
       error: (xhr, status, error) ->
 
-  $('#weight_val').editable
-    url: "/customers/customer_information/update_customer_vitals"
-    title: "Weight"
-    name:'weight'
-    params: (params) ->
-      params.customer_id = $('#customer_id').val()
-      params
-    success: (response, newValue) ->
-      $('#bmi').html(response.bmi)
-      $('#weight_date').html(response.date)
-      $('#bmi_date').html(response.date)
-      $("#bmi").css color:response.bmi_color
-    validate: (value) ->
-      "This field is required"  if $.trim(value) is ""
-    emptytext: '-'
+  if($('#is_customer').val() == true)
+    $('#weight_val').editable
+      url: "/customers/customer_information/update_customer_vitals"
+      title: "Weight"
+      name:'weight'
+      params: (params) ->
+        params.customer_id = $('#customer_id').val()
+        params
+      success: (response, newValue) ->
+        $('#bmi').html(response.bmi)
+        $('#weight_date').html(response.date)
+        $('#bmi_date').html(response.date)
+        $("#bmi").css color:response.bmi_color
+      validate: (value) ->
+        "This field is required"  if $.trim(value) is ""
+      emptytext: '-'
 
-  $('#feet_val').editable
-    url: "/customers/customer_information/update_customer_vitals"
-    title: "Height"
-    name:'feet'
-    params: (params) ->
-      params.customer_id = $('#customer_id').val()
-      params
-    success: (response, newValue) ->
-      $('#bmi').html(response.bmi)
-      $('#height_date').html(response.date)
-      $('#bmi_date').html(response.date)
-      $("#bmi").css color:response.bmi_color
-    validate: (value) ->
-      "This field is required"  if $.trim(value) is ""
-    emptytext: '-'
+    $('#feet_val').editable
+      url: "/customers/customer_information/update_customer_vitals"
+      title: "Height"
+      name:'feet'
+      params: (params) ->
+        params.customer_id = $('#customer_id').val()
+        params
+      success: (response, newValue) ->
+        $('#bmi').html(response.bmi)
+        $('#height_date').html(response.date)
+        $('#bmi_date').html(response.date)
+        $("#bmi").css color:response.bmi_color
+      validate: (value) ->
+        "This field is required"  if $.trim(value) is ""
+      emptytext: '-'
 
-  $('#inches_val').editable
-    url: "/customers/customer_information/update_customer_vitals"
-    title: "height"
-    name:'inches'
-    params: (params) ->
-      params.customer_id = $('#customer_id').val()
-      params
-    success: (response, newValue) ->
-      $('#bmi').html(response.bmi)
-      $('#height_date').html(response.date)
-      $('#bmi_date').html(response.date)
-      $("#bmi").css color:response.bmi_color
-    validate: (value) ->
-      "This field is required"  if $.trim(value) is ""
-    emptytext: '-'
+    $('#inches_val').editable
+      url: "/customers/customer_information/update_customer_vitals"
+      title: "height"
+      name:'inches'
+      params: (params) ->
+        params.customer_id = $('#customer_id').val()
+        params
+      success: (response, newValue) ->
+        $('#bmi').html(response.bmi)
+        $('#height_date').html(response.date)
+        $('#bmi_date').html(response.date)
+        $("#bmi").css color:response.bmi_color
+      validate: (value) ->
+        "This field is required"  if $.trim(value) is ""
+      emptytext: '-'
 
-  $('.editable').editable
-    success: (response, newValue) ->
-      parsed_data = JSON.stringify(response)
-      data=JSON.parse(parsed_data)
-      name=data['name']
-      if name=='Fasting blood sugar'
-        $("#blood_sugar_color b").removeClass().addClass(data['color'])
-        $('#blood_sugar_date').html(data['date'])
-    validate: (value) ->
-      "This field is required"  if $.trim(value) is ""
-    emptytext: '-'
+    $('.editable').editable
+      success: (response, newValue) ->
+        parsed_data = JSON.stringify(response)
+        data=JSON.parse(parsed_data)
+        name=data['name']
+        if name=='Fasting blood sugar'
+          $("#blood_sugar_color b").removeClass().addClass(data['color'])
+          $('#blood_sugar_date').html(data['date'])
+      validate: (value) ->
+        "This field is required"  if $.trim(value) is ""
+      emptytext: '-'
 
 
   $('#notifications_count').click ->
