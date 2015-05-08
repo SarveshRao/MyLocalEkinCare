@@ -33,7 +33,7 @@ $ ->
 
       error: (xhr, status, error) ->
 
-  if($('#is_customer').val() == true)
+  if($('#is_customer').val() == "true")
     $('#weight_val').editable
       url: "/customers/customer_information/update_customer_vitals"
       title: "Weight"

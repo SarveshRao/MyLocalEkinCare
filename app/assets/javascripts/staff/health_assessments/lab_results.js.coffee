@@ -97,7 +97,7 @@ $ ->
       if isDigitPresent
 #        write logic for range comparision
         result_value = result_value_element.text().replace /[^0-9.]/ig, ''
-        current_range_value = current_range_value.replace /[^0-9.<>=+-]/ig, ''
+        current_range_value = current_range_value.replace /[^0-9.<>=+\u002d\u2013]/ig, ''
 #        Now try to compare range-wise
         if(/^<=/.test current_range_value)
           current_range_value = current_range_value.split("<=")[1]
@@ -119,8 +119,8 @@ $ ->
           current_range_value = current_range_value.split("+")[0]
           if(parseFloat(result_value) > parseFloat(current_range_value))
             result_ele.attr('class', 'text-'+$(current_range_ele).attr('class').split(" ")[0].split("-")[1])
-        else if(/-/.test current_range_value)
-          current_range_value_array = current_range_value.split("-")
+        else if(/[\u002d,\u2013]+/.test current_range_value)
+          current_range_value_array = current_range_value.split(/[\u002d,\u2013]+/)
           if(parseFloat(result_value) >= parseFloat(current_range_value_array[0]) && parseFloat(result_value) <= parseFloat(current_range_value_array[1]))
             result_ele.attr('class', 'text-'+$(current_range_ele).attr('class').split(" ")[0].split("-")[1])
         else

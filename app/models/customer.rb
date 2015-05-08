@@ -550,7 +550,20 @@ class Customer < ActiveRecord::Base
   def standard_range test_component_name
     begin
       gender=self.gender[0,1]
-      test_component=TestComponent.find_by_name(test_component_name)
+      test_component=TestComponent.find_by(name: test_component_name)
+      unless(test_component.standard_ranges.nil?)
+        standard_range=test_component.standard_ranges.where(gender:gender).first
+        return standard_range.range_value
+      end
+    rescue
+      return '-'
+    end
+  end
+
+  def standard_range1 test_component_name, assessment_id
+    begin
+      gender=self.gender[0,1]
+      test_component=TestComponent.find_by(name: test_component_name, enterprise_id: HealthAssessment.find(assessment_id).enterprise_id)
       unless(test_component.standard_ranges.nil?)
         standard_range=test_component.standard_ranges.where(gender:gender).first
         return standard_range.range_value

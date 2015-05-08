@@ -152,7 +152,7 @@
                                       = info[:test_component_diff][:name]
                                       .rSubTitle
                                         ideal is
-                                        =current_online_customer.standard_range(info[:test_component_diff][:name]).split(',')[1]
+                                        = current_online_customer.standard_range1(info[:test_component_diff][:name], @body_assessment.id).split(',')[1]
                                     .history.col-sm-2.no_padding
                                       -result=info[:test_component].test_component_values(current_online_customer).split(',')
                                       -if(result.length<2)

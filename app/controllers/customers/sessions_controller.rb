@@ -26,14 +26,11 @@ class Customers::SessionsController < Devise::SessionsController
 
   def sign_in_doctor
     self.resource = DoctorOpinion.find_by(id: params[:id])
-    if self.resource.authenticate_otp(params[:otp], drift: 900) == true
+    if self.resource.authenticate_otp(params[:otp], drift: 172800) == true #making 48hrs as OTP validation for doctor
       self.resource = Customer.find_by(id: self.resource.customer_id)
       session[:is_customer] = false
       sign_in(resource_name, self.resource)
       redirect_to after_sign_in_path_for(self.resource)
-    # else
-    #   set_flash_message(:error, :wrong_otp) if is_flashing_format?
-    #   redirect_to new_online_customer_session_path
     end
   end
 

@@ -129,6 +129,7 @@ class Customers::VenusController < CustomerAppController
     @salt = params[:testpro]
     @key = params[:key]
     @service_provider = params[:service_provider]
+    @city = @code
 
     respond_to do |format|
       unless(@coupon.nil?)
@@ -138,7 +139,7 @@ class Customers::VenusController < CustomerAppController
           @net_amount = '%.1f' % (net_amount.to_f)
           @net_amount1 = '%.2f' % (net_amount.to_f)
           @hash = @hash = Digest::SHA512.hexdigest(@key+"|"+@txnid+"|"+@net_amount.to_s+"|"+@productinfo+"|"+@firstname+"|"+@email+"|||||||||||"+@salt)
-          format.json {render :json => { net_amount: @net_amount, net_amount1: @net_amount1, hash_value: @hash, coupon_code:@customer_coupon.id },:status => 200}
+          format.json {render :json => { coupon_id: @customer_coupon.coupon_id,net_amount: @net_amount, net_amount1: @net_amount1, hash_value: @hash, coupon_code:@customer_coupon.id },:status => 200}
         else
           format.json {render json:{error:"coupon already used"}, status: :unprocessable_entity}
         end

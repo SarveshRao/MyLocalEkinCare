@@ -1976,6 +1976,7 @@
                 %input#service_provider{:name =>"service_provider", :type => "hidden", :value => "payu_paisa"}
                 %input#customer_id{:name =>"customer_id", :type => "hidden", :value => "#{@customer_id}"}
                 %input#package_id{:name =>"package_id", :type => "hidden", :value => "#{@package_info.id}"}
+                %input#city{:name =>"city", :type => "hidden", :value => ""}
                 %section.pull-left.col-sm-7#coupon_section
                   %div.col-sm-7.no_padding
                     %input{:id=>"coupon_code",:class=>"form-control",:name =>"coupon", 'placeholder' => 'Apply Coupon', :type => "text", :value => ""}

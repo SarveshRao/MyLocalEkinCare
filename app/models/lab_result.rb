@@ -124,36 +124,108 @@ class LabResult < ActiveRecord::Base
   end
 
   def parse ranges
+    # range_eles_status = []
+    # result_val = self.result.gsub(/[\=\+\/\(\)a-zA-Z\s\%\u03bc]*/, '')
+    # if !is_empty?(result_val) && !ranges.nil? && !ranges.empty?
+    #   ranges.each do |current_standard_range|
+    #     begin
+    #       compare_literal_nums = current_standard_range.gsub(/[\=\+\/\(\)a-zA-Z\s\%\u03bc]*/, '')
+    #       compare_literals = current_standard_range.gsub(/[0-9\+\/\.\(\)a-zA-Z\s\%\u03bc]*/, '')
+    #       if current_standard_range =~ /[0-9]+/
+    #         if compare_literals =~ /\-/
+    #           status = comp_between(/[\>\<\+\=\/\(\)a-zA-Z\s\%\u03bc]*/, /\-/, current_standard_range)
+    #         else
+    #           if compare_literals =~ /[\>\<]+/
+    #             status = comp_between(/[\-\+\=\/\(\)a-zA-Z\s\%\u03bc]*/, /[><]/, current_standard_range)
+    #           end
+    #           compare_literals.gsub!(/\=/, '')
+    #           if compare_literals =~ /[\>|\<]+/
+    #             status = eval("#{result_val} #{compare_literal_nums}")
+    #           end
+    #           compare_literals = current_standard_range.gsub(/[0-9\>\<\=\/\.\(\)a-zA-Z\s\%\u03bc]*/, '')
+    #           if compare_literals =~ /[\-|\+]+/
+    #             status = comp_plus_or_minus compare_literals, current_standard_range
+    #           end
+    #         end
+    #         compare_literals = current_standard_range.gsub(/[\>\<\+\/\(\)a-zA-Z\s\%\u03bc]*/, '')
+    #         if status == false && compare_literals =~ /\=/
+    #           result_exp = Regexp.new(result_val)
+    #           status = current_standard_range =~ result_exp
+    #         end
+    #       else
+    #         status = (current_standard_range.downcase.strip == result_val.downcase.strip)
+    #       end
+    #     rescue Exception
+    #       status = false
+    #     end
+    #     range_eles_status.push(status)
+    #   end
+    # end
+    # range_eles_status
+
     range_eles_status = []
-    result_val = self.result.gsub(/[\=\+\/\(\)a-zA-Z\s\%\u03bc]*/, '')
+    result_val = self.result
     if !is_empty?(result_val) && !ranges.nil? && !ranges.empty?
       ranges.each do |current_standard_range|
+        status = false
         begin
-          compare_literal_nums = current_standard_range.gsub(/[\=\+\/\(\)a-zA-Z\s\%\u03bc]*/, '')
-          compare_literals = current_standard_range.gsub(/[0-9\+\/\.\(\)a-zA-Z\s\%\u03bc]*/, '')
-          if current_standard_range =~ /[0-9]+/
-            if compare_literals =~ /\-/
-              status = comp_between(/[\>\<\+\=\/\(\)a-zA-Z\s\%\u03bc]*/, /\-/, current_standard_range)
+          current_standard_range = current_standard_range.gsub(" ", "")
+          isDigitPresent = /\d/.match(result_val)
+          if !isDigitPresent.nil?
+            result_val = result_val.gsub(/[^0-9. ]/i, '')
+            current_standard_range = current_standard_range.gsub(/[^0-9.<>=+\u002d\u2013]/i, '')
+            if !/^<=/.match(current_standard_range).nil?
+              if current_standard_range.split("<=")!=-1
+                current_standard_range = current_standard_range.split("<=")[1]
+              end
+              if result_val.to_f <= current_standard_range.to_f
+                status = true
+              end
+            elsif !/^</.match(current_standard_range).nil?
+              if current_standard_range.split("<")!=-1
+                current_standard_range = current_standard_range.split("<")[1]
+              end
+              if result_val.to_f < current_standard_range.to_f
+                status = true
+              end
+            elsif !/^>=/.match(current_standard_range).nil?
+              if current_standard_range.split(">=")!=-1
+                current_standard_range = current_standard_range.split(">=")[1]
+              end
+              if result_val.to_f >= current_standard_range.to_f
+                status = true
+              end
+            elsif !/^>/.match(current_standard_range).nil?
+              if current_standard_range.split(">")!=-1
+                current_standard_range = current_standard_range.split(">")[1]
+              end
+              if result_val.to_f > current_standard_range.to_f
+                status = true
+              end
+            elsif !/\+$/.match(current_standard_range).nil?
+              if current_standard_range.split("+")!=-1
+                current_standard_range = current_standard_range.split("+")[0]
+              end
+              if result_val.to_f > current_standard_range.to_f
+                status = true
+              end
+            elsif !/[\u002d,\u2013]+/.match(current_standard_range).nil?
+              if current_standard_range.split(/[\u002d,\u2013]+/)!=-1
+                current_standard_range_array = current_standard_range.split(/[\u002d,\u2013]+/)
+              end
+              if result_val.to_f >= current_standard_range_array[0].to_f and result_val.to_f <= current_standard_range_array[1].to_f
+                status = true
+              end
             else
-              if compare_literals =~ /[\>\<]+/
-                status = comp_between(/[\-\+\=\/\(\)a-zA-Z\s\%\u03bc]*/, /[><]/, current_standard_range)
+              if result_val.to_f == current_standard_range.to_f
+                status = true
               end
-              compare_literals.gsub!(/\=/, '')
-              if compare_literals =~ /[\>|\<]+/
-                status = eval("#{result_val} #{compare_literal_nums}")
-              end
-              compare_literals = current_standard_range.gsub(/[0-9\>\<\=\/\.\(\)a-zA-Z\s\%\u03bc]*/, '')
-              if compare_literals =~ /[\-|\+]+/
-                status = comp_plus_or_minus compare_literals, current_standard_range
-              end
-            end
-            compare_literals = current_standard_range.gsub(/[\>\<\+\/\(\)a-zA-Z\s\%\u03bc]*/, '')
-            if status == false && compare_literals =~ /\=/
-              result_exp = Regexp.new(result_val)
-              status = current_standard_range =~ result_exp
             end
           else
-            status = (current_standard_range.downcase.strip == result_val.downcase.strip)
+            result_val = result_val.downcase.gsub(/[^a-z]/i, '')
+            if current_standard_range.downcase == result_val
+              status = true
+            end
           end
         rescue Exception
           status = false
@@ -178,7 +250,7 @@ class LabResult < ActiveRecord::Base
       end
       return colors[0]
     end
-    nil
+    return colors[0]
   end
 
 end

@@ -137,6 +137,7 @@ $(".checkOutContinue").click (event) ->
   amount = $("#amount").val()
   customer_id = $("#customer_id").val()
   package_id = $("#package_id").val()
+  city = $("#city").val()
   $.ajax
     type: "POST"
     url: "/customers/package_details"
@@ -167,6 +168,7 @@ $(".checkOutContinue").click (event) ->
             body: body
             dental_id: dental_id
             vision_id: vision_id
+            city: city
           success: (data) ->
             data = $(data).find('#content').html()
             $('#content').html data
@@ -232,6 +234,7 @@ $('#coupon_button').click ->
       $("#customer_coupon").val(response.coupon_code)
       $("#coupon_section").hide()
       $("#coupon_success").removeClass('hide')
+      $("#city").val(response.coupon_id)
     error: ->
       $("#coupon_code").addClass('parsley-error')
       el = $('#coupon_code').parsley();

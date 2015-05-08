@@ -33,6 +33,7 @@ class Customers::PaymentSuccessController < CustomerAppController
     end
     @name = params[:firstname]
     @reduced_amount = @amount.to_f - @discount.to_f
+    @coupon_id = params[:city]
 
     @customer = current_online_customer
     if @name.nil?
@@ -52,8 +53,8 @@ class Customers::PaymentSuccessController < CustomerAppController
                                          checksum: @hash, error: @error, pg_type: @pg_type, bank_ref_num: @bank_ref_num, unmappedstatus: @unmappedstatus, payumoney_id: @payu_id, package_id: @package.id)
 
     if @payment_details.save!
-      @coupon=Coupon.all.first
-      @customer_coupon=CustomerCoupon.where("customer_id = ? AND coupon_id = ?",@customer.id, @coupon.id).first
+      @coupon=Coupon.find(@coupon_id.to_i)
+      @customer_coupon=CustomerCoupon.where("customer_id = ? AND coupon_id = ?",@customer.id, @coupon_id.to_i).first
       if @customer_coupon
         if((@customer_coupon.is_coupon_applied?) and (@customer_coupon.is_coupon_used? ==false))
           CustomerCoupon.update(@customer_coupon.id,txn_id:@txnid)

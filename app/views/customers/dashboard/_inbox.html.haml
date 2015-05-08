@@ -1,6 +1,6 @@
-- inbox_activities = current_online_customer.inbox_messages.where("activity_type like '%Assessment%'")
+- inbox_activities = current_online_customer.inbox_messages.where("activity_type like '%Assessment%' or activity_type='Recommendation'")
 %section.panel-body.open-sans.scrollable
-  - if (inbox_activities.where("activity_type like '%Assessment%'").count-inbox_activities.where("status = true and activity_type like '%Assessment%'").count) == 0
+  - if (inbox_activities.count-inbox_activities.where("status = true").count) == 0
     %section.panel-body{style:"color: black;"}
       No Assessments
   - else

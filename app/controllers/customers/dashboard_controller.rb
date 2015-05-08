@@ -41,7 +41,6 @@ class Customers::DashboardController < CustomerAppController
     request_to_doctor = "EKINCARE: Dear " + resource[:doctor_name] + ", your opinion is important to " + customer_name + ", please follow the link for your valuable suggestions: "
     request_link = request.protocol + request.host_with_port + "/doctors_signin?id=" + inserted_row_id.to_s() + "%26otp=" + otp
     Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ resource[:doctor_mobile_number] +'&sender=EKCARE&message=' + request_to_doctor + request_link)))
-    # render json: {statusCode: 200}
   end
 
 end
