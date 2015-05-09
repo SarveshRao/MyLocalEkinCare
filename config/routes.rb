@@ -134,7 +134,7 @@ Rails.application.routes.draw do
 
   resources :about do
     collection do
-      get :faq, :about_us, :contact_us, :terms_and_conditions, :team, :doctors,:advisers
+      get :faq, :about_us, :contact_us, :terms_and_conditions, :team, :doctors,:advisors
     end
   end
 

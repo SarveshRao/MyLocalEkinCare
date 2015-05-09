@@ -3,6 +3,8 @@ class HomeController < ApplicationController
     if online_customer_signed_in?
       redirect_to customers_dashboard_path
     end
+    cookies[:coupon]=params[:coupon]
+    cookies[:source]=params[:source]
     @customer = Customer.new
     @packages = ProviderTest.joins("inner join enterprises on enterprises.id = provider_tests.provider_id where enterprise_id='EK' ")
   end

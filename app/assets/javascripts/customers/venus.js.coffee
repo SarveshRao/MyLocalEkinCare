@@ -232,7 +232,7 @@ $('#coupon_button').click ->
       $("#amount").val(response.net_amount)
       $("#hash").val(response.hash_value)
       $("#customer_coupon").val(response.coupon_code)
-      $("#coupon_section").hide()
+      $("#coupon_section").remove()
       $("#coupon_success").removeClass('hide')
       $("#city").val(response.coupon_id)
     error: ->

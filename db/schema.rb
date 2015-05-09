@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150205113959) do
+ActiveRecord::Schema.define(version: 20150505063615) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -95,6 +95,23 @@ ActiveRecord::Schema.define(version: 20150205113959) do
     t.datetime "updated_at"
   end
 
+  create_table "coupon_sources", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "coupons", force: true do |t|
+    t.string   "code"
+    t.float    "price"
+    t.integer  "no_of_users_used"
+    t.datetime "valid_from"
+    t.datetime "expires_on"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "coupon_source_id"
+  end
+
   create_table "customer_allergies", force: true do |t|
     t.integer  "customer_id"
     t.integer  "allergy_id"
@@ -103,12 +120,29 @@ ActiveRecord::Schema.define(version: 20150205113959) do
     t.datetime "updated_at"
   end
 
+  create_table "customer_coupons", force: true do |t|
+    t.integer  "customer_id"
+    t.integer  "coupon_id"
+    t.boolean  "is_used"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "txn_id"
+  end
+
   create_table "customer_immunizations", force: true do |t|
     t.integer  "customer_id"
     t.integer  "immunization_id"
     t.date     "date"
     t.string   "dosage"
     t.text     "instructions"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "customer_medical_conditions", force: true do |t|
+    t.integer  "customer_id"
+    t.integer  "medical_condition_id"
+    t.string   "question"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -130,6 +164,8 @@ ActiveRecord::Schema.define(version: 20150205113959) do
     t.integer  "inches"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.float    "waist"
+    t.string   "wizard_status"
   end
 
   create_table "customers", force: true do |t|
@@ -148,12 +184,14 @@ ActiveRecord::Schema.define(version: 20150205113959) do
     t.string   "alternative_mobile_number"
     t.string   "customer_type"
     t.string   "customer_id"
+    t.string   "weight"
     t.integer  "number_of_children"
     t.string   "daily_activity"
     t.string   "frequency_of_exercise"
     t.string   "smoke"
     t.string   "alcohol"
     t.string   "medical_insurance"
+    t.integer  "blood_group_id"
     t.string   "diet"
     t.string   "encrypted_password",        default: "", null: false
     t.string   "reset_password_token"
@@ -167,6 +205,8 @@ ActiveRecord::Schema.define(version: 20150205113959) do
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
+    t.integer  "feet"
+    t.integer  "inches"
     t.string   "status"
     t.text     "general_issues"
     t.text     "other_body_parts"
@@ -176,12 +216,27 @@ ActiveRecord::Schema.define(version: 20150205113959) do
     t.datetime "invitation_accepted_at"
     t.integer  "invitation_limit"
     t.string   "image"
+    t.string   "otp_secret_key"
+    t.string   "is_hypertensive"
+    t.string   "diabetic"
+    t.string   "is_obese"
+    t.string   "is_over_weight"
   end
 
   add_index "customers", ["confirmation_token"], name: "index_customers_on_confirmation_token", unique: true, using: :btree
   add_index "customers", ["email"], name: "index_customers_on_email", unique: true, using: :btree
   add_index "customers", ["invitation_token"], name: "index_customers_on_invitation_token", unique: true, using: :btree
   add_index "customers", ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true, using: :btree
+
+  create_table "doctor_opinions", force: true do |t|
+    t.integer  "customer_id"
+    t.string   "doctor_name"
+    t.string   "doctor_mobile_number"
+    t.string   "doctor_email"
+    t.string   "otp_secret_key"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "drugs", force: true do |t|
     t.string   "name"
@@ -226,6 +281,14 @@ ActiveRecord::Schema.define(version: 20150205113959) do
     t.datetime "updated_at"
   end
 
+  create_table "family_medical_conditions", force: true do |t|
+    t.integer  "family_medical_history_id"
+    t.integer  "medical_condition_id"
+    t.string   "question"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "family_medical_histories", force: true do |t|
     t.string   "name"
     t.string   "relation"
@@ -262,6 +325,7 @@ ActiveRecord::Schema.define(version: 20150205113959) do
     t.string   "type"
     t.integer  "status_code"
     t.string   "doctor_name"
+    t.integer  "enterprise_id"
   end
 
   create_table "identities", force: true do |t|
@@ -295,6 +359,7 @@ ActiveRecord::Schema.define(version: 20150205113959) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "associated_date"
+    t.boolean  "status"
   end
 
   create_table "lab_results", force: true do |t|
@@ -307,6 +372,15 @@ ActiveRecord::Schema.define(version: 20150205113959) do
 
   create_table "lab_tests", force: true do |t|
     t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "enterprise_id"
+    t.string   "info"
+  end
+
+  create_table "medical_conditions", force: true do |t|
+    t.string   "name"
+    t.string   "info"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -336,6 +410,16 @@ ActiveRecord::Schema.define(version: 20150205113959) do
     t.boolean  "active",          default: true
     t.string   "prescriber_name"
     t.string   "name"
+  end
+
+  create_table "message_prompts", force: true do |t|
+    t.integer  "risk_factor_id"
+    t.string   "gender"
+    t.string   "range"
+    t.string   "message"
+    t.string   "image"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "notes", force: true do |t|
@@ -481,6 +565,12 @@ ActiveRecord::Schema.define(version: 20150205113959) do
     t.datetime "updated_at"
   end
 
+  create_table "risk_factors", force: true do |t|
+    t.string   "Name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "sessions", force: true do |t|
     t.string   "session_id", null: false
     t.text     "data"
@@ -509,6 +599,7 @@ ActiveRecord::Schema.define(version: 20150205113959) do
     t.string  "age_limit"
     t.string  "age_male_range_value"
     t.string  "age_female_range_value"
+    t.integer "enterprise_id"
   end
 
   create_table "test_components", force: true do |t|
@@ -518,6 +609,7 @@ ActiveRecord::Schema.define(version: 20150205113959) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "info"
+    t.integer  "enterprise_id"
   end
 
   create_table "timelines", force: true do |t|

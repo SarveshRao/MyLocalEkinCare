@@ -83,17 +83,30 @@ class Customers::RegistrationsController < Devise::RegistrationsController
           # "Sending SMS to mobile"
           result = Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ resource.mobile_number() +'&sender=EKCARE&message=Dear '+ resource.first_name() +', DOWNLOAD FREE EKINCARE APP, to digitize your physical medical records. Click http://bit.ly/eKgoogle for ANDROID or click http://bit.ly/eKapple for Apple iPhone')))
 
-          # need to assign coupon as per requirement
-          coupon=Coupon.all.first
 
-          unless(coupon.nil?)
-            if(coupon.expires_on>Time.now)
-              expire_date = coupon.expires_on.to_s
+
+          ekincare_coupon=CouponSource.find_by_name('ekincare')
+          ek_coupon=ekincare_coupon.coupons.first
+
+          if(ek_coupon)
+            if ek_coupon.is_valid_coupon?
+              expire_date = ek_coupon.expires_on.to_s
               expire_date = expire_date[8..9]+"-"+expire_date[5..6]+"-"+expire_date[0..3]
-              coupon_sms = Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ resource.mobile_number() +'&sender=EKCARE&message=Dear '+ resource.first_name() +', Avail coupon worth Rs. '+ (coupon.price.to_s) +' on your next health check at eKincare.com. Call 888-678-3546 for details. Coupon code '+coupon.code+'. Valid till '+expire_date)))
-              CustomerCoupon.create(customer_id:resource.id,coupon_id:coupon.id)
+              coupon_sms = Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ resource.mobile_number() +'&sender=EKCARE&message=Dear '+ resource.first_name() +', Avail coupon worth Rs. '+ (ek_coupon.price.to_s) +' on your next health check at eKincare.com. Call 888-678-3546 for details. Coupon code '+ek_coupon.code+'. Valid till '+expire_date)))
+              CustomerCoupon.create(customer_id:resource.id,coupon_id:ek_coupon.id)
             end
           end
+
+          coupon=cookies[:coupon]
+          source=cookies[:source]
+
+          cookies.delete(:coupon)
+          cookies.delete(:source)
+
+          if(coupon and source)
+            assign_coupon(resource.id,coupon,source)
+          end
+
 
 
 
@@ -123,7 +136,7 @@ class Customers::RegistrationsController < Devise::RegistrationsController
   def after_sign_up_path_for(resource)
     set_flash_message :notice, :sign_in if is_flashing_format?
     otp=resource.otp_code.to_s()
-    Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ resource[:mobile_number] +'&sender=EKCARE&message=OTP: Dear '+ resource[:first_name] +', your eKincare otp is '+ otp +'. Call 8886783546 for questions.')))
+    # Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ resource[:mobile_number] +'&sender=EKCARE&message=OTP: Dear '+ resource[:first_name] +', your eKincare otp is '+ otp +'. Call 8886783546 for questions.')))
     new_online_customer_session_path
   end
 
@@ -151,5 +164,19 @@ class Customers::RegistrationsController < Devise::RegistrationsController
 
   def failure_msg
     render json: {msg: 'error'}, status: :unprocessable_entity
+  end
+
+  def assign_coupon customer_id,coupon_code,source
+    begin
+      coupon_source=CouponSource.find_by_name(source)
+      if(coupon_source.is_valid_coupon?(coupon_code))
+        coupon=Coupon.find_by_code(coupon_code)
+        CustomerCoupon.create(customer_id:customer_id,coupon_id:coupon.id)
+        return true
+      end
+    rescue
+      return false
+    end
+    return false
   end
 end

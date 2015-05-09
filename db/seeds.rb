@@ -96,21 +96,26 @@ require 'yaml'
 #   medical_condition=MedicalCondition.create(name:value['name'])
 # end
 
+# Customer.all.each do |customer|
+#   customer.otp_secret_key = ROTP::Base32.random_base32
+#   customer.save
+# end
 
-risk_factors = YAML.load(File.open(File.expand_path('db/risk_factors.yml')))
-puts 'seeding risk factors...'
-risk_factors.each do |key, value|
-  new_risk_factor = RiskFactor.find_or_create_by(Name: value['Name'])
-  new_risk_factor.save
-end
 
-message_prompts = YAML.load(File.open(File.expand_path('db/message_prompts.yml')))
-puts 'seeding message prompts...'
-message_prompts.each do |key, value|
-  new_message_prompt = MessagePrompt.create(risk_factor_id: value['risk_factor_id'])
-  new_message_prompt.range = value['range']
-  new_message_prompt.message = value['message']
-  new_message_prompt.image = value['image']
-  new_message_prompt.gender = value['gender']
-  new_message_prompt.save
-end
+# risk_factors = YAML.load(File.open(File.expand_path('db/risk_factors.yml')))
+# puts 'seeding risk factors...'
+# risk_factors.each do |key, value|
+#   new_risk_factor = RiskFactor.find_or_create_by(Name: value['Name'])
+#   new_risk_factor.save
+# end
+#
+# message_prompts = YAML.load(File.open(File.expand_path('db/message_prompts.yml')))
+# puts 'seeding message prompts...'
+# message_prompts.each do |key, value|
+#   new_message_prompt = MessagePrompt.create(risk_factor_id: value['risk_factor_id'])
+#   new_message_prompt.range = value['range']
+#   new_message_prompt.message = value['message']
+#   new_message_prompt.image = value['image']
+#   new_message_prompt.gender = value['gender']
+#   new_message_prompt.save
+# end

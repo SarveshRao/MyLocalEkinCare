@@ -121,7 +121,7 @@ class Customers::VenusController < CustomerAppController
     @code=params[:code]
     @amount=params[:amount]
     @customer=current_online_customer
-    @coupon=Coupon.find_by_code(@code)
+    @coupon=Coupon.where("lower(code) = ? ",@code.downcase).first
     @email = params[:email]
     @firstname = params[:firstname]
     @productinfo = params[:productinfo]
@@ -129,22 +129,25 @@ class Customers::VenusController < CustomerAppController
     @salt = params[:testpro]
     @key = params[:key]
     @service_provider = params[:service_provider]
-    @city = @code
 
     respond_to do |format|
       unless(@coupon.nil?)
-        @customer_coupon=CustomerCoupon.where("customer_id = ? AND coupon_id = ?",@customer.id, @coupon.id).first
-        unless(@customer_coupon.is_coupon_used?)
-          net_amount=get_net_amount(@customer_coupon,@amount,@coupon.price)
-          @net_amount = '%.1f' % (net_amount.to_f)
-          @net_amount1 = '%.2f' % (net_amount.to_f)
-          @hash = @hash = Digest::SHA512.hexdigest(@key+"|"+@txnid+"|"+@net_amount.to_s+"|"+@productinfo+"|"+@firstname+"|"+@email+"|||||||||||"+@salt)
-          format.json {render :json => { coupon_id: @customer_coupon.coupon_id,net_amount: @net_amount, net_amount1: @net_amount1, hash_value: @hash, coupon_code:@customer_coupon.id },:status => 200}
+        if @coupon.is_valid_coupon?
+          @customer_coupon=CustomerCoupon.where("customer_id = ? AND coupon_id = ?",@customer.id, @coupon.id).first
+          unless(@customer_coupon.nil? or @customer_coupon.is_coupon_used?)
+            net_amount=get_net_amount(@customer_coupon,@amount,@coupon.price)
+            @net_amount = '%.1f' % (net_amount.to_f)
+            @net_amount1 = '%.2f' % (net_amount.to_f)
+            @hash = @hash = Digest::SHA512.hexdigest(@key+"|"+@txnid+"|"+@net_amount.to_s+"|"+@productinfo+"|"+@firstname+"|"+@email+"|||||||||||"+@salt)
+            format.json {render :json => { coupon_id: @customer_coupon.coupon_id,net_amount: @net_amount, net_amount1: @net_amount1, hash_value: @hash, coupon_code:@customer_coupon.id },:status => 200}
+          else
+            format.json {render json:{error:"coupon already used"}, status: 422}
+          end
         else
-          format.json {render json:{error:"coupon already used"}, status: :unprocessable_entity}
+          format.json {render json: {error:"invalid coupon"}, status: 422}
         end
       else
-        format.json {render json: {error:"invalid coupon"}, status: :unprocessable_entity}
+        format.json {render json: {error:"Coupon not yet started or expired"}, status: 422}
       end
     end
   end

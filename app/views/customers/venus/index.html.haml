@@ -1909,7 +1909,7 @@
                             %h5.no_margin.dental_provider
                               = location.name
                         .form-group.dental_Appointment.pull-right.col-sm-6.no_margin
-                          = f.text_field "#{location.addressee_id}",{class: 'input-sm input-s form-control datetimepicker hide dental_input z_idx_id', 'readonly'=> 'readonly', 'data-required' => 'true','placeholder' => 'Select an Appointment'}
+                          = f.text_field "#{location.addressee_id}",{class: 'input-sm input-s form-control datetimepicker1 hide dental_input z_idx_id', 'readonly'=> 'readonly', 'data-required' => 'true','placeholder' => 'Select an Appointment'}
                         %div.col-sm-12.addr_hide
                           %small.block.col-sm-12
                             %a.text.text-primary
@@ -1934,7 +1934,7 @@
                             %h5.no_margin.vision_provider
                               = location.name
                         .form-group.vision_Appointment.pull-right.col-sm-6.no_margin
-                          = f.text_field "#{location.addressee_id}",{class: 'input-sm input-s form-control datetimepicker hide vision_input z_idx_id', 'readonly'=> 'readonly', 'data-required' => 'true','placeholder' => 'Select an Appointment'}
+                          = f.text_field "#{location.addressee_id}",{class: 'input-sm input-s form-control datetimepicker2 hide vision_input z_idx_id', 'readonly'=> 'readonly', 'data-required' => 'true','placeholder' => 'Select an Appointment'}
 
                         %div.col-sm-12.addr_hide
                           %small.block.col-sm-12
@@ -1956,7 +1956,7 @@
                         .media-body.provider_address.col-sm-11
                           %h5.home_provider Your Home
                       .form-group.pull-right.col-sm-6.body_Appointment.no_margin
-                        = f.text_field "#{@address.id}",{class: 'input-sm input-s form-control datetimepicker body_input z_idx_id', 'readonly'=> 'readonly', 'data-required' => 'true','placeholder' => 'Select an Appointment'}
+                        = f.text_field "#{@address.id}",{class: 'input-sm input-s form-control datetimepicker3 body_input z_idx_id', 'readonly'=> 'readonly', 'data-required' => 'true','placeholder' => 'Select an Appointment'}
                       %div.col-sm-12.addr_hide
                         %p.block.col-sm-12
                           = @address.details rescue '-'

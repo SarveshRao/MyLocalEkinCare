@@ -12,11 +12,21 @@ $ ->
   })
 
   d = new Date
-  $('.datetimepicker').datetimepicker({
+  $('.datetimepicker1').datetimepicker({
     minDate: new Date(d.setDate(d.getDate() + 2)),
     format:'Y/m/d g:i a',
     formatTime: 'g:i a'
     })
+  $('.datetimepicker2').datetimepicker({
+    minDate: new Date(d.setDate(d.getDate() + 2)),
+    format:'Y/m/d g:i a',
+    formatTime: 'g:i a'
+  })
+  $('.datetimepicker3').datetimepicker({
+    minDate: new Date(d.setDate(d.getDate() + 2)),
+    format:'Y/m/d g:i a',
+    formatTime: 'g:i a'
+  })
 
   $('.xdsoft_timepicker').css 'width', '60px'
  
