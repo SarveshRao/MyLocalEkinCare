@@ -9,78 +9,26 @@
     %section.m-b-lg
       = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
         .list-group
-          .list-group-item.m-b-sm
-            = f.text_field :mobile_number, {id: 'mobile_number', class: 'numeric form-control no-border p-t-n', placeholder: 'Enter your registered mobile number',autofocus: true, required: true }
-          %a.btn.btn-lg.btn-primary.btn-block.m-b-sm#send_otp{href: "#", ajax_path: customers_send_otp_path} Send OTP
-          %a.m-b-sm#send_otp_link.hide{href: "#", ajax_path: customers_send_otp_path, style:"text-decoration: underline;"} Resend OTP
-          .list-group-item.after_mobile_number_entry.m-b-sm.hide
-            = f.text_field :otp, {id: 'otp_code', class: 'numeric form-control no-border p-t-n', placeholder: 'OTP',autofocus: true, required: true}
-        = f.submit 'Sign in', {class: 'btn btn-lg btn-primary btn-block after_mobile_number_entry hide'}
+          Please enter your registered phone number to receive a One Time Password to login.
+          .list-group-item
+            = f.text_field :mobile_number, {ajax_path: customers_send_otp_path, id: 'mobile_number', class: 'numeric form-control no-border p-t-n', placeholder: 'Enter your registered mobile number',autofocus: true, required: true, minlength: 10 }
+          .list-group-item.after_mobile_number_entry
+            = f.text_field :otp, {id: 'otp_code', class: 'numeric form-control no-border p-t-n', placeholder: 'One Time Password',autofocus: true, required: true, minlength: 6}
+        = f.submit 'Sign in', {class: 'btn btn-lg btn-primary btn-block after_mobile_number_entry'}
+        %p.text-muted.text-center
+          %small
+            %a.m-b-sm.text-center#send_otp_link{href: "#", ajax_path: customers_send_otp_path} Resend OTP
         %p.text-muted.text-center
           %small Do not have an account?
         %a.btn.btn-lg.btn-default.btn-block{href: new_registration_path(resource_name)} Create an account
 %footer#footer
   .text-center.padder
     %p
-      %small
-        \© 2014
-        -#%br>/
-        eKincare
+      %small.current_year
 
 :javascript
   $(document).ready(function(){
-    $('.after_mobile_number_entry').hide();
-    $("#send_otp, #send_otp_link").click(function(){
-    //set cookie for mobile number when user clicks on sen otp
-    document.cookie="mobile_number=" + $('#mobile_number').val();
-    $('#invalid_user_id, #signed_out').remove();
-      $.ajax({
-        type: "POST",
-        url: $(this).attr('ajax_path'),
-        data: {mobile_number: $('#mobile_number').val()},
-        success: function(page){
-          if(page.statusCode == 404)
-          {
-            $('#invalid_user_id, #signed_out').remove();
-            $('.alert.alert-danger.text-center, .alert.alert-success.text-center').remove();
-            var invalid_user = $('<div id="invalid_user_id" class="alert alert-danger text-center"> <button class="close" data-dismiss="alert" type="button">×</button> <i class="fa fa-ok-sign"></i> Mobile number you have entered is not registered with eKincare. Please register before you login. </div>');
-            $('#content').prepend(invalid_user);
-          }
-          if(page.statusCode == 200)
-          {
-            $('#mobile_number').attr('readonly', 'readonly');
-            $('.after_mobile_number_entry').show();
-            $('#send_otp').hide();
-            $('#send_otp_link').removeClass('hide');
-            $('.after_mobile_number_entry').removeClass('hide');
-            $('.alert.alert-danger.text-center, .alert.alert-success.text-center').remove();
-            var received_otp = $('<div id="signed_out" class="alert alert-success text-center"> <button class="close" data-dismiss="alert" type="button">×</button> <i class="fa fa-ok-sign"></i> We have sent OTP to your mobile. Please enter the OTP to login. OTP is valid only for next 15minutes </div>');
-            $('#content').prepend(received_otp);
-          }
-        },
-        error: function(data){
-          console.log(data);
-        },
-        dataType: 'json'
-      });
-    });
-
-    var cookies = document.cookie.split(';');
-    for(i=0; i<cookies.length; i++){
-      C = cookies[i].split('=');
-      cookies[C[0]] = C[1];
-    }
-
-    if(typeof cookies['mobile_number'] !== 'undefined')
-    {
-      // Need to show Mobile Number, Resend OTP, OTP, Sign in
-      $('#mobile_number').val(cookies['mobile_number']);
-      $('.after_mobile_number_entry, #send_otp_link').removeClass('hide');
-      $('.after_mobile_number_entry').show();
-      $('#send_otp').hide();
-      $('#send_otp_link').show();
-    }
-
+    $('.current_year').text("\© " + new Date().getFullYear() + " eKincare");
     //Mobile number validation
     $(".numeric").keydown(function (e) {
       // Allow: backspace, delete, tab, escape, enter and .
@@ -113,4 +61,39 @@
         }
       }
     });
+
+    $('#mobile_number').blur(function(){
+      if(/^\d{10}$/.test($(this).val()))
+        sendOTP($(this));
+    });
+
+    $("#send_otp_link").click(function(){
+      sendOTP($(this));
+    });
+
+    var sendOTP = function(that){
+      $.ajax({
+        type: "POST",
+        url: $(that).attr('ajax_path'),
+        data: {mobile_number: $('#mobile_number').val()},
+        success: function(page){
+          if(page.statusCode == 404)
+          {
+            $('#invalid_user_id, #signed_out').remove();
+            $('.alert.alert-danger.text-center, .alert.alert-success.text-center').remove();
+            var invalid_user = $('<div id="invalid_user_id" class="alert alert-danger text-center"> <button class="close" data-dismiss="alert" type="button">×</button> <i class="fa fa-ok-sign"></i> Mobile number you have entered is not registered with eKincare. Please register before you login. </div>');
+            $('#content').prepend(invalid_user);
+          }
+          if(page.statusCode == 200)
+          {
+            var received_otp = $('<div id="signed_out" class="alert alert-success text-center"> <button class="close" data-dismiss="alert" type="button">×</button> <i class="fa fa-ok-sign"></i> We have sent OTP to your mobile. Please enter the OTP to login. OTP is valid only for next 15 minutes </div>');
+            $('#content').prepend(received_otp);
+          }
+        },
+        error: function(data){
+          console.log(data);
+        },
+        dataType: 'json'
+      });
+    };
   });

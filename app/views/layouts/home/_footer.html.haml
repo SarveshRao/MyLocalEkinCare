@@ -46,6 +46,11 @@
       -#/ top-footer
       %section#bottom-footer
         %p.keep-left
-          \&copy; 2015
+          %span.current_year_copy
           = succeed "." do
             %a{:alt => "eKincare", :href => "http://ekincare.com/"} Aayuv Technologies Private Limited.All Rights Reserved.
+
+:javascript
+  $(document).ready(function(){
+    $('.current_year_copy').text("\© " + new Date().getFullYear());
+  });

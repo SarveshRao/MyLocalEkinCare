@@ -14,12 +14,17 @@ class Customers::SessionsController < Devise::SessionsController
   def create
     session[:is_customer] = true
     self.resource = Customer.find_by(mobile_number: params[:online_customer][:mobile_number])
-    if self.resource.authenticate_otp(params[:online_customer][:otp], drift: 900) == true
-      session[:is_customer] = true
-      sign_in(resource_name, self.resource)
-      redirect_to after_sign_in_path_for(self.resource)
+    if !self.resource.nil?
+      if self.resource.authenticate_otp(params[:online_customer][:otp], drift: 900) == true
+        session[:is_customer] = true
+        sign_in(resource_name, self.resource)
+        redirect_to after_sign_in_path_for(self.resource)
+      else
+        set_flash_message(:error, :wrong_otp) if is_flashing_format?
+        redirect_to new_online_customer_session_path
+      end
     else
-      set_flash_message(:error, :wrong_otp) if is_flashing_format?
+      set_flash_message(:error, :wrong_mobile_number) if is_flashing_format?
       redirect_to new_online_customer_session_path
     end
   end
