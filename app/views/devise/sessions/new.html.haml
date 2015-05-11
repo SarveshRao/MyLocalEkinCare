@@ -1,4 +1,36 @@
 = javascript_include_tag "jquery"
+
+:javascript
+  (function() {
+    var _fbq = window._fbq || (window._fbq = []);
+    if (!_fbq.loaded) {
+      var fbds = document.createElement('script');
+      fbds.async = true;
+      fbds.src = '//connect.facebook.net/en_US/fbds.js';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(fbds, s);
+      _fbq.loaded = true;
+    }
+    _fbq.push(['addPixelId', '1439089473071327']);
+    })();
+    window._fbq = window._fbq || [];
+    window._fbq.push(['track', 'PixelInitialized', {}]);
+
+    <!-- Google Code for Remarketing Tag -->
+    <!--------------------------------------------------
+    --------------------------------------------------->
+    /* <![CDATA[ */
+    var google_conversion_id = 953531478;
+    var google_custom_params = window.google_tag_params;
+    var google_remarketing_only = true;
+    /* ]]> */
+%script{:src => "//www.googleadservices.com/pagead/conversion.js", :type => "text/javascript"}
+%noscript
+  %div{:style => "display:inline;"}
+    %img{:alt => "", :height => "1", :src => "//googleads.g.doubleclick.net/pagead/viewthroughconversion/953531478/?value=0&amp;guid=ON&amp;script=0", :style => "border-style:none;", :width => "1"}/
+%noscript
+  %img{:alt => "", :height => "1", :src => "https://www.facebook.com/tr?id=1439089473071327&amp;ev=PixelInitialized", :style => "display:none", :width => "1"}/
+
 = content_for :title, 'Sign in'
 
 %section#content.m-t-lg.wrapper-md.animated.fadeInUp

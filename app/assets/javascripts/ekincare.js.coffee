@@ -17,11 +17,13 @@ $ ->
     format:'Y/m/d g:i a',
     formatTime: 'g:i a'
     })
+  d = new Date
   $('.datetimepicker2').datetimepicker({
     minDate: new Date(d.setDate(d.getDate() + 2)),
     format:'Y/m/d g:i a',
     formatTime: 'g:i a'
   })
+  d = new Date
   $('.datetimepicker3').datetimepicker({
     minDate: new Date(d.setDate(d.getDate() + 2)),
     format:'Y/m/d g:i a',

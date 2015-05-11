@@ -133,4 +133,13 @@ class Notification < ActionMailer::Base
            :subject => 'Documents uploaded for customer ID: '+@customer_id
     end
   end
+
+  def send_second_opinion(customer_name, doctor_name, to_email, request_link)
+    @customer_name = customer_name
+    @doctor_name = doctor_name
+    @email = to_email
+    @url = request_link
+    mail :to => @email,
+         :subject => "Second Opinion"
+  end
 end

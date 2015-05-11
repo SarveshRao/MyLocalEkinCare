@@ -16,15 +16,15 @@ class Customers::DashboardController < CustomerAppController
   def appointments
     render partial: '/customers/dashboard/appointments'
   end
-
-  def share_with_doctor
-    render partial: '/customers/dashboard/share_with_doctor'
-  end
+  #
+  # def share_with_doctor
+  #   render partial: '/customers/dashboard/share_with_doctor'
+  # end
 
   def send_to_doctor
-    doctor_name = params['doctor_name']
-    doctor_mobile_number = params['doctor_mobile_number']
-    doctor_email = params['doctor_email']
+    doctor_name = params[:doctor_opinion][:doctor_name]
+    doctor_mobile_number = params[:doctor_opinion][:doctor_mobile_number]
+    doctor_email = params[:doctor_opinion][:doctor_email]
     customer_id = current_online_customer.id
     customer_name = current_online_customer.first_name
     inserted_row_id = DoctorOpinion.create(customer_id: customer_id,
@@ -38,9 +38,12 @@ class Customers::DashboardController < CustomerAppController
 
   def respond_with_otp(resource, customer_name, inserted_row_id, opts = {})
     otp=resource.otp_code.to_s()
-    request_to_doctor = "EKINCARE: Dear " + resource[:doctor_name] + ", your opinion is important to " + customer_name + ", please follow the link for your valuable suggestions: "
-    request_link = request.protocol + request.host_with_port + "/doctors_signin?id=" + inserted_row_id.to_s() + "%26otp=" + otp
-    Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ resource[:doctor_mobile_number] +'&sender=EKCARE&message=' + request_to_doctor + request_link)))
+    # Send link in Mail
+    request_link = request.protocol + request.host_with_port + "/second_opinion?customer_id=" + inserted_row_id.to_s()
+    Notification.send_second_opinion(customer_name, resource[:doctor_name], resource[:doctor_email], request_link).deliver!
+    # Send OTP in SMS
+    request_to_doctor = "EKINCARE: Dear " + resource[:doctor_name] + ", your opinion is important to " + customer_name + ", please check your mail-id " + resource[:doctor_email] + " and provide your feedback. Please use the six digit One Time Password: " + otp + " to login."
+    Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ resource[:doctor_mobile_number] +'&sender=EKCARE&message=' + request_to_doctor)))
   end
 
 end

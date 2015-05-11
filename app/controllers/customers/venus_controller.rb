@@ -126,9 +126,15 @@ class Customers::VenusController < CustomerAppController
     @firstname = params[:firstname]
     @productinfo = params[:productinfo]
     @txnid = params[:txnid]
-    @salt = params[:testpro]
     @key = params[:key]
     @service_provider = params[:service_provider]
+
+    path = request.protocol + request.host_with_port
+    if path.index('localhost')
+      @salt = "GQs7yium"
+    else
+      @salt = ENV['EKINCARE_Payment_Salt']
+    end
 
     respond_to do |format|
       unless(@coupon.nil?)

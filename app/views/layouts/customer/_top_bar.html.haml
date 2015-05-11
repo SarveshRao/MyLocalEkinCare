@@ -11,10 +11,41 @@
       $('#browseBtn').removeClass('btn-default').addClass('btn-success');
     });
   });
-- if session[:is_customer]
-  %input#is_customer{type: "hidden", value: "true"}
-- else
-  %input#is_customer{type: "hidden", value: "false"}
+
+-#  (function() {
+-#      var _fbq = window._fbq || (window._fbq = []);
+-#      if (!_fbq.loaded) {
+-#        var fbds = document.createElement('script');
+-#        fbds.async = true;
+-#        fbds.src = '//connect.facebook.net/en_US/fbds.js';
+-#        var s = document.getElementsByTagName('script')[0];
+-#        s.parentNode.insertBefore(fbds, s);
+-#        _fbq.loaded = true;
+-#      }
+-#      _fbq.push(['addPixelId', '1439089473071327']);
+-#    })();
+-#    window._fbq = window._fbq || [];
+-#    window._fbq.push(['track', 'PixelInitialized', {}]);
+-#
+-#    <!-- Google Code for Remarketing Tag -->
+-#    <!--------------------------------------------------
+-#    --------------------------------------------------->
+-#    /* <![CDATA[ */
+-#    var google_conversion_id = 953531478;
+-#    var google_custom_params = window.google_tag_params;
+-#    var google_remarketing_only = true;
+-#    /* ]]> */
+-#%script{:src => "//www.googleadservices.com/pagead/conversion.js", :type => "text/javascript"}
+-#%noscript
+-#  %div{:style => "display:inline;"}
+-#    %img{:alt => "", :height => "1", :src => "//googleads.g.doubleclick.net/pagead/viewthroughconversion/953531478/?value=0&amp;guid=ON&amp;script=0", :style => "border-style:none;", :width => "1"}/
+-#%noscript
+-#  %img{:alt => "", :height => "1", :src => "https://www.facebook.com/tr?id=1439089473071327&amp;ev=PixelInitialized", :style => "display:none", :width => "1"}/
+
+-#- if session[:is_customer]
+-#  %input#is_customer{type: "hidden", value: "true"}
+-#- else
+-#  %input#is_customer{type: "hidden", value: "false"}
 %header.bg-primary.header.header-md.navbar.navbar-fixed-top-xs.box-shadow
   .navbar-header.aside-md.dk
     %a.btn.btn-link.visible-xs.m-r{"data-target" => "#nav,html", "data-toggle" => "class:nav-off-screen,open"}
@@ -47,7 +78,6 @@
           %span.text-active Success
         %span#loaderUploadImage{:style => "z-Index:99999; height:32px; width:32px;display: inline-block;"}
 
-  - if session[:is_customer]
     %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
       %li
         = link_to("Sign out", destroy_online_customer_session_path)
@@ -57,10 +87,10 @@
         %a.dropdown-toggle#notifications_count{"data-toggle" => "dropdown", href: "#"}
           - inbox_activities = current_online_customer.inbox_messages
           Inbox
-          - inbox_count = inbox_activities.where(activity_type: 'BodyAssessment').count-inbox_activities.where(status:true, activity_type: 'BodyAssessment').count
-          -if inbox_count>0
-            %span.badge.badge-sm.up.bg-danger.count
-              =  inbox_count
+        -#- inbox_count = inbox_activities.where("activity_type like '%Assessment%' or activity_type='Recommendation'").count-inbox_activities.where("status=true and (activity_type like '%Assessment%' or activity_type='Recommendation')").count
+          -#- if inbox_count>0
+            -#%span.badge.badge-sm.up.bg-danger.count
+            -#  = inbox_count
         %section.dropdown-menu.aside-xl.animated.flipInY
           #dashboard_notifications.hide
     - recent_activities = current_online_customer.recent_activities
@@ -81,26 +111,18 @@
       %li.hidden-xs
         %a.dropdown-toggle#second_opinion{"data-toggle" => "dropdown", href: "#"}
           Second Opinion
-        -#-inbox_activities.where(status:true, activity_type: "Appointment and associated_date>CURRENT_TIMESTAMP - INTERVAL '1 day'").count
-        -#=  inbox_activities.where("case when activity_type = 'Appointment' then associated_date>CURRENT_TIMESTAMP - INTERVAL '1 day' and customer_id = #{current_online_customer.id} when activity_type != 'Appointment' then customer_id = #{current_online_customer.id} end").count-inbox_activities.where(status:true).count
         %section.dropdown-menu.aside-xl.animated.flipInY
           #second_opinion
-            %form#share_with_doctor_form{"data-validate" => "parsley", :method => "post", :action => customers_dashboard_send_to_doctor_path}
-              Share your profile securely with a doctor or a person you trust. The profile will be accessible only for 48 hours. Please ensure you also inform the respective person the same.
+            = form_for(DoctorOpinion.new, url: customers_dashboard_send_to_doctor_path, html:{id: 'share_with_doctor_form', "data-validate" => "parsley"}, remote: true) do |f|
+              %div.padder-10{style: "color: #3c4144"}Share your profile securely with a doctor or a person you trust. The profile will be accessible only for 48 hours. Please ensure you also inform the respective person the same.
               .list-group
                 .list-group-item
-                  %input.form-control.no-border{"aria-required" => "true", :autofocus => "autofocus", :name => "doctor_name", :placeholder => "Enter doctor name", :required => "required", :type => "text"}/
-                  %label#doctor_name_error.error{:for => "doctor_name"}
-                  -#%input{:class => 'form-control parsley-validated', 'data-required' => 'true', :placeholder => 'Enter doctor name', :name => "doctor_name", :type => "text"}/
+                  = f.text_field :doctor_name, class: 'form-control no-border data-parsley-required', required: true, autofocus: true,  placeholder: 'Enter doctor name'
                 .list-group-item
-                  %input.form-control.numeric.no-border#doctor_mobile_number{"aria-required" => "true", :autofocus => "autofocus", :name => "doctor_mobile_number", :placeholder => "Enter doctor mobile number", :required => "required", :type => "text"}/
-                  %label#doctor_mobile_number_error.error{:for => "doctor_mobile_number"}
-                  -#%input.form-control.parsley-validated.numeric#doctor_mobile_number{'data-required' => 'true', :placeholder => 'Enter doctor mobile number', :name => "doctor_mobile_number", :type => "text"}
+                  = f.text_field :doctor_mobile_number, class: 'form-control no-border numeric parsley-validated', required: true,  placeholder: 'Enter doctor mobile number', minlength: 10
                 .list-group-item
-                  %input.form-control.no-border#doctor_email{"aria-required" => "true", :autofocus => "autofocus", :name => "doctor_email", :placeholder => "Enter doctor email", :required => "required", :type => "text"}/
-                  %label#doctor_email_error.error{:for => "doctor_name"}
-                  -#%input.form-control.parsley-validated#doctor_email{'data-required' => 'true', :placeholder => 'Enter doctor email', :name => "doctor_email", :type => "email"}
-              %input.pull-right.btn.btn-primary#send_to_doctor{:name => "send", :type => "submit", :value => "Send"}/
+                  = f.email_field :doctor_email, class: 'form-control no-border parsley-validated', required: true,  placeholder: 'Enter doctor email'
+              %a.pull-right.btn.btn-primary#send_to_doctor{href: "#", type: "submit"} Send
     -#%li.hidden-xs
       %a.dropdown-toggle#notifications_count{"data-toggle" => "dropdown", href: "#"}
         %i.i.i-chat3
@@ -147,7 +169,9 @@
 
 :javascript
   $(document).ready(function(){
-    $('#share_with_doctor_form label').hide();
+    $('#share_with_doctor_form').parsley();
+
+    //$('#share_with_doctor_form label').hide();
     $('#send_to_doctor').click(function(){
       if(validateInputs())
         $('#share_with_doctor_form').submit();

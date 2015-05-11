@@ -122,7 +122,8 @@ Rails.application.routes.draw do
                                                                          confirmations: 'customers/confirmations',
                                                                          sessions: 'customers/sessions'}
   devise_scope :online_customer do
-    get 'doctors_signin' => 'customers/sessions#sign_in_doctor'
+    get 'second_opinion' => 'customers/sessions#sign_in_doctor_get'
+    post 'second_opinion' => 'customers/sessions#sign_in_doctor_post'
   end
 
   resources :home do

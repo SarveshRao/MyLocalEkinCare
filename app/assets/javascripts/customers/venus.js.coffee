@@ -211,7 +211,6 @@ $('#coupon_button').click ->
   firstname = $("#firstname").val()
   productinfo = $("#productinfo").val()
   txnid = $("#txnid").val()
-  testpro = $("#testpro").val()
   key = $("#key").val()
   $.ajax
     type: "PATCH"
@@ -224,7 +223,6 @@ $('#coupon_button').click ->
       firstname:firstname
       productinfo:productinfo
       txnid:txnid
-      testpro:testpro
       key:key
     success: (response) ->
 #      alert(response.net_amount)

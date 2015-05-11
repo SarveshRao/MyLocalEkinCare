@@ -29,13 +29,27 @@ class Customers::SessionsController < Devise::SessionsController
     end
   end
 
-  def sign_in_doctor
-    self.resource = DoctorOpinion.find_by(id: params[:id])
-    if self.resource.authenticate_otp(params[:otp], drift: 172800) == true #making 48hrs as OTP validation for doctor
+  # GET call
+  def sign_in_doctor_get
+    @customer_id = params[:customer_id]
+    self.resource = DoctorOpinion.find_by(id: params[:customer_id])
+    if !self.resource.nil?
+      render 'customers/sessions/sign_in_doctor'
+    else
+      render 'customers/sessions/sign_in_doctor_get'
+    end
+  end
+
+  # POST call
+  def sign_in_doctor_post
+    self.resource = DoctorOpinion.find_by(id: params[:customer_id])
+    if self.resource.authenticate_otp(params[:doctor_opinion][:otp], drift: 172800) == true #making 48hrs as OTP validation for doctor
       self.resource = Customer.find_by(id: self.resource.customer_id)
       session[:is_customer] = false
       sign_in(resource_name, self.resource)
       redirect_to after_sign_in_path_for(self.resource)
+    else
+      render 'customers/sessions/sign_in_doctor_get'
     end
   end
 
