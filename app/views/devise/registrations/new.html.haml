@@ -49,7 +49,7 @@
         %p
           Assess, track and stay informed about your and your family's health with minimal effort
     %section.m-b-lg
-      = form_for(resource, as: resource_name, url: registration_path(resource_name), html:{id: 'new_customer_registration'} ) do |f|
+      = form_for(resource, as: resource_name, url: registration_otp_path, html:{id: 'new_customer_registration'} ) do |f|
         .list-group
           .list-group-item
             = f.text_field :first_name, class: 'form-control no-border ', required: true, autofocus: true,  placeholder: 'First name'
@@ -57,8 +57,6 @@
             = f.text_field :last_name, class: 'form-control no-border ', required: true,  placeholder: 'Last name'
           .list-group-item
             = f.email_field :email, class: 'form-control no-border ', required: true,  placeholder: 'Email'
-          .list-group-item
-            = f.text_field :mobile_number, class: 'numeric form-control no-border ', required: true,  placeholder: 'Phone number', rangelength: [10, 13]
           .list-group-item
             = f.text_field :date_of_birth, {class: 'form-control no-border datepicker_1 p-l', 'readonly' => 'readonly', required: true, 'data-date-format' => 'dd-mm-yyyy', placeholder: 'Date of birth (DD-MM-YYYY)'}
           .list-group-item
@@ -76,12 +74,14 @@
                     %i
                     Female
                 .col-md-4.col-sm-4
+          .list-group-item
+            = f.text_field :mobile_number, class: 'numeric form-control no-border ', required: true,  placeholder: 'Phone number', rangelength: [10, 13]
         .checkbox.m-b
           %label
             %input{:type => "checkbox", name: 'license', required: true, id: 'agreement' }
             Agree the
             %a{:href => terms_and_conditions_about_index_path, id: 'terms_and_policy_link', style: 'color: #177bbb !important'} terms and conditions
-        = f.submit "Sign up", {class: 'btn btn-lg btn-primary btn-block '}
+        = f.submit "Send One Time Password", {class: 'btn btn-lg btn-primary btn-block '}
         .line.line-dashed.m-b-none
         %p.text-muted.text-center
           %small Already have an account?

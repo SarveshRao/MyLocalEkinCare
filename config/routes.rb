@@ -124,6 +124,8 @@ Rails.application.routes.draw do
   devise_scope :online_customer do
     get 'second_opinion' => 'customers/sessions#sign_in_doctor_get'
     post 'second_opinion' => 'customers/sessions#sign_in_doctor_post'
+    get 'resend_registration_otp' => 'customers/registrations#send_otp_on_registration'
+    post 'registration_otp' => 'customers/registrations#send_otp_on_registration'
   end
 
   resources :home do

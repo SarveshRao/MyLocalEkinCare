@@ -16,10 +16,6 @@ class Customers::DashboardController < CustomerAppController
   def appointments
     render partial: '/customers/dashboard/appointments'
   end
-  #
-  # def share_with_doctor
-  #   render partial: '/customers/dashboard/share_with_doctor'
-  # end
 
   def send_to_doctor
     doctor_name = params[:doctor_opinion][:doctor_name]
