@@ -126,6 +126,7 @@ Rails.application.routes.draw do
     post 'second_opinion' => 'customers/sessions#sign_in_doctor_post'
     get 'resend_registration_otp' => 'customers/registrations#send_otp_on_registration'
     post 'registration_otp' => 'customers/registrations#send_otp_on_registration'
+    post 'register' => 'customers/registrations#register'
   end
 
   resources :home do
@@ -306,6 +307,11 @@ Rails.application.routes.draw do
       scope '/validate_mobile_number' do
         get '/' => 'customers/api#validate_mobile_number'
       end
+      scope '/send_opt_on_registration' do
+        get '/' => 'customers/api#send_opt_on_registration'
+      end
+
+
     end
   end
 end

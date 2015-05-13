@@ -590,4 +590,21 @@ class Customers::ApiController < BaseApiController
     end
   end
 
+  def send_opt_on_registration
+    @mobile_number = params[:mobile_number]
+    @customer = Customer.find_by_mobile_number(@mobile_number)
+    if @customer
+      render :status => 409, :json => { :error => "The mobile number you provided is already registered with ekincare" }
+    else
+      # generating temporary otp for registration
+      @customer = Customer.new
+      @customer.id = -1
+      @customer.otp_secret_key = ROTP::Base32.random_base32
+      @customer.otp = @customer.otp_code.to_s()
+      @customer.otp_expire = Time.now() + 15.minutes
+      Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ params[:mobile_number] +'&sender=EKCARE&message=OTP: Dear '+ params[:first_name]+', your eKincare registration otp is '+ @customer.otp+'. Call 8886783546 for questions.')))
+      render json: @customer.to_json(:methods => [:otp, :otp_expire])
+    end
+  end
+
 end

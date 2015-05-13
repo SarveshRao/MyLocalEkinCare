@@ -138,6 +138,30 @@ class Customers::RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  def accept_signup_with_xhr_new
+    build_resource(sign_up_params)
+    if resource.save
+      yield resource if block_given?
+      if resource.active_for_authentication?
+        sign_up(resource_name, resource)
+        success_msg_new resource
+      else
+        expire_data_after_sign_in!
+        failure_msg
+      end
+      CustomerVitals.create(customer_id: resource.id)
+    else
+      clean_up_passwords resource
+      failure_msg
+    end
+  end
+
+  def success_msg_new resource
+    @mobile_number = resource.mobile_number
+    @customer = Customer.find_by_mobile_number(@mobile_number)
+    render json: @customer.to_json(:include => [:customer_vitals, :family_medical_histories])
+  end
+
   def success_msg
     render json: {msg: 'success'}, status: :ok
   end
@@ -158,6 +182,13 @@ class Customers::RegistrationsController < Devise::RegistrationsController
       return false
     end
     return false
+  end
+
+  def register
+    if params[:format] == 'json'
+      puts "\n\n*****************from json block*************************\n\n"
+      accept_signup_with_xhr_new
+    end
   end
 
   def send_otp_on_registration

@@ -14,15 +14,14 @@
     window._fbq = window._fbq || [];
     window._fbq.push(['track', 'PixelInitialized', {}]);
 
-    <!-- Google Code for Remarketing Tag -->
-    <!--------------------------------------------------
-    --------------------------------------------------->
-    /* <![CDATA[ */
-    var google_conversion_id = 953531478;
-    var google_custom_params = window.google_tag_params;
-    var google_remarketing_only = true;
-    /* ]]> */
-%script{:src => "//www.googleadservices.com/pagead/conversion.js", :type => "text/javascript"}
+  <!-- Google Code for Remarketing Tag -->
+  /* <![CDATA[ */
+  var google_conversion_id = 953531478;
+  var google_custom_params = window.google_tag_params;
+  var google_remarketing_only = true;
+  /* ]]> */
+%div{:style => "display:none"}
+  %script{:src => "//www.googleadservices.com/pagead/conversion.js", :type => "text/javascript"}
 %noscript
   %div{:style => "display:inline;"}
     %img{:alt => "", :height => "1", :src => "//googleads.g.doubleclick.net/pagead/viewthroughconversion/953531478/?value=0&amp;guid=ON&amp;script=0", :style => "border-style:none;", :width => "1"}/
