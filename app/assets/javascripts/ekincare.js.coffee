@@ -8,7 +8,8 @@ $ ->
   $('.datepicker_1').datetimepicker({
     format:'d-m-Y',
     timepicker:false,
-    formatTime: 'g:i a'
+    formatTime: 'g:i a',
+    maxDate: new Date()
   })
 
   d = new Date

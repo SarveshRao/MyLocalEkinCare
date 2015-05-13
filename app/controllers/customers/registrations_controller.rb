@@ -1,5 +1,5 @@
 class Customers::RegistrationsController < Devise::RegistrationsController
- 
+
   # GET /resource/sign_up
   def new
     if request.referer and request.referer.index('?') != nil
@@ -75,19 +75,10 @@ class Customers::RegistrationsController < Devise::RegistrationsController
               # Adding the post call after successful registration ends here
             end
             yield resource if block_given?
-            # if resource.active_for_authentication?
-              #sign_up(resource_name, resource)
-            respond_with resource, location: after_sign_up_path_for(resource)
-            # else
-            #   set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_flashing_format?
-            #   expire_data_after_sign_in!
-            #   respond_with resource, location: after_inactive_sign_up_path_for(resource)
-            # end
+            redirect_to after_sign_up_path_for
             CustomerVitals.create(customer_id: resource.id)
             # "Sending SMS to mobile"
             result = Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ resource.mobile_number() +'&sender=EKCARE&message=Dear '+ resource.first_name() +', DOWNLOAD FREE EKINCARE APP, to digitize your physical medical records. Click http://bit.ly/eKgoogle for ANDROID or click http://bit.ly/eKapple for Apple iPhone')))
-
-
 
             ekincare_coupon=CouponSource.find_by_name('ekincare')
             ek_coupon=ekincare_coupon.coupons.first
@@ -114,33 +105,18 @@ class Customers::RegistrationsController < Devise::RegistrationsController
             clean_up_passwords resource
             flash[:error] = "#{resource.errors.full_messages.join(',')}"
             respond_with resource, location: registration_path(resource_name)
-            #   channel = params[:online_customer][:channel]
-            #   if channel.present?
-            #     case channel
-            #       when 'ad1'
-            #         # respond_with resource, location: after_sign_up_path_for(resource)
-            #         redirect_to('/ad1')
-            #         return
-            #     end
-            #   end
           end
         else
           # say that otp is wrong or expired
           set_flash_message(:error, :wrong_otp) if is_flashing_format?
           render 'devise/registrations/registration_otp'
         end
-        # respond_to do |format|
-        #   format.html
-        #   format.json {render json: {msg: 'Signed up successfully'}}
-        # end
       end
     end
   end
 
-  def after_sign_up_path_for(resource)
+  def after_sign_up_path_for
     set_flash_message :notice, :sign_in if is_flashing_format?
-    # otp=resource.otp_code.to_s()
-    # Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ resource[:mobile_number] +'&sender=EKCARE&message=OTP: Dear '+ resource[:first_name] +', your eKincare otp is '+ otp +'. Call 8886783546 for questions.')))
     new_online_customer_session_path
   end
 
@@ -185,7 +161,6 @@ class Customers::RegistrationsController < Devise::RegistrationsController
   end
 
   def send_otp_on_registration
-    #this check is useful when you try to resend the OTP
     if(session[:otp].nil?)
       session[:first_name] = params[:online_customer][:first_name]
       session[:last_name] = params[:online_customer][:last_name]
@@ -223,5 +198,19 @@ class Customers::RegistrationsController < Devise::RegistrationsController
     resource.date_of_birth = session[:date_of_birth]
     resource.gender = session[:gender]
     resource.mobile_number = session[:mobile_number]
+  end
+
+  def verify_duplicate_records
+    record_duplicated = false
+    errors_full_messages = []
+    if Customer.find_by_mobile_number(params[:online_customer][:mobile_number]).nil?
+      record_duplicated = true
+      errors_full_messages.push(find_message(:wrong_mobile_number, {}))
+    end
+    if Customer.find_by_email(params[:online_customer][:email]).nil?
+      record_duplicated = true
+      errors_full_messages.push(find_message(:wrong_otp, {}))
+    end
+    record_duplicated
   end
 end

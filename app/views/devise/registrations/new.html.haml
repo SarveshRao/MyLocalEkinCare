@@ -1,3 +1,4 @@
+= javascript_include_tag "jquery"
 = content_for :title, 'Sign up'
 
 - content_for :zopim_chat do
@@ -96,7 +97,67 @@
 :javascript
 
   $(document).ready(function(){
+    var valid_unique_input = true;
     $('.current_year').text("\© " + new Date().getFullYear() + " eKincare");
+
+    //Validate duplicate Email
+    $('#online_customer_email').blur(function(){
+      $.ajax({
+        type: "GET",
+        url: '/api/v1/validate_email',
+        data: {email: $('#online_customer_email').val()},
+        complete: function(xhr, statusText){
+          switch(xhr.status){
+            case 409:
+              valid_unique_input = valid_unique_input && false;
+              $('#invalid_user_id, #signed_out').remove();
+              $('.alert.alert-danger.text-center, .alert.alert-success.text-center').remove();
+              var invalid_user = $('<div id="invalid_user_id" class="alert alert-danger text-center"> <button class="close" data-dismiss="alert" type="button">×</button> <i class="fa fa-ok-sign"></i> Email already exixts. </div>');
+              $('#content').prepend(invalid_user);
+              break;
+            default:
+              $('#invalid_user_id, #signed_out').remove();
+              break;
+          }
+        },
+        error: function(data){
+          console.log(data);
+        },
+        dataType: 'json'
+      });
+    });
+
+    //Validate duplicate Mobile Number
+    $('#online_customer_mobile_number').blur(function(){
+      $.ajax({
+        type: "GET",
+        url: '/api/v1/validate_mobile_number',
+        data: {mobile_number: $('#online_customer_mobile_number').val()},
+        complete: function(xhr, statusText){
+          switch(xhr.status){
+            case 409:
+              valid_unique_input = valid_unique_input && false;
+              $('#invalid_user_id, #signed_out').remove();
+              $('.alert.alert-danger.text-center, .alert.alert-success.text-center').remove();
+              var invalid_user = $('<div id="invalid_user_id" class="alert alert-danger text-center"> <button class="close" data-dismiss="alert" type="button">×</button> <i class="fa fa-ok-sign"></i> Mobile Number already exixts. </div>');
+              $('#content').prepend(invalid_user);
+              break;
+            default:
+              $('#invalid_user_id, #signed_out').remove();
+              break;
+          }
+        },
+        success: function(data){
+        },
+        dataType: 'json'
+      });
+    });
+
+    $('#new_customer_registration').click(function(){
+      if(!valid_inputs)
+        return false;
+    });
+
   });
   //Mobile number validation
   $(".numeric").keydown(function (e) {
@@ -113,4 +174,10 @@
     if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
         e.preventDefault();
     }
+
+    var pattern_mobile_number = /^\d{13}$/;
+    if (pattern_mobile_number.test($(this).val())) {
+      e.preventDefault();
+    }
+
   });

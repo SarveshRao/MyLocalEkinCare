@@ -300,6 +300,12 @@ Rails.application.routes.draw do
       scope '/body_assessment' do
         get '/' => 'customers/api#body_assessment'
       end
+      scope '/validate_email' do
+        get '/' => 'customers/api#validate_email'
+      end
+      scope '/validate_mobile_number' do
+        get '/' => 'customers/api#validate_mobile_number'
+      end
     end
   end
 end

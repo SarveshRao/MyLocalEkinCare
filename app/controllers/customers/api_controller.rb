@@ -571,4 +571,23 @@ class Customers::ApiController < BaseApiController
   def blood_groups
     render json: BloodGroup.all
   end
+
+  def validate_email
+    @customer = Customer.find_by_email(params[:email])
+    if @customer.nil?
+      render :status => 200, :json => { :message => "New email" }
+    else
+      render :status => 409, :json => { :message => "Email duplicated" }
+    end
+  end
+
+  def validate_mobile_number
+    @customer = Customer.find_by_mobile_number(params[:mobile_number])
+    if @customer.nil?
+      render :status => 200, :json => { :message => "New mobile number" }
+    else
+      render :status => 409, :json => { :message => "Mobile Number duplicated" }
+    end
+  end
+
 end

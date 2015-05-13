@@ -39,7 +39,7 @@ en:
       updated_not_active: "Your password was changed successfully."
     registrations:
       confirmation: "A confirmation email has been sent to the registered email. Please verify to move forward"
-      sign_in: "Congratulations! your registration is confirmed. Please login with the OTP sent to your registered email."
+      sign_in: "Congratulations! your registration is confirmed."
       destroyed: "Bye! Your account was successfully cancelled. We hope to see you again soon."
       signed_up: "Welcome! You have signed up successfully."
       signed_up_but_inactive: "You have signed up successfully. However, we could not sign you in because your account is not yet activated."
