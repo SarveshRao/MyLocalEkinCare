@@ -75,7 +75,7 @@ class Customers::RegistrationsController < Devise::RegistrationsController
               # Adding the post call after successful registration ends here
             end
             yield resource if block_given?
-            redirect_to after_sign_up_path_for
+            redirect_to after_sign_up_path_for resource
             CustomerVitals.create(customer_id: resource.id)
             # "Sending SMS to mobile"
             result = Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ resource.mobile_number() +'&sender=EKCARE&message=Dear '+ resource.first_name() +', DOWNLOAD FREE EKINCARE APP, to digitize your physical medical records. Click http://bit.ly/eKgoogle for ANDROID or click http://bit.ly/eKapple for Apple iPhone')))
@@ -115,9 +115,15 @@ class Customers::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-  def after_sign_up_path_for
-    set_flash_message :notice, :sign_in if is_flashing_format?
-    new_online_customer_session_path
+  def after_sign_up_path_for resource
+    otp = resource.otp_code.to_s
+    if resource.authenticate_otp(otp, drift: 900) == true
+      session[:is_customer] = true
+      sign_in(resource_name, self.resource)
+      customers_dashboard_path
+    end
+    # set_flash_message :notice, :sign_in if is_flashing_format?
+    # new_online_customer_session_path
   end
 
   def accept_signup_with_xhr
