@@ -93,6 +93,7 @@ Rails.application.routes.draw do
     get 'documents' => 'documents#index'
     get 'health_assessments' => 'health_assessments#index'
     get 'health_assessment' => 'health_assessments#show'
+    post 'health_assessment/doctor_comment' => 'health_assessments#doctor_comment'
     get 'timeline' => 'time_line#show'
     get 'profile' => 'profile#show'
     get 'immunizations' => 'immunizations#index'

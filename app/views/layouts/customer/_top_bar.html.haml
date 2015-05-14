@@ -77,9 +77,10 @@
           %span.text-active Success
         %span#loaderUploadImage{:style => "z-Index:99999; height:32px; width:32px;display: inline-block;"}
 
-    %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
-      %li
-        = link_to("Sign out", destroy_online_customer_session_path)
+  %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
+    %li
+      = link_to("Sign out", destroy_online_customer_session_path)
+  - if session[:is_customer]
     - recent_activities = current_online_customer.recent_activities
     %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
       %li.hidden-xs

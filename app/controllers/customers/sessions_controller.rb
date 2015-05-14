@@ -44,6 +44,9 @@ class Customers::SessionsController < Devise::SessionsController
   def sign_in_doctor_post
     self.resource = DoctorOpinion.find_by(id: params[:customer_id])
     if self.resource.authenticate_otp(params[:doctor_opinion][:otp], drift: 172800) == true #making 48hrs as OTP validation for doctor
+      session[:doctor_name] = self.resource.doctor_name
+      session[:doctor_mobile_number] = self.resource.doctor_mobile_number
+      session[:doctor_email] = self.resource.doctor_email
       self.resource = Customer.find_by(id: self.resource.customer_id)
       session[:is_customer] = false
       sign_in(resource_name, self.resource)

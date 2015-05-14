@@ -197,3 +197,35 @@
                                       =TestComponent.find_by_name(info[:test_component_diff][:name]).info
                                       -div_id=test_component_name.gsub(/[ \/()!@%&"]/,'')
                                     %div.col-sm-6{:id => "f-line#{div_id}",:style => "height:75px"}
+                  - if @comments
+                    %section.panel.panel-default
+                      .row.padder.padder-v
+                        .col-sm-12
+                          %h3.rTitle.m-b-xs
+                            Doctor Comments
+                          -@comments.each do |comment|
+                            .list-group-item
+                              %strong.block
+                                Doctor Name:
+                                %span
+                                = comment.doctor_name
+                              %strong.block
+                                Created Date:
+                                %span
+                                = formatted_date comment.created_at
+                              %strong.block
+                                Doctor Comments:
+                                %span
+                                = comment.notes_id
+                  - if !session[:is_customer]
+                    %section.panel.panel-default
+                      .row.padder.padder-v
+                        .col-sm-12
+                          %h3.rTitle.m-b-xs
+                            Write Comments
+                          %p
+                            %form#doctor_comments_form{:action => customers_health_assessment_doctor_comment_path, :method => "post"}
+                              %input#body_assessment_id{:name => "body_assessment_id", :type => "hidden", :value => @body_assessment.id}/
+                              %textarea.form-control#assessment_comments{:name => "notes", :type => "text", :placeholder => "Please enter your comments here"}
+                              %div.clearfix.m-b
+                              %input.pull-right.btn.btn-primary{:type => "submit", :value => "Submit"}/

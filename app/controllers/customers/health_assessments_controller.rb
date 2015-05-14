@@ -10,6 +10,7 @@ class Customers::HealthAssessmentsController < CustomerAppController
       @inbox=Inbox.find(@inbox_id)
       @inbox.update(status:true)
     end
+    @comments = DoctorComment.includes(:note).where(customer_id: current_online_customer.id).all
     if @type == 'Body'
       @body_assessments = current_online_customer.health_assessments.body_assessment_done
       if @body_assessments.first
@@ -31,6 +32,7 @@ class Customers::HealthAssessmentsController < CustomerAppController
       @inbox=Inbox.find(@inbox_id)
       @inbox.update(status:true)
     end
+    @comments = DoctorComment.includes(:note).where(customer_id: current_online_customer.id).all
     if @type == 'Body'
       @body_assessments = current_online_customer.health_assessments.body_assessment_done
       @body_assessment = HealthAssessment.find(@id)
@@ -42,6 +44,18 @@ class Customers::HealthAssessmentsController < CustomerAppController
     render "#{ @type.downcase }_assessment"
   end
 
+  def doctor_comment
+    # Insert into note
+    notes = Note.create(description: params[:notes], health_assessment_id: params[:body_assessment_id])
+    # Insert into Comments
+    @doctor_comment = DoctorComment.new
+    @doctor_comment.doctor_name = session[:doctor_name]
+    @doctor_comment.doctor_mobile_number = session[:doctor_mobile_number]
+    @doctor_comment.doctor_email = session[:doctor_email]
+    @doctor_comment.notes_id = notes.id
+    @doctor_comment.save
+    redirect_to :back
+  end
 
   protected
   def body_assessment
@@ -69,4 +83,5 @@ class Customers::HealthAssessmentsController < CustomerAppController
     end
     nil
   end
+
 end
