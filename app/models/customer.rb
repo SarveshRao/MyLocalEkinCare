@@ -15,6 +15,8 @@ class Customer < ActiveRecord::Base
   has_many :timeline_activities, class_name: 'Timeline'
   has_many :inbox_messages, class_name: 'Inbox'
 
+  has_many :doctor_comments, class_name: 'Comments'
+
   has_many :customer_allergies
   has_many :allergies, through: :customer_allergies, autosave: true
 

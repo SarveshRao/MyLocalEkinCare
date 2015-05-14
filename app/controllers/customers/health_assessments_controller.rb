@@ -10,7 +10,8 @@ class Customers::HealthAssessmentsController < CustomerAppController
       @inbox=Inbox.find(@inbox_id)
       @inbox.update(status:true)
     end
-    @comments = DoctorComment.includes(:note).where(customer_id: current_online_customer.id).all
+    @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{current_online_customer.id}")
+    # @comments = DoctorComment.includes(:note).where(customer_id: current_online_customer.id).all
     if @type == 'Body'
       @body_assessments = current_online_customer.health_assessments.body_assessment_done
       if @body_assessments.first
@@ -32,7 +33,7 @@ class Customers::HealthAssessmentsController < CustomerAppController
       @inbox=Inbox.find(@inbox_id)
       @inbox.update(status:true)
     end
-    @comments = DoctorComment.includes(:note).where(customer_id: current_online_customer.id).all
+    @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{current_online_customer.id}")
     if @type == 'Body'
       @body_assessments = current_online_customer.health_assessments.body_assessment_done
       @body_assessment = HealthAssessment.find(@id)

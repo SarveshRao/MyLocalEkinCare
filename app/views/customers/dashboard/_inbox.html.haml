@@ -1,18 +1,18 @@
-- inbox_activities = current_online_customer.inbox_messages.where("activity_type like '%Assessment%' or activity_type='Recommendation'")
+- inbox_activities = current_online_customer.inbox_messages.where("activity_type like '%Assessment%'")
 %section.panel-body.open-sans.scrollable
   - if (inbox_activities.count-inbox_activities.where("status = true").count) == 0
     %section.panel-body{style:"color: black;"}
       No Assessments
   - else
     -if type=inbox_activities.last.activity_type.split('Assessment')
-      -if type[0].downcase.to_s!="recommendation"
-        %a.auto{href: '/customers/health_assessments?type='+type[0].to_s}
-          %span.label.label-info
-            view all assessments
-      -else
-        %a.auto{href: '/customers/health_assessments?type=Body'}
-          %span.label.label-info
-            view all assessments
+      -#-if type[0].downcase.to_s!="recommendation"
+      %a.auto{href: '/customers/health_assessments?type='+type[0].to_s}
+        %span.label.label-info
+          view all assessments
+      -#-else
+      -#  %a.auto{href: '/customers/health_assessments?type=Body'}T
+      -#    %span.label.label-info
+      -#      view all assessments
     - inbox_activities.each do |activity|
       -unless activity.activity_type =~ /Assessment/ and activity.status==true
         -unless activity.activity_type == 'Appointment'

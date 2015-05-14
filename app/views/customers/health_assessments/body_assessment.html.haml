@@ -204,19 +204,20 @@
                           %h3.rTitle.m-b-xs
                             Doctor Comments
                           -@comments.each do |comment|
-                            .list-group-item
-                              %strong.block
-                                Doctor Name:
-                                %span
-                                = comment.doctor_name
-                              %strong.block
-                                Created Date:
-                                %span
-                                = formatted_date comment.created_at
-                              %strong.block
-                                Doctor Comments:
-                                %span
-                                = comment.notes_id
+                            - if comment.health_assessment_id == @body_assessment.id
+                              .list-group-item
+                                %strong.block
+                                  Doctor Name:
+                                  %span
+                                  = comment.doctor_name
+                                %strong.block
+                                  Created Date:
+                                  %span
+                                  = formatted_date comment.created_at
+                                %strong.block
+                                  Doctor Comments:
+                                  %span
+                                  = comment.description
                   - if !session[:is_customer]
                     %section.panel.panel-default
                       .row.padder.padder-v

@@ -87,10 +87,10 @@
         %a.dropdown-toggle#notifications_count{"data-toggle" => "dropdown", href: "#"}
           - inbox_activities = current_online_customer.inbox_messages
           Inbox
-        -#- inbox_count = inbox_activities.where("activity_type like '%Assessment%' or activity_type='Recommendation'").count-inbox_activities.where("status=true and (activity_type like '%Assessment%' or activity_type='Recommendation')").count
-          -#- if inbox_count>0
-            -#%span.badge.badge-sm.up.bg-danger.count
-            -#  = inbox_count
+        - inbox_count = inbox_activities.where("activity_type like '%Assessment%'").count-inbox_activities.where("status=true and (activity_type like '%Assessment%')").count
+        -if inbox_count>0
+          %span.badge.badge-sm.up.bg-danger.count
+            =  inbox_count
         %section.dropdown-menu.aside-xl.animated.flipInY
           #dashboard_notifications.hide
     - recent_activities = current_online_customer.recent_activities
@@ -113,16 +113,17 @@
           Second Opinion
         %section.dropdown-menu.aside-xl.animated.flipInY
           #second_opinion
-            = form_for(DoctorOpinion.new, url: customers_dashboard_send_to_doctor_path, html:{id: 'share_with_doctor_form', "data-validate" => "parsley"}, remote: true) do |f|
+            = form_for(DoctorOpinion.new, url: customers_dashboard_send_to_doctor_path, html:{id: 'share_with_doctor_form'}, remote: true) do |f|
               %div.padder-10{style: "color: #3c4144"}Share your profile securely with a doctor or a person you trust. The profile will be accessible only for 48 hours. Please ensure you also inform the respective person the same.
               .list-group
                 .list-group-item
-                  = f.text_field :doctor_name, class: 'form-control no-border data-parsley-required', required: true, autofocus: true,  placeholder: 'Enter doctor name'
+                  = f.text_field :doctor_name, class: 'form-control no-border', required: true, autofocus: true,  placeholder: 'Enter doctor name', 'data-parsley-trigger' => 'focusout'
                 .list-group-item
-                  = f.text_field :doctor_mobile_number, class: 'form-control no-border numeric parsley-validated', required: true,  placeholder: 'Enter doctor mobile number', minlength: 10
+                  = f.text_field :doctor_mobile_number, class: 'form-control no-border numeric', placeholder: 'Enter doctor mobile number', required: true, 'data-parsley-minlength' => '10', 'data-parsley-trigger' => 'focusout'
                 .list-group-item
-                  = f.email_field :doctor_email, class: 'form-control no-border parsley-validated', required: true,  placeholder: 'Enter doctor email'
-              %a.pull-right.btn.btn-primary#send_to_doctor{href: "#", type: "submit"} Send
+                  = f.email_field :doctor_email, class: 'form-control no-border', required: true, "data-parsley-trigger" => "focusout", placeholder: 'Enter doctor email'
+              .padder-10
+                %a.pull-right.btn.btn-primary#send_to_doctor{href: "#", type: "submit"} Send
     -#%li.hidden-xs
       %a.dropdown-toggle#notifications_count{"data-toggle" => "dropdown", href: "#"}
         %i.i.i-chat3
@@ -178,7 +179,7 @@
     });
 
     $('#share_with_doctor_form input[type=text]').blur(function(){
-      validateInputs();
+      //validateInputs();
     });
 
     var validateInputs = function(inputEle){
@@ -186,7 +187,7 @@
       $('#share_with_doctor_form input[type=text]').each(function(){
         if($(this).val().length == 0)
         {
-          $(this).next('label').text('This field is required').show();
+          //$(this).next('label').text('This field is required').show();
           isValid = isValid && false;
         }
         else
@@ -197,13 +198,13 @@
             //check for mobile number length
             if($(this).val().length != 10)
             {
-              $(this).next('label').text('Mobile number should be of 10 digits length').show();
+              //$(this).next('label').text('Mobile number should be of 10 digits length').show();
               isValid = isValid && false;
             }
             else
             {
               isValid = isValid && true;
-              $(this).next('label').hide();
+              //$(this).next('label').hide();
             }
           }
           else if($(this).attr('id') == 'doctor_email')
@@ -212,19 +213,19 @@
             var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
             if(!regex.test($(this).val()))
             {
-              $(this).next('label').text('Please enter valid email address').show();
+              //$(this).next('label').text('Please enter valid email address').show();
               isValid = isValid && false;
             }
             else
             {
               isValid = isValid && true;
-              $(this).next('label').hide();
+              //$(this).next('label').hide();
             }
           }
           else
           {
             isValid = isValid && true;
-            $(this).next('label').hide();
+            //$(this).next('label').hide();
           }
         }
       });

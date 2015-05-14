@@ -29,10 +29,6 @@
     %small.pull-right
       Contact: 888-678-EKIN (3546) /
       %a{href: 'mailto:founder@ekincare.com'} founder@ekincare.com
-  -#- if session[:is_customer]
-  -#  %ol.padder
-  -#    %small.pull-right
-  -#      %a.btn.btn-sm.btn-default{"data-toggle" => "ajaxModal", :href => customers_dashboard_share_with_doctor_path} Share With Doctor
 
 %div{style: 'min-height: 1000px'}
   %section.scrollable.wrapper.w-f
@@ -409,3 +405,24 @@
                     .col-md-3.b-r
                       %small.text-muted
                         %i.i.i-info{title: component[:lab_result].test_component.info}
+    %div.row.p-t
+      .col-md-6.lt.col-lg-6
+        %section.panel.panel-default
+          %header.panel-heading
+            Comments
+          .slimScrollDiv{:style => "position: relative; overflow: hidden; width: auto; height: 230px;"}
+            %section.panel-body.slim-scroll{"data-height" => "230px", "data-size" => "10px", :style => "overflow: hidden; overflow-y: scroll; width: auto; height: 230px;"}
+              -@comments.each do |comment|
+                %article.media.list-group-item
+                  .media-body
+                    .pull-right.media-xs.text-center.text-muted
+                      %strong
+                        = formatted_date comment.created_at
+                        = full_time comment.created_at
+                    %small.block
+                      Doctor Name:
+                      = comment.doctor_name
+                    %small.block.m-t-sm
+                      Comment:
+                      = comment.description
+                .line.pull-in
