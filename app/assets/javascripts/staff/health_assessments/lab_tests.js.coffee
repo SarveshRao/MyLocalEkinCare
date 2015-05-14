@@ -45,6 +45,7 @@ applyMakeEditableToTestComponent = ->
     'aoColumns': [
       {}
       {}
+      {}
       null
       {}
       {}
@@ -76,6 +77,11 @@ showTestComponents = (lab_test_id) ->
       {
         'mData': 'test_component_name',
         'sTitle': 'Test Component',
+#        "sWidth": "10%"
+      }
+      {
+        'mData': 'test_component_lonic_code',
+        'sTitle': 'Lonic Code',
 #        "sWidth": "10%"
       }
       {

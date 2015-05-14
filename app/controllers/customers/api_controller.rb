@@ -337,7 +337,12 @@ class Customers::ApiController < BaseApiController
       assessments = customer.health_assessments.body_assessment_done
       assessments.each do |assessment|
         assessment.lab_results.each do |lab_result|
-          component = TestComponent.where("lower(name) = ? and enterprise_id =?", component_name.downcase, assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise).first
+          lonic_code = TestComponent.find_by('lower(name) =?',component_name.downcase).lonic_code
+          if lonic_code
+            component = TestComponent.where("lonic_code = ? and enterprise_id =?", lonic_code, assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise).first
+          else
+            component = TestComponent.where("lower(name) = ? and enterprise_id =?", component_name.downcase, assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise).first
+          end
           if lab_result.test_component_id == component.id
             return {result: lab_result.result, color: lab_result.colored_value, units: component.units, date: assessment.request_date}
           end
@@ -354,7 +359,12 @@ class Customers::ApiController < BaseApiController
       assessments = @customer.health_assessments.body_assessment_done
       assessments.each do |assessment|
         assessment.lab_results.each do |lab_result|
-          component = TestComponent.where("lower(name) = ? and enterprise_id =?", component_name.downcase, assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise).first
+          lonic_code = TestComponent.find_by('lower(name) =?',component_name.downcase).lonic_code
+          if lonic_code
+            component = TestComponent.where("lonic_code = ? and enterprise_id =?", lonic_code, assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise).first
+          else
+            component = TestComponent.where("lower(name) = ? and enterprise_id =?", component_name.downcase, assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise).first
+          end
           if lab_result.test_component_id == component.id
             return {result: lab_result.result, color: lab_result.colored_value, units: component.units, date: assessment.request_date}
           end

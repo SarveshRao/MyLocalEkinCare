@@ -80,23 +80,23 @@ class Customers::RegistrationsController < Devise::RegistrationsController
             # "Sending SMS to mobile"
             result = Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ resource.mobile_number() +'&sender=EKCARE&message=Dear '+ resource.first_name() +', DOWNLOAD FREE EKINCARE APP, to digitize your physical medical records. Click http://bit.ly/eKgoogle for ANDROID or click http://bit.ly/eKapple for Apple iPhone')))
 
-            ekincare_coupon=CouponSource.find_by_name('ekincare')
-            ek_coupon=ekincare_coupon.coupons.first
+          ekincare_coupon=CouponSource.find_by_name('ekincare')
+          ek_coupon=ekincare_coupon.coupons.first
 
-            if(ek_coupon)
-              if ek_coupon.is_valid_coupon?
-                expire_date = ek_coupon.expires_on.to_s
-                expire_date = expire_date[8..9]+"-"+expire_date[5..6]+"-"+expire_date[0..3]
-                coupon_sms = Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ resource.mobile_number() +'&sender=EKCARE&message=Dear '+ resource.first_name() +', Avail coupon worth Rs. '+ (ek_coupon.price.to_s) +' on your next health check at eKincare.com. Call 888-678-3546 for details. Coupon code '+ek_coupon.code+'. Valid till '+expire_date)))
-                CustomerCoupon.create(customer_id:resource.id,coupon_id:ek_coupon.id)
-              end
+          if(ek_coupon)
+            if ek_coupon.is_valid_coupon?
+              expire_date = ek_coupon.expires_on.to_s
+              expire_date = expire_date[8..9]+"-"+expire_date[5..6]+"-"+expire_date[0..3]
+              coupon_sms = Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ resource.mobile_number() +'&sender=EKCARE&message=Dear '+ resource.first_name() +', Avail coupon worth Rs. '+ (ek_coupon.price.to_s) +' on your next health check at eKincare.com. Call 888-678-3546 for details. Coupon code '+ek_coupon.code+'. Valid till '+expire_date)))
+              CustomerCoupon.create(customer_id:resource.id,coupon_id:ek_coupon.id)
             end
+          end
 
-            coupon=cookies[:coupon]
-            source=cookies[:source]
+          coupon=cookies[:coupon]
+          source=cookies[:source]
 
-            cookies.delete(:coupon)
-            cookies.delete(:source)
+          cookies.delete(:coupon)
+          cookies.delete(:source)
 
             if(coupon and source)
               assign_coupon(resource.id,coupon,source)

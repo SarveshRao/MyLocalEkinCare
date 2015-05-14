@@ -68,7 +68,12 @@ class Customers::CustomerInformationController < ApplicationController
 
   def lab_result_values
     test_component_name=params[:test_component_name]
-    test_component=TestComponent.find_by_name(test_component_name)
+    lonic_code = TestComponent.find_by_name(test_component_name).lonic_code
+    if lonic_code
+      test_component=TestComponent.find_by(lonic_code: lonic_code)
+    else
+      test_component=TestComponent.find_by_name(test_component_name)
+    end
     customer=current_online_customer
     lab_result_values=test_component.test_component_values(customer)
     respond_to do |format|

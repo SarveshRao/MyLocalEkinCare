@@ -23,7 +23,8 @@
           .list-group-item
             = f.text_field :otp, class: 'form-control no-border ', required: true, autofocus: true,  placeholder: 'Enter your One Time Password (OTP)'
         = f.submit "Create an account", {class: 'btn btn-lg btn-primary btn-block '}
-        %a{:href => terms_and_conditions_about_index_path, id: 'terms_and_policy_link', style: 'color: #177bbb !important'} What is One Time Password (OTP)
+        %p.text_muted.text-center
+          %a{:href => faq_about_index_path, style: 'color: #177bbb !important'} What is One Time Password (OTP)
         .line.line-dashed.m-b-none
         %a.btn.btn-lg.btn-default.btn-block{href: resend_registration_otp_path} Resend One Time Password (OTP)
 

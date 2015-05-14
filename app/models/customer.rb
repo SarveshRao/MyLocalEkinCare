@@ -225,7 +225,12 @@ class Customer < ActiveRecord::Base
       assessments = self.health_assessments.body_assessment_done
       assessments.each do |assessment|
         assessment.lab_results.each do |lab_result|
-          component = TestComponent.where("lower(name) = ? and enterprise_id =?", component_name.downcase, assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise).first
+          lonic_code = TestComponent.find_by('lower(name) =?',component_name.downcase).lonic_code
+          if lonic_code
+            component = TestComponent.where("lonic_code = ? and enterprise_id =?", lonic_code, assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise).first
+          else
+            component = TestComponent.where("lower(name) = ? and enterprise_id =?", component_name.downcase, assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise).first
+          end
           if lab_result.test_component_id == component.id
             return {result: lab_result.result, color: lab_result.colored_value, units: component.units, date: assessment.request_date}
           end
@@ -242,7 +247,12 @@ class Customer < ActiveRecord::Base
     begin
       assessment = HealthAssessment.find(assessment_id)
       assessment.lab_results.each do |lab_result|
-        component = TestComponent.where("lower(name) = ? and enterprise_id =?", component_name.downcase, assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise).first
+        lonic_code = TestComponent.find_by('lower(name) =?',component_name.downcase).lonic_code
+        if lonic_code
+          component = TestComponent.where("lonic_code = ? and enterprise_id =?", lonic_code, assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise).first
+        else
+          component = TestComponent.where("lower(name) = ? and enterprise_id =?", component_name.downcase, assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise).first
+        end
         if lab_result.test_component_id == component.id
           if lab_result.result == result_value
             return {result: lab_result.result, color: lab_result.colored_value, units: component.units, date: assessment.request_date}
@@ -260,7 +270,12 @@ class Customer < ActiveRecord::Base
     begin
       assessment = HealthAssessment.find(assessment_id)
       assessment.lab_results.each do |lab_result|
-        component = TestComponent.where("lower(name) = ? and enterprise_id =?", component_name.downcase, assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise).first
+        lonic_code = TestComponent.find_by('lower(name) =?',component_name.downcase).lonic_code
+        if lonic_code
+          component = TestComponent.where("lonic_code = ? and enterprise_id =?", lonic_code, assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise).first
+        else
+          component = TestComponent.where("lower(name) = ? and enterprise_id =?", component_name.downcase, assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise).first
+        end
         if lab_result.test_component_id == component.id
           return {result: lab_result.result, color: lab_result.colored_value, units: component.units, date: assessment.request_date}
         end
@@ -281,7 +296,12 @@ class Customer < ActiveRecord::Base
       assessments = self.health_assessments.body_assessment_done
       assessments.each do |assessment|
         assessment.lab_results.each do |lab_result|
-          component = TestComponent.where("lower(name) = ? and enterprise_id =?", component_name.downcase, assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise).first
+          lonic_code = TestComponent.find_by('lower(name) =?',component_name.downcase).lonic_code
+          if lonic_code
+            component = TestComponent.where("lonic_code = ? and enterprise_id =?", lonic_code, assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise).first
+          else
+            component = TestComponent.where("lower(name) = ? and enterprise_id =?", component_name.downcase, assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise).first
+          end
           if lab_result.test_component_id == component.id
             return lab_result
           end
@@ -299,7 +319,7 @@ class Customer < ActiveRecord::Base
 
   def insufficient_results
     begin
-      rejected_fields = ['Fasting blood sugar', 'Blood pressure']
+      rejected_fields = ['Blood Glucose', 'Blood pressure']
       # recent_body_assessment = self.health_assessments.recent_body_assessment.first
       # if !recent_body_assessment.nil?
       #   lab_results = recent_body_assessment.lab_results.map { |lab_result| lab_result.test_component_ranges_diff }
@@ -344,7 +364,13 @@ class Customer < ActiveRecord::Base
   def assessment_body_bp
     body_assessment =  health_assessments.recent_body_assessment
     body_assessment.each do |assessment|
-      component = TestComponent.where("lower(name) IN ('systolic','diastolic') and enterprise_id= #{assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise}")
+      sys_code = TestComponent.find_by("lower(name)='systolic'").lonic_code
+      dia_code = TestComponent.find_by("lower(name)='diastolic'").lonic_code
+      if sys_code and dia_code
+        component = TestComponent.where("lonic_code IN (#{sys_code},#{dia_code}) and enterprise_id= #{assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise}")
+      else
+        component = TestComponent.where("lower(name) IN ('systolic','diastolic') and enterprise_id= #{assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise}")
+      end
       ids = component.collect(&:id).join(',')
       lab_results = LabResult.where("test_component_id IN (#{ids}) AND body_assessment_id=?", assessment.id).first
       unless lab_results.nil?
@@ -359,9 +385,19 @@ class Customer < ActiveRecord::Base
     # diastolic=TestComponent.find_by(name:'Diastolic')
     # diastolic_id=diastolic.id rescue '-'
     body_assessment.each do |assessment|
-      systolic=TestComponent.find_by(name:'Systolic', enterprise_id: assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise)
+      sys_code = TestComponent.find_by("lower(name)='systolic'").lonic_code
+      dia_code = TestComponent.find_by("lower(name)='diastolic'").lonic_code
+      if sys_code
+        systolic=TestComponent.find_by(lonic_code:sys_code, enterprise_id: assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise)
+      else
+        systolic=TestComponent.find_by(name:'Systolic', enterprise_id: assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise)
+      end
       systolic_id=systolic.id rescue '-'
-      component = TestComponent.where("lower(name) IN ('systolic','diastolic') and enterprise_id= #{assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise}")
+      if sys_code and dia_code
+        component = TestComponent.where("lonic_code IN (#{sys_code},#{dia_code}) and enterprise_id= #{assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise}")
+      else
+        component = TestComponent.where("lower(name) IN ('systolic','diastolic') and enterprise_id= #{assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise}")
+      end
       ids = component.collect(&:id).join(',')
       lab_results = LabResult.where("test_component_id IN (#{ids}) AND body_assessment_id=?", assessment.id).first
       unless lab_results.nil?
@@ -377,7 +413,12 @@ class Customer < ActiveRecord::Base
   def fasting_blood_sugar
     body_assessment =  health_assessments.recent_body_assessment
     body_assessment.each do |assessment|
-      component = TestComponent.find_by("lower(name)='fasting blood sugar' and enterprise_id=?", assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise)
+      fasting_blood_sugar_code = TestComponent.find_by("lower(name)='fasting blood sugar'").lonic_code
+      if fasting_blood_sugar_code
+        component = TestComponent.find_by("lonic_code=? and enterprise_id=?", fasting_blood_sugar_code, assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise)
+      else
+        component = TestComponent.find_by("lower(name)='fasting blood sugar' and enterprise_id=?", assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise)
+      end
       lab_results = LabResult.where("test_component_id =? AND body_assessment_id=?",component.id, assessment.id).first
       unless lab_results.nil?
         return lab_results.result
@@ -390,7 +431,12 @@ class Customer < ActiveRecord::Base
   def fasting_blood_sugar2
     body_assessment =  health_assessments.recent_body_assessment
     body_assessment.each do |assessment|
-      component = TestComponent.find_by("lower(name)='fasting blood sugar' and enterprise_id=?", assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise)
+      fasting_blood_sugar_code = TestComponent.find_by("lower(name)='fasting blood sugar'").lonic_code
+      if fasting_blood_sugar_code
+        component = TestComponent.find_by("lonic_code=? and enterprise_id=?", fasting_blood_sugar_code, assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise)
+      else
+        component = TestComponent.find_by("lower(name)='fasting blood sugar' and enterprise_id=?", assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise)
+      end
       lab_results = LabResult.where("test_component_id =? AND body_assessment_id=?",component.id, assessment.id).first
       unless lab_results.nil?
         return {bllod_sugar: lab_results.result, date: assessment.request_date}
@@ -402,7 +448,12 @@ class Customer < ActiveRecord::Base
   def assessment_body_sugar
     body_assessment =  health_assessments.recent_body_assessment
     body_assessment.each do |assessment|
-      component = TestComponent.where("lower(name) IN ('fasting blood sugar') and enterprise_id=#{assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise}")
+      fasting_blood_sugar_code = TestComponent.find_by("lower(name)='fasting blood sugar'").lonic_code
+      if fasting_blood_sugar_code
+        component = TestComponent.where("lonic_code=? and enterprise_id=?", fasting_blood_sugar_code, assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise)
+      else
+        component = TestComponent.where("lower(name)='fasting blood sugar' and enterprise_id=?", assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise)
+      end
       ids = component.collect(&:id).join(',')
       lab_results = LabResult.where("test_component_id IN (#{ids}) AND body_assessment_id=?",assessment.id).first
       unless lab_results.nil?
@@ -552,7 +603,12 @@ class Customer < ActiveRecord::Base
   def standard_range test_component_name
     begin
       gender=self.gender[0,1]
-      test_component=TestComponent.find_by(name: test_component_name)
+      component_code = TestComponent.find_by("lower(name)=?",test_component_name.downcase).lonic_code
+      if component_code
+        test_component=TestComponent.find_by(lonic_code: component_code)
+      else
+        test_component=TestComponent.find_by("lower(name)=?",test_component_name.downcase)
+      end
       unless(test_component.standard_ranges.nil?)
         standard_range=test_component.standard_ranges.where(gender:gender).first
         return standard_range.range_value
@@ -565,7 +621,12 @@ class Customer < ActiveRecord::Base
   def standard_range1 test_component_name, assessment_id
     begin
       gender=self.gender[0,1]
-      test_component=TestComponent.find_by(name: test_component_name, enterprise_id: HealthAssessment.find(assessment_id).enterprise_id)
+      component_code = TestComponent.find_by("lower(name)=?",test_component_name.downcase).lonic_code
+      if component_code
+        test_component=TestComponent.find_by(lonic_code: component_code, enterprise_id: HealthAssessment.find(assessment_id).enterprise_id)
+      else
+        test_component=TestComponent.find_by("lower(name)=?",test_component_name.downcase, enterprise_id: HealthAssessment.find(assessment_id).enterprise_id)
+      end
       unless(test_component.standard_ranges.nil?)
         standard_range=test_component.standard_ranges.where(gender:gender).first
         return standard_range.range_value
@@ -578,7 +639,7 @@ class Customer < ActiveRecord::Base
   def pre_hypertensive
     assessments =  health_assessments.recent_body_assessment.first
     if assessments
-      blood_pressure=LabTest.find_by(name: 'Blood pressure', enterprise_id: assessments.enterprise_id ? assessments.enterprise_id : self.default_enterprise)
+      blood_pressure=LabTest.find_by("lower(name)='blood pressure'", enterprise_id: assessments.enterprise_id ? assessments.enterprise_id : self.default_enterprise)
       blood_pressure.test_components.each do |test_component|
         result_color=self.resulted_component_value(test_component.name)[:color]
         if(result_color=='text-warning')
@@ -739,7 +800,6 @@ class Customer < ActiveRecord::Base
   def number_of_documents_uploaded
     return self.documents.count
   end
-
   def need_two_factor_authentication?(request)
     not otp_secret_key.nil?
   end
@@ -747,5 +807,4 @@ class Customer < ActiveRecord::Base
   def password_required?
     false
   end
-
 end

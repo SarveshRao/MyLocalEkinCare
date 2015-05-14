@@ -137,6 +137,37 @@
     font-size:12px;
 }
 
+.list-group-item{
+    border:0px solid #dddddd;
+    border-top:1px solid #dddddd;
+    padding: 10px;
+    margin:0;
+}
+
+.list-group-item:hover{
+    background: #ececec;
+}
+
+.list-group-item.current_assessment{
+    background: #177bbb;
+}
+
+.list-group-item.current_assessment a{
+    color:white;
+}
+
+.list-group-lg .list-group-item{
+    /*padding-top:0;*/
+    /*padding-bottom: 0;*/
+}
+
+.list-group{
+    padding-right: 0;
+}
+
+li{
+    margin-left:0!important;
+}
 
 @media (max-width: 600px) {
     .history {
@@ -149,11 +180,30 @@
         border-bottom: 1px solid #e1e6ef;
     }
     .rResultValue{
-        width: 75px;
+        min-width: 75px;
     }
+    section.assessments .inbox{
+        display: block;
+    }
+    section.assessments .lab_results{
+        display: none;
+    }
+    section.assessment .inbox{
+        display: none;
+    }
+    section.assessment .lab_results{
+        display: block;
+    }
+    .rResultValue .value{
+        font-size: 12px;
+        line-height: 20px;
+    }
+
 }
 
-
+.showAssessmentFiles{
+    cursor: pointer;
+}
 .rAttachment{
     margin-right: 10px;
 }

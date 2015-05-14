@@ -31,13 +31,13 @@
       .text-center
         %h3 888-678-EKIN (3546)
 -else
-  %section
+  %section{:class => @assessment_class}
     %section.hbox.stretch
-      %aside.aside-lg
+      %aside.aside-lg{:class => "inbox"}
         %section.scrollable.hover.w-f
-          %ul#reportList.list-group.auto.no-radius.m-b-none.m-t-n-xxs.list-group-lg.scrollable.col-sm-12.padder-v{:style => "padding-right:8px;background:white"}
+          %ul#reportList.list-group.auto.no-radius.m-b-none.m-t-n-xxs.list-group-lg.scrollable.col-sm-12{:style => "background:white"}
             -@body_assessments.each do |body_assessment|
-              %li.list-group-item
+              %li.list-group-item{id:body_assessment.id,class: (@assessment_id.to_s==body_assessment.id.to_s)? 'current_assessment': '',}
                 -inbox_id=Inbox.find_by_associated_id(body_assessment.id)
                 %a.clear.text-ellipsis{href: customers_health_assessment_path({type: 'Body', id: body_assessment.id,inbox_id:inbox_id})}
                   %strong.block
@@ -47,20 +47,20 @@
                     %span
                     = body_assessment.health_assessment_id
                     -#= formatted_date body_assessment.request_date
-                  %strong.block
-                    Provider Name
-                    %span
-                      &nbsp;:
-                    %span
-                      -unless(body_assessment.appointments.empty?)
-                        -unless(body_assessment.appointments.first.partner_name1.nil?)
-                          =body_assessment.appointments.first.partner_name1 rescue ''
-                  %small.block
-                    Doctor Name
-                    %span
-                      &nbsp;:
-                    %span{:style => "white-space:normal;width:58%"}
-                      -unless(body_assessment.nil?)
+                    -unless(body_assessment.appointments.empty?)
+                      -unless(body_assessment.appointments.first.partner_name1.nil?)
+                        %strong.block
+                          Provider Name
+                          %span
+                            &nbsp;:
+                          %span
+                            =body_assessment.appointments.first.partner_name1 rescue ''
+                  -unless(body_assessment.nil? or body_assessment.doctor_name.nil?)
+                    %small.block
+                      Doctor Name
+                      %span
+                        &nbsp;:
+                      %span{:style => "white-space:normal;width:58%"}
                         =body_assessment.doctor_name rescue ''
                   %strong.block.pull-left
                     Date:
@@ -69,7 +69,7 @@
                     %span
                     = formatted_date body_assessment.request_date rescue ''
 
-      %aside.lter#reportHolder
+      %aside.lter#reportHolder{:class => "lab_results"}
         %section.vbox
           %section.scrollable.padder
             .col-lg-12.col-md-12.m-b.bg-white.padder.padder-v
@@ -78,22 +78,22 @@
                   %div
                     .col-md-12.no-padder
                       %h5
-                        %span.font-bold
-                          Provider Name
-                        %span
-                          &nbsp;:
-                        %span
-                          -if @body_assessment
-                            -unless @body_assessment.appointments.empty? || @body_assessment.appointments.nil?
-                              -unless(@body_assessment.appointments.first.partner_name1.nil?)
+                        -if @body_assessment
+                          -unless @body_assessment.appointments.empty? || @body_assessment.appointments.nil?
+                            -unless(@body_assessment.appointments.first.partner_name1.nil? or @body_assessment.appointments.first.partner_name1.nil? )
+                              %span.font-bold
+                                Provider Name
+                              %span
+                                &nbsp;:
+                              %span
                                 =@body_assessment.appointments.first.partner_name1 rescue ''
                       %h5
-                        %span.font-bold
-                          Doctor Name
-                        %span
-                          &nbsp;:
-                        %span
-                          -unless @body_assessment.nil?
+                        -unless(@body_assessment.nil? or @body_assessment.doctor_name.nil?)
+                          %span.font-bold
+                            Doctor Name
+                          %span
+                            &nbsp;:
+                          %span
                             =@body_assessment.doctor_name rescue ''
               %div
                 .col-md-6.nopadding.text-right.provider_doctor_name
@@ -104,6 +104,20 @@
                       &nbsp;:
                     %span
                       = formatted_date @body_assessment.request_date rescue ''
+                  %h5.showAssessmentFiles
+                    %span.font-bold
+                      %i.fa.fa-file
+                    %span
+                      files
+                  %h5.physicalReports.hide
+                    %span
+                      -unless @medical_records.empty?
+                        %ul
+                        -@medical_records.each do |medical_record|
+                          %li
+                            = "<a href=#{medical_record.emr} download=download>#{ medical_record.emr.file.filename}</a>".html_safe
+                      -else
+                        No uploaded records
             .row#healthAssessment
               .col-sm-12
                 - if @body_assessment
@@ -148,7 +162,7 @@
                               %tr{:id => "#{test_component_name}"}
                                 %td{:colspan => '3'}
                                   .moreInfo
-                                    .rTitle.col-sm-4
+                                    .rTitle.col-sm-4.col-xs-5
                                       = info[:test_component_diff][:name]
                                       .rSubTitle
                                         ideal is
@@ -167,7 +181,7 @@
                                           %i.fa.fa-2x.fa-caret-up{:class => color}
                                         -else
                                           %i.fa.fa-2x.fa-caret-down{:class => color}
-                                    .rResult.col-sm-6.pull-right{"data-percent" => "98"}
+                                    .rResult.col-sm-6.col-xs-7.pull-right{"data-percent" => "98"}
                                       -if current_online_customer.resulted_component_value1(info[:test_component_diff][:name], info[:test_component_diff][:value], @body_assessment.id)[:color]=='text-warning'
                                         .rResultValue{:style => "left:40%;top:-44px"}
                                           .warning Warning
@@ -197,14 +211,15 @@
                                       =TestComponent.find_by_name(info[:test_component_diff][:name]).info
                                       -div_id=test_component_name.gsub(/[ \/()!@%&"]/,'')
                                     %div.col-sm-6{:id => "f-line#{div_id}",:style => "height:75px"}
-                  - if @comments
                     %section.panel.panel-default
                       .row.padder.padder-v
                         .col-sm-12
                           %h3.rTitle.m-b-xs
                             Doctor Comments
+                          -no_comments = true
                           -@comments.each do |comment|
                             - if comment.health_assessment_id == @body_assessment.id
+                              -no_comments = false
                               .list-group-item
                                 %strong.block
                                   Doctor Name:
@@ -218,6 +233,8 @@
                                   Doctor Comments:
                                   %span
                                   = comment.description
+                          - if no_comments == true
+                            No comments to added.
                   - if !session[:is_customer]
                     %section.panel.panel-default
                       .row.padder.padder-v

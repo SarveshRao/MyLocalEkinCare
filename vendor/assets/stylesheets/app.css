@@ -3660,3 +3660,13 @@ input[readonly] {
   padding: 8px 7px;
   border-top: 1px solid #eaeef1;
 }
+
+#enterprise_test_components_table_wrapper .table:first-child th{
+  padding: 8px 2px;
+  border-top: 1px solid #eaeef1;
+}
+
+#enterprise_test_components_table_wrapper #customer_grid td{
+  padding: 8px 7px;
+  border-top: 1px solid #eaeef1;
+}

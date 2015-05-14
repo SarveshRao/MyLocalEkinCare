@@ -52,11 +52,13 @@ drawChart = (id,values) ->
         y: 20)
 
 win_hgt = $(window).height()
-body_hgt = win_hgt - 130
+body_hgt = win_hgt - 110
 $('#reportList').height body_hgt
 
+$('.showAssessmentFiles').click ->
+  $('.physicalReports').toggleClass 'hide'
+  return
 #$ ->
-#
 #  $('.moreInfo').click ->
 ##    $(this).closest('tr').siblings('tr').find('.info_sec').slideToggle()
 #    test_component_name=$(this).closest('tr').attr('id')

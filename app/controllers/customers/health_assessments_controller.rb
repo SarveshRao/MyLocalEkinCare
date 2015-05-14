@@ -6,6 +6,8 @@ class Customers::HealthAssessmentsController < CustomerAppController
   def index
     @customer_health_assessment = true
     @id, @type ,@inbox_id= params[:id], params[:type],params[:inbox_id]
+    @assessment_class='assessments'
+
     unless(@inbox_id.nil?)
       @inbox=Inbox.find(@inbox_id)
       @inbox.update(status:true)
@@ -16,6 +18,7 @@ class Customers::HealthAssessmentsController < CustomerAppController
       @body_assessments = current_online_customer.health_assessments.body_assessment_done
       if @body_assessments.first
         @body_assessment = HealthAssessment.find(@body_assessments.first.id)
+        @medical_records=@body_assessment.medical_records
       end
       # body_assessment
     elsif @type == 'Dental'
@@ -28,7 +31,9 @@ class Customers::HealthAssessmentsController < CustomerAppController
 
   def show
     @customer_health_assessment = true
+    @assessment_class='assessment'
     @id, @type ,@inbox_id= params[:id], params[:type],params[:inbox_id]
+    @assessment_id=@id
     unless(@inbox_id.nil?)
       @inbox=Inbox.find(@inbox_id)
       @inbox.update(status:true)
@@ -37,6 +42,7 @@ class Customers::HealthAssessmentsController < CustomerAppController
     if @type == 'Body'
       @body_assessments = current_online_customer.health_assessments.body_assessment_done
       @body_assessment = HealthAssessment.find(@id)
+      @medical_records=@body_assessment.medical_records
     elsif @type == 'Dental'
       dental_assessment
     elsif @type == 'Vision'
@@ -54,6 +60,7 @@ class Customers::HealthAssessmentsController < CustomerAppController
     @doctor_comment.doctor_mobile_number = session[:doctor_mobile_number]
     @doctor_comment.doctor_email = session[:doctor_email]
     @doctor_comment.notes_id = notes.id
+    @doctor_comment.customer_id = current_online_customer.id
     @doctor_comment.save
     redirect_to :back
   end
@@ -84,5 +91,4 @@ class Customers::HealthAssessmentsController < CustomerAppController
     end
     nil
   end
-
 end

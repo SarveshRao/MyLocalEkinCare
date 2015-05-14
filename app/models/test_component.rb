@@ -104,11 +104,11 @@ class TestComponent < ActiveRecord::Base
   def self.search(search)
     if search.nil? || search.empty?
       self.joins(:standard_ranges)
-                      .select("test_components.name as test_component_name", "test_components.info as test_component_info", "standard_ranges.*")
+                      .select("test_components.name as test_component_name", "test_components.info as test_component_info", "test_components.lonic_code as test_component_lonic_code", "standard_ranges.*")
                       .order('test_components.name ASC')
     else
       self.joins(:standard_ranges)
-          .select("test_components.name as test_component_name", "test_components.info as test_component_info", "standard_ranges.*")
+          .select("test_components.name as test_component_name", "test_components.info as test_component_info", "test_components.lonic_code as test_component_lonic_code", "standard_ranges.*")
           .where("LOWER(name) LIKE :search" , search: "%#{search.downcase}%")
           .order('test_components.name ASC')
     end
@@ -118,15 +118,27 @@ class TestComponent < ActiveRecord::Base
     if search.nil? || search.empty?
       self.joins(:standard_ranges)
           .where("lab_test_id = " + lab_test_id)
-          .select("test_components.name as test_component_name", "test_components.info as test_component_info", "standard_ranges.*")
+          .select("test_components.name as test_component_name", "test_components.info as test_component_info", "test_components.lonic_code as test_component_lonic_code", "standard_ranges.*")
           .order('test_components.name ASC')
     else
       self.joins(:standard_ranges)
-          .select("test_components.name as test_component_name", "test_components.info as test_component_info", "standard_ranges.*")
+          .select("test_components.name as test_component_name", "test_components.info as test_component_info", "test_components.lonic_code as test_component_lonic_code", "standard_ranges.*")
           .where("LOWER(name) LIKE :search" , search: "%#{search.downcase}%")
           .where("lab_test_id = " + lab_test_id)
           .order('test_components.name ASC')
     end
+  end
+
+  def lab_results_with_dates customer
+    lab_results = {}
+    customer.health_assessments.where(type: 'BodyAssessment').each do |body_assessment|
+      body_assessment.lab_results.each do |lab_result|
+        if lab_result.test_component_id == self.id
+          lab_results[lab_result.created_at] = lab_result.result.to_i
+        end
+      end
+    end
+    reversed_lab_results = Hash[lab_results.to_a.reverse]
   end
 
 end

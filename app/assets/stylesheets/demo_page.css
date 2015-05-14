@@ -126,25 +126,42 @@
     left:auto!important;
     right:6px!important;
 }
-table#enterprise_test_components_table tr td:nth-child(2), table#enterprise_lab_tests_table tr td:nth-child(2) {
-    text-align:justify; width:44%;
 
+table#enterprise_test_components_table tr td:nth-child(1){
+     text-align: justify;
+     width: 10%;
+ }
+table#enterprise_test_components_table tr td:nth-child(2){
+    text-align: justify;
+    width: 10%;
 }
-
-table#enterprise_test_components_table tr, table#enterprise_lab_tests_table tr {
-    min-height:50px;
-    position:relative;
-
+table#enterprise_test_components_table tr td:nth-child(3){
+    text-align: justify;
+    width: 38%;
 }
-
-table#enterprise_test_components_table tr td input, table#enterprise_lab_tests_table  tr td input{
-    padding:0 !important;
-    margin:0 !important;
-    vertical-align: top;
-    min-height:40px;
-    position:absolute;
-    top:3px;
-
+table#enterprise_test_components_table tr td:nth-child(4){
+    text-align: justify;
+    width: 5%;
+}
+table#enterprise_test_components_table tr td:nth-child(5){
+    text-align: justify;
+    width: 8%;
+}
+table#enterprise_test_components_table tr td:nth-child(6){
+    text-align: justify;
+    width: 8%;
+}
+table#enterprise_test_components_table tr td:nth-child(7){
+    text-align: justify;
+    width: 8%;
+}
+table#enterprise_test_components_table tr td:nth-child(8){
+    text-align: justify;
+    width: 8%;
+}
+table#enterprise_test_components_table tr td:nth-child(9){
+    text-align: justify;
+    width: 5%;
 }
 
 /*.dataTables_scrollBody {*/

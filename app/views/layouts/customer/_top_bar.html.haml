@@ -41,10 +41,10 @@
 %noscript
   %img{:alt => "", :height => "1", :src => "https://www.facebook.com/tr?id=1439089473071327&amp;ev=PixelInitialized", :style => "display:none", :width => "1"}/
 
--#- if session[:is_customer]
--#  %input#is_customer{type: "hidden", value: "true"}
--#- else
--#  %input#is_customer{type: "hidden", value: "false"}
+- if session[:is_customer]
+  %input#is_customer{type: "hidden", value: "true"}
+- else
+  %input#is_customer{type: "hidden", value: "false"}
 %header.bg-primary.header.header-md.navbar.navbar-fixed-top-xs.box-shadow
   .navbar-header.aside-md.dk
     %a.btn.btn-link.visible-xs.m-r{"data-target" => "#nav,html", "data-toggle" => "class:nav-off-screen,open"}

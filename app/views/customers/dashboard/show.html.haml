@@ -381,7 +381,7 @@
             - pr = (0 == index % 3)
             - pl = (2 == index % 3)
             - body_assessment = component[:lab_result].body_assessment
-            .col-md-3.lt.col-lg-3
+            .col-md-3.lt.col-lg-3.m-b
               %a{href: customers_health_assessments_path({id: body_assessment.id, type: 'Body'})}
                 %section.panel.panel-default.m-n.b-n
                   %header.panel-heading.text-center
@@ -405,24 +405,29 @@
                     .col-md-3.b-r
                       %small.text-muted
                         %i.i.i-info{title: component[:lab_result].test_component.info}
-    %div.row.p-t
-      .col-md-6.lt.col-lg-6
-        %section.panel.panel-default
-          %header.panel-heading
-            Comments
-          .slimScrollDiv{:style => "position: relative; overflow: hidden; width: auto; height: 230px;"}
-            %section.panel-body.slim-scroll{"data-height" => "230px", "data-size" => "10px", :style => "overflow: hidden; overflow-y: scroll; width: auto; height: 230px;"}
-              -@comments.each do |comment|
-                %article.media.list-group-item
-                  .media-body
-                    .pull-right.media-xs.text-center.text-muted
-                      %strong
-                        = formatted_date comment.created_at
-                        = full_time comment.created_at
-                    %small.block
-                      Doctor Name:
-                      = comment.doctor_name
-                    %small.block.m-t-sm
-                      Comment:
-                      = comment.description
-                .line.pull-in
+    - if session[:is_customer]
+      %div.row.p-t
+        .col-md-6.lt.col-lg-6
+          %section.panel.panel-default
+            %header.panel-heading
+              Comments
+            .slimScrollDiv{:style => "position: relative; overflow: hidden; width: auto; height: 230px;"}
+              %section.panel-body.slim-scroll{"data-height" => "230px", "data-size" => "10px", :style => "overflow: hidden; overflow-y: scroll; width: auto; height: 230px;"}
+                -no_comments = true
+                -@comments.each do |comment|
+                  -no_comments = false
+                  %article.media.list-group-item
+                    .media-body
+                      .pull-right.media-xs.text-center.text-muted
+                        %strong
+                          = formatted_date comment.created_at
+                          = full_time comment.created_at
+                      %small.block
+                        Doctor Name:
+                        = comment.doctor_name
+                      %small.block.m-t-sm
+                        Comment:
+                        = comment.description
+                  .line.pull-in
+                - if no_comments == true
+                  No comments added.

@@ -6,12 +6,19 @@ class Customers::CustomerLabResultsController < ApplicationController
     @current_customer=current_online_customer
     @updated_date=formatted_date (Time.now)
 
-    @systolic_component_id=TestComponent.find_by(name: 'Systolic', enterprise_id: Enterprise.find_by_enterprise_id('EK').id).id
-    @diastolic_component_id=TestComponent.find_by(name: 'Diastolic', enterprise_id: Enterprise.find_by_enterprise_id('EK').id).id
+    sys_code = TestComponent.find_by("lower(name)='systolic'").lonic_code
+    dia_code = TestComponent.find_by("lower(name)='diastolic'").lonic_code
+    if sys_code and dia_code
+      @systolic_component_id=TestComponent.find_by(lonic_code: sys_code, enterprise_id: Enterprise.find_by_enterprise_id('EK').id).id
+      @diastolic_component_id=TestComponent.find_by(lonic_code: dia_code, enterprise_id: Enterprise.find_by_enterprise_id('EK').id).id
+    else
+      @systolic_component_id=TestComponent.find_by(name: 'Systolic', enterprise_id: Enterprise.find_by_enterprise_id('EK').id).id
+      @diastolic_component_id=TestComponent.find_by(name: 'Diastolic', enterprise_id: Enterprise.find_by_enterprise_id('EK').id).id
+    end
 
     @new_health_assessment=@current_customer.health_assessments.create(request_date:Time.now,assessment_type:'Body',status:'done',type:'BodyAssessment',status_code:6, enterprise_id: Enterprise.find_by_enterprise_id('EK').id)
-    @new_health_assessment.lab_results.create(test_component_id: @systolic_component_id, result: systolic_value)
     @new_health_assessment.lab_results.create(test_component_id: @diastolic_component_id, result: diastolic_value)
+    @new_health_assessment.lab_results.create(test_component_id: @systolic_component_id, result: systolic_value)
 
     @systolic_color=get_color(@systolic_component_id,systolic_value, @new_health_assessment.id)
     @diastolic_color=get_color(@diastolic_component_id,diastolic_value, @new_health_assessment.id)
