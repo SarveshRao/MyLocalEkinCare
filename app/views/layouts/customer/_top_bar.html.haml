@@ -122,7 +122,9 @@
                 = f.text_field :doctor_mobile_number, class: 'form-control no-border numeric', placeholder: 'Enter doctor mobile number', required: true, 'data-parsley-minlength' => '10', 'data-parsley-trigger' => 'focusout'
               .list-group-item
                 = f.email_field :doctor_email, class: 'form-control no-border', required: true, "data-parsley-trigger" => "focusout", placeholder: 'Enter doctor email'
-            .padder-10
+            %ul.m#error_label.parsley-error-list
+              %li.required Please fill all fields with valid data.
+            .row.m
               %a.pull-right.btn.btn-primary#send_to_doctor{href: "#", type: "submit"} Send
     -#%li.hidden-xs
       %a.dropdown-toggle#notifications_count{"data-toggle" => "dropdown", href: "#"}
@@ -170,16 +172,30 @@
 
 :javascript
   $(document).ready(function(){
+    $('#error_label').hide();
     $('#share_with_doctor_form').parsley();
+
+    $('.dropdown-toggle#second_opinion').click(function(){
+      clear_form()
+    });
 
     //$('#share_with_doctor_form label').hide();
     $('#send_to_doctor').click(function(){
       if(validateInputs())
+      {
+        $('#error_label').hide();
         $('#share_with_doctor_form').submit();
+        clear_form()
+      }
+      else
+      {
+        $('#error_label').show();
+        return false;
+      }
     });
 
-    $('#share_with_doctor_form input[type=text]').blur(function(){
-      //validateInputs();
+    $('#share_with_doctor_form input[type=text], #share_with_doctor_form input[type=email]').keydown(function(){
+      $('#error_label').hide();
     });
 
     var validateInputs = function(inputEle){
@@ -187,13 +203,11 @@
       $('#share_with_doctor_form input[type=text]').each(function(){
         if($(this).val().length == 0)
         {
-          //$(this).next('label').text('This field is required').show();
           isValid = isValid && false;
         }
         else
         {
-          //$(this).next('label').text('This field is required');
-          if($(this).attr('id') == 'doctor_mobile_number')
+          if($(this).attr('id') == 'doctor_opinion_doctor_mobile_number')
           {
             //check for mobile number length
             if($(this).val().length != 10)
@@ -204,28 +218,24 @@
             else
             {
               isValid = isValid && true;
-              //$(this).next('label').hide();
             }
           }
-          else if($(this).attr('id') == 'doctor_email')
+          else if($(this).attr('id') == 'doctor_opinion_doctor_email')
           {
           //check for email format
             var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
             if(!regex.test($(this).val()))
             {
-              //$(this).next('label').text('Please enter valid email address').show();
               isValid = isValid && false;
             }
             else
             {
               isValid = isValid && true;
-              //$(this).next('label').hide();
             }
           }
           else
           {
             isValid = isValid && true;
-            //$(this).next('label').hide();
           }
         }
       });
@@ -255,45 +265,9 @@
 
     });
 
-    //var enableSend = true;
-    //var allInputsAvailable = false;
-
-    //
-    //
-    //$('#share_with_doctor_form input').keyup(function(){
-    //  $('#share_with_doctor_form input').each(function(){
-    //    if($(this).val().length == 0)
-    //    {
-    //      allInputsAvailable = false;
-    //      return;
-    //    }
-    //    else
-    //    {
-    //      allInputsAvailable = true;
-    //    }
-    //  });
-    //
-    //  //check for mobile number length
-    //  if($('#share_with_doctor_form #doctor_mobile_number').val().length != 10)
-    //    enableSend = false;
-    //  else
-    //    enableSend = true;
-    //
-    //  //check for email format
-    //  var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    //  if(regex.test($('#share_with_doctor_form #doctor_email').val()) && enableSend)
-    //    enableSend = true;
-    //  else
-    //    enableSend = false;
-
-      //if(enableSend && allInputsAvailable)
-      //{
-      //  $('#send_to_doctor').removeAttr('disabled');
-      //}
-      //else
-      //{
-      //  $('#send_to_doctor').attr('disabled', 'disabled');
-      //}
-    //});
-
+    var clear_form = function()
+    {
+      $('#share_with_doctor_form').find("input[type=text], input[type=email]").val("");
+      $('#error_label').hide();
+    }
   });

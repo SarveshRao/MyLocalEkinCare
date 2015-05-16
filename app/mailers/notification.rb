@@ -134,7 +134,7 @@ class Notification < ActionMailer::Base
     end
   end
 
-  def send_second_opinion(customer_name, doctor_name, to_email, request_link)
+  def send_request_for_second_opinion(customer_name, doctor_name, to_email, request_link)
     @customer_name = customer_name
     @doctor_name = doctor_name
     @email = to_email
@@ -142,4 +142,13 @@ class Notification < ActionMailer::Base
     mail :to => @email,
          :subject => "Second Opinion"
   end
+
+  def post_comments_second_opinion(customer_name, doctor_name, to_email)
+    @customer_name = customer_name
+    @doctor_name = doctor_name
+    @email = to_email
+    mail :to => @email,
+         :subject => "Second Opinion"
+  end
+
 end

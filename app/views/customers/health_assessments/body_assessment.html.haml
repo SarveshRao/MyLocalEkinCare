@@ -116,9 +116,20 @@
                         -@medical_records.each do |medical_record|
                           %li
                             = "<a href=#{medical_record.emr} download=download>#{ medical_record.emr.file.filename}</a>".html_safe
-
             .row#healthAssessment
               .col-sm-12
+                - if !session[:is_customer]
+                  %section.panel.panel-default
+                    .row.padder.padder-v
+                      .col-sm-12
+                        %h3.rTitle.m-b-xs
+                          Enter your comments
+                        %p
+                          %form#doctor_comments_form{:action => customers_health_assessment_doctor_comment_path, :method => "post"}
+                            %input#body_assessment_id{:name => "body_assessment_id", :type => "hidden", :value => @body_assessment.id}/
+                            %textarea.form-control#assessment_comments{:name => "notes", :type => "text", :placeholder => "Please enter your comments here"}
+                            %div.clearfix.m-b
+                            %input.pull-right.btn.btn-primary{:type => "submit", :value => "Submit"}/
                 - if @body_assessment
                   - if @body_assessment.categorize_components.nil? || @body_assessment.categorize_components.empty?
                     No components had been added
@@ -234,15 +245,3 @@
                                   = comment.description
                           - if no_comments == true
                             No comments added.
-                  - if !session[:is_customer]
-                    %section.panel.panel-default
-                      .row.padder.padder-v
-                        .col-sm-12
-                          %h3.rTitle.m-b-xs
-                            Write Comments
-                          %p
-                            %form#doctor_comments_form{:action => customers_health_assessment_doctor_comment_path, :method => "post"}
-                              %input#body_assessment_id{:name => "body_assessment_id", :type => "hidden", :value => @body_assessment.id}/
-                              %textarea.form-control#assessment_comments{:name => "notes", :type => "text", :placeholder => "Please enter your comments here"}
-                              %div.clearfix.m-b
-                              %input.pull-right.btn.btn-primary{:type => "submit", :value => "Submit"}/

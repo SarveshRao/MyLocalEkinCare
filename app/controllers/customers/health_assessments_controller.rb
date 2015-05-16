@@ -13,7 +13,7 @@ class Customers::HealthAssessmentsController < CustomerAppController
       @inbox=Inbox.find(@inbox_id)
       @inbox.update(status:true)
     end
-    @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{current_online_customer.id}")
+    @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{current_online_customer.id} order by doctor_comments.created_at DESC")
     # @comments = DoctorComment.includes(:note).where(customer_id: current_online_customer.id).all
     if @type == 'Body'
       @body_assessments = current_online_customer.health_assessments.body_assessment_done
@@ -40,7 +40,7 @@ class Customers::HealthAssessmentsController < CustomerAppController
       @inbox=Inbox.find(@inbox_id)
       @inbox.update(status:true)
     end
-    @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{current_online_customer.id}")
+    @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{current_online_customer.id} order by doctor_comments.created_at DESC")
     if @type == 'Body'
       @body_assessments = current_online_customer.health_assessments.body_assessment_done
       @body_assessment = HealthAssessment.find(@id)
@@ -64,6 +64,7 @@ class Customers::HealthAssessmentsController < CustomerAppController
     @doctor_comment.notes_id = notes.id
     @doctor_comment.customer_id = current_online_customer.id
     @doctor_comment.save
+    Notification.post_comments_second_opinion(current_online_customer.first_name, @doctor_comment.doctor_name, current_online_customer.email).deliver!
     redirect_to :back
   end
 
