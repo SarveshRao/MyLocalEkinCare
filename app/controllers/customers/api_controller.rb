@@ -28,20 +28,39 @@ class Customers::ApiController < BaseApiController
   end
 
   def login_otp
-    @mobile_number = params[:mobile_number]
-    @customer = Customer.find_by_mobile_number(@mobile_number)
-    if @customer
-      # Add otp generation logic here
-      @isValid = true
-      @customer.otp = @customer.otp_code.to_s()
-      @customer.otp_expire = Time.now() + 15.minutes
-    end
-    if @isValid
-      Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ @customer.mobile_number+'&sender=EKCARE&message=OTP: Dear '+ @customer.first_name+', your eKincare otp is '+ @customer.otp+'. Call 8886783546 for questions.')))
-      render json: @customer.to_json(:include => [:customer_vitals, :family_medical_histories], :methods => [:otp, :otp_expire])
+    if params[:mobile_number] != '9000513355'
+      @mobile_number = params[:mobile_number]
+      @customer = Customer.find_by_mobile_number(@mobile_number)
+      if @customer
+        # Add otp generation logic here
+        @isValid = true
+        @customer.otp = @customer.otp_code.to_s()
+        @customer.otp_expire = Time.now() + 15.minutes
+      end
+      if @isValid
+        Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ @customer.mobile_number+'&sender=EKCARE&message=OTP: Dear '+ @customer.first_name+', your eKincare otp is '+ @customer.otp+'. Call 8886783546 for questions.')))
+        render json: @customer.to_json(:include => [:customer_vitals, :family_medical_histories], :methods => [:otp, :otp_expire])
+      else
+        render :status => 401, :json => { :error => "The mobile number you provided is not registered with ekincare" }
+      end
     else
-      render :status => 401, :json => { :error => "The mobile number you provided is not registered with ekincare" }
+      # For IOS default login OTP, need to be removed after apple approves the app
+      @mobile_number = params[:mobile_number]
+      @customer = Customer.find_by_mobile_number(@mobile_number)
+      # if @customer
+      #   # Add otp generation logic here
+      #   @isValid = true
+      #   @customer.otp = @customer.otp_code.to_s()
+      #   @customer.otp_expire = Time.now() + 15.minutes
+      # end
+      # if @isValid
+      #   Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ @customer.mobile_number+'&sender=EKCARE&message=OTP: Dear '+ @customer.first_name+', your eKincare otp is '+ @customer.otp+'. Call 8886783546 for questions.')))
+      render json: @customer.to_json(:include => [:customer_vitals, :family_medical_histories])
+      # else
+      #   render :status => 401, :json => { :error => "The mobile number you provided is not registered with ekincare" }
+      # end
     end
+
   end
 
   def upload_documents

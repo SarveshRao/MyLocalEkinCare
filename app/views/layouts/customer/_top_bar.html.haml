@@ -122,6 +122,8 @@
                   = f.text_field :doctor_mobile_number, class: 'form-control no-border numeric', placeholder: 'Enter doctor mobile number', required: true, 'data-parsley-minlength' => '10', 'data-parsley-trigger' => 'focusout'
                 .list-group-item
                   = f.email_field :doctor_email, class: 'form-control no-border', required: true, "data-parsley-trigger" => "focusout", placeholder: 'Enter doctor email'
+                  %ul.parsley-error-list#error_label
+                    %li.type{:style => "display: list-item;"} Please fill all the feilds.
               .padder-10
                 %a.pull-right.btn.btn-primary#send_to_doctor{href: "#", type: "submit"} Send
     -#%li.hidden-xs
@@ -170,12 +172,22 @@
 
 :javascript
   $(document).ready(function(){
+    $('#error_label').hide();
     $('#share_with_doctor_form').parsley();
 
     //$('#share_with_doctor_form label').hide();
     $('#send_to_doctor').click(function(){
       if(validateInputs())
+      {
+        $('#error_label').hide();
         $('#share_with_doctor_form').submit();
+        //We can clear all fields after submit
+      }
+      else
+      {
+        $('#error_label').show();
+        return false;
+      }
     });
 
     $('#share_with_doctor_form input[type=text]').blur(function(){

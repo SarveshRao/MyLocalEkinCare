@@ -147,6 +147,7 @@ class Customers::RegistrationsController < Devise::RegistrationsController
   def accept_signup_with_xhr_new
     build_resource(sign_up_params)
     if resource.save
+      CustomerVitals.create(customer_id: resource.id)
       yield resource if block_given?
       if resource.active_for_authentication?
         sign_up(resource_name, resource)
@@ -155,7 +156,6 @@ class Customers::RegistrationsController < Devise::RegistrationsController
         expire_data_after_sign_in!
         failure_msg
       end
-      CustomerVitals.create(customer_id: resource.id)
     else
       clean_up_passwords resource
       failure_msg

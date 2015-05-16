@@ -506,3 +506,16 @@ $ ->
 
   $('.lab-result-delete-row').click (event) ->
     deleteLabResultRow(event)
+$ ->
+  $('.doctor-name-save-btn').click ->
+    if $('#health_assessment_doctor_name').val() == ''
+      alert 'Please enter doctor name'
+      false
+    else
+      true
+  $('.test_result_save').click ->
+    if $('#test_result').val() == ''
+      alert 'Please enter result'
+      false
+    else
+      true

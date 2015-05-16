@@ -60,6 +60,13 @@
 :javascript
   $(document).ready(function(){
     $('.current_year').text("\© " + new Date().getFullYear() + " eKincare");
+
+    if($.cookie('mobile_number') != null)
+    {
+      $('#mobile_number').val($.cookie('mobile_number'));
+      $( "#otp_code" ).focus();
+    }
+
     //Mobile number validation
     $(".numeric").keydown(function (e) {
       // Allow: backspace, delete, tab, escape, enter and .
@@ -94,6 +101,7 @@
     });
 
     $('#mobile_number').blur(function(){
+      $.cookie('mobile_number', $('#mobile_number').val());
       if(/^\d{10}$/.test($(this).val()))
         sendOTP($(this));
     });

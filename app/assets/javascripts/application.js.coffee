@@ -1,6 +1,7 @@
 #= require jquery
 #= require jquery-ui.min
 #= require jquery_ujs
+#= require jquery.cookie
 #= require jquery.remotipart
 #= require ekincare
 #= require validations

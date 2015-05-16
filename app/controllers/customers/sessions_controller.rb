@@ -52,7 +52,9 @@ class Customers::SessionsController < Devise::SessionsController
       sign_in(resource_name, self.resource)
       redirect_to after_sign_in_path_for(self.resource)
     else
-      render 'customers/sessions/sign_in_doctor_get'
+      set_flash_message(:error, :wrong_otp) if is_flashing_format?
+      redirect_to :back
+      # render 'customers/sessions/sign_in_doctor_get'
     end
   end
 
