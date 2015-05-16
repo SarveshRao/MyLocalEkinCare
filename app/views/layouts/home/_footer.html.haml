@@ -1,0 +1,69 @@
+:javascript
+  var TConnecto = TConnecto || {};
+  _TConnecto.licenseKey = 'K2U3X0E59YTWVQDY';
+
+  (function() {
+    var con = document.createElement('script'); con.type = 'text/javascript';
+    var host = (document.location.protocol === 'http:') ? 'http://cdn' : 'https://server';
+    con.src = host + '.connecto.io/javascripts/connect.prod.min.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(con, s);
+  })();
+
+%footer{:role => "contentinfo"}
+  .row
+    .row-content.buffer.clear-after
+      %section#top-footer
+        .widget.column.four
+          -#/ la class="widget" è forse generata utomaticamente da wp
+          %h4 Company
+          %ul.plain
+            %li
+              %a{:href => team_about_index_path}
+                Team
+            -#%li
+            -#  %a{:href =>"#"}
+            -#    Press
+            %li
+              %a{:href => "http://ekincare.wordpress.com", :target => "_blank"}
+                Blog
+            %li
+              %a{:href => "https://angel.co/ekincare/jobs", :target => "_blank"}
+                Jobs
+        .widget.column.four
+          %h4 Support
+          %ul.plain
+            %li
+              %a{:href => contact_us_about_index_path}
+                Contact Us
+            %li
+              %a{:href => faq_about_index_path}
+                FAQ
+            -#%li
+            -#  %a{:href => "#"}
+            -#    Legal
+            %li
+              %a{:href => terms_and_conditions_about_index_path}
+                Terms &amp; Conditions
+        .widget.meta-social.column.four
+          %h4 Follow Us
+          %ul.inline
+            %li
+              %a.facebook-share.border-box{:href => "https://www.facebook.com/ekincare"}
+                %i.fa.fa-facebook.fa-lg
+            %li
+              %a.twitter-share.border-box{:href => "https://twitter.com/ekincaredotcom"}
+                %i.fa.fa-twitter.fa-lg
+
+      -#/ top-footer
+      = render partial: '/layouts/home/ga'
+      %section#bottom-footer
+        %p.keep-left
+          %span.current_year_copy
+          = succeed "." do
+            %a{:alt => "eKincare", :href => "http://ekincare.com/"} Aayuv Technologies Private Limited.All Rights Reserved.
+
+:javascript
+  $(document).ready(function(){
+    $('.current_year_copy').text("\© " + new Date().getFullYear());
+  });

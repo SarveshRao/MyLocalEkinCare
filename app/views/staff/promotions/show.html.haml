@@ -1,0 +1,30 @@
+= content_for :title, 'PromoCodes Listing'
+
+#content
+  .vbox
+    %h4.panel-heading.no-padder
+      %a.font-bold{href: "#"}
+        Promo Codes &nbsp;&nbsp;
+    .scrollable
+      %section.panel.panel-default
+        .table-responsive
+          %table.table.table-striped.b-t.b-light#customer_list
+            %thead
+              %tr
+                %th Code
+                %th Promotion
+                %th Created
+                %th Updated
+            %tbody
+              - @promo_code.each do |promo_code|
+                %tr{class: 'customer-row', url:'#'}
+                  %td
+                    = promo_code.code
+                  %td
+                    = Promotion.find(promo_code.promotion_id).title
+                  %td
+                    = formatted_date promo_code.created_at
+                  %td
+                    = formatted_date promo_code.updated_at
+
+  %a.hide.nav-off-screen-block{"data-target" => "#nav", "data-toggle" => "class:nav-off-screen", href: "#"}

@@ -1,0 +1,15 @@
+%td
+  = @promo_code.code
+%td
+  -unless(@promo_code.partner_id.nil?)
+    = Partner.find(@promo_code.partner_id).title
+%td
+  -if(@promo_code.status==true)
+    used
+  -else
+    unused
+%td
+  %a.pull-right.dropdown-toggle.edit-promo-code-result-pencil{"data-toggle" => "dropdown", href: "#"}
+    %i.fa.fa-pencil
+%td
+  -

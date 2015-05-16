@@ -1,0 +1,28 @@
+.top-bar
+  .container
+    .row
+      .col-sm-7.col-md-7
+        .call-us.top-bar-block
+          %i.icon-phone
+          %span
+            Call: 888-678-EKIN (3546)
+        .mail-us.top-bar-block
+          %i.icon-email
+          %span
+            E-mail: info@ekincare.com
+      .col-sm-5.col-md-5
+        -#/ Search Box
+        -#.searchbox
+        -#  %form{:action => "#", :method => "get"}
+        -#    %input#searchbox-inputtext.searchbox-inputtext{:name => "s", :placeholder => "Search..", :type => "text"}/
+        -#    %label.searchbox-icon{:for => "searchbox-inputtext"}
+        -#    %input.searchbox-submit{:type => "submit", :value => "Search"}/
+        -#/ //Search Box//
+        .social-icons
+          %ul
+            %li
+              %a.social-media-icon.facebook-icon{"data-original-title" => "facebook", :href => "https://www.facebook.com/ekincare", :target => "_blank"} facebook
+            %li
+              %a.social-media-icon.twitter-icon{"data-original-title" => "twitter", :href => "https://twitter.com/ekincaredotcom", :target => "_blank"} twitter
+            %li
+              %a.social-media-icon.googleplus-icon{"data-original-title" => "googleplus", :href => "https://google.com/+Ekincaredotcom", :target => "_blank"} googleplus

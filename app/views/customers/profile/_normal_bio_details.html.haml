@@ -1,0 +1,131 @@
+%div#normal_bio_details_div
+  .row.m-b#normal_bio_details_view
+    .col-md-10
+      .vbox.row.padder-v
+        .col-xs-4
+          %small Name
+          .text-lt.font-bold
+            = @customer.name || '-'
+        .col-xs-4
+          %small D.O.B
+          .text-lt.font-bold
+            = formatted_date @customer.date_of_birth rescue ''
+        .col-xs-4
+          %small Age
+          .text-lt.font-bold
+            = @customer.age['year']  || '-'
+      .vbox.row.padder-v
+        .col-xs-4
+          %small Gender
+          .text-lt.font-bold
+            = @customer.gender || '-'
+        .col-xs-4
+          %small Number of children
+          .text-lt.font-bold
+            = @customer.number_of_children || '-'
+        .col-xs-4
+          %small Blood Group
+          .text-lt.font-bold
+            = @customer.customer_vitals.blood_group.blood_type rescue '-'
+      .vbox.row.padder-v
+        .col-xs-4
+          %small Height
+          .text-lt.font-bold
+            = @customer.height || '-'
+        .col-xs-4
+          %small  Weight
+          .text-lt.font-bold
+            = @customer.customer_vitals.weight || '-'
+        .col-xs-4
+          %small Medical Insurance
+          .text-lt.font-bold
+            = @customer.medical_insurance || '-'
+      .vbox.row.padder-v
+        .col-xs-4
+          %small Customer Type
+          .text-lt.font-bold
+            = @customer.customer_type ||= '-'
+    - if session['is_customer']
+      .vbox.row.padder-v.p-l
+        %a.btn.btn-primary#customer_bio_edit_btn
+          %i.fa.fa-pencil
+          Edit
+  .row.m-b.hide#edit_bio_form
+    .col-md-6
+      = form_for @customer, url: "profile/edit", method: "patch", remote: true, html: {id: 'edit_customer_bio_form'}  do |f|
+        .form-group
+          = f.label 'First Name'
+          %sup.text-danger
+            *
+          = f.text_field :first_name,{class: 'form-control parsley-validated', 'data-required' => 'true', autofocus: true}
+
+        .form-group
+          = f.label 'Last Name'
+          %sup.text-danger
+            *
+          = f.text_field :last_name,{class: 'form-control parsley-validated', 'data-required' => 'true'}
+
+        .form-group
+          %label D.O.B
+          %sup.text-danger
+            *
+          //= f.text_field :date_of_birth, {value: numeric_date_format(current_online_customer.date_of_birth), class: 'input-sm input-s datepicker-input form-control datepicker', 'data-date-format' => 'dd-mm-yyyy', 'data-required' => 'true', placeholder: 'dd-mm-yyyy'}
+          = f.text_field :date_of_birth, {value: numeric_date_format(@customer.date_of_birth), class: 'input-sm input-s datepicker-input form-control datepicker','readonly' => 'readonly', 'data-date-format' => 'dd-mm-yyyy', 'data-required' => 'true', placeholder: 'dd-mm-yyyy'}
+
+        .form-group
+          %label Gender
+          .radio.i-checks.parsley-validated
+            %label
+              = f.radio_button :gender, :Male, checked: true
+              %i
+              Male
+            %label
+              = f.radio_button :gender, :Female
+              %i
+              Female
+
+        .form-group
+          = f.label 'Number of Children'
+          = f.text_field :number_of_children, {class: 'form-control', 'data-type' => 'number'}
+
+        .form-group
+          .form-group
+            = f.label 'Blood Group'
+            = select_tag 'blood_group_id', options_for_select(BloodGroup.all.collect{|b| [b.blood_type, b.id]}.insert(0, 'select'), selected: @customer.customer_vitals.blood_group_id), {class: 'form-control parsley-validated'}
+        .form-group
+          = f.label :height
+          .row
+            .col-md-6
+              .input-group
+                = f.text_field :feet, {value: @customer.customer_vitals.feet, class: 'form-control'}
+                %span.input-group-btn
+                  %button.btn.btn-default.test_component_units{type: "button", class: "unit"}
+                    feet
+
+            .col-md-6
+              .input-group
+                = f.text_field :inches, {value: @customer.customer_vitals.inches, class: 'form-control'}
+                %span.input-group-btn
+                  %button.btn.btn-default.test_component_units{type: "button", class: "unit"}
+                    inches
+
+        .form-group
+          = f.label :weight
+          .input-group
+            = f.text_field :weight, {value: @customer.customer_vitals.weight, class: 'form-control'}
+            %span.input-group-btn
+              %button.btn.btn-default.test_component_units{type: "button", class: "unit"}
+                Kgs
+
+        .form-group
+          = f.label 'Medical Insurance'
+          = f.select :medical_insurance, options_for_select(['No', 'Yes'], selected: @customer.medical_insurance), {}, {class: 'form-control'}
+
+        .form-group
+          = f.label 'Customer Type'
+          = f.select :customer_type, options_for_select(['Self', 'Sponsored'], selected: @customer.customer_type), {}, {class: 'form-control'}
+
+
+        .form-group
+          = f.submit 'save', {class:'btn btn-sm small-btn btn-primary'}
+          %a{class: 'btn btn-sm small-btn btn-danger customer-bio-cancel-btn'} cancel

@@ -1,0 +1,53 @@
+%tr
+  %td
+    = @appointment.appointmentee.health_assessment_id rescue '-'
+  %td
+    = formatted_date @appointment.appointment_date
+  %td
+    = full_time @appointment.date
+  %td
+    = @appointment.description
+  %td
+    = @appointment.partner_id
+  %td
+    .address
+      = @appointment.appointment_location
+    .c-address.hide
+      %p At Home
+
+  %td
+    %a.pull-right.dropdown-toggle.edit-appointment-pencil{"data-toggle" => "dropdown", href: "#"}
+      %i.fa.fa-pencil
+  %td
+    %a.pull-right.dropdown-toggle.appointment-delete-row{"data-toggle" => "dropdown", href: "#"}
+      %i.i.i-trashcan
+
+%tr.edit_appointments_row.hide
+  = form_for @appointment, remote: true,url: customer_customers_appointment_path(@customer, @appointment) do |f|
+    - assessment_id = @appointment.appointmentee.id rescue '-'
+    %td
+      = f.select :health_assessment_id, options_for_select(@customer.health_assessments.collect{|ha| [ha.health_assessment_id, ha.id]}, selected: assessment_id),{include_blank: 'Select'}, {class: 'form-control appointment-ha-select'}
+    %td
+      = f.text_field :appointment_date, {class: 'input-sm input-s form-control datepicker', 'data-date-format' => 'dd-mm-yyyy', 'data-required' => 'true', placeholder: 'dd-mm-yyyy'}
+    %td
+      = f.time_field :time, {class: 'form-control time', value: @appointment.time}
+    %td
+      = f.text_area :description, {class: 'appointment-description form-control'}
+    %td
+      = check_box_tag :customer_address, :true, @appointment.customer_address, { class: 'customer-address'}
+      self
+      %br
+      - if @appointment.appointment_provider
+        - provider_id = @appointment.appointment_provider.provider_id
+      = select_tag :provider_id, options_for_select(Provider.all.collect{|p| [p.provider_id, p.id]}, provider_id), {class: 'form-control select-provider', prompt: 'select provider'}
+    %td
+      .address
+        = @appointment.appointment_location
+      .c-address.hide
+        %p At Home
+
+    %td
+      = f.submit 'save',{class: 'btn btn-sm small-btn btn-primary save-edit-form'}
+    %td
+      %a{class: 'btn btn-sm small-btn btn-danger appointments-cancel-btn'} cancel
+      %input{type: 'reset', class: 'hide reset-appointments-btn'}

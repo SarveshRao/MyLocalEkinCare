@@ -1,0 +1,57 @@
+%div#normal_life_style_details_div
+  .row.m-b#normal_life_style_details_view
+    .col-md-10
+      .vbox.row.padder-v
+        .col-xs-4
+          %small Daily Activity
+          .text-lt.font-bold
+            = @customer.daily_activity || '-'
+        .col-xs-4
+          %small Frequency Of Excercise
+          .text-lt.font-bold
+            = @customer.frequency_of_exercise || '-'
+        .col-xs-4
+          %small Smoke
+          .text-lt.font-bold
+            = @customer.smoke || '-'
+      .vbox.row.padder-v
+        .col-xs-4
+          %small Alcohol
+          .text-lt.font-bold
+            = @customer.alcohol || '-'
+        .col-xs-4
+          %small Diet
+          .text-lt.font-bold
+            = @customer.diet || '-'
+        .col-xs-4
+    - if session['is_customer']
+      .vbox.row.padder-v.p-l
+        %a.btn.btn-primary#customer_life_style_edit_btn
+          %i.fa.fa-pencil
+          Edit
+  .row.m-b.hide#edit_life_style_form
+    .col-md-6
+      = form_for @customer, url: "profile/edit", method: "patch", remote: true, html: {id: 'edit_customer_life_style_form'}  do |f|
+        .form-group
+          = f.label 'Daily Activity'
+          = f.select :daily_activity, options_for_select(['Sedentary', 'Moderate', 'Active'], selected: @customer.daily_activity), {}, {class: 'form-control'}
+
+        .form-group
+          = f.label 'Frequency of Exercise'
+          = f.select :frequency_of_exercise, options_for_select(['Daily', 'Occasionally', 'Never'], selected: @customer.frequency_of_exercise), {}, {class: 'form-control'}
+
+        .form-group
+          = f.label :smoke
+          = f.select :smoke, options_for_select(['Frequently', 'Occasionally', 'Never'], selected: @customer.smoke), {}, {class: 'form-control'}
+
+        .form-group
+          = f.label :alcohol
+          = f.select :alcohol, options_for_select(['Frequently', 'Occasionally', 'Never'], selected: @customer.alcohol), {}, {class: 'form-control'}
+
+        .form-group
+          = f.label :diet
+          = f.select :diet, options_for_select(['Vegetarian', 'Non Vegetarian', 'Vegan'], selected: @customer.diet), {include_blank: 'Select'}, {class: 'form-control'}
+
+        .form-group
+          = f.submit 'save', {class:'btn btn-sm small-btn btn-primary'}
+          %a{class: 'btn btn-sm small-btn btn-danger customer-life-style-cancel-btn'} cancel

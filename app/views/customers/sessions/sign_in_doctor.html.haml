@@ -1,0 +1,91 @@
+= javascript_include_tag "jquery"
+= content_for :title, 'Second Opinion'
+
+%section#content.m-t-lg.wrapper-md.animated.fadeInUp
+  .container.aside-xl
+    %section.m-b.p-b
+      %header.text-center
+        %a.h3.font-bold{href: root_path} eKincare
+    %section.m-b-lg
+      = form_for(DoctorOpinion.new, url: second_opinion_path) do |f|
+        %input{:name => "customer_id", :type => "hidden", :value => @customer_id}/
+        .list-group
+          .list-group-item.after_mobile_number_entry
+            = f.text_field :otp, {id: 'otp_code', class: 'numeric form-control no-border p-t-n', placeholder: 'One Time Password',autofocus: true, required: true, minlength: 6}
+        = f.submit 'Sign in', {class: 'btn btn-lg btn-primary btn-block after_mobile_number_entry'}
+%footer#footer
+  .text-center.padder
+    %p
+      %small.current_year
+
+:javascript
+  $(document).ready(function(){
+    $('.current_year').text("\© " + new Date().getFullYear() + " eKincare");
+    //Mobile number validation
+    $(".numeric").keydown(function (e) {
+      // Allow: backspace, delete, tab, escape, enter and .
+      if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+              // Allow: Ctrl+A
+          (e.keyCode == 65 && e.ctrlKey === true) ||
+              // Allow: home, end, left, right, down, up
+          (e.keyCode >= 35 && e.keyCode <= 40)) {
+          // let it happen, don't do anything
+          return;
+      }
+      // Ensure that it is a number and stop the keypress
+      if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+          e.preventDefault();
+      }
+
+      if($(this).attr('id') == 'mobile_number')
+      {
+        var pattern_mobile_number = /^\d{10}$/;
+        if (pattern_mobile_number.test($(this).val())) {
+          e.preventDefault();
+        }
+      }
+
+      if($(this).attr('id') == 'otp_code')
+      {
+        var pattern_otp = /^\d{6}$/;
+        if (pattern_otp.test($(this).val())) {
+          e.preventDefault();
+        }
+      }
+    });
+
+    $('#mobile_number').blur(function(){
+      if(/^\d{10}$/.test($(this).val()))
+        sendOTP($(this));
+    });
+
+    $("#send_otp_link").click(function(){
+      sendOTP($(this));
+    });
+
+    var sendOTP = function(that){
+      $.ajax({
+        type: "POST",
+        url: $(that).attr('ajax_path'),
+        data: {mobile_number: $('#mobile_number').val()},
+        success: function(page){
+          if(page.statusCode == 404)
+          {
+            $('#invalid_user_id, #signed_out').remove();
+            $('.alert.alert-danger.text-center, .alert.alert-success.text-center').remove();
+            var invalid_user = $('<div id="invalid_user_id" class="alert alert-danger text-center"> <button class="close" data-dismiss="alert" type="button">×</button> <i class="fa fa-ok-sign"></i> Mobile number you have entered is not registered with eKincare. Please register before you login. </div>');
+            $('#content').prepend(invalid_user);
+          }
+          if(page.statusCode == 200)
+          {
+            var received_otp = $('<div id="signed_out" class="alert alert-success text-center"> <button class="close" data-dismiss="alert" type="button">×</button> <i class="fa fa-ok-sign"></i> We have sent OTP to your mobile. Please enter the OTP to login. OTP is valid only for next 15 minutes </div>');
+            $('#content').prepend(received_otp);
+          }
+        },
+        error: function(data){
+          console.log(data);
+        },
+        dataType: 'json'
+      });
+    };
+  });

@@ -1,0 +1,44 @@
+= content_for :title, 'Customers'
+%div.clearfix.breadcrumb
+  %ol.padder
+    = render_breadcrumbs :separator => ' / '
+    %small.pull-right
+      contact: 888-678-EKIN (3546) /
+      %a{href: 'mailto:help@ekincare.com'} help@ekincare.com
+
+#content
+  .vbox.padder
+    %h4.padder-v
+      %a.font-bold{href: "#"}
+        Customer Listing
+    .scrollable
+      %section.panel.panel-default
+        .table-responsive
+          %table.table.table-striped.b-t.b-light#customer_list
+            %thead
+              %tr
+                %th Registration Date
+                %th Customer ID
+                %th Customer Name
+                %th Phone
+                %th Email
+                %th Date Of Birth
+                %th Wizard Status
+            %tbody
+              -if(@customers_list.empty? ==false)
+                -  @customers_list.each do |customer|
+                  %tr{class: 'customer-row', url: staff_customer_provider_path(customer)}
+                    %td
+                      = formatted_date customer.created_at
+                    %td
+                      = customer.id
+                    %td
+                      = customer.name
+                    %td
+                      = customer.mobile_number
+                    %td
+                      = customer.email
+                    %td
+                      = customer.date_of_birth
+                    %td
+                      =customer.status

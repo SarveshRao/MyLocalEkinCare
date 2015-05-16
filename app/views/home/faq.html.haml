@@ -1,0 +1,131 @@
+= content_for :title, 'FAQ'
+
+- content_for :zopim_chat do
+  :javascript
+    window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
+    d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+    _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute('charset','utf-8');
+    $.src='//v2.zopim.com/?2Um2B0Y0KEgOyEsT8WLIjMFjSeBkufvQ';z.t=+new Date;$.
+    type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
+
+/ //Header//
+.top-title-wrapper
+  .container
+    .row
+      .col-md-12.col-sm-12
+        .page-info
+          %h1.h1-page-title F.A.Q.
+          %h2.h2-page-desc
+            Do you have Any question for us?
+/ .top wrapper end
+.loading-container
+  .spinner
+    .double-bounce1
+    .double-bounce2
+.content-wrapper.hide-until-loading
+  .body-wrapper
+    .container
+      .row
+        .col-md-12.col-sm-12.animated{"data-animrepeat" => "0", "data-animtype" => "flipInY", "data-delay" => "0.5s", "data-speed" => "1s"}
+          %h2.h2-section-title We have answers
+          .i-section-title
+            %i.icon-lifebuoy
+          .space-sep20
+      .row
+        .col-md-8.col-sm-8
+          .accordion.accordion2{"data-active-index" => "", "data-toggle" => "on"}
+            .accordion-row
+              .title
+                .open-icon
+                %h4 What is eKincare?
+              .desc eKincare is an offline and online solution to assess, track and stay informed about your well-being with minimal effort. Our dashboard allows you to store all your medical information in one place. Color coded data and graphical views make it easier to monitor health.
+            .accordion-row
+              .title
+                .open-icon
+                %h4 Who can register for eKincare?
+              .desc Anyone who wants to take charge of their health and their family’s health. Research has shown that when consumers actively participate in their own care, the outcomes are better, inexpensive and more responsive.
+            .accordion-row
+              .title
+                .open-icon
+                %h4 I am healthy, why would I subscribe to eKincare?
+              .desc In short, you have nothing to lose and everything to gain. In India, 52% of people aren’t aware that they have diabetes and 67%  didn’t know they were suffering from high blood pressure until they were diagnosed. 70% of urban Indians are at risk of heart diseases. With the rise in chronic diseases, regular body, dental and vision checks can help diagnose problems before they start and can help detect problems early, when your chances for cure are better.
+            .accordion-row
+              .title
+                .open-icon
+                %h4 Why would I want to digitize my past medical records?
+              .desc
+                %p In short, you have nothing to lose and everything to gain. In India, 52% of people aren’t aware that they have diabetes and 67%  didn’t know they were suffering from high blood pressure until they were diagnosed. 70% of urban Indians are at risk of heart diseases. With the rise in chronic diseases, regular body, dental and vision checks can help diagnose problems before they start and can help detect problems early, when your chances for cure are better.
+                %p Having them in one place reduces and eliminate duplicate procedures and processes, which can save you time and money. And the information you gather gives you knowledge and assists you in being prepared for doctor appointments.
+            .accordion-row
+              .title
+                .open-icon
+                %h4 How much does it cost?
+              .desc Nothing, it’s free.
+            .accordion-row
+              .title
+                .open-icon
+                %h4 Why digitize with eKincare?
+              .desc
+                With eKincare you can:
+
+                %ul
+                  %li
+                    Knowledgeably discuss your health with healthcare providers
+                  %li
+                    Provide a quick snapshot of your medical condition to new doctors
+                  %li
+                    Have easy access to your health information while traveling
+                  %li
+                    Record your progress toward specific health-related goals
+                  %li
+                    Refer to physician instructions, prescriptions, allergies, medications etc.
+                  %li
+                    Track appointments, vaccinations, and numerous other wellness healthcare services
+
+            .accordion-row
+              .title
+                .open-icon
+                %h4 Where are your services currently offered?
+              .desc We currently offer our services across India through our health partners.
+            .accordion-row
+              .title
+                .open-icon
+                %h4 I don't have a scanned copy of my reports. How do I upload my documents?
+              .desc
+                It's pretty simple. Follow the
+                = link_to "link", "http://youtu.be/0Z67UT6Er9Q", style: 'color: #279fbb'
+                for step by step instructions to get going.
+            .accordion-row
+              .title
+                .open-icon
+                %h4 I just uploaded my documents, what happens next?
+              .desc
+                %p Congratulations! You’ve taken your first step towards a healthier future. We will update your profile with the data from your records so that you can understand your past in a simple and useful format for better insights into your health. Our digitization process takes on an average 5  business days and we will notify you once your data is uploaded.
+                %p And, as a token of appreciation for taking this important step we would like to reward you with a free dental and vision check up which would otherwise cost you about Rs.500.
+            .accordion-row
+              .title
+                .open-icon
+                %h4 What if I want to delete my profile?
+              .desc
+                We really think you’ll like our program, but we understand that the realities of life can make it difficult to fully commit. If you’d like to cancel just send us an email at
+                = mail_to "info@eKincare.com", "info@eKincare.com", :style => "color:#279fbb;"
+                with the subject line “Cancellation” and your name, date of birth, registered phone number and address and we will process your cancellation immediately.
+            .accordion-row
+              .title
+                .open-icon
+                %h4 What privacy measures are in place?
+                .desc
+                  We understand that your personal health is private, and we take that seriously. You can find out more by reading our
+                  = link_to "privacy policies", "/home/terms_and_conditions", :style =>"color:#279fbb;"
+            .accordion-row
+              .title
+                .open-icon
+                %h4 Can I mail my medical records to eKincare instead of uploading?
+                .desc
+                  Surely you can. Give us a call at 888-678-EKIN (3546) and we will guide you through the next steps.
+
+        .col-md-4.col-sm-4
+          %h3.h3-body-title Couldn’t find the answer?
+          %button.btn.btn-lg{:href => "#"} Email at Info@eKincare.com
+          -#this link should poin to contact us page
+/ .content-wrapper end

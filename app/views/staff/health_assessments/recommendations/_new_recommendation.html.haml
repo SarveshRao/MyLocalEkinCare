@@ -1,0 +1,23 @@
+%tr
+  %td
+    = @recommendation.title
+  %td
+    = @recommendation.description
+  %td
+    %a.pull-right.dropdown-toggle.edit-recommendation-pencil{"data-toggle" => "dropdown", href: "#"}
+      %i.fa.fa-pencil
+  %td
+    %a.pull-right.dropdown-toggle.recommendation-delete-row{"data-toggle" => "dropdown", href: "#"}
+      %i.i.i-trashcan
+
+%tr.edit_recommendations_row.hide
+  = form_for @recommendation, remote: true, url: health_assessment_recommendation_path(@health_assessment, @recommendation) do |f|
+    %td
+      = f.text_area :title, {class: 'form-control time'}
+    %td
+      = f.text_area :description, {class: 'form-control '}
+    %td
+      = f.submit "save",{class: 'btn btn-sm small-btn btn-primary save-edit-recommendation-form'}
+    %td
+      %a{class: 'btn btn-sm small-btn btn-danger recommendations-cancel-btn'} cancel
+      %input{type: 'reset', class: 'hide reset-recommendations-btn'}

@@ -1,0 +1,46 @@
+= content_for :title, 'Enterprise Listing'
+
+%div.clearfix.breadcrumb
+  %ol.padder
+    = render_breadcrumbs :separator => ' / '
+    %small.pull-right
+      Contact: 888-678-EKIN (3546) /
+      %a{href: 'mailto:founder@ekincare.com'} founder@ekincare.com
+
+#content
+  .vbox.padder
+    %h4
+      %a.font-bold{href: "#"}
+        Enterprise Listing &nbsp;&nbsp;
+      %a.btn.btn-default.btn-s-mdsche.m-b-xs{href: new_staff_enterprise_path}
+        &nbsp;
+        %i.fa.fa-plus
+        &nbsp; New Enterprise &nbsp;&nbsp;
+    .scrollable
+      %section.panel.panel-default
+        .table-responsive
+          %table.table.table-striped.b-t.b-light#customer_list
+            %thead
+              %tr
+                %th ID
+                %th Name
+                %th Email
+                %th Phone
+                %th Contact
+            %tbody
+              - @enterprises.each do |enterprise|
+                %tr{class: 'customer-row', url: staff_providers_path(:enterprise_id => enterprise.id)}
+                  %td
+                    = enterprise.enterprise_id
+                  %td
+                    = enterprise.name
+                  %td
+                    = enterprise.staff != nil ? enterprise.staff.email : ''
+                  %td
+                    = enterprise.telephone
+                  %td
+                    = enterprise.staff != nil ? enterprise.staff.name : ''
+
+
+
+  %a.hide.nav-off-screen-block{"data-target" => "#nav", "data-toggle" => "class:nav-off-screen", href: "#"}

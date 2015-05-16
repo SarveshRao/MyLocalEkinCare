@@ -1,0 +1,50 @@
+= content_for :title, 'Profile'
+
+%div.clearfix.breadcrumb
+  %ol.padder
+    = render_breadcrumbs :separator => ' / '
+    %small.pull-right
+      Contact: 888-678-EKIN (3546) /
+      %a{href: 'mailto:founder@ekincare.com'} founder@ekincare.com
+
+%div{style: 'min-height: 1000px'}
+  - if flash[:notice]
+    .alert.alert-success
+      %button.close{"data-dismiss" => "alert", type: "button"} ×
+      %i.fa.fa-ok-sign
+      %strong
+        = flash[:notice]
+  %section.vbox
+    %section.scrollable.bg-white
+      .wrapper-lg.bg-light
+        = render partial: 'layouts/customer/profile_avatar'
+
+      - @customer_profile = false
+      - @bio = session[:bio]
+      - @life_style = session[:life_style]
+      - @contact = session[:contact]
+      - @current_complaints = session[:current_complaints]
+      - @customer_profile = true if(((@bio == false) && (@life_style == false) && (@contact == false) && (@current_complaints == false)) || @bio == nil)
+
+      %ul.nav.nav-tabs.m-b-n-xxs.bg-light
+        %li{class: "#{@bio ? 'active' : (@customer_profile ? 'active' : '')}",}
+          %a{"data-toggle" => "tab", href: "#bio"} Bio
+        %li{class: "#{@life_style ? 'active' : ''}"}
+          %a{"data-toggle" => "tab", href: "#lifestyle"} Life Style
+        %li{class: "#{@contact ? 'active' : ''}"}
+          %a{"data-toggle" => "tab", href: "#contact_info"} Contact Info
+        %li{class: "#{@current_complaints ? 'active' : ''}"}
+          %a{"data-toggle" => "tab", href: "#current_complaints"} Current complaints
+
+      .tab-content
+        #bio.tab-pane.wrapper-lg{class: "#{@bio ? 'active' : (@customer_profile ? 'active' : '')}",}
+          = render partial: 'normal_bio_details'
+
+        #lifestyle.tab-pane.wrapper-lg{class: "#{@life_style ? 'active' : ''}"}
+          = render partial: 'normal_life_style_details'
+
+        #contact_info.tab-pane.wrapper-lg{class: "#{@contact ? 'active' : ''}"}
+          = render partial: 'normal_contact_details'
+
+        #current_complaints.tab-pane.wrapper-lg{class: "#{@current_complaints ? 'active' : ''}"}
+          = render partial: 'normal_current_complaints_details'

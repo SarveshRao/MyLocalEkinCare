@@ -1,0 +1,16 @@
+A+:
+  blood_type: 'A+'
+A-:
+  blood_type: 'A-'
+B+:
+  blood_type: 'B+'
+B-:
+  blood_type: 'B-'
+AB+:
+  blood_type: 'AB+'
+AB-:
+  blood_type: 'AB-'
+O+:
+  blood_type: 'O+'
+O-:
+  blood_type: 'O-'

@@ -1,0 +1,23 @@
+= content_for :title, 'Payment Success'
+%div.clearfix.breadcrumb
+  %ol.padder
+    = render_breadcrumbs :separator => ' / '
+    %small.pull-right
+      Contact: 888-678-EKIN (3546) /
+      %a{href: 'mailto:founder@ekincare.com'} founder@ekincare.com
+%section.vbox
+  %section.scrollable.padder.row{:style => "height:1000px"}
+    .container
+      %section.col-sm-12
+        .text-center.payment-header.label.payment_text.label-danger.col-sm-11.m-b
+          %p Thank You! for transacting with eKincare
+        %div
+          .col-sm-7.col-sm-push-1
+            %img{:height => "50", :src => asset_path("payment_logo.png"), :width => "170"}
+              %br
+                %p.payment_mar-left
+                  = "Dear "+@name
+                %br
+                  %p.payment_mar-left.payment-p.payment-alert
+                    = "Your payment has been failed...because of "+@error
+

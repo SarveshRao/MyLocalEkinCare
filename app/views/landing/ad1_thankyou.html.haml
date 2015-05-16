@@ -1,0 +1,105 @@
+%noscript
+  %img{:alt => "", :height => "1", :src => "https://www.facebook.com/tr?ev=6018925183908&cd[value]=0.00&cd[currency]=USD&noscript=1", :style => "display:none", :width => "1"}/
+.wrapper
+  .header
+    .logo
+      %img{:src => asset_path("landing/Logo.png")}/
+    .call
+      %img{:src => asset_path("landing/Call.png")}/
+  .banner
+    .bdata
+      %h1 TIRED OF MANAGING THOSE BULKY MEDICAL REPORTS?
+      %p Digitize your reports and access them anywhere and anytime!
+    .form
+      .fheader
+        %p THANK YOU!
+      %br/
+      %p.thank We are glad that you are taking a proactive approach towards your healthier future by registering with eKincare.
+      %p.confirm A confirmation email has been sent to the registered email. Please verify to move forward.
+  .content
+    %p ALL YOUR MEDICAL HISTORY IN ONE PLACE
+    .video
+      %p EXTRA BENEFITS OF OUR ONLINE MEDICAL RECORDS
+      %div
+        %img{:src => asset_path("landing/Element01.png")}/
+      %div
+        %img{:src => asset_path("landing/Element02.png")}/
+      %div
+        %img{:src => asset_path("landing/Element03.png")}/
+      %div
+        %img{:src => asset_path("landing/Element04.png")}/
+    .vcont
+      %p EASY ACCESS TO A NETWORK OF 1500+ CENTRES
+      %br/
+      %div
+        %img{:src => asset_path("landing/VasanEyeCare.png")}/
+      %div
+        %img{:src => asset_path("landing/VijayaDiagnostic.png")}/
+      %div
+        %img{:src => asset_path("landing/ApolloWhite.png")}/
+      %div
+        %img{:src => asset_path("landing/Thyrocare.png")}/
+      %div
+        %img{:src => asset_path("landing/ParthaDental.png")}/
+      %div
+        %img{:src => asset_path("landing/Maxivision.png")}/
+      %br{:clear => "both"}/
+      %p#hit HOW IT WORKS
+      .imge
+        %img{:src => asset_path("landing/Element05.png")}/
+      .imge
+        %img.arrow.arrow1{:src => asset_path("landing/Arrow.png")}/
+      .imge
+        %img{:src => asset_path("landing/Element06.png")}/
+      .imge
+        %img.arrow.arrow2{:src => asset_path("landing/Arrow.png")}/
+      .imge
+        %img{:src => asset_path("landing/Element07.png")}/
+  %br{:clear => "both"}/
+  .services
+    %p WE ARE OFFERING A RANGE OF INTRODUCTORY OFFERS
+    %br/
+    %li Offer 1 - Rs.69 instead of Rs.250: Routine Vision Checkup
+    %li Offer 2 - Rs.69 instead of Rs.250: Routine Dental Checkup
+    %li Offer 3 - Rs.99 instead of Rs.500: Routine Vision & Dental Checkup
+    %li Offer 4 - Rs.599 instead of Rs.3100: Routine Body (30+ Tests), Vision & Dental Checkup
+    %li Offer 5 - Rs.999 instead of Rs.3500: Routine Body (60+ Tests), Vision & Dental Checkup
+    %center
+      %a{:href => ""}
+        %img{:src => asset_path("landing/AvailNow_Button.png")}/
+  .footer
+    %p
+
+%script{:src => "//code.jquery.com/jquery-1.11.0.min.js"}
+:javascript
+  jQuery(document).ready(function(){
+      jQuery('#frm').submit(function(){
+          var fname  = jQuery.trim(jQuery('#fname').val());
+          var lname  = jQuery.trim(jQuery('#lname').val());
+          var email  = jQuery.trim(jQuery('#email').val());
+          var dob  = jQuery.trim(jQuery('#dob').val());
+          var gender  = jQuery.trim(jQuery('input[name="gender"]:radio:checked').val());
+          var pass  = jQuery.trim(jQuery('#pass').val());
+          if(fname.length>0 && lname.length>0 && email.length>0 && dob.length>0 && gender.length>0 && pass.length){
+              return true;
+          }else{
+          alert('All Fields Required');
+              return false;
+          }
+
+      });
+  });
+
+  (function() {
+    var _fbq = window._fbq || (window._fbq = []);
+    if (!_fbq.loaded) {
+      var fbds = document.createElement('script');
+      fbds.async = true;
+      fbds.src = '//connect.facebook.net/en_US/fbds.js';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(fbds, s);
+      _fbq.loaded = true;
+    }
+  })();
+  window._fbq = window._fbq || [];
+  window._fbq.push(['track', '6018925183908', {'value':'0.00','currency':'USD'}]);

@@ -1,0 +1,24 @@
+= content_for :title, 'Set password'
+
+%section#content.m-t-lg
+  .container.aside-xl.text-center
+    %section
+      %header.text-center
+        %a.h3.font-bold{href: root_path} eKincare
+    %header.wrapper
+      %strong
+        Set your password
+    %section.m-b-lg
+      = form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => { :method => :put } do |f|
+        %small
+          - unless resource.errors.empty?
+            .text-danger.m-b
+              = resource.errors.full_messages.map { |msg| msg }.join('<br>').html_safe
+        = f.hidden_field :invitation_token
+        .list-group
+          .list-group-item
+            = f.password_field :password, class: 'form-control no-border parsley-validated',required: true, autofocus: true,  placeholder: 'New password'
+        .list-group
+          .list-group-item
+            = f.password_field :password_confirmation, class: 'form-control no-border parsley-validated',required: true, autofocus: true,  placeholder: 'Re-enter password to confirm'
+        = f.submit 'Set my password', class: 'btn btn-primary m-b'

@@ -1,0 +1,159 @@
+= content_for :title, "Provider page"
+%section.vbox
+  %section.scrollable
+    %section.hbox.stretch
+      %section#content
+        %div.clearfix.breadcrumb
+          %ol
+            = render_breadcrumbs :separator => ' / '
+            %small.pull-right
+              contact: 888-678-EKIN (3546) /
+              %a{href: 'mailto:help@ekincare.com'} help@ekincare.com
+        %h4.padder
+          %a.font-bold{href: "#"}
+        %section.vbox
+          %section
+            %section.hbox.stretch
+              %aside.col-lg-12.padder
+                %section.row.m-l-none.m-r-none.m-b.m-t.text-center
+                  .col-xs-3.bg-primary.dk.lter.c-p#enterprise_catalog_tile
+                    .wrapper
+                      %i.i.i-list.fa.fa-3x.m-t.m-b-sm.text-white
+                      %p.font-bold.small Catalog
+                  -#.h4.font-bold 32k
+                  .col-xs-3.bg-success.dk.lter.c-p#enterprise_branches_title
+                    .wrapper
+                      %i.i.i-location.fa.fa-3x.m-t.m-b-sm.text-white
+                      %p.font-bold.small Branches
+                  -#.h4.font-bold 50k
+                  .col-xs-3.bg-info.dk.lt.c-p#enterprise_profile_title
+                    .wrapper
+                      %i.i.i-info2.fa.fa-3x.m-t.m-b-sm.text-white
+                      %p.font-bold.small Profile
+                  .col-xs-3.bg-primary.dk.lt.c-p#enterprise_lab_tests_title
+                    .wrapper
+                      %i.fa-stethoscope.fa.fa-3x.m-t.m-b-sm.text-white
+                      %p.font-bold.small Lab Tests
+                -#.h4.font-bold 16k
+                %div
+                  .text-left#enterprise_branches_panel
+                    .vbox
+                      %h4.panel-heading.no-padder
+                        %a.font-bold{href: "#"}
+                          Branches &nbsp;&nbsp;
+                        %a.btn.btn-default.btn-s-mdsche.m-b-xs{id: 'new_provider_btn',href: new_staff_provider_path, data: {remote: true}}
+                          &nbsp;
+                          %i.fa.fa-plus
+                          &nbsp;Add new &nbsp;&nbsp;
+                      .scrollable
+                        %section.panel.panel-default
+                          .table-responsive
+                            %table.table.table-striped.b-light#enterprise_branches_table
+                              %thead
+                                %tr
+                                  %thead
+                                    %tr
+                                      %th Branch ID
+                                      %th Contact Name
+                                      %th Phone
+                                      %th Email
+                                      %th Address
+                                  %tbody
+                                    - @branches.each do |branch|
+                                      %tr
+                                        %td
+                                          = branch.provider_id
+                                        %td
+                                          = branch.staff.name
+                                        %td
+                                          = branch.telephone
+                                        %td
+                                          = branch.staff.email
+                                        %td
+                                          = branch.address != nil ? branch.address.details : ''
+                                        %td
+                                          %a.pull-right.dropdown-toggle{id: 'edit_provider_btn',href: edit_staff_provider_path(id: branch.id), data: {remote: true}}
+                                            %i.fa.fa-pencil
+
+
+                  .text-left#enterprise_catalog_panel
+                    .vbox
+                      %h4.panel-heading.no-padder
+                        %a.font-bold{href: "#"}
+                          Catalog &nbsp;&nbsp;
+                        %a.btn.btn-default.btn-s-mdsche.m-b-xs{id: "new_catalog_item", href: new_staff_provider_test_path, data: {remote: true}}
+                          &nbsp;
+                          %i.fa.fa-plus
+                          &nbsp;Add new &nbsp;&nbsp;
+                      .scrollable
+                        %section.panel.panel-default
+                          .table-responsive
+                            %table.table.table-striped.b-light#enterprise_catalog_table
+                              %thead
+                                %tr
+                                  %th Name
+                                  %th MRP
+                                  %th Selling Price
+                                  %th Cost
+                                  %th Discount(%)
+                                  %th Service Type
+                              %tbody
+                                - @provider_test.each do |tests|
+                                  %tr
+                                    %td
+                                      = tests.name
+                                    %td
+                                      = number_with_precision(tests.mrp, precision: 2)
+                                    %td
+                                      = number_with_precision(tests.selling_price, precision: 2)
+                                    %td
+                                      = number_with_precision(tests.cost, precision: 2)
+                                    %td
+                                      = number_with_precision(tests.discount, precision: 0)
+                                    %td
+                                      = tests.service_type
+                                    %td
+                                      %a.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#"}
+                                        %i.fa.fa-pencil
+                                    %td
+                                      %a.pull-right.dropdown-toggle.providertest-delete-row{"data-toggle" => "dropdown", href: "#"}
+                                        %i.i.i-trashcan
+                                  = form_for tests, as: :provider_test, url: staff_provider_test_path(tests), remote: true do |f|
+                                    %tr.edit_provider_test.hide{provider_test_id: tests.id}
+                                      %td
+                                        = f.text_field :name, {value: tests.name,class: 'form-control customer-allergy-select'}
+                                      %td
+                                        = f.text_field :mrp, {value: tests.mrp, class: 'form-control customer-allergy-select'}
+                                      %td
+                                        = f.text_field :selling_price, {value: tests.selling_price, class: 'form-control customer-allergy-select'}
+                                      %td
+                                        = f.text_field :cost, {value: tests.cost, class: 'form-control customer-allergy-select'}
+                                      %td
+                                        = f.text_field :discount, {value: tests.discount, class: 'form-control customer-allergy-select'}
+                                      %td
+                                        .col-md-4
+                                          =f.label  "Body", {class:'pull-left ln_hgt18', style: "margin-right: 5px;"}
+                                          =f.check_box :service_type1, {class: 'checkbox'}, checked_value=tests.service_type1, unchecked_value=nil
+                                        .col-md-4
+                                          =f.label  "Dental"
+                                          =f.check_box :service_type2, {class: 'checkbox'}, checked_value=tests.service_type2, unchecked_value=nil
+                                        .col-md-4
+                                          =f.label  "Vision"
+                                          =f.check_box :service_type3, {class: 'checkbox'}, checked_value=tests.service_type3, unchecked_value=nil
+                                      %td
+                                        = f.hidden_field :provider_id, {value: tests.provider_id}
+                                      %td
+                                        = f.submit 'save', {class:'btn btn-sm small-btn btn-primary assessment-save-row-btn'}
+                                      %td
+                                        %a{class: 'btn btn-sm small-btn btn-danger assessment-cancel-row-btn'} cancel
+                                        %input{type: 'reset', class: 'hide reset-assessment-row-btn'}
+                  .text-left#enterprise_profile_panel
+                    .vbox
+                      #enterprise-details
+                        = render partial: 'show'
+                  .text-left#enterprise_lab_tests_panel
+                    .vbox
+                      = render partial: 'staff/health_assessments/lab_tests/lab_tests'
+                      -#= render partial: 'test_components'
+%input.hide#enterprise_id{:value => @enterprise_id}
+%a.hide.nav-off-screen-block{"data-target" => "#nav,html", "data-toggle" => "class:nav-off-screen", href: "#"}

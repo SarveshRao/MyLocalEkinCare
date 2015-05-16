@@ -1,0 +1,35 @@
+= content_for :title, 'Learnmore'
+%section.vbox
+  %section.scrollable.padder
+    %div.m-t
+      %h4
+        = @package.name
+      %p
+        Routine dental exams are very important — regardless of your age or your physical health.
+      %p
+        During a detal visit, a dental professional will check for your gums health and if you have cavities, tooth fractures, decay etc.
+      %div.col-md-12
+        %a.btn.btn-success.pull-right.m-t{:href => customers_venus_path(:distance => 3, :package => params[:package])} check Out
+    %div.clearfix{style: 'min-height: 1000px'}
+      .entry-content
+        -#%ul.tabs
+        %ul.tabs
+          %a#baseline_btn.baseline.active{:href => "javascript:void(0)", :rel => "#baseline"} What's Included
+          -#%li
+            %a#metabolic_btn.metabolic{:href => "javascript:void(0)", :rel => "#metabolic"} Metabolic
+        / Begin baseline
+        #baseline.tab-content.tab_sec.packagenames
+          %ul
+            %li.ico-heart.first
+              %span.label_bg.blue_label_bg
+                -#%i.glyphicon.glyphicon-blood
+              %span.label_bg.blue_label_darkbg
+              %h4 Dental
+              %p Regular dental exams are an important part of preventive health care. During a dental exam, the dentist identifies gum inflammation or bone loss. It helps evaluate your risk of developing tooth decay and other oral health problems
+              %h5 Tests
+              %ul.tags
+                %li.enable Gum check
+                %li.enable Cavity check
+
+  %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"}
+  %script{:src => "prac.js"}

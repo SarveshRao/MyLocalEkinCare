@@ -1,0 +1,59 @@
+%div.labTestContentDiv.hide
+  #lab_test_content.col-sm-12
+    %section.panel.panel-default.padder.padder-v
+      .no-padder
+        %a.font-bold.pull-left{href: "#"}
+          Lab Tests &nbsp;&nbsp;
+        %a.btn.btn-default.btn-s-mdsche.m-b-xs.pull-left.EditLabTestDiv{href: "#labTestFormId", id: 'btnAddLabTest',data: {remote: true}}
+          &nbsp;
+          %i.fa.fa-plus
+          &nbsp;Add Lab Test &nbsp;&nbsp;
+      .table-responsive
+        %table.table.table-striped.b-light.dataTables_custom#enterprise_lab_tests_table
+      %form#labTestFormId{:action => "#"}
+        %input#enterprise_id{:name => "enterprise_id", :type => "hidden", :value => @enterprise_id}/
+        %label{:for => "lab_test_name"} Lab Test Name
+        %input.form-control.required{:name => "lab_test_name", :rel => "0", :type => "text"}/
+        %label{:for => "lab_test_info"} Lab Test Info
+        %textarea.form-control#test_component_unit{:name => "lab_test_info", :rel => "1", :type => "text"}
+        %div.clearfix.m-b
+
+  #test_component_content.col-sm-12
+    %section.panel.panel-default.padder.padder-v
+      .no-padder
+        %a.font-bold.pull-left{href: "#"}
+          Test Components &nbsp;&nbsp;
+        %a.btn.btn-default.btn-s-mdsche.m-b-xs.pull-right.EditLabTestDiv{id: 'backToLabTest',data: {remote: true}}
+          &nbsp;
+          %i.fa.fa-arrow-circle-left
+          &nbsp;Back to Lab Tests &nbsp;&nbsp;
+        %a.btn.btn-default.btn-s-mdsche.m-b-xs.pull-left.EditLabTestDiv{id: 'btnAddTestComponent',data: {remote: true}}
+          &nbsp;
+          %i.fa.fa-plus
+          &nbsp;Add Test Component &nbsp;&nbsp;
+      .table-responsive
+        %table.table.table-striped.b-light.dataTables_custom#enterprise_test_components_table
+      %form#testComponentFormId{:action => "#"}
+        %input#lab_test_id{:name => "lab_test_id", :type => "hidden"}/
+        %input#test_component_enterprise_id{:name => "enterprise_id", :type => "hidden"}/
+        %label{:for => "test_component_name"} Test Component Name
+        %input.form-control.required{:name => "test_component_name", :rel => "0", :type => "text"}/
+        %label{:for => "test_component_lonic_code"} Loinc Code
+        %input.form-control.required{:name => "test_component_lonic_code", :rel => "0", :type => "text"}/
+        %label{:for => "test_component_info"} Test Component Info
+        %textarea.form-control#test_component_info{:name => "test_component_info", :rel => "1", :type => "text"}
+        %label{:for => "test_component_unit"} Test Component Unit
+        %input.form-control#test_component_unit{:name => "test_component_unit", :type => "text"}/
+        %label{:for => "range_value1"} Standard Range for Male
+        .col-sm-12.no_padding
+          %input.form-control.wid_25.no_padding#standard_range_value1{:placeholder => "Severe", :name => "range_value1", :rel => "3", :type => "text"}/
+          %input.form-control.wid_25.no_padding#standard_range_value1{:placeholder => "Normal", :name => "range_value2", :rel => "4", :type => "text"}/
+          %input.form-control.wid_25.no_padding#standard_range_value1{:placeholder => "Border", :name => "range_value3", :rel => "5", :type => "text"}/
+          %input.form-control.wid_25.no_padding#standard_range_value1{:placeholder => "Severe", :name => "range_value4", :rel => "6", :type => "text"}/
+        %label{:for => "range_value5"} Standard Range for Female
+        .col-sm-12.no_padding
+          %input.form-control.wid_25.no_padding#standard_range_value2{:placeholder => "Severe", :name => "range_value5", :rel => "3", :type => "text"}/
+          %input.form-control.wid_25.no_padding#standard_range_value1{:placeholder => "Normal", :name => "range_value6", :rel => "4", :type => "text"}/
+          %input.form-control.wid_25.no_padding#standard_range_value2{:placeholder => "Border", :name => "range_value7", :rel => "5", :type => "text"}/
+          %input.form-control.wid_25.no_padding#standard_range_value2{:placeholder => "Severe", :name => "range_value8", :rel => "6", :type => "text"}/
+        %div.clearfix.m-b

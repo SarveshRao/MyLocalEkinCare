@@ -1,0 +1,359 @@
+= javascript_include_tag "jquery"
+= content_for :title, 'Home'
+- content_for :zopim_chat do
+  :javascript
+    window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
+    d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+    _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute('charset','utf-8');
+    $.src='//v2.zopim.com/?2Um2B0Y0KEgOyEsT8WLIjMFjSeBkufvQ';z.t=+new Date;$.
+    type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
+
+    (function() {
+      var _fbq = window._fbq || (window._fbq = []);
+      if (!_fbq.loaded) {
+        var fbds = document.createElement('script');
+        fbds.async = true;
+        fbds.src = '//connect.facebook.net/en_US/fbds.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(fbds, s);
+        _fbq.loaded = true;
+      }
+      _fbq.push(['addPixelId', '1439089473071327']);
+    })();
+    window._fbq = window._fbq || [];
+    window._fbq.push(['track', 'PixelInitialized', {}]);
+
+    <!-- Google Code for Remarketing Tag -->
+    /* <![CDATA[ */
+    var google_conversion_id = 953531478;
+    var google_custom_params = window.google_tag_params;
+    var google_remarketing_only = true;
+    /* ]]> */
+%div{:style => "display:none"}
+  %script{:src => "//www.googleadservices.com/pagead/conversion.js", :type => "text/javascript"}
+%noscript
+  %div{:style => "display:inline;"}
+    %img{:alt => "", :height => "1", :src => "//googleads.g.doubleclick.net/pagead/viewthroughconversion/953531478/?value=0&amp;guid=ON&amp;script=0", :style => "border-style:none;", :width => "1"}/
+%noscript
+  %img{:alt => "", :height => "1", :src => "https://www.facebook.com/tr?id=1439089473071327&amp;ev=PixelInitialized", :style => "display:none", :width => "1"}/
+
+
+%main#mainScroll{:role => "main"}
+  #intro-wrap
+    #bgVideo.background{:style => "opacity: 0.2;"}
+      %video#video_background{:autoplay => "autoplay", :loop => "loop", :preload => "auto", :style => "position: fixed; top: 0px; left: 0px; bottom: 0px; right: 0px; z-index: -100; min-width: 100%;min-height:100%;"}
+        %source{:src => asset_path("video/preview.mp4"), :type => "video/mp4"}
+          %source{:src => asset_path("video/preview.ogg"), :type => "video/ogg"}
+            %source{:src =>asset_path("video/preview.webm"), :type => "video/webm"}
+    #intro.preload.darken{"data-autoplay" => "5000", "data-navigation" => "true", "data-pagination" => "true", "data-transition" => "fadeUp"}
+      .intro-item{:style => ""}
+        .caption{:style => "text-align:center;"}
+          %p{:style => "font-size:40px;margin-bottom:0px;font-weight:400"} Take charge of your health today.
+          %p{:style => "font-size:18px;max-width:800px;margin: 0 auto;margin-bottom:15px;"} eKincare provides a single place to store your medical history, monitor health and get timely recommendations for health assessments and prevention, all for free!
+          %br/
+          %a.button.green{:href => new_online_customer_registration_path, :style => "border:1px solid rgba(26,174,137,1);"} Get Started Now
+          %a.button.red.youtube{:href => "https://www.youtube.com/watch?v=snY1PZii5lM", :style => "background:transparent;border:1px solid white;"}
+            %i.fa.fa-play-circle.fa-lg
+            Watch Overview
+
+  #main
+    %section#news-section.row.section.not-full
+      .row-content.even
+        #press-section{"data-autoheight" => "true", "data-autoplay" => "2000", "data-pagination" => "true", "data-transition" => "fade"}
+          .press
+            %a.column{:href => "http://yourstory.com/2015/01/ekincare/", :target => "_blank"}
+              %figure.press-img
+                %img{:alt => "", :src =>asset_path("press/yourStory.png")}
+          .press
+            %a.column{:href => "http://articles.economictimes.indiatimes.com/2015-01-13/news/58024179_1_platform-second-round-analytics", :target => "_blank"}
+              %figure.press-img
+                %img{:alt => "", :src => asset_path("press/economictimes.png")}
+          .press
+            %a.column{:href => "http://www.business-standard.com/article/companies/ekincare-gets-funding-114122200041_1.html", :target => "_blank"}
+              %figure.press-img
+                %img{:alt => "", :src => asset_path("press/bs.png")}
+          .press
+            %a.column{:href => "http://www.vccircle.com/news/technology/2015/01/16/cloud-based-medical-records-storage-startup-ekincare-raises-160k", :target => "_blank"}
+              %figure.press-img
+                %img{:alt => "", :src =>asset_path("press/vccircle.png") }
+          .press
+            %a.column{:href => "http://startuphyderabad.com/hyderabad-based-health-monitoring-platform-ekincare-raises-rs-2cr-angel-funding", :target => "_blank"}
+              %figure.press-img
+                %img{:alt => "", :src => asset_path("press/startupHyd.png")}
+          .press
+            %a.column{:href => "https://www.techinasia.com/health-monitor-ekincare-bags-seed-funding/", :target => "_blank"}
+              %figure.press-img
+                %img{:alt => "", :src =>asset_path("press/techinasia.jpg") }
+    %section#features-section.row.section.full{:style => ""}
+      .content-full
+        .section-title
+          .sectionHeading.topHeading{:style => ""} Features you'll love
+          %p.headingDescription
+            Everything we do has you and your health, convenience, experience and needs in focus
+        #features.row-content.even.clear-after{:style => "background:#F2F4F8;text-align:center;"}
+          .column.four
+            .ekinIcon.blue
+              %i.fa.fa-file.fa-3x
+            .clear-after.featureText
+              %h4 Personal health record
+              %p.text-xs Keep all of your and your family's health records at one place and access it from anywhere, anytime using a computer, smartphone or a tablet.
+          .column.four
+            .ekinIcon.blue
+              %i.fa.fa-smile-o.fa-3x
+            .clear-after.featureText
+              %h4 Simple and easy
+              %p.text-xs Now taking charge of your health is as easy as taking a selfie. Just take a picture of your medical records using our app and we take care of the rest.
+          .column.four.last
+            .ekinIcon.blue
+              %i.fa.fa-cloud-upload.fa-3x
+            .clear-after.featureText
+              %h4 Online lab results
+              %p.text-xs We convert the data from your medical records into easy to understand color coded summaries, graphs and trackable timelines.
+          .column.four
+            .ekinIcon.blue
+              %i.fa.fa-clock-o.fa-3x
+            .clear-after.featureText
+              %h4 Timely reminders
+              %p.text-xs We'll remind and schedule your appointments for timely immunizations, follow ups, updates etc. Take the stress out of managing your health.
+          .column.four
+            .ekinIcon.blue
+              %i.fa.fa-lock.fa-3x
+            .clear-after.featureText
+              %h4 Highly secure
+              %p.text-xs We are serious about your privacy. Your data is transmitted using 256 bit encryption safely to a highly secure world class data center.
+          .column.four.last
+            .ekinIcon.blue
+              %i.fa.fa-rupee.fa-3x
+            .clear-after.featureText
+              %h4 Deals on health checkups
+              %p.text-xs Get up to 70% off on your health checks. With a network of 1500+ partner locations we’ve made it extremely convenient to avail it.
+    %section#apps-section.row.section.full{:style => ""}
+      .content-full
+        .row-content.buffer.even.clear-after
+          .column.six.push-six.last-special
+            .sectionHeading{:style => "line-height:1.2;"} Now Managing your records is as easy as taking a picture!
+            %p{:style => "font-size:20px;padding-top:25px;margin-bottom:3px;"} Get a download link via text message..
+            .column.twelve{:style => "margin-top:0;"}
+              -#%form#sms-form.sms-section{:action => send_sms_home_index_path, :method => "post"}
+                / <span class="pre-input"><i class="icon icon-mobile"></i></span>
+              %input#mobile_number.mobile.numeric{:name => "mobile_number", :placeholder => "Mobile Number", :type => "mobile"}
+                %input#text-me.button.blue.sendButton{:style => "", :type => "submit", :value => "Text me"}
+              #success.hidden
+                %i.fa.fa-check
+                We have texted you the links to our apps.
+            .sectionHeading{:style => "line-height:1.2;text-transform:none;font-size:20px;padding-top:25px;"}
+              Get eKincare on your iPhone or Android device.
+            .row-content.even.animation{:style => "margin-top:10px;"}
+              %div{:style => "display:inline-block;margin-right:5px;"}
+                %a{:href => "http://bit.ly/eKgoogle"}
+                  %img{:alt => "Get it on Google Play", :src => "https://developer.android.com/images/brand/en_generic_rgb_wo_60.png", :style => "height:50px;"}/
+              %div{:style => "display:inline-block;margin-left:5px;"}
+                %a{:href => "http://bit.ly/eKapple", :style => "display:inline-block;overflow:hidden;background:url(https://linkmaker.itunes.apple.com/htmlResources/assets/en_us//images/web/linkmaker/badge_appstore-lrg.png) no-repeat;width:168px;height:50px;background-size:cover;@media only screen{background-image:url(https://linkmaker.itunes.apple.com/htmlResources/assets/en_us//images/web/linkmaker/badge_appstore-lrg.svg);}", :target => "itunes_store"}
+          .side-mockup.left-mockup.animation
+            .slider.iphone-slider.white{"data-autoplay" => "3000"}
+              %figure
+                %div
+                  %img{:alt => "", :src => asset_path("screen1.png")}/
+                %div
+                  %img{:alt => "", :src => asset_path("screen2.png")}/
+                %div
+                  %img{:alt => "", :src => asset_path("screen3.png")}/
+                %div
+                  %img{:alt => "", :src =>asset_path("screen4.png") }/
+    %section#packages-section.row.section{:style => ""}
+      .row
+        .row-content.even
+          .section-title
+            .sectionHeading.topHeading Discounted Health packages
+            %p.headingDescription
+              With up to 70% off on health checks and the convenience of home collection, your health checks have gone from an all day event to a 5 min event
+            %div{:style => "max-width:70%;margin:0 auto;"}
+          .package-slider{"data-autoheight" => "false", "data-autoplay" => "3000", "data-pagination" => "true", "data-transition" => "fade"}
+            -@packages.each do |package|
+              .package.blue{:style => "min-height:282px;"}
+                .packagePricing
+                  .sp
+                    %i.fa.fa-rupee
+                    =package.selling_price
+                  .mrp
+                    %i.fa.fa-rupee
+                    =package.mrp
+                  .discount
+                    %p
+                      Save
+                      %span
+                        = number_with_precision(package.discount, precision: 0) + "%"
+                .packageName
+                  =package.name
+            -#.package.blue
+            -#  .packagePricing
+            -#    .sp
+            -#      %i.fa.fa-rupee
+            -#      899
+            -#    .mrp
+            -#      %i.fa.fa-rupee
+            -#      3000
+            -#    .discount Save 70%
+            -#  .packageName Base Line Body Package
+            -#.package.blue
+            -#  .packagePricing
+            -#    .sp
+            -#      %i.fa.fa-rupee
+            -#      999
+            -#    .mrp
+            -#      %i.fa.fa-rupee
+            -#      1500
+            -#    .discount Save 33%
+            -#  .packageName
+            -#    Diabetes
+            -#    %br/
+            -#    Package
+            -#.package.blue
+            -#  .packagePricing
+            -#    .sp
+            -#      %i.fa.fa-rupee
+            -#      1199
+            -#    .mrp
+            -#      %i.fa.fa-rupee
+            -#      3400
+            -#    .discount Save 65%
+            -#  .packageName
+            -#    Pro Body
+            -#    %br>/
+            -#    Package
+          .row{:style => "margin-top:40px;"}
+            %p{:style => "text-align:center;max-width:800px;margin:0 auto;"}
+              Register now and get access to heavily discounted health packages. Regular body, dental and vision checks can help diagnose problems before they start, when your chances for cure are better.
+            .packageLink
+              %a.knowmore.button.green{:href => new_online_customer_registration_path,:style => "text-transform:none;"} Register Now
+    %section#partners-section.row.section.not-full
+      .content-bottom-removed-class
+        .row-content.even
+          .section-title{:style => "margin-bottom:0;"}
+            .sectionHeading.topHeading{:style => "padding-top: 15px;"} Our growing list of partners
+            %p.headingDescription
+              With 1500+ locations across India and growing, you can find a trusted partner in your neighbourhood
+          .press-slider{"data-autoheight" => "false", "data-autoplay" => "2000", "data-pagination" => "true", "data-transition" => "fade"}
+            %figure.partner-image
+              %img{:alt => "", :src => asset_path("partners/a.png")}
+            %figure.partner-image
+              %img{:alt => "", :src => asset_path("partners/b.png")}
+            %figure.partner-image
+              %img{:alt => "", :src => asset_path("partners/c.png")}
+            %figure.partner-image
+              %img{:alt => "", :src => asset_path("partners/d.png")}
+            %figure.partner-image
+              %img{:alt => "", :src => asset_path("partners/e.png")}
+            %figure.partner-image
+              %img{:alt => "", :src => asset_path("partners/f.png")}
+        .row.hide-on-mobile{:style => "position:relative;"}
+          %div#my-map.map{"data-color" => "", "data-height" => "22.222", "data-img" => asset_path("img/marker.png"), "data-info" => "eKincare", "data-mapzoom" => "12", :style => "width:75%;margin-left:25%;"}
+          -#%div#my-map.map
+          #pincodeInputWrapper
+            #pincodeInput{:style => ""}
+              %p{:style => "font-size:20px;margin-bottom:15px;"} Enter your pincode and find our partners near you
+              %input#pin_code.mobile{:name => "mobile", :placeholder => "Pin code", :type => "mobile"}
+                %br/
+                %br/
+                %input#pin_code_button.button.blue.sendButton{:style => "", :type => "button", :value => "Search"}
+    %section#reviews-section.row.section.full{:style => ""}
+      .content-bottom
+        .row-content.even.clear-after.hide-on-mobile
+          .section-title
+            .sectionHeading.topHeading eKincare in people's lives
+            %p.headingDescription
+              A few ways our customers are using eKincare for themselves and their families
+          .column.two
+          .column.eight
+            .column.three.userreview
+              %figure
+                %img{:alt => "", :src => asset_path("users/1.png")}
+              %div
+                .userName Akshay
+                .userTitle Senior Manager
+            .column.three.userreview
+              %figure
+                %img{:alt => "", :src => asset_path("users/2.png")}
+              %div
+                .userName Ishan
+                .userTitle Doctor
+            .column.three.userreview
+              %figure
+                %img{:alt => "", :src => asset_path("users/3.png")}
+              %div
+                .userName Sarita
+                .userTitle Senior Citizen
+            .column.three.userreview.last
+              %figure
+                %img{:alt => "", :src => asset_path("users/4.png")}
+              %div
+                .userName Aaradhya
+                .userTitle Housewife
+          .row
+            .row.testimonial
+              .column.two
+              .column.eight.reviewText{:style => ""}
+                I am always concerned about the health of my parents. With eKincare I am now not only able to track their health remotely, but also sponsor for their health checks.
+            .row.testimonial.hidden
+              .column.two
+              .column.eight.reviewText{:style => ""}
+                With eKincare platform, I am now able to quickly get a snapshot of my patients’ medical history, their current medications, allergies etc. which helps me treat better and faster.
+            .row.testimonial.hidden
+              .column.two
+              .column.eight.reviewText{:style => ""}
+                eKincare is my personal health calendar. It always reminds me on time for a follow up and the best part is that it all gets done at home. It can't get better than this.
+            .row.testimonial.hidden
+              .column.two
+              .column.eight.reviewText{:style => ""}
+                I am amazed at the clarity with which the platform has been designed  for any non medical person to easily understand their lab results and knowledgeably discuss them with a doctor.
+          .row
+            .row.dscreen
+              .column.two
+              .column.eight.dscreenImgHolder
+                %img{:src => asset_path("dscreen1.png")}
+            .row.dscreen.hidden
+              .column.two
+              .column.eight.dscreenImgHolder
+                %img{:src => asset_path("dscreen2.png")}
+            .row.dscreen.hidden
+              .column.two
+              .column.eight.dscreenImgHolder
+                %img{:src =>asset_path("dscreen3.png")}
+            .row.dscreen.hidden
+              .column.two
+              .column.eight.dscreenImgHolder
+                %img{:src =>asset_path("dscreen4.png")}
+:javascript
+  $(document).ready(function(){
+    $('#text-me').attr('disabled', 'disabled').css('cursor', 'default');
+    $(".numeric").keydown(function (e) {
+      // Allow: backspace, delete, tab, escape, enter and .
+      if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+              // Allow: Ctrl+A
+          (e.keyCode == 65 && e.ctrlKey === true) ||
+              // Allow: home, end, left, right, down, up
+          (e.keyCode >= 35 && e.keyCode <= 40)) {
+          // let it happen, don't do anything
+          return;
+      }
+      // Ensure that it is a number and stop the keypress
+      if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+          e.preventDefault();
+      }
+      var pattern = /^\d{10}$/;
+      if (pattern.test($('#mobile_number').val())) {
+        e.preventDefault();
+      }
+    });
+    $('#mobile_number').keyup(function(){
+      if($('#mobile_number').val().length == 10)
+      {
+        $('#text-me').removeAttr('disabled').css('cursor', 'pointer');
+      }
+      else
+      {
+        $('#text-me').attr('disabled', 'disabled').css('cursor', 'default');
+      }
+    });
+
+  });

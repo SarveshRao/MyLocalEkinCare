@@ -1,0 +1,69 @@
+= content_for :title, "Blog post"
+
+.top-title-wrapper
+  .container
+    .row
+      .col-md-12.col-sm-12
+        .page-info
+          %h1.h1-page-title Thoughts
+.content-wrapper
+  .body-wrapper
+    .container
+      .row
+        .col-md-9.col-sm-9
+          .blog-post{class:  !@all_blog_posts.empty? ? "hide" : ''}
+            .blog-post-type
+              %i.icon-pen
+          -if @blog_post
+            .blog-span
+              .blog-post-featured-img.img-overlay
+                %img.img-responsive{:alt => "", :src => @image_url}/
+                .item-img-overlay
+                  %a.portfolio-zoom.fa.fa-plus{"data-rel" => "prettyPhoto[portfolio]", :href => @image_url}
+                  .item_img_overlay_content
+                    .blog-post-details-item.blog-post-details-item-left.share-article
+                      %span Share It On
+                      %a.icon-facebook{:href => "https://www.facebook.com/ekincare"}
+                      %a.icon-twitter-alt{:href => "https://twitter.com/ekincaredotcom"}
+                      %a.icon-google{:href => "https://google.com/+Ekincaredotcom"}
+                      %a.icon-email-mail-streamline{:href => "mailto:info@ekincare.com?Subject=Hello%20again", :target => "_top"}
+                    .blog-post-details-item.blog-post-details-item-right.share-article
+                      %a.icon-heart{:href => "#"} 25
+              %h2{style: 'padding-top: 15px'}
+                = @blog_post.title
+              %nbsp
+              %h5
+                %blockquote
+                  = @blog_post.author
+              .blog-post-body
+                = simple_format @blog_post.body
+
+          - else
+            %h5.m-l{style: 'margin-left: 20px; padding-top: 20px'} No blog posts available
+        .col-md-3.col-sm-3
+          .sidebar
+            .sidebar-block
+              - if @blog_post
+                %h3.h3-sidebar-title.sidebar-title
+                  tags
+                - tags = @blog_post.tags.split(',')
+                - tags.each do |tag|
+                  .tags
+                    %a{:href => "/blog/tags/#{tag.gsub!(/\./, '')}"}
+                      = tag
+            .sidebar-block
+              -if !@all_blog_posts.empty?
+                %h3.h3-sidebar-title.sidebar-title
+                  recent posts
+                .sidebar-content
+                  %ul.posts-list
+                    - @all_blog_posts.each do |blogpost|
+                      %li
+                        .posts-list-thumbnail
+                          %a{:href => blog_path(blogpost)}
+                            %img.img-responsive.blog-thumb-img-width{:alt => "", :src => blogpost.image_url(:thumb)}
+                        .posts-list-content
+                          %a.posts-list-title{:href => blog_path(blogpost)}
+                            = blogpost.title
+                          %span.posts-list-meta
+                            = blogpost.created_at.to_date

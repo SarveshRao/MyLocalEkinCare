@@ -1,0 +1,35 @@
+= content_for :title, 'Learnmore'
+%section.vbox
+  %section.scrollable.padder
+    %div.m-t
+      %h4
+        = @package.name
+      %p
+        Routine eye exams are very important — regardless of your age or your physical health.
+      %p
+        During a comprehensive eye exam, your eye doctor does much more than just determine your prescription for eyeglasses or contact lenses. He or she will also check your eyes for common eye diseases, assess how your eyes work together as a team and evaluate your eyes as an indicator of your overall health.
+      %div.col-md-12
+        %a.btn.btn-success.pull-right.m-t{:href => customers_venus_path(:distance => 3, :package => params[:package])} check Out
+    %div.clearfix{style: 'min-height: 1000px'}
+      .entry-content
+        -#%ul.tabs
+        %ul.tabs
+          %a#baseline_btn.baseline.active{:href => "javascript:void(0)", :rel => "#baseline"} What's Included
+          -#%li
+            %a#metabolic_btn.metabolic{:href => "javascript:void(0)", :rel => "#metabolic"} Metabolic
+        / Begin baseline
+        #baseline.tab-content.tab_sec.packagenames
+          %ul
+            %li.ico-heart.first
+              %span.label_bg.blue_label_bg
+                -#%i.glyphicon.glyphicon-heart-empty
+              %h4 Eyes
+              %p Health care professionals often recommend that all people should have periodic and thorough eye examinations as part of routine primary care, especially since many eye diseases are asymptomatic. Eye examinations may detect potentially treatable blinding eye diseases, ocular manifestations of systemic disease, or signs of tumours or other anomalies of the brain.
+              %h5 Tests
+              %ul.tags
+                %li.enable Eye pressure check
+                %li.enable Autorefraction @ manual refraction
+                %li.enable Pupil dilation (if required)
+
+  %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"}
+  %script{:src => "prac.js"}

@@ -1,0 +1,111 @@
+= content_for :title, 'Family history'
+
+%div.clearfix.breadcrumb
+  %ol.padder
+    = render_breadcrumbs :separator => ' / '
+    %small.pull-right
+      Contact: 888-678-EKIN (3546) /
+      %a{href: 'mailto:founder@ekincare.com'} founder@ekincare.com
+
+%div{style: 'min-height: 1000px'}
+  %section.vbox
+    %section.scrollable.bg-white
+      .wrapper-lg.bg-light
+        = render partial: 'layouts/customer/profile_avatar'
+  .text-left#customer_family_history_panel
+    .vbox#family_history_info
+      %h4.panel-heading
+        %a.font-bold{href: "#"}
+          Family History &nbsp;&nbsp;
+      - if session['is_customer']
+        %a.btn.btn-default.btn-s-mdsche.m-b-xs#create_customer_family_medical_history{href: '#'}
+          &nbsp;
+          %i.fa.fa-plus
+          &nbsp;Add new &nbsp;&nbsp;
+      .scrollable
+        %aside
+          %section.panel.panel-default
+            .table-responsive
+              %table.table.table-striped.b-light#family_medical_histories_table
+                %thead
+                  %tr
+                    %th.th-sortable{"data-toggle" => "class", width: "15%"}
+                      Name
+                      -#%span.th-sort
+                        %i.fa.fa-sort-down.text
+                        %i.fa.fa-sort-up.text-active
+                        %i.fa.fa-sort
+                    %th{width: '20%'} Relation
+                    %th{width: '10%'} Age
+                    %th{width: '15%'} Alive
+                    %th{width: '45%'} Medical Conditions
+                    %th{colspan: 2}
+                %tbody
+                  = form_for FamilyMedicalHistory.new, url:  customers_family_medical_histories_path, html: {id: 'new_customer_family_medical_history'}, remote: true do |f|
+                    %tr#customer_family_medical_history_new_form.hide
+                      %td
+                        = f.text_field :name, {placeholder: 'Name', class: 'form-control'}
+                      %td
+                        = f.select :relation,['Father','Mother','Brother','Sister','Son', 'Daughter', 'Grandfather','Grandmother'],{}, {class: 'form-control'}
+                      %td
+                        = f.text_field :age, {placeholder: 'Age', class: 'form-control '}
+                      %td
+                        = f.select :status,['Alive','Deceased'],{}, {class: 'form-control'}
+                      %td
+                        -@medical_conditions.each do |medical_condition|
+                          %label.checkbox-inline.i-checks.i-chk
+                            %input#inlineCheckbox2{:name => "chk-family_medicals[]", :type => "checkbox", :value => medical_condition.id, checked: false}
+                              %i
+                              %span
+                                =medical_condition.name
+                      %td
+                        = f.submit 'save', {id: 'customer_family_medical_history_save_btn',class:'btn btn-sm small-btn btn-primary'}
+                      %td
+                        %a{id: 'customer_family_medical_history_cancel_btn', class: 'btn btn-sm small-btn btn-danger'} cancel
+                        %input{type: 'reset', class: 'hide', id: 'reset_customer_family_medical_history_btn'}
+
+                  - if !@family_medical_histories.empty?
+                    - @family_medical_histories.each do |medical_history|
+                      %tr
+                        %td
+                          = medical_history.name
+                        %td
+                          = medical_history.relation
+                        %td
+                          = medical_history.age
+                        %td
+                          = medical_history.status
+                        %td
+                          -medical_history.medical_conditions.each do |medical_condition|
+                            =medical_condition.name+','
+                      -if session[:is_customer]
+                        %td
+                          %a.pull-right.dropdown-toggle.customer-family-medical-history-edit-pencil{"data-toggle" => "dropdown", href: "#"}
+                            %i.fa.fa-pencil
+                      -if session[:is_customer]
+                        %td
+                          %a.pull-right.dropdown-toggle.customer-family-medical-history-delete-row{"data-toggle" => "dropdown", href: "#"}
+                            %i.i.i-trashcan
+
+                      = form_for medical_history, url: customers_family_medical_history_path(medical_history), html: {class: 'edit-customer-family-medical-history'}, remote: true do |f|
+                        %tr.edit_family_medical_history_row.hide{customer_id: @customer.id, family_medical_history_id: medical_history.id}
+                          %td
+                            = f.text_field :name, {placeholder: 'Name', class: 'form-control'}
+                          %td
+                            = f.select :relation,['Father','Mother','Brother','Sister','Son','Daughter','Grandfather','Grandmother'],{}, {class: 'form-control'}
+                          %td
+                            = f.text_field :age, {placeholder: 'Age', class: 'form-control '}
+                          %td
+                            = f.select :status,['Alive','Deceased'],{}, {class: 'form-control'}
+                          %td
+                            -@medical_conditions.each do |medical_condition|
+                              %label.checkbox-inline.i-checks.i-chk
+                                %input#inlineCheckbox2{:name => "chk-family_medicals[]", :type => "checkbox", :value => medical_condition.id, checked: medical_history.medical_conditions.any?{|mc| mc.id == medical_condition.id}}
+                                  %i
+                                  %span
+                                    =medical_condition.name
+                          %td
+                            = f.submit 'save', {class:'btn btn-sm small-btn btn-primary customer-family-medical-history-save-btn'}
+                          %td
+                            %a{class: 'btn btn-sm small-btn btn-danger customer-family-medical-history-cancel-btn'} cancel
+                            %input{type: 'reset', class: 'hide reset-customer-family-medical-history-btn'}

@@ -1,0 +1,37 @@
+.vbox
+  %h4.panel-heading.no-padder
+    %a.font-bold{href: "#"}
+      Branches &nbsp;&nbsp;
+    %a.btn.btn-default.btn-s-mdsche.m-b-xs{id: 'new_provider_btn',href: new_staff_provider_path, data: {remote: true}}
+      &nbsp;
+      %i.fa.fa-plus
+      &nbsp;Add new &nbsp;&nbsp;
+  .scrollable
+    %section.panel.panel-default
+      .table-responsive
+        %table.table.table-striped.b-light#enterprise_branches_table
+          %thead
+            %tr
+              %thead
+                %tr
+                  %th Branch ID
+                  %th Contact Name
+                  %th Phone
+                  %th Email
+                  %th Address
+              %tbody
+                - @branches.each do |branch|
+                  %tr
+                    %td
+                      = branch.provider_id
+                    %td
+                      = branch.staff.name
+                    %td
+                      = branch.telephone
+                    %td
+                      = branch.staff.email
+                    %td
+                      = branch.address != nil ? branch.address.details : ''
+                    %td
+                      %a.pull-right.dropdown-toggle{id: 'edit_provider_btn',href: edit_staff_provider_path(id: branch.id), data: {remote: true}}
+                        %i.fa.fa-pencil

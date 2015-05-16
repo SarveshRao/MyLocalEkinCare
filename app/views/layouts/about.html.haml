@@ -1,0 +1,20 @@
+!!!
+%html{:lang => "en"}
+  %head
+    %meta{:charset => "utf-8"}
+      %meta{:content => "IE=Edge", "http-equiv" => "X-UA-Compatible"}
+        %title
+          About us | eKincare
+        %meta{:content => "Omada Health", :name => "author"}
+          %meta{:content => "", :name => "description"}
+            %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}
+              %script{:src => "http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"}
+              = stylesheet_link_tag 'about_us'
+              %body
+                = render :partial => '/layouts/about/header'
+                %section.row.page-container
+                  = render :partial => '/layouts/about/left_nav'
+                  = yield
+    / wrapper end
+    = javascript_include_tag 'abouts'
+    = javascript_include_tag 'jquery'

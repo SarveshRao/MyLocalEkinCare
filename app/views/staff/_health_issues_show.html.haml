@@ -1,0 +1,56 @@
+%div.row.col-lg-6
+  #basic_details.row.panel.tab-pane.active.m.p-t.m-n
+    %div#normal_customer_basic_details
+      .col-md-10
+        .vbox.row
+          .col-xs-6
+            %p.text-lt BMI:
+          .col-xs-6
+            %p.text-lt
+              = @customer.bmi || '-'
+        .vbox.row
+          .col-xs-6
+            %p.text-lt Obesity:
+          .col-xs-6
+            %p.text-lt
+              - if @customer.obesity_overweight_checkup==4
+                Yes
+              -else
+                No
+        .vbox.row
+          .col-xs-6
+            %p.text-lt Over Weight:
+          .col-xs-6
+            %p.text-lt
+              - if @customer.obesity_overweight_checkup==3
+                Yes
+              -else
+                No
+        .vbox.row
+          .col-xs-6
+            %p.text-lt Diabetic:
+          .col-xs-6
+            %p.text-lt
+              - if @customer.is_diabetic
+                Yes
+              -else
+                No
+        .vbox.row
+          .col-xs-6
+            %p.text-lt HyperTension:
+          .col-xs-6
+            %p.text-lt
+              - if @customer.has_hypertension
+                Yes
+              -else
+                No
+
+        .vbox.row
+          .col-xs-6
+            %p.text-lt CVD:
+          .col-xs-6
+            %p.text-lt
+              - if @customer.has_cvd
+                Yes
+              -else
+                No

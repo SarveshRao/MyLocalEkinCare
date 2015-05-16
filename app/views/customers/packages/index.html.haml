@@ -1,0 +1,225 @@
+= content_for :title, 'Packages'
+%div.clearfix.breadcrumb
+  %ol.padder
+    = render_breadcrumbs :separator => ' / '
+    %small.pull-right
+      Contact: 888-678-EKIN (3546) /
+      %a{href: 'mailto:founder@ekincare.com'} founder@ekincare.com
+%section.vbox
+  %section.scrollable.padder.packages_sec
+    %div{style: 'min-height: 1000px'}
+      %div.col-sm-12.row
+        -unless @packages.nil?
+          - @packages.each.with_index do |package, index|
+            .col-sm-6
+              %div.wid_full.bg-white.package_list
+                - if index == 0
+                  .col-sm-7.no_padding.package_left.bg_blue_1
+                    %h5.h5.font-bold
+                      = package.name
+                    %h5.p-t.text-left
+                      Includes:
+                    %ul
+                      %li
+                        Comprehensive dental check
+                      %li
+                        For a family of 4 members
+                      %li
+                        Free online reports
+                    %a{:href => customers_packages_learnmore_path(:package => package.id)} Learn More
+                  .col-sm-5.bg-white.no_padding.text-center.package_right
+                    %p.eKin_price.font-bold
+                      = "Rs "+number_with_precision(package.selling_price, precision: 2)
+                    %p
+                      %span.text-danger
+                        %strike.text-danger
+                          = "Rs "+number_with_precision(package.mrp, precision: 2)
+                    %p
+                      You Saved:
+                      %span
+                        = number_with_precision(package.discount, precision: 0) + "%"
+                    %a.btn.btn-success{:href => customers_venus_path(:distance => 3, :package => package.id)} Check Out
+
+                - elsif index == 1
+                  .col-sm-7.no_padding.package_left.bg_blue_2
+                    %h5.h5.font-bold
+                      = package.name
+                    %h5.p-t.text-left
+                      Includes:
+                    %ul
+                      %li
+                        30+ test
+                      %li
+                        Dental & Vision check
+                      %li
+                        Home collection
+                      %li
+                        Online Reports
+                    %a{:href => customers_packages_learnmore_path(:package => package.id)} Learn More
+                  .col-sm-5.bg-white.no_padding.text-center.package_right
+                    %p.eKin_price.font-bold
+                      = "Rs "+number_with_precision(package.selling_price, precision: 2)
+                    %p
+                      %span.text-danger
+                        %strike.text-danger
+                          = "Rs "+number_with_precision(package.mrp, precision: 2)
+                    %p
+                      You Saved:
+                      %span
+                        = number_with_precision(package.discount, precision: 0) + "%"
+                    %a.btn.btn-success{:href => customers_venus_path(:distance => 3, :package => package.id)} Check Out
+                - elsif index == 2
+                  .col-sm-7.no_padding.package_left.bg_blue_3
+                    %h5.h5.font-bold
+                      = package.name
+                    %h5.p-t
+                      Includes:
+                    %ul
+                      %li
+                        Comprehensive dental check
+                      %li
+                        Online Reports
+                    %a{:href => customers_packages_learnmore_path(:package => package.id)} Learn More
+                  .col-sm-5.bg-white.no_padding.text-center.package_right
+                    %p.eKin_price.font-bold
+                      = "Rs "+number_with_precision(package.selling_price, precision: 2)
+                    %p
+                      %span.text-danger
+                        %strike.text-danger
+                          = "Rs "+number_with_precision(package.mrp, precision: 2)
+                    %p
+                      You Saved:
+                      %span
+                        = number_with_precision(package.discount, precision: 0)+"%"
+                    %a.btn.btn-success{:href => customers_venus_path(:distance => 3, :package => package.id)} Check Out
+                - elsif index == 3
+                  .col-sm-7.no_padding.package_left.bg_blue_4
+                    %h5.h5.font-bold
+                      = package.name
+                    %h5.p-t
+                      Includes:
+                    %ul
+                      %li
+                        Comprehensive vision and dental exam that checks the health of your eyes and teeth
+                      %li
+                        Online Reports
+                    %a{:href => customers_packages_learnmore_path(:package => package.id)} Learn More
+                  .col-sm-5.bg-white.no_padding.text-center.package_right
+                    %p.eKin_price.font-bold
+                      = "Rs "+number_with_precision(package.selling_price, precision: 2)
+                    %p
+                      %span.text-danger
+                        %strike.text-danger
+                          = "Rs "+number_with_precision(package.mrp, precision: 2)
+                    %p
+                      You Saved:
+                      %span
+                        = number_with_precision(package.discount, precision: 0)+"%"
+                    %a.btn.btn-success{:href => customers_venus_path(:distance => 3, :package => package.id)} Check Out
+                - elsif index == 4
+                  .col-sm-7.no_padding.package_left.bg_blue_1
+                    %h5.h5.font-bold
+                      = package.name
+                    %h5.p-t
+                      Includes:
+                    %ul
+                      %li
+                        HbA1c
+                      %li
+                        Lipid profile
+                      %li
+                        Home collection
+                      %li
+                        Online Reports
+                    %a{:href => customers_packages_learnmore_path(:package => package.id)} Learn More
+                  .col-sm-5.bg-white.no_padding.text-center.package_right
+                    %p.eKin_price.font-bold
+                      = "Rs "+number_with_precision(package.selling_price, precision: 2)
+                    %p
+                      %span.text-danger
+                        %strike.text-danger
+                          = "Rs "+number_with_precision(package.mrp, precision: 2)
+                    %p
+                      You Saved:
+                      %span
+                        = number_with_precision(package.discount, precision: 0)+"%"
+                    %a.btn.btn-success{:href => customers_venus_path(:distance => 3, :package => package.id)} Check Out
+                - elsif index == 5
+                  .col-sm-7.no_padding.package_left.bg_blue_2
+                    %h5.h5.font-bold
+                      = package.name
+                    %h5.p-t
+                      Includes:
+                    %ul
+                      %li
+                        60+ test
+                      %li
+                        Dental & Vision check
+                      %li
+                        Home collection
+                      %li
+                        Online Reports
+                    %a{:href => customers_packages_learnmore_path(:package => package.id)} Learn More
+                  .col-sm-5.bg-white.no_padding.text-center.package_right
+                    %p.eKin_price.font-bold
+                      = "Rs "+number_with_precision(package.selling_price, precision: 2)
+                    %p
+                      %span.text-danger
+                        %strike.text-danger
+                          = "Rs "+number_with_precision(package.mrp, precision: 2)
+                    %p
+                      You Saved:
+                      %span
+                        = number_with_precision(package.discount, precision: 0)+"%"
+                    %a.btn.btn-success{:href => customers_venus_path(:distance => 3, :package => package.id)} Check Out
+
+                - elsif index == 6
+                  .col-sm-7.no_padding.package_left.bg_blue_3
+                    %h5.h5.font-bold
+                      = package.name
+                    %h5.p-t
+                      Includes:
+                    %ul
+                      %li
+                        Includes T3, T4 and TSH tests
+                      %li
+                        Home collection
+                      %li
+                        Online Reports
+                    %a{:href => customers_packages_learnmore_path(:package => package.id)} Learn More
+                  .col-sm-5.bg-white.no_padding.text-center.package_right
+                    %p.eKin_price.font-bold
+                      = "Rs "+number_with_precision(package.selling_price, precision: 2)
+                    %p
+                      %span.text-danger
+                        %strike.text-danger
+                          = "Rs "+number_with_precision(package.mrp, precision: 2)
+                    %p
+                      You Saved:
+                      %span
+                        = number_with_precision(package.discount, precision: 0)+"%"
+                    %a.btn.btn-success{:href => customers_venus_path(:distance => 3, :package => package.id)} Check Out
+                -else
+                  .col-sm-7.no_padding.package_left.bg_blue_4
+                    %h5.h5.font-bold
+                      = package.name
+                    %h5.p-t
+                      Includes:
+                    %ul
+                      %li
+                        Comprehensive vision check
+                      %li
+                        Online Reports
+                    %a{:href => customers_packages_learnmore_path(:package => package.id)} Learn More
+                  .col-sm-5.bg-white.no_padding.text-center.package_right
+                    %p.eKin_price.font-bold
+                      = "Rs "+number_with_precision(package.selling_price, precision: 2)
+                    %p
+                      %span.text-danger
+                        %strike.text-danger
+                          = "Rs "+number_with_precision(package.mrp, precision: 2)
+                    %p
+                      You Saved:
+                      %span
+                        = number_with_precision(package.discount, precision: 0)+"%"
+                    %a.btn.btn-success{:href => customers_venus_path(:distance => 3, :package => package.id)} Check Out

@@ -1,0 +1,33 @@
+.text-left.row.padder#medical_records_panel
+  .vbox
+    .row
+      .col-md-6
+        %section.panel.panel-default
+          %header.panel-heading.p-l
+            Upload Medical Records
+          - url = @health_assessment ? health_assessment_medical_records_path(@health_assessment) : customer_medical_records_path(@customer)
+          = form_for MedicalRecord.new, remote: true, authenticity_token: true, html: {method: 'post'}, url: url do |f|
+            %section.panel-body
+              = f.text_field :title, {class: 'form-control parsley-validated', 'data-required' => 'true', placeholder: 'Add title here'}
+              %br
+              -if !@health_assessment
+                = select_tag :assessment_id, options_for_select(@customer.health_assessments.collect{|ha| [ha.health_assessment_id, ha.id]}),{class: 'form-control', prompt: 'Select Assessment'}
+                %br
+              .form-group
+                = f.label 'date'
+                = f.text_field :date, {class: 'input-sm input-s form-control datepicker', 'data-date-format' => 'dd-mm-yyyy', 'data-required' => 'true', placeholder: 'dd-mm-yyyy'}
+              .input-group
+                %span.input-group-btn
+                  %span.btn.btn-primary.btn-file
+                    Browse…
+                    = f.file_field :medical_record, {class: 'parsley-validated', 'data-required' => 'true', multiple: true, name: 'files[]'}
+                %input.form-control{readonly: "readonly", type: "text"}/
+              %br
+              %button#btn-1.btn.btn-default{type: 'submit'}
+                %i.fa.fa-cloud-upload.text
+                %span.text Upload
+                %i.fa.fa-check.text-active
+                %span.text-active Success
+              %input.btn.btn-default{type: 'reset', value: 'Cancel'}
+      .partial.col-md-6.no-padder.p-r
+        = render partial: 'staff/medical_records/index'

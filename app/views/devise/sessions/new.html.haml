@@ -1,0 +1,63 @@
+= javascript_include_tag "jquery"
+
+:javascript
+  (function() {
+    var _fbq = window._fbq || (window._fbq = []);
+    if (!_fbq.loaded) {
+      var fbds = document.createElement('script');
+      fbds.async = true;
+      fbds.src = '//connect.facebook.net/en_US/fbds.js';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(fbds, s);
+      _fbq.loaded = true;
+    }
+    _fbq.push(['addPixelId', '1439089473071327']);
+    })();
+    window._fbq = window._fbq || [];
+    window._fbq.push(['track', 'PixelInitialized', {}]);
+
+  <!-- Google Code for Remarketing Tag -->
+  /* <![CDATA[ */
+  var google_conversion_id = 953531478;
+  var google_custom_params = window.google_tag_params;
+  var google_remarketing_only = true;
+  /* ]]> */
+%div{:style => "display:none"} 
+  %script{:src => "//www.googleadservices.com/pagead/conversion.js", :type => "text/javascript"}
+%noscript
+  %div{:style => "display:inline;"}
+    %img{:alt => "", :height => "1", :src => "//googleads.g.doubleclick.net/pagead/viewthroughconversion/953531478/?value=0&amp;guid=ON&amp;script=0", :style => "border-style:none;", :width => "1"}/
+%noscript
+  %img{:alt => "", :height => "1", :src => "https://www.facebook.com/tr?id=1439089473071327&amp;ev=PixelInitialized", :style => "display:none", :width => "1"}/
+
+= content_for :title, 'Sign in'
+
+%section#content.m-t-lg.wrapper-md.animated.fadeInUp
+  .container.aside-xl
+    %section.m-b.p-b
+      %header.text-center
+        %a.h3.font-bold{href: root_path} eKincare
+    %section.m-b-lg
+      = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+        .list-group
+          .list-group-item
+            = f.email_field :email, {class: 'form-control no-border p-t-n', placeholder: 'Email',autofocus: true, required: true }
+          .list-group-item
+            = f.password_field :password, {class: 'form-control no-border', placeholder: 'Password', required: true}
+        = f.submit 'Sign in', {class: 'btn btn-lg btn-primary btn-block'}
+        .text-center.m-t.m-b
+          %a{href: new_password_path(resource_name)}
+            %small Forgot password?
+        .line.line-dashed
+        %p.text-muted.text-center
+          %small Do not have an account?
+        %a.btn.btn-lg.btn-default.btn-block{href: new_registration_path(resource_name)} Create an account
+%footer#footer
+  .text-center.padder
+    %p
+      %small.current_year
+
+:javascript
+  $(document).ready(function(){
+    $('.current_year').text("\© " + new Date().getFullYear() + " eKincare");
+  });

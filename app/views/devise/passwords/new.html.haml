@@ -1,0 +1,23 @@
+= content_for :title, 'Forgot password'
+
+%section#content.m-t-lg
+  .container.aside-xl.text-center
+    %section
+      %header.text-center
+        %a.h3.font-bold{href: root_path} eKincare
+    %header.wrapper
+      %strong
+        Forgot your password?
+    %section.m-b-lg
+      = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+        %small
+          - unless resource.errors.empty?
+            .text-danger.m-b
+              = resource.errors.full_messages.map { |msg| msg }.join('<br>').html_safe
+
+          -#= devise_error_messages!
+          -#= messages = resource.errors.full_messages.map { |msg| msg }.join
+        .list-group
+          .list-group-item
+            = f.email_field :email, class: 'form-control no-border parsley-validated',required: true, autofocus: true,  placeholder: 'Email'
+        = f.submit "Send reset password to e-mail", class: 'btn btn-primary m-b'

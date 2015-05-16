@@ -1,0 +1,23 @@
+= content_for :title, 'Customers'
+
+%div.clearfix.breadcrumb
+  %ol.padder
+    = render_breadcrumbs :separator => ' / '
+    %small.pull-right
+      contact: 888-678-EKIN (3546) /
+      %a{href: 'mailto:help@ekincare.com'} help@ekincare.com
+
+#content
+  .vbox.padder
+    %h4
+      %a.font-bold{href: "#"}
+        Customers &nbsp;&nbsp;
+      %a.btn.btn-default.btn-s-mdsche.m-b-xs{href: new_customer_path}
+        &nbsp;
+        %i.fa.fa-plus
+        &nbsp; New Customer &nbsp;&nbsp;
+    .scrollable
+      %section.panel.panel-default
+        %table.table.m-b-xs.table-striped.b-t.b-light#customer_grid
+
+  %a.hide.nav-off-screen-block{"data-target" => "#nav", "data-toggle" => "class:nav-off-screen", href: "#"}

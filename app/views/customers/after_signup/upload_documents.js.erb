@@ -1,0 +1,3 @@
+<%= remotipart_response do %>
+ "<%= j(render(:partial => 'customers/after_signup/upload_documents')).gsub('\n','').gsub('\\', '')%>"
+<% end %>

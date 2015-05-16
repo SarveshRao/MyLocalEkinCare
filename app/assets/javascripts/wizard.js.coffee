@@ -1,0 +1,17 @@
+#= require jquery
+#= require jquery_ujs
+#= require jquery.remotipart
+#= require ./wizard/bootstrap
+#= require ./wizard/app
+#= require ./wizard/jquery.slimscroll.min
+#= require ./wizard/bootstrap-datepicker
+#= require ./wizard/bootstrap-slider
+#= require ./wizard/bootstrap-filestyle.min
+#= require ./wizard/jquery.hotkeys
+#= require ./wizard/bootstrap-wysiwyg
+#= require ./wizard/demo
+#= require ./wizard/chosen.jquery.min
+#= require ./wizard/app.plugin
+#= require ./wizard/newExt
+#= require ./wizard/jquery-ui.min
+#= require after_signup

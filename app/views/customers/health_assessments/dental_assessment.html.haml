@@ -1,0 +1,119 @@
+= content_for :title, 'Dental assessment'
+
+%div.clearfix.breadcrumb
+  %ol.padder
+    = render_breadcrumbs :separator => ' / '
+    %small.pull-right
+      Contact: 888-678-EKIN (3546) /
+      %a{href: 'mailto:founder@ekincare.com'} founder@ekincare.com
+
+%div.padder{style: 'min-height: 1000px'}
+  .m-b-md.padder
+    %h4.text-center
+      %a.font-bold Dental Assessment
+  -#= paginate @dental_assessments, params: {id: nil}
+
+  - if @dental_assessment.empty?
+    .row.p-t.padder
+      .text-center
+        No assessments found
+      .col-lg-3.col-md-3.text-center
+
+    .row.p-t.padder
+      .text-center
+        %h4 Please upload your recent dental records
+      .text-center.p-t
+        %a.btn.btn-s-md.btn-primary{:href => customers_documents_path} Get Started
+      .col-lg-3.col-md-3.text-center
+
+    .row.p-t.padder
+      .text-center.col-md-6.col-md-offset-3
+        American Dental Association (ADA) recommends a dental exam every 6 months. If you haven’t  had one in the recent past, call now to schedule an annual dental assessment. It's free.
+
+    .row.p-t.padder
+      .text-center
+        %h3 888-678-EKIN (3546)
+
+  - else
+
+    .row.p-t.md.padder
+    .col-lg-12.col-md-12.m-b{:style => "padding:0"}
+      %div
+        .col-md-6.nopadding
+          %div
+            .col-md-12.no-padder
+              %h5
+                -unless(@dental_assessment.first.appointments.empty?)
+                  -unless(@dental_assessment.first.appointments.first.partner_name1.nil?)
+                    %span.font-bold
+                      Provider Name
+                    %span
+                      &nbsp;:
+                    %span
+                      =@dental_assessment.first.appointments.first.partner_name1
+      %div
+        .col-md-6.nopadding.text-right.provider_doctor_name
+          %h5
+            -unless(@dental_assessment.nil?)
+              -unless(@dental_assessment.first.doctor_name.nil?)
+                %span.font-bold
+                  Doctor Name
+                %span
+                  &nbsp;:
+                %span
+                  =@dental_assessment.first.doctor_name
+
+    .row.p-t.md.padder
+      .col-lg-12.col-md-12
+        %section.row.m-l-none.m-r-none.m-b.text-center
+          .col-md-2.no-padder
+            %section.panel.panel-default.m-n
+              .panel-body
+                = link_to_next_page @dental_assessment, 'Previous', params: {type: 'Dental'}
+                &nbsp;
+          .col-md-8.no-padder
+            %section.panel.panel-default
+              .panel-body
+                %b
+                  = formatted_date @dental_assessment.first.request_date
+          .col-md-2.no-padder
+            %section.panel.panel-default
+              .panel-body
+                = link_to_previous_page @dental_assessment, 'Next', params: {type: 'Dental'}
+                &nbsp;
+
+    .row.p-t.padder
+      .col-lg-12.col-md-12
+        - examination = @dental_assessment.first.examination
+        - if examination.results.empty?
+          Waiting for examination results
+        - else
+          %section.panel.panel-default
+            %header.padder.padder-v-10.m-b-none.panel.panel-heading.b-n.b-b
+              %b.text-info{style: 'font-size: 15px'} Dental examination results
+            %table.table.table-striped.m-b-none
+              %thead
+                %tr
+                  %th
+                    %span Dentition
+                  %th
+                    %span Tooth Number
+                  %th
+                    %span Diagonsis
+                  %th
+                    %span Recommendation
+                  %th
+                    %span Examination Date
+              %tbody
+                - examination.results.each do |result|
+                  %tr
+                    %td
+                      = result.dentition
+                    %td
+                      = result.tooth_number
+                    %td
+                      = result.diagnosis
+                    %td
+                      = result.recommendation
+                    %td
+                      = formatted_date result.examination.dental_assessment.request_date

@@ -1,0 +1,756 @@
+= content_for :title, "#{@customer.name} | customer page"
+
+%section.vbox
+  %section.scrollable
+    %section.hbox.stretch
+      %section#content
+        %div.clearfix.breadcrumb
+          %ol
+            = render_breadcrumbs :separator => ' / '
+            %small.pull-right
+              contact: 888-678-EKIN (3546) /
+              %a{href: 'mailto:help@ekincare.com'} help@ekincare.com
+        %h4.padder
+          %a.font-bold{href: "#"}
+            = @customer.name
+        %section.vbox
+          %section
+            %section.hbox.stretch
+              %aside.col-lg-12.padder
+                %section.row.m-l-none.m-r-none.m-b.m-t.text-center
+                  .col-xs-2.bg-primary.dk.lter.c-p#health_assessments_tile
+                    .wrapper
+                      %i.i.i-health2.fa.fa-3x.m-t.m-b-sm.text-white
+                      %p.font-bold.small Assessments
+                      -#.h4.font-bold 32k
+                  .col-xs-2.bg-success.dk.lter.c-p#customer_info_tile
+                    .wrapper
+                      %i.i.i-info2.fa.fa-3x.m-t.m-b-sm.text-white
+                      %p.font-bold.small Profile
+                      -#.h4.font-bold 50k
+                  .col-xs-2.bg-info.dk.lt.c-p#immunizations_tile
+                    .wrapper
+                      %i.fa.fa-dribbble.fa.fa-3x.m-t.m-b-sm.text-white
+                      %p.font-bold.small Immunizations
+                      -#.h4.font-bold 16k
+                  .col-xs-2.bg-warning.dk.lter.c-p#medications_tile
+                    .wrapper
+                      %i.fa.fa-medkit.fa.fa-3x.m-t.m-b-sm.text-white
+                      %p.font-bold.small Medications
+                      -#.h4.font-bold 16k
+                  .col-xs-2.bg-danger.dk.lter.c-p#appointments_tile
+                    .wrapper
+                      %i.i.i-history.fa.fa-3x.m-t.m-b-sm.text-white
+                      %p.font-bold.small Appointments
+                      -#.h4.font-bold 16k
+                  .col-xs-2.bg-dark.dk.lter.c-p#past_medical_records_tile
+                    .wrapper
+                      %i.fa.fa-clipboard.fa.fa-3x.m-t.m-b-sm.text-white
+                      %p.font-bold.small Past Medical Records
+                      -#.h4.font-bold 16k
+
+                %div
+                  = render partial: '/staff/medical_records/main'
+                  .text-left#health_assessments_panel
+                    .vbox
+                      %h4.panel-heading.no-padder
+                        %a.font-bold{href: "#"}
+                          Assessments &nbsp;&nbsp;
+                        %a.btn.btn-default.btn-s-mdsche.m-b-xs#create_assessment
+                          &nbsp;
+                          %i.fa.fa-plus
+                          &nbsp;Add new &nbsp;&nbsp;
+                      .scrollable
+                        %section.panel.panel-default
+                          .table-responsive
+                            %table.table.table-striped.b-light#assessments_table
+                              %thead
+                                %tr
+                                  %th{width: '15%'}
+                                    Assessment ID
+                                  %th{width: '15%'}
+                                    Assessment date
+                                    -#%span.th-sort
+                                      %i.fa.fa-sort-down.text
+                                      %i.fa.fa-sort-up.text-active
+                                      %i.fa.fa-sort
+                                  -#%th{width: '20%'} Package Type
+                                  %th{width: '20%'} Assessment Type
+                                  %th{width: '20%'} Enterprise
+                                  -#%th{width: '13%'} Paid
+                                  %th{width: '20%'} Status
+                                  %th{width: '5%'}
+                                  %th{width: '5%'}
+                              %tbody
+                                = form_for HealthAssessment.new, as: :health_assessment, url: customer_health_assessments_path(@customer),remote: true do |f|
+                                  %tr#assessment_new_form.hide
+                                    %td
+
+                                    %td
+                                      = f.text_field :request_date, {placeholder: 'dd-mm-yyyy', class: 'form-control datepicker-input datepicker', 'data-date-format' => 'dd-mm-yyyy'}
+                                    -#%td
+                                      = f.select :package_type,[['select',''],  'General', 'Master', 'Executive'],{}, {class: 'form-control'}
+                                    %td
+                                      = f.select :assessment_type,[['select',''], 'Body','Dental','Vision'],{}, {class: 'form-control'}
+                                    %td
+                                      = f.select(:enterprise_id, Enterprise.all.collect {|p| [ p.name, p.id ]}, {:include_blank => "Select an Enterprise"}, {:class => 'form-control'}) #:prompt => 'Select enterprise', :class => 'form-control'
+                                    %td
+                                      = f.select :status,['requested', 'sample_collection', 'test_phase', 'test_results', 'update_emr', 'second_review', 'done'],{}, {class: 'form-control'}
+                                    %td
+                                      = f.submit 'save', {id: 'assessment_save_btn',class:'btn btn-sm small-btn btn-primary'}
+                                    %td
+                                      %a{id: 'assessment_cancel_btn', class: 'btn btn-sm small-btn btn-danger'} cancel
+                                      %input{type: 'reset', class: 'hide', id: 'reset_assessment_btn'}
+
+                                - @health_assessments.each do |assessment|
+                                  %tr{class: 'assessment-row-ck', url: customer_health_assessment_path(@customer, assessment)}
+                                    %td
+                                      = assessment.health_assessment_id
+                                    %td
+                                      = formatted_date assessment.request_date
+                                    -#%td
+                                      = assessment.package_type
+                                    %td
+                                      = assessment.assessment_type
+                                    %td
+                                      = assessment.enterprise_name
+                                    %td
+                                      = assessment.status_message
+                                    %td
+                                      %a.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#"}
+                                        %i.fa.fa-pencil
+                                    %td
+                                      %a.pull-right.dropdown-toggle.assessment-delete-row{"data-toggle" => "dropdown", href: "#"}
+                                        %i.i.i-trashcan
+
+                                  = form_for assessment, as: :health_assessment, url: customer_health_assessment_path(@customer, assessment), remote: true do |f|
+                                    %tr.edit_assessment_row.hide{customer_id: @customer.id, health_assessment_id: assessment.id}
+                                      %td
+                                        = assessment.health_assessment_id
+                                      %td
+                                        = f.text_field :request_date, {value: numeric_date_format(assessment.request_date), placeholder: 'dd-mm-yyyy', class: 'form-control datepicker-input datepicker', 'data-date-format' => 'dd-mm-yyyy'}
+                                      -#%td
+                                        = f.select :package_type, [ 'General', 'Master', 'Executive'],{}, {class: 'form-control'}
+                                      %td
+                                        = f.select :assessment_type, ['Body','Dental','Vision'],{}, {class: 'form-control'}
+                                      %td
+                                        = f.select(:enterprise_id, Enterprise.all.collect {|p| [ p.name, p.id ]}, {:include_blank => "Select an Enterprise"}, {:class => 'form-control'}) #:prompt => 'Select enterprise', :class => 'form-control'
+                                      %td
+                                        = f.select :status,['requested', 'sample_collection', 'test_phase', 'test_results', 'update_emr', 'second_review', 'done'],{}, {class: 'form-control'}
+                                      %td
+                                        = f.submit 'save', {class:'btn btn-sm small-btn btn-primary assessment-save-row-btn'}
+                                      %td
+                                        %a{class: 'btn btn-sm small-btn btn-danger assessment-cancel-row-btn'} cancel
+                                        %input{type: 'reset', class: 'hide reset-assessment-row-btn'}
+
+                        -#%aside.pull-right
+                          = paginate @health_assessments
+
+                  .text-left#customer_info_panel
+                    .vbox
+                      %ul.nav.nav-tabs.m-b-n-xxs.bg-light
+                        %li.active
+                          %a.m-l#profile{"data-toggle" => "tab", href: "#profile"}
+                            Profile
+                        %li
+                          %a#life_style{"data-toggle" => "tab", href: "#life_style"} Life Style
+                        %li
+                          %a#contact_information{"data-toggle" => "tab", href: "#contact_information"} Contact Information
+                        %li
+                          %a#allergies{"data-toggle" => "tab", href: "#allergies"} Allergies
+                        %li
+                          %a#family_history{"data-toggle" => "tab", href: "#family_history"} Family History
+                        %li
+                          %a#promo_code_history{"data-toggle" => "tab", href: "#promo_code_history"} Promo Codes
+                        %li
+                          %a#health_issues{"data-toggle" => "tab", href: "#health_issues"} Health Issues
+
+                      #customer-details
+                        = render partial: 'show'
+
+                    .vbox#allergies_info.hide
+                      %h4.panel-heading.no-padder
+                        %a.font-bold{href: "#"}
+                          Allergies &nbsp;&nbsp;
+                        %a.btn.btn-default.btn-s-mdsche.m-b-xs#create_allergy
+                          &nbsp;
+                          %i.fa.fa-plus
+                            &nbsp;Add new &nbsp;&nbsp;
+                      .scrollable
+                        %section.panel.panel-default
+                          .table-responsive
+                            %table.table.table-striped.b-light#allergies_table
+                              %thead
+                                %tr
+                                  %th.th-sortable{"data-toggle" => "class", width: '30%'}
+                                    Name
+                                    -#%span.th-sort
+                                      %i.fa.fa-sort-down.text
+                                      %i.fa.fa-sort-up.text-active
+                                      %i.fa.fa-sort
+                                  %th{width: '30%'} Reaction
+                                  %th{width: '30%'} Severity
+                                  %th{width: '5%'}
+                                  %th{width: '5%'}
+                              %tbody
+                                = form_for Allergy.new, url: customer_customers_allergies_path(@customer),remote: true do |f|
+                                  %tr#allergy_new_form.hide
+                                    %td
+                                      = f.text_field :name, {placeholder: 'Name', class: 'form-control customer-allergy-select'}
+                                    %td
+                                      = f.text_field :reaction, {placeholder: 'Reaction', class: 'form-control allergy_reaction'}
+                                    %td
+                                      = f.fields_for :customer_allergies do |customer_allergy|
+                                        = customer_allergy.text_field :severity, {placeholder: 'Severity', class: 'form-control'}
+                                    %td
+                                      = f.submit 'save', {id: 'allergy_save_btn',class:'btn btn-sm small-btn btn-primary'}
+                                    %td
+                                      %a{id: 'allergy_cancel_btn', class: 'btn btn-sm small-btn btn-danger'} cancel
+                                      %input{type: 'reset', class: 'hide', id: 'reset_allergy_btn'}
+
+                                - @allergies.each do |allergy|
+                                  %tr
+                                    %td
+                                      = allergy.name
+                                    %td
+                                      = allergy.reaction
+                                    %td
+                                      = @customer.customer_allergies.find_by(allergy: allergy).severity
+                                    %td
+                                      %a.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#"}
+                                        %i.fa.fa-pencil
+                                    %td
+                                      %a.pull-right.dropdown-toggle.allergy-delete-row{"data-toggle" => "dropdown", href: "#"}
+                                        %i.i.i-trashcan
+
+                                  - customer_allergy = @customer.customer_allergies.find_by(allergy_id: allergy.id)
+
+                                  = form_for allergy, url: customer_customers_allergy_path(@customer, customer_allergy), remote: true do |f|
+                                    %tr.edit_allergy_row.hide{customer_id: @customer.id, customer_allergy_id: customer_allergy.id}
+                                      %td
+                                        = f.text_field :name, {placeholder: 'Name', class: 'form-control customer-allergy-select'}
+                                      %td
+                                        = f.text_field :reaction, {placeholder: 'Reaction', class: 'form-control allergy_reaction'}
+                                      %td
+                                        = f.fields_for :customer_allergies, @customer.customer_allergies.find_by(allergy_id: allergy.id) do |ca|
+                                          = ca.text_field :severity, {class: 'form-control'}
+                                      %td
+                                        = f.submit 'save', {class:'btn btn-sm small-btn btn-primary allergy-save-row-btn'}
+                                      %td
+                                        %a{class: 'btn btn-sm small-btn btn-danger allergy-cancel-row-btn'} cancel
+                                        %input{type: 'reset', class: 'hide reset-allergy-row-btn'}
+
+                    .vbox#family_history_info.hide
+                      %h4.panel-heading.no-padder
+                        %a.font-bold{href: "#"}
+                          Family History &nbsp;&nbsp;
+                        %a.btn.btn-default.btn-s-mdsche.m-b-xs#create_family_medical_history{href: '#'}
+                          &nbsp;
+                          %i.fa.fa-plus
+                          &nbsp;Add new &nbsp;&nbsp;
+                      .scrollable
+                        %aside
+                          %section.panel.panel-default
+                            .table-responsive
+                              %table.table.table-striped.b-light#family_medical_histories_table
+                                %thead
+                                  %tr
+                                    %th.th-sortable{"data-toggle" => "class", width: "15%"}
+                                      Name
+                                      -#%span.th-sort
+                                        %i.fa.fa-sort-down.text
+                                        %i.fa.fa-sort-up.text-active
+                                        %i.fa.fa-sort
+                                    %th{width: '15%'} Relation
+                                    %th{width: '10%'} Age
+                                    %th{width: '10%'} Alive
+                                    %th{width: '40%'} Medical Conditions
+                                    %th{width: '5%'}
+                                    %th{width: '5%'}
+                                %tbody
+                                  = form_for FamilyMedicalHistory.new, url: customer_customers_family_medical_histories_path(@customer),remote: true do |f|
+                                    %tr#family_medical_history_new_form.hide
+                                      %td
+                                        = f.text_field :name, {placeholder: 'Name', class: 'form-control'}
+                                      %td
+                                        = f.select :relation,['Father','Mother','Brother','Sister','Son', 'Daughter', 'Grandfather','Grandmother'],{}, {class: 'form-control'}
+                                      %td
+                                        = f.text_field :age, {placeholder: 'Age', class: 'form-control '}
+                                      %td
+                                        = f.select :status,['yes','no'],{}, {class: 'form-control'}
+                                      %td
+                                        -@medical_conditions.each do |medical_condition|
+                                          %label.checkbox-inline.i-checks.i-chk
+                                            %input#inlineCheckbox2{:name => "chk-family_medicals[]", :type => "checkbox", :value => medical_condition.id}
+                                              %i
+                                              %span
+                                                =medical_condition.name
+                                      %td
+                                        = f.submit 'save', {id: 'family_medical_history_save_btn',class:'btn btn-sm small-btn btn-primary'}
+                                      %td
+                                        %a{id: 'family_medical_history_cancel_btn', class: 'btn btn-sm small-btn btn-danger'} cancel
+                                        %input{type: 'reset', class: 'hide', id: 'reset_family_medical_history_btn'}
+
+                                  - @family_medical_histories.each do |medical_history|
+                                    %tr
+                                      %td
+                                        = medical_history.name
+                                      %td
+                                        = medical_history.relation
+                                      %td
+                                        = medical_history.age
+                                      %td
+                                        = medical_history.status
+                                      %td
+                                        -medical_history.medical_conditions.each do |medical_condition|
+                                          =medical_condition.name+','
+                                      %td
+                                        %a.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#"}
+                                          %i.fa.fa-pencil
+                                      %td
+                                        %a.pull-right.dropdown-toggle.family-medical-history-delete-row{"data-toggle" => "dropdown", href: "#"}
+                                          %i.i.i-trashcan
+
+                                    = form_for medical_history, url: customer_customers_family_medical_history_path(@customer, medical_history),remote: true do |f|
+                                      %tr.edit_family_medical_history_row.hide{customer_id: @customer.id, family_medical_history_id: medical_history.id}
+                                        %td
+                                          = f.text_field :name, {placeholder: 'Name', class: 'form-control'}
+                                        %td
+                                          = f.select :relation,['Father','Mother','Brother','Sister','Son','Daughter','Grandfather','Grandmother'],{}, {class: 'form-control'}
+                                        %td
+                                          = f.text_field :age, {placeholder: 'Age', class: 'form-control '}
+                                        %td
+                                          = f.select :status,['yes','no'],{}, {class: 'form-control'}
+                                        %td
+                                          -@medical_conditions.each do |medical_condition|
+                                            %label.checkbox-inline.i-checks.i-chk
+                                              %input#inlineCheckbox2{:name => "chk-family_medicals[]", :type => "checkbox", :value => medical_condition.id, checked: medical_history.medical_conditions.any?{|mc| mc.id == medical_condition.id}}
+                                                %i
+                                                %span
+                                                  =medical_condition.name
+                                        %td
+                                          = f.submit 'save', {class:'btn btn-sm small-btn btn-primary family-medical-history-save-row-btn'}
+                                        %td
+                                          %a{class: 'btn btn-sm small-btn btn-danger family-medical-history-cancel-row-btn'} cancel
+                                          %input{type: 'reset', class: 'hide reset-family-medical-history-row-btn'}
+
+                    .vbox#promo_code_history_info.hide
+                      %h4.panel-heading.no-padder
+                        %a.font-bold{href: "#"}
+                          Promo Codes &nbsp;&nbsp;
+                        %a.btn.btn-default.btn-s-mdsche.m-b-xs#create_promo_code_history{href: '#'}
+                          &nbsp;
+                          %i.fa.fa-plus
+                          &nbsp;Add new &nbsp;&nbsp;
+                      .scrollable
+                        %aside
+                          %section.panel.panel-default
+                            .table-responsive
+                              %table.table.table-striped.b-light#promo_codes_histories_table
+                                %thead
+                                  %tr
+                                    %th{width: '30%'} Code
+                                    %th{width: '60%'} Health Assessment ID
+                                    %th{width: '5%'}
+                                    %th{width: '5%'}
+                                %tbody
+                                  = form_for HealthAssessmentPromoCode.new, url: customer_customers_promo_codes_histories_path(@customer),remote: true do |f|
+                                    %tr#health_assessment_promo_code_history_new_form.hide
+                                      %td
+                                        = f.text_field :code, class: 'form-control', required: true, autofocus: true,  placeholder: 'Promo Code'
+                                      %td
+                                        = f.select :health_assessment_id, options_for_select(@customer.health_assessments.collect{|ha| [ha.health_assessment_id, ha.id]}),{include_blank: 'Select'}, {class: 'form-control appointment-ha-select'}
+                                      %td
+                                        = f.submit 'save', {class:'btn btn-sm small-btn btn-primary promo-code-history-save-btn'}
+                                      %td
+                                        %a{id: 'promo_code_history_cancel_btn', class: 'btn btn-sm small-btn btn-danger'} cancel
+                                        %input{type: 'reset', class: 'hide', id: 'reset_promo_code_history_btn'}
+
+                                  - @health_assessment_promo_codes.each do |health_assessment_promo_code|
+                                    %tr
+                                      %td
+                                        = PromoCode.find(health_assessment_promo_code.promo_code_id).code
+                                      %td
+                                        =HealthAssessment.find(health_assessment_promo_code.health_assessment_id).health_assessment_id
+                                      %td
+                                        %a.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#"}
+                                          %i.fa.fa-pencil
+                                      %td
+                                        %a.pull-right.dropdown-toggle.promo-code-history-delete-row{"data-toggle" => "dropdown", href: "#"}
+                                          %i.i.i-trashcan
+
+                                    = form_for health_assessment_promo_code, html: {"data-validate" => "parsley"}, url: customer_customers_promo_codes_history_path(@customer, health_assessment_promo_code),remote: true do |f|
+                                      %tr.edit_promo_code_history_row.hide{customer_id: @customer.id,promo_code_id: health_assessment_promo_code.id}
+                                        %td
+                                          = f.text_field :code, class: 'form-control', required: true, autofocus: true
+                                        %td
+                                          = f.select :health_assessment_id, options_for_select(@customer.health_assessments.collect{|ha| [ha.health_assessment_id, ha.id]}),{include_blank: 'Select'}, {class: 'form-control appointment-ha-select'}
+                                        %td
+                                          = f.submit 'save', {class:'btn btn-sm small-btn btn-primary family-medical-history-save-row-btn'}
+                                        %td
+                                          %a{class: 'btn btn-sm small-btn btn-danger promo-code-history-cancel-row-btn'} cancel
+                                          %input{type: 'reset', class: 'hide reset-promo-code-history-row-btn'}
+                    .vbox#health_issues_info.hide
+                      = render partial: 'health_issues_show'
+                  .text-left#immunizations_panel
+                    .vbox
+                      %h4.panel-heading.no-padder
+                        %a.font-bold{href: "#"}
+                          Immunizations &nbsp;&nbsp;
+                        %a.btn.btn-default.btn-s-mdsche.m-b-xs#create_immunization
+                          &nbsp;
+                          %i.fa.fa-plus
+                            &nbsp;Add new &nbsp;&nbsp;
+                      .scrollable
+                        %section.panel.panel-default
+                          .table-responsive
+                            %table.table.table-striped.b-light#immunizations_table
+                              %thead
+                                %tr
+                                  %th.th-sortable{"data-toggle" => "class", width: '23%'}
+                                    Name
+                                    -#%span.th-sort
+                                      %i.fa.fa-sort-down.text
+                                      %i.fa.fa-sort-up.text-active
+                                      %i.fa.fa-sort
+                                  %th{width: '17%'} Type
+                                  %th{width: '15%'} Date
+                                  %th{width: '15%'} Dosage
+                                  %th{width: '20%'} Instructions
+                                  %th{width: '5%'}
+                                  %th{width: '5%'}
+                              %tbody
+                                = form_for Immunization.new, url: customer_customers_immunizations_path(@customer),remote: true do |f|
+                                  %tr#immunization_new_form.hide
+                                    %td
+                                      = f.text_area :name, {placeholder: 'Name', class: 'form-control'}
+                                    %td
+                                      = f.text_area :immunization_type, {placeholder: 'Type', class: 'form-control'}
+                                    %td
+                                      = f.fields_for :customer_immunizations do |customer_immunization|
+                                        = customer_immunization.text_field :date, {placeholder: 'dd-mm-yyyy', class: 'form-control datepicker-input datepicker', 'data-date-format' => 'dd-mm-yyyy'}
+                                    %td
+                                      = f.fields_for :customer_immunizations do |customer_immunization|
+                                        = customer_immunization.text_field :dosage, {placeholder: 'Dosage', class: 'form-control'}
+                                    %td
+                                      = f.fields_for :customer_immunizations do |customer_immunization|
+                                        = customer_immunization.text_area :instructions, {placeholder: 'Instructions', class: 'form-control'}
+                                    %td
+                                      = f.submit 'save', {id: 'immunization_save_btn',class:'btn btn-sm small-btn btn-primary'}
+                                    %td
+                                      %a{id: 'immunization_cancel_btn', class: 'btn btn-sm small-btn btn-danger'} cancel
+                                      %input{type: 'reset', class: 'hide', id: 'reset_immunization_btn'}
+
+                                - @immunizations.each do |immunization|
+                                  %tr
+                                    %td
+                                      = immunization.name
+                                    %td
+                                      = immunization.immunization_type
+                                    %td
+                                      = formatted_dates(immunization.customer_immunizations.map(&:date)).join(' ') rescue ''
+                                    %td
+                                      = immunization.customer_immunizations.map(&:dosage).join(' ')
+                                    %td
+                                      = immunization.customer_immunizations.map(&:instructions).join(' ')
+                                    %td
+                                      %a.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#"}
+                                        %i.fa.fa-pencil
+                                    %td
+                                      %a.pull-right.dropdown-toggle.immunization-delete-row{"data-toggle" => "dropdown", href: "#"}
+                                        %i.i.i-trashcan
+
+                                  = form_for immunization, url: customer_customers_immunization_path(@customer, immunization), remote: true do |f|
+                                    %tr.edit_immunization_row.hide{customer_id: @customer.id, immunization_id: immunization.id}
+                                      %td
+                                        = f.text_area :name, {class: 'form-control'}
+                                      %td
+                                        = f.text_area :immunization_type, {class: 'form-control'}
+                                      %td
+                                        = f.fields_for :customer_immunizations, @customer.customer_immunizations.find_by(immunization_id: immunization.id) do |ci|
+                                          = ci.text_field :date, {value: numeric_date_format(@customer.customer_immunizations.find_by(immunization_id: immunization.id).date), class: 'form-control datepicker datepicker-input', 'data-date-format' => 'dd-mm-yyyy', placeholder: 'dd-mm-yyyy'}
+                                      %td
+                                        = f.fields_for :customer_immunizations, @customer.customer_immunizations.find_by(immunization_id: immunization.id) do |ci|
+                                          = ci.text_field :dosage, {class: 'form-control'}
+                                      %td
+                                        = f.fields_for :customer_immunizations, @customer.customer_immunizations.find_by(immunization_id: immunization.id) do |ci|
+                                          = ci.text_area :instructions, {class: 'form-control'}
+                                      %td
+                                        = f.submit 'save', {class:'btn btn-sm small-btn btn-primary immunization-save-row-btn'}
+                                      %td
+                                        %a{class: 'btn btn-sm small-btn btn-danger immunization-cancel-row-btn'} cancel
+                                        %input{type: 'reset', class: 'hide reset-immunization-row-btn'}
+
+                        -#%aside.pull-right
+                          = paginate @immunizations
+
+
+                  .text-left#medications_panel
+                    .vbox
+                      %h4.panel-heading.no-padder
+                        %a.font-bold{href: "#"}
+                          Medications &nbsp;&nbsp;
+                        %a.btn.btn-default.btn-s-mdsche.m-b-xs#create_medication{href: '#'}
+                          &nbsp;
+                          %i.fa.fa-plus
+                          &nbsp;Add new &nbsp;&nbsp;
+                      .scrollable
+                        %section.panel.panel-default
+                          .table-responsive
+                            %table.table.table-striped.b-light#medications_table
+                              %thead
+                                %tr
+                                  %th.th-sortable{"data-toggle" => "class", width: '14%'}
+                                    Name
+                                    -#%span.th-sort
+                                      %i.fa.fa-sort-down.text
+                                      %i.fa.fa-sort-up.text-active
+                                      %i.fa.fa-sort
+                                  %th{width: '14%'} Type
+                                  %th{width: '12%'}  Date
+                                  -#%th{width: '9%'}  Instructions
+                                  %th{width: '10%'}  Dose Qty
+                                  %th{width: '11%'}  Rate Qty
+                                  %th{width: '15%'}  Prescriber
+                                  %th{width: '9%'}  Active
+                                  %th{width: '5%'}
+                                  %th{width: '5%'}
+
+                              %tbody
+                                = form_for Medication.new, url: customer_customers_medications_path(@customer),remote: true do |f|
+                                  %tr#medication_new_form.hide
+                                    %td
+                                      = f.text_field :name, {placeholder: 'Name', class: 'form-control'}
+                                    %td
+                                      = f.select :medication_type,['Liquid','Tablet'],{}, {class: 'form-control', placeholder: 'Type'}
+                                    %td
+                                      = f.text_field :date, {placeholder: 'dd-mm-yyyy', class: 'form-control datepicker-input datepicker', 'data-date-format' => 'dd-mm-yyyy'}
+                                    -#%td
+                                      = f.text_area :instructions, {placeholder: 'Instructions', class: 'form-control'}
+                                    %td
+                                      = f.text_field :dose_quantity, {placeholder: 'Dose quantity', class: 'form-control'}
+                                    %td
+                                      = f.text_field :rate_quantity, {placeholder: 'Rate quantity', class: 'form-control'}
+                                    %td
+                                      = f.text_field :prescriber_name, {placeholder: 'Prescriber name', class: 'form-control'}
+                                    %td
+                                      = f.select :active, [['select',''], ['yes','true'],['no','false']],{}, {class: 'form-control'}
+                                    %td
+                                      = f.submit 'save', {id: 'medication_save_btn',class:'btn btn-sm small-btn btn-primary'}
+                                    %td
+                                      %a{id: 'medication_cancel_btn', class: 'btn btn-sm small-btn btn-danger'} cancel
+                                      %input{type: 'reset', class: 'hide', id: 'reset_medication_btn'}
+
+                                - @medications.each do |medication|
+                                  %tr
+                                    %td
+                                      = medication.name
+                                    %td
+                                      = medication.medication_type
+                                    %td
+                                      = formatted_date medication.date
+                                    -#%td
+                                      = medication.instructions
+                                    %td
+                                      = medication.dose_quantity
+                                    %td
+                                      = medication.rate_quantity
+                                    %td
+                                      = medication.prescriber_name
+                                    %td
+                                      -if medication.active
+                                        %a.active{href: "#"}
+                                          %i.fa.fa-check.text-success.text-active
+                                          %i.fa.fa-times.text-danger.text
+                                      -else
+                                        %a{href: "#"}
+                                          %i.fa.fa-check.text-success.text-active
+                                          %i.fa.fa-times.text-danger.text
+                                    %td
+                                      %a.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#"}
+                                        %i.fa.fa-pencil
+                                    %td
+                                      %a.pull-right.dropdown-toggle.medication-delete-row{"data-toggle" => "dropdown", href: "#"}
+                                        %i.i.i-trashcan
+
+                                  = form_for medication, url: customer_customers_medication_path(@customer, medication), remote: true do |f|
+                                    %tr.edit_medication_row.hide{customer_id: @customer.id, medication_id: medication.id}
+                                      %td
+                                        = f.text_field :name, {placeholder: 'Name', class: 'form-control'}
+                                      %td
+                                        = f.select :medication_type,['Liquid','Tablet'],{}, {placeholder: 'Type', class: 'form-control'}
+                                      %td
+                                        = f.text_field :date, {value: numeric_date_format(medication.date), placeholder: 'dd-mm-yyyy', class: 'form-control datepicker-input datepicker', 'data-date-format' => 'dd-mm-yyyy'}
+                                      -#%td
+                                        = f.text_area :instructions, {placeholder: 'Instructions', class: 'form-control'}
+                                      %td
+                                        = f.text_field :dose_quantity, {placeholder: 'Dose quantity', class: 'form-control'}
+                                      %td
+                                        = f.text_field :rate_quantity, {placeholder: 'Rate quantity', class: 'form-control'}
+                                      %td
+                                        = f.text_field :prescriber_name, {placeholder: 'Prescriber name', class: 'form-control'}
+                                      %td
+                                        = f.select :active, [['yes','true'],['no','false']],{}, {class: 'form-control'}
+                                      %td
+                                        = f.submit 'save', {class:'btn btn-sm small-btn btn-primary medication-save-row-btn'}
+                                      %td
+                                        %a{class: 'btn btn-sm small-btn btn-danger medication-cancel-row-btn'} cancel
+                                        %input{type: 'reset', class: 'hide reset-medication-row-btn'}
+
+
+                  .text-left#appointments_panel
+                    .vbox
+                      %h4.panel-heading.no-padder
+                        %a.font-bold{href: "#"}
+                          Appointments &nbsp;&nbsp;
+                        %a.btn.btn-default.btn-s-mdsche.m-b-xs#create_appointment
+                          &nbsp;
+                          %i.fa.fa-plus
+                          &nbsp;Add new &nbsp;&nbsp;
+                      .scrollable
+                        %aside
+                          %section.panel.panel-default
+                            .table-responsive
+                              %table.table.table-striped.b-light#appointments_table
+                                %thead
+                                  %tr
+                                    %th.th-sortable{"data-toggle" => "class", width: '15%'}
+                                      Assessment
+                                      -#%span.th-sort
+                                        %i.fa.fa-sort-down.text
+                                        %i.fa.fa-sort-up.text-active
+                                        %i.fa.fa-sort
+                                    %th{width: '15%'} Date
+                                    %th{width: '15%'} Time
+                                    %th{width: '15%'} Description
+                                    %th{width: '12%'} Providers
+                                    %th{width: '18%'} Location
+                                    %th{width: '5%'}
+                                    %th{width: '5%'}
+                                %tbody{customer_id: @customer.id}
+                                  = form_for Appointment.new, remote: true, url: customer_customers_appointments_path(@customer) do |f|
+                                    %tr#appointment_new_form.hide
+                                      %td
+                                        = f.select :health_assessment_id, options_for_select(@customer.health_assessments.collect{|ha| [ha.health_assessment_id, ha.id]}),{include_blank: 'Select'}, {class: 'form-control appointment-ha-select'}
+                                      %td
+                                        = f.text_field :appointment_date, {class: 'form-control datepicker','data-date-format' => 'dd-mm-yyyy'}
+                                      %td
+                                        = f.time_field :time,{class: 'form-control time'}
+                                      %td
+                                        = f.text_area :description, {class: 'appointment-description form-control'}
+                                      %td
+                                        = check_box_tag(:customer_address, :true, checked = false, { class: 'customer-address'})
+                                        self
+                                        %br
+                                          = select_tag :provider_id, options_for_select(Provider.order("provider_id").all.collect{|p| [p.provider_id, p.id]}), {class: 'form-control select-provider', name: 'appointment[appointment_provider][provider_id]', prompt: 'select provider'}
+                                      %td
+                                        .address
+
+                                        .c-address.hide
+                                          %p At Home
+                                      %td
+                                        = f.submit "save",{class: 'btn btn-sm small-btn btn-primary'}
+                                      %td
+                                        %a{id: 'appointments_cancel_btn', class: 'btn btn-sm small-btn btn-danger'} cancel
+                                        %input{type: 'reset', class: 'hide', id: 'reset_appointments_btn'}
+
+                                  - @appointments.each do |appointment|
+                                    %tr
+                                      %td
+                                        = appointment.appointmentee.health_assessment_id rescue '-'
+                                      %td
+                                        = formatted_date appointment.appointment_date
+                                      %td
+                                        = full_time appointment.date
+                                      %td
+                                        = appointment.description
+                                      %td
+                                        = appointment.partner_id
+                                      %td
+                                        .address
+                                          = appointment.appointment_location
+                                        .c-address.hide
+                                          %p At Home
+                                      %td
+                                        %a.pull-right.dropdown-toggle.edit-appointment-pencil{"data-toggle" => "dropdown", href: "#"}
+                                          %i.fa.fa-pencil
+                                      %td
+                                        %a.pull-right.dropdown-toggle.appointment-delete-row{"data-toggle" => "dropdown", href: "#"}
+                                          %i.i.i-trashcan
+
+                                    = form_for appointment, remote: true, url: customer_customers_appointment_path(@customer, appointment) do |f|
+                                      - assessment_id = appointment.appointmentee.health_assessment_id rescue '-'
+                                      %tr.edit-appointments-row.hide
+                                        %td
+                                          = f.select :health_assessment_id, options_for_select(@customer.health_assessments.collect{|ha| [ha.health_assessment_id, ha.id]}, selected: assessment_id),{}, {class: 'form-control appointment-ha-select'}
+                                        %td
+                                          = f.text_field :appointment_date, {value: numeric_date_format(appointment.appointment_date), class: 'form-control datepicker', 'data-date-format' => 'dd-mm-yyyy'}
+                                        %td
+                                          = f.time_field :time,{class: 'form-control time', value: appointment.time}
+                                        %td
+                                          = f.text_area :description, {class: 'appointment-description form-control'}
+                                        %td
+                                          = check_box_tag :customer_address, :true, appointment.customer_address, { class: 'customer-address'}
+                                          self
+                                          %br
+                                          - if appointment.appointment_provider
+                                            - provider_id = appointment.appointment_provider.provider_id
+
+                                          = select_tag :provider_id, options_for_select(Provider.order("provider_id").all.collect{|p| [p.provider_id, p.id]}, provider_id), {class: 'form-control select-provider', name: 'appointment[appointment_provider][provider_id]', prompt: 'select provider'}
+                                        %td
+                                          .address
+                                            = appointment.appointment_location
+                                          .c-address.hide
+                                            %p At Home
+                                        %td
+                                          = f.submit "save",{class: 'btn btn-sm small-btn btn-primary'}
+                                        %td
+                                          %a{class: 'btn btn-sm small-btn btn-danger appointments-cancel-btn'} cancel
+                                          %input{type: 'reset', class: 'hide reset-appointments-btn'}
+
+
+                        -#%aside.pull-right
+                          = paginate @medications
+
+                        -#%aside.pull-right
+                          = paginate @family_medical_histories
+
+                -#.text-left
+                  .vbox
+                    .scrollable.padder
+                      %aside
+                        %section.panel.panel-default
+                          %header.panel-heading
+                            %a.font-bold{href: "#"}
+                              Plan of care &nbsp;&nbsp;
+                            %a.btn.btn-default.btn-s-mdsche.m-b-xs.pull-right{href: '#'}
+                              &nbsp;
+                              %i.fa.fa-plus
+                              &nbsp;Add new &nbsp;&nbsp;
+                          .table-responsive
+                            %table.table.table-striped.b-light
+                              %thead
+                                %tr
+                                  %th.th-sortable{"data-toggle" => "class"}
+                                    Name
+                                    -#%span.th-sort
+                                      %i.fa.fa-sort-down.text
+                                      %i.fa.fa-sort-up.text-active
+                                      %i.fa.fa-sort
+                                  %th Date
+                                  %th Instructions
+                                  %th
+                              %tbody
+                                - @customer.health_assessments.each do |assessment|
+                                  %tr
+                                    %td
+                                      Office consultation
+                                    %td
+                                      May 28, 2007
+                                    %td
+                                      Consultation with Dr. George Potomac for Asthma
+                                    %td
+                                      %a.pull-right.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
+                                        %i.fa.fa-pencil
+
+  %a.hide.nav-off-screen-block{"data-target" => "#nav,html", "data-toggle" => "class:nav-off-screen", href: "#"}

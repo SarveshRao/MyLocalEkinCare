@@ -1,0 +1,19 @@
+.text-left.row.padder#notes_panel
+  %footer.panel-footer.col-md-6
+    %article#chat-form.chat-item
+      %h5 Note
+      -#%a.pull-left.thumb-sm.avatar
+        %img.img-circle{src: asset_path("a3.png")}/
+
+      %section
+        = form_for Note.new, remote: true, html: {assessment_id: @health_assessment.id}, url: health_assessment_notes_path(@health_assessment) do |f|
+          .form-group
+            = f.text_field :title, {placeholder: "Title", class: 'form-control'}
+          .form-group
+            = f.text_area :description, {placeholder: "Description", class: 'form-control'}
+          .form-group
+          %span.input-group-btn
+            = f.submit :ADD, {class: 'btn btn-default'}
+            %input{type: 'reset', class: 'hide', id: 'notes_reset_btn'}
+  .partial.col-md-6.p-l
+    = render partial: 'staff/health_assessments/notes/index'

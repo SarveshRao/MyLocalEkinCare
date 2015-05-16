@@ -1,0 +1,57 @@
+= content_for :title, 'Sign up'
+
+- content_for :zopim_chat do
+  :javascript
+    window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
+    d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+    _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute('charset','utf-8');
+    $.src='//v2.zopim.com/?2Um2B0Y0KEgOyEsT8WLIjMFjSeBkufvQ';z.t=+new Date;$.
+    type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
+
+%section#content.m-t-lg.wrapper-md.animated.fadeInUp
+  .container.aside-xl
+    %section
+      %header.text-center
+        %a.h3.font-bold{href: root_path} eKincare
+    %section
+      %header.wrapper.text-center
+        %p
+          We've sent One Time Password (OTP) to your registered phone number, Please enter below.
+    %section.m-b-lg
+      = form_for("online_customer", url: registration_path(resource_name), html:{id: 'new_customer_registration'} ) do |f|
+        .list-group
+          .list-group-item
+            = f.text_field :otp, class: 'form-control no-border ', required: true, autofocus: true,  placeholder: 'Enter your One Time Password (OTP)'
+        = f.submit "Create an account", {class: 'btn btn-lg btn-primary btn-block '}
+        %p.text_muted.text-center
+          %a{:href => faq_about_index_path, style: 'color: #177bbb !important'} What is One Time Password (OTP)
+        .line.line-dashed.m-b-none
+        %a.btn.btn-lg.btn-default.btn-block{href: resend_registration_otp_path} Resend One Time Password (OTP)
+
+
+%footer#footer
+  .text-center.padder
+    %p
+      %small.current_year
+
+:javascript
+
+  $(document).ready(function(){
+    $('.current_year').text("\© " + new Date().getFullYear() + " eKincare");
+  });
+  //Mobile number validation
+  $(".numeric").keydown(function (e) {
+    // Allow: backspace, delete, tab, escape, enter and .
+    if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+            // Allow: Ctrl+A
+        (e.keyCode == 65 && e.ctrlKey === true) ||
+            // Allow: home, end, left, right, down, up
+        (e.keyCode >= 35 && e.keyCode <= 40)) {
+        // let it happen, don't do anything
+        return;
+    }
+    // Ensure that it is a number and stop the keypress
+    if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+        e.preventDefault();
+    }
+  });

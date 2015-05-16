@@ -1,0 +1,38 @@
+= content_for :title, 'Staff dashboard'
+
+%section.vbox
+  %section
+    %section.hbox.stretch
+      // .aside
+      %section#content
+        %section.hbox.stretch
+          %section
+            %section.vbox
+              %section.scrollable.padder
+                %h4.padder-v
+                  %a.font-bold{href: "#"}
+                    Health Assessments &nbsp;&nbsp;
+                  %a.btn.btn-default.btn-s-mdsche.m-b-xs{href: new_customer_path}
+                    &nbsp;
+                    %i.fa.fa-plus
+                    &nbsp; New Customer &nbsp;&nbsp;
+
+                .row-fluid.padder
+                  %section.panel.b-a
+                    %section.panel-default
+                      %table#DataTables_Table_0.table.table-striped.m-b-none.dataTable#health_assessments_data{"aria-describedby" => "DataTables_Table_0_info", "data-ride" => "datatables", "data-source" => staff_health_assessments_all_path }
+                        %thead
+                          %tr{role: "row"}
+                            %th.sorting{"aria-controls" => "DataTables_Table_0", colspan: "1", role: "columnheader", rowspan: "1", tabindex: "0"}
+                              Assessment date
+                            %th.sorting{"aria-controls" => "DataTables_Table_0",  colspan: "1", role: "columnheader", rowspan: "1", tabindex: "0"}
+                              Name
+                            %th.sorting{"aria-controls" => "DataTables_Table_0",  colspan: "1", role: "columnheader", rowspan: "1", tabindex: "0"}
+                              Assessment type
+                            %th.sorting{"aria-controls" => "DataTables_Table_0", colspan: "1", role: "columnheader", rowspan: "1", tabindex: "0"}
+                              Phone
+                            %th.sorting{"aria-controls" => "DataTables_Table_0",  colspan: "1", role: "columnheader", rowspan: "1", tabindex: "0"}
+                              Status
+
+                        %tbody{"aria-live" => "polite", "aria-relevant" => "all", role: "alert"}
+%a.hide.nav-off-screen-block{"data-target" => "#nav", "data-toggle" => "class:nav-off-screen", href: "#"}

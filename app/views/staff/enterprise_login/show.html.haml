@@ -1,0 +1,42 @@
+= content_for :title, 'Staff dashboard'
+
+%section#content
+  %section.hbox.stretch
+    %section
+      %section.vbox
+        %section.scrollable.padder
+          %h4.padder-v
+            %a.font-bold{href: "#"}
+              Appointments &nbsp;&nbsp;
+          .scrollable
+            %section.panel.panel-default
+              .table-responsive
+                %table.table.table-striped.b-t.b-light#customer_list
+                  %thead
+                    %tr
+                      %th.th-sortable{"data-toggle" => "class", width: '20%'}
+                        Assessment
+                        %th{width: '20%'} Date
+                        %th{width: '20%'} Time
+                        %th{width: '20%'} Description
+                        %th{width: '20%'} Provider
+                        %th{width: '20%'} Location
+                  %tbody
+                    -unless @appointment_list.nil?
+                      - @appointment_list.each do |appointment|
+                        %tr{class: 'customer-row', url: "#"}
+                          %td
+                            = appointment.appointmentee.health_assessment_id rescue '-'
+                          %td
+                            = formatted_date appointment.appointment_date
+                          %td
+                            = appointment.time
+                          %td
+                            = appointment.description
+                          %td
+                            = appointment.provider.provider_id
+                          %td
+                            .address
+                              = appointment.appointment_location
+                            .c-address.hide
+                              %p At Home

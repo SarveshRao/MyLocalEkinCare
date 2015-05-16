@@ -1,0 +1,12 @@
+
+%tr#health_assessment_promo_code_history_new_form
+  %td
+    = PromoCode.find(@health_promo_code.promo_code_id).code
+  %td
+    = HealthAssessment.find(@health_promo_code.health_assessment_id).health_assessment_id
+  %td
+    %a.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#"}
+      %i.fa.fa-pencil
+  %td
+    %a.pull-right.dropdown-toggle.promo-code-history-delete-row{"data-toggle" => "dropdown", href: "#"}
+      %i.i.i-trashcan

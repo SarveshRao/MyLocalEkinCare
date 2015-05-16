@@ -1,0 +1,48 @@
+.hbox.padder-v
+  %aside.aside-md{style: 'padding-right: 20px'}
+    %div.text-center.m-b-none
+      - customer_avatar = @customer.image_url
+      %span#customer_avatar_container
+        %img.img-circle.m-b{alt: "...", height: 200, width: 200, src: asset_path(customer_avatar)}/
+    - if session['is_customer']
+      %small
+        %a{href: '#', id: 'edit_profile_pic', style: 'color: #177bbb'} change picture
+        = form_for @customer, url: customers_upload_avatar_path, html:{id: 'edit_avatar', multipart: true}, remote: true do |f|
+          %input{type: 'file', id: 'profile_pic_input', name: 'file', class: 'hide'}
+          = f.submit '', {class: 'hide', id: 'avatar_submit_btn'}
+          %input{type: 'reset', id: 'avatar_reset_btn', class: "hide"}
+      %small.text-danger#avatar_error_msg
+      %small.text-danger.hide#avatar_loader
+        = image_tag 'avatar-loader2.gif'
+
+  %aside.padder
+    - address = current_online_customer.address
+    %h3.font-bold.m-b-none.m-t-none
+      = current_online_customer.name.capitalize
+    %p
+      %small
+        - if current_online_customer.gender == 'Female'
+          %i.fa.fa-female
+          Female
+        - elsif current_online_customer.gender == 'Male'
+          %i.fa.fa-male
+          Male
+        - else
+        - if current_online_customer.age['year'] != '-'
+          = "| #{current_online_customer.age['year']} years"
+
+
+    %ul.nav.nav-pills.nav-stacked.aside-lg
+      %li.bg-light.dk.m-n
+        %a
+          %i.i.i-phone.m-r-sm
+          = current_online_customer.mobile_number rescue '-'
+      %li.bg-light.dk.m-n
+        %a
+          %i.i.i-mail.m-r-sm
+          = current_online_customer.email rescue '-'
+
+      %li.bg-light.dk.m-n
+        %a
+          %i.m-r-sm.i.i-location
+          = address.details rescue '-'

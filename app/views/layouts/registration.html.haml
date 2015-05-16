@@ -1,0 +1,45 @@
+!!!
+%html.js.no-touch.no-android.chrome.no-firefox.no-iemobile.no-ie.no-ie8.no-ie10.no-ie11.no-ios{lang: "en"}
+  %head
+    %meta{charset: "utf-8"}/
+    %meta{:content => "width=device-width, initial-scale=1, maximum-scale=1", :name => "viewport"}/
+    %title
+      = yield(:title).empty? ? 'eKincare' : "eKincare | #{yield(:title)}"
+    = stylesheet_link_tag 'application', media: 'all'
+    = csrf_meta_tags
+    %link{href: asset_path('fav.ico'), rel: "shortcut icon"}
+    /[if lt IE 9]
+      <script src="vendor/assets/javascripts/ie/html5shiv.js"></script>
+      <script src="vendor/assets/javascripts/ie/respond.min.js"></script>
+      <script src="vendor/assets/javascripts/ie/excanvas.js"></script>
+    - if content_for?(:zopim_chat)
+      = yield(:zopim_chat)
+  %body.container
+    .content-wrapper{style: 'min-height: 1000px'}
+      %section.vbox
+        %section
+          %section.hbox.stretch
+            / .aside
+            / /.aside
+            %section#content
+              - if flash[:error]
+                .alert.alert-danger.text-center
+                  %button.close{"data-dismiss" => "alert", :type => "button"} ×
+                  %i.fa.fa-ok-sign
+                  = flash[:error].html_safe
+
+              - if flash[:notice]
+                .alert.alert-success.text-center
+                  %button.close{"data-dismiss" => "alert", :type => "button"} ×
+                  %i.fa.fa-ok-sign
+                  = flash[:notice].html_safe
+
+              - if flash[:alert]
+                .alert.alert-danger.text-center
+                  %button.close{"data-dismiss" => "alert", :type => "button"} ×
+                  %i.fa.fa-ok-sign
+                  = flash[:alert].html_safe
+              = yield
+
+    = javascript_include_tag 'application'
+

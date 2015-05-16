@@ -1,0 +1,38 @@
+.col-md-10
+  %a.tab-pencil.pull-right#enterprise_details_edit_btn
+    %i.fa.fa-pencil
+  .vbox.row
+    .col-xs-6
+      %p.text-lt Name:
+    .col-xs-6
+      = @enterprise.name || '-'
+  .vbox.row
+    .col-xs-6
+      %p.text-lt Service Type:
+    .col-xs-6
+      = @enterprise.service_type || '-'
+  .vbox.row
+    .col-xs-6
+      %p.text-lt Phone:
+    .col-xs-6
+      = @enterprise.telephone || '-'
+  .vbox.row
+    .col-xs-6
+      %p.text-lt Alternative Phone:
+    .col-xs-6
+      = @enterprise.offline_contact || '-'
+  .vbox.row
+    .col-xs-6
+      %p.text-lt POC:
+    .col-xs-6
+      = @enterprise.staff.name || '-'
+  .vbox.row
+    .col-xs-6
+      %p.text-lt Email:
+    .col-xs-6
+      = @enterprise.staff.email || '-'
+  .vbox.row
+    .col-xs-6
+      %p.text-lt Address:
+    .col-xs-6
+      = @enterprise.address != nil ? @enterprise.address.details : ''

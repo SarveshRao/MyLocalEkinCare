@@ -1,0 +1,299 @@
+= javascript_include_tag "jquery"
+= javascript_include_tag "loader"
+:javascript
+  $(document).ready(function(){
+    $("input:file").change(function (){
+       $('#browseBtn').removeClass('btn-success').addClass('btn-default');
+       $('#uploadBtn').removeClass('btn-default disabled').addClass('btn-success');
+    });
+    $("#uploadCancel").click(function(){
+      $('#uploadBtn').removeClass('btn-success').addClass('btn-default disabled');
+      $('#browseBtn').removeClass('btn-default').addClass('btn-success');
+    });
+  });
+
+  (function() {
+      var _fbq = window._fbq || (window._fbq = []);
+      if (!_fbq.loaded) {
+        var fbds = document.createElement('script');
+        fbds.async = true;
+        fbds.src = '//connect.facebook.net/en_US/fbds.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(fbds, s);
+        _fbq.loaded = true;
+      }
+      _fbq.push(['addPixelId', '1439089473071327']);
+    })();
+    window._fbq = window._fbq || [];
+    window._fbq.push(['track', 'PixelInitialized', {}]);
+
+  <!-- Google Code for Remarketing Tag -->
+  /* <![CDATA[ */
+  var google_conversion_id = 953531478;
+  var google_custom_params = window.google_tag_params;
+  var google_remarketing_only = true;
+  /* ]]> */
+%div{:style => "display:none"}
+  %script{:src => "//www.googleadservices.com/pagead/conversion.js", :type => "text/javascript"}
+%noscript
+  %div{:style => "display:inline;"}
+    %img{:alt => "", :height => "1", :src => "//googleads.g.doubleclick.net/pagead/viewthroughconversion/953531478/?value=0&amp;guid=ON&amp;script=0", :style => "border-style:none;", :width => "1"}/
+%noscript
+  %img{:alt => "", :height => "1", :src => "https://www.facebook.com/tr?id=1439089473071327&amp;ev=PixelInitialized", :style => "display:none", :width => "1"}/
+
+- if session[:is_customer]
+  %input#is_customer{type: "hidden", value: "true"}
+- else
+  %input#is_customer{type: "hidden", value: "false"}
+%header.bg-primary.header.header-md.navbar.navbar-fixed-top-xs.box-shadow
+  .navbar-header.aside-md.dk
+    %a.btn.btn-link.visible-xs.m-r{"data-target" => "#nav,html", "data-toggle" => "class:nav-off-screen,open"}
+      %i.fa.fa-bars.m-r
+    %a.navbar-brand.m-l{href: customers_dashboard_show_path}
+      %span.hidden-nav-xs.m-l
+        %img.m-r-sm.m-l{alt: "eKincare", src: asset_path('logo.png')}/
+    %a.btn.btn-link.visible-xs{"data-target" => ".user", "data-toggle" => "dropdown"}
+      %i.fa.fa-cog
+
+  - if session[:is_customer]
+    = form_for MedicalRecord.new, remote: true, authenticity_token: true, url: customer_documents_path(current_online_customer), html: {method: 'post', id: 'customer_medical_record_form', class: 'form-inline'} do |f|
+      .form-group.col-sm-4.p-t
+        .input-group.pull-left.col-sm-12
+          %span.input-group-btn.upload-doc
+            %span.btn.btn-success.btn-file#browseBtn
+              Browse…
+              = f.file_field :medical_record, {class: 'parsley-validated', 'data-required' => 'true', multiple: true, name: 'files[]'}
+          %input.form-control#documentToUpload{readonly: "readonly", type: "text",class: "upload-gap", placeholder: 'Any new medical records to upload?'}
+          %span.input-group-btn.media-cancel-upload
+            %span.btn.btn-default
+              %i.fa.fa-times-circle.upload-cancle#uploadCancel
+
+
+      .form-group.col-sm-2.p-r.p-t.upload_sec
+        %button#btn-1.btn.btn-default.disabled.media-button-upload.row.n-m.start_upload_loader.pull-left.m-r-sm#uploadBtn{type: 'submit'}
+          %i.fa.fa-cloud-upload.text
+          %span.text Upload
+          %i.fa.fa-check.text-active
+          %span.text-active Success
+        %span#loaderUploadImage{:style => "z-Index:99999; height:32px; width:32px;display: inline-block;"}
+
+  %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
+    %li
+      = link_to("Sign out", destroy_online_customer_session_path)
+  - if session[:is_customer]
+    - recent_activities = current_online_customer.recent_activities
+    %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
+      %li.hidden-xs
+        %a.dropdown-toggle#notifications_count{"data-toggle" => "dropdown", href: "#"}
+          - inbox_activities = current_online_customer.inbox_messages
+          Inbox
+          - inbox_count = inbox_activities.where("activity_type like '%Assessment%'").count-inbox_activities.where("status=true and (activity_type like '%Assessment%')").count
+          -if inbox_count>0
+            %span.badge.badge-sm.up.bg-danger.count
+              =  inbox_count
+      %section.dropdown-menu.aside-xl.animated.flipInY
+        #dashboard_notifications.hide
+  - recent_activities = current_online_customer.recent_activities
+  %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
+    %li.hidden-xs
+      %a.dropdown-toggle#appointments_count{"data-toggle" => "dropdown", href: "#"}
+        - inbox_activities = current_online_customer.inbox_messages
+        %i.fa.fa-bell-o
+        - appoint_count =  inbox_activities.where("activity_type='Appointment' and associated_date> CURRENT_TIMESTAMP - INTERVAL '1 day'").count
+        -if appoint_count>0
+          %span.badge.badge-sm.up.bg-danger.count
+            = appoint_count
+          -#-inbox_activities.where(status:true, activity_type: "Appointment and associated_date>CURRENT_TIMESTAMP - INTERVAL '1 day'").count
+          -#=  inbox_activities.where("case when activity_type = 'Appointment' then associated_date>CURRENT_TIMESTAMP - INTERVAL '1 day' and customer_id = #{current_online_customer.id} when activity_type != 'Appointment' then customer_id = #{current_online_customer.id} end").count-inbox_activities.where(status:true).count
+      %section.dropdown-menu.aside-xl.animated.flipInY
+        #dashboard_appointments.hide
+  %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
+    %li.hidden-xs
+      %a.dropdown-toggle#second_opinion{"data-toggle" => "dropdown", href: "#"}
+        Second Opinion
+      %section.dropdown-menu.aside-xl.animated.flipInY
+        #second_opinion
+          = form_for(DoctorOpinion.new, url: customers_dashboard_send_to_doctor_path, html:{id: 'share_with_doctor_form'}, remote: true) do |f|
+            %div.padder-10{style: "color: #3c4144"}Share your profile securely with a doctor or a person you trust. The profile will be accessible only for 48 hours. Please ensure you also inform the respective person the same.
+            .list-group
+              .list-group-item
+                = f.text_field :doctor_name, class: 'form-control no-border', required: true, autofocus: true,  placeholder: 'Enter doctor name', 'data-parsley-trigger' => 'focusout'
+              .list-group-item
+                = f.text_field :doctor_mobile_number, class: 'form-control no-border numeric', placeholder: 'Enter doctor mobile number', required: true, 'data-parsley-minlength' => '10', 'data-parsley-trigger' => 'focusout'
+              .list-group-item
+                = f.email_field :doctor_email, class: 'form-control no-border', required: true, "data-parsley-trigger" => "focusout", placeholder: 'Enter doctor email'
+            .padder-10
+              %a.pull-right.btn.btn-primary#send_to_doctor{href: "#", type: "submit"} Send
+    -#%li.hidden-xs
+      %a.dropdown-toggle#notifications_count{"data-toggle" => "dropdown", href: "#"}
+        %i.i.i-chat3
+        - unless recent_activities.count == 0
+          %span.badge.badge-sm.up.bg-danger.count#count{style: "display: inline-block;"}
+            = recent_activities.count
+      %section.dropdown-menu.aside-xl.animated.flipInY
+        %section.panel.bg-white
+          .panel-heading.b-light.bg-light
+            %strong
+              You have
+              %span.count{style: "display: inline;"}
+                = recent_activities.count
+              notifications
+          .list-group.list-group-alt
+            - recent_activities.each do |activity|
+              - if activity.activity_type =~ /Assessment/
+                %a.media.list-group-item{href: customers_health_assessments_path({type: activity.activity_type.gsub!(/Assessment/, ''), id: activity.associated_id})}
+                  %span.media-body.block.m-b-none
+                    = activity.description
+                  %span.label.label-success
+                    = activity.badge
+                  %br/
+                  %small.text-muted
+                    = time_ago_in_words activity.created_at
+              - elsif activity.activity_type == 'MedicalRecord'
+                %a.media.list-group-item{href: customers_documents_path}
+                  %span.media-body.block.m-b-none
+                    = activity.title
+                  %span.label.label-success
+                    = activity.badge
+                  %br/
+                  %small.text-muted
+                    = time_ago_in_words activity.created_at
+              - else
+                %a.media.list-group-item
+                  %span.media-body.block.m-b-none
+                    = activity.title
+                  %span.label.label-success
+                    = activity.badge
+                  %br/
+                  %small.text-muted
+                    = time_ago_in_words activity.created_at
+
+:javascript
+  $(document).ready(function(){
+    $('#share_with_doctor_form').parsley();
+
+    //$('#share_with_doctor_form label').hide();
+    $('#send_to_doctor').click(function(){
+      if(validateInputs())
+        $('#share_with_doctor_form').submit();
+    });
+
+    $('#share_with_doctor_form input[type=text]').blur(function(){
+      //validateInputs();
+    });
+
+    var validateInputs = function(inputEle){
+      var isValid = true;
+      $('#share_with_doctor_form input[type=text]').each(function(){
+        if($(this).val().length == 0)
+        {
+          //$(this).next('label').text('This field is required').show();
+          isValid = isValid && false;
+        }
+        else
+        {
+          //$(this).next('label').text('This field is required');
+          if($(this).attr('id') == 'doctor_mobile_number')
+          {
+            //check for mobile number length
+            if($(this).val().length != 10)
+            {
+              //$(this).next('label').text('Mobile number should be of 10 digits length').show();
+              isValid = isValid && false;
+            }
+            else
+            {
+              isValid = isValid && true;
+              //$(this).next('label').hide();
+            }
+          }
+          else if($(this).attr('id') == 'doctor_email')
+          {
+          //check for email format
+            var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            if(!regex.test($(this).val()))
+            {
+              //$(this).next('label').text('Please enter valid email address').show();
+              isValid = isValid && false;
+            }
+            else
+            {
+              isValid = isValid && true;
+              //$(this).next('label').hide();
+            }
+          }
+          else
+          {
+            isValid = isValid && true;
+            //$(this).next('label').hide();
+          }
+        }
+      });
+      return isValid;
+    };
+
+      //Mobile number validation
+    $(".numeric").keydown(function (e) {
+      // Allow: backspace, delete, tab, escape, enter and .
+      if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+              // Allow: Ctrl+A
+          (e.keyCode == 65 && e.ctrlKey === true) ||
+              // Allow: home, end, left, right, down, up
+          (e.keyCode >= 35 && e.keyCode <= 40)) {
+          // let it happen, don't do anything
+          return;
+      }
+      // Ensure that it is a number and stop the keypress
+      if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+          e.preventDefault();
+      }
+
+      var pattern_mobile_number = /^\d{10}$/;
+      if (pattern_mobile_number.test($(this).val())) {
+        e.preventDefault();
+      }
+
+    });
+
+    //var enableSend = true;
+    //var allInputsAvailable = false;
+
+    //
+    //
+    //$('#share_with_doctor_form input').keyup(function(){
+    //  $('#share_with_doctor_form input').each(function(){
+    //    if($(this).val().length == 0)
+    //    {
+    //      allInputsAvailable = false;
+    //      return;
+    //    }
+    //    else
+    //    {
+    //      allInputsAvailable = true;
+    //    }
+    //  });
+    //
+    //  //check for mobile number length
+    //  if($('#share_with_doctor_form #doctor_mobile_number').val().length != 10)
+    //    enableSend = false;
+    //  else
+    //    enableSend = true;
+    //
+    //  //check for email format
+    //  var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    //  if(regex.test($('#share_with_doctor_form #doctor_email').val()) && enableSend)
+    //    enableSend = true;
+    //  else
+    //    enableSend = false;
+
+      //if(enableSend && allInputsAvailable)
+      //{
+      //  $('#send_to_doctor').removeAttr('disabled');
+      //}
+      //else
+      //{
+      //  $('#send_to_doctor').attr('disabled', 'disabled');
+      //}
+    //});
+
+  });

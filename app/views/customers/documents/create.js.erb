@@ -1,0 +1,3 @@
+<%= remotipart_response do %>
+ "<%= j(render(:partial => 'customers/documents/index')).gsub('\n','').gsub('\\', '')%>"
+<% end %>

@@ -1,0 +1,291 @@
+%section.scrollable
+  .row
+    .col-lg-12.col-sm-12.col-xs-12
+      %section.panel-default.b-n
+        %header.panel-heading.font-bold.logo-heading
+          %img{:alt => "eKincare", :src => asset_path("ekincare-logo.png")}/
+          %a{class:'btn btn-md  btn-primary pull-right', href: "#{destroy_online_customer_session_path}"} Sign out
+        .panel-body{:style => "padding:0px;"}
+          %section.panel.panel-default.m-n
+            %header.panel-heading.bg-light
+              %ul.nav.nav-tabs.nav-justified.reg-tabs
+                %li{:style => " width:0.5%;"}
+                %li.active
+                  %a{"data-toggle" => "tab", :href => '#'}
+                    %i.fa.fa-circle-o
+                    Your Health
+                %li
+                  %a{"data-toggle" => "tab", :href => '/after_signup/upload_documents'}
+                    %i.fa.fa-circle-o
+                    Upload Documents
+                %li
+                  %a{"data-toggle" => "tab", :href => "/after_signup/thank_you_page"}
+                    %i.fa.fa-circle-o
+                    Registration
+                %li{:style => " width:0.5%;"}
+            .panel-body
+              .tab-content
+                .tab-pane
+                #home.tab-pane home
+                / REGISTRATION STEP2
+                #profile.tab-pane.active
+                  -#= form_for @customer, url: after_signup_path(id: @customer.current_state.to_sym)  do |f|
+                  = form_for @customer, url: after_signup_path(id: @customer.current_state.to_sym), html: {id: 'reg1'}  do |f|
+                    %h3.text-center.head3
+                      = "Hi #{@customer.name.strip},"
+                    .about-text
+                      %p.text-center.about
+                        To personalize our platform to your health conditions, we need to know a little about
+                        you.
+                    .height-wrapper
+                      / Height &amp; weight
+                      .row
+                        .col-lg-4.col-sm-4.col-xs-4
+                          %span.left-h1 HEIGHT & WEIGHT
+                        .col-lg-8.col-sm-8.col-xs-8
+                          .btn-group.m-r
+                            %button#ft.btn.btn-sm.btn-default.dropdown-toggle.height-input{"data-toggle" => "dropdown"}
+                              %span.dropdown-label
+                                = @customer.customer_vitals.feet
+                              %span.caret
+                            %span.inp-signs &nbsp;&nbsp;ft.
+                            %ul.dropdown-menu.dropdown-select.dropdown-custom
+                              - (3..7).each do |ft|
+                                %li{class: "#{'active' if @customer.customer_vitals.feet == ft}"}
+                                  %a{:href => "#"}
+                                    %input{:name => "customer[feet]", :type => "radio", :value => ft, checked: "#{@customer.customer_vitals.feet == ft}"}
+                                      = ft
+                          .btn-group.m-r
+                            %button#in.btn.btn-sm.btn-default.dropdown-toggle.height-input{"data-toggle" => "dropdown"}
+                              %span.dropdown-label
+                                = @customer.customer_vitals.inches
+                              %span.caret
+                            %span.inp-signs &nbsp;&nbsp;in.
+                            %ul.dropdown-menu.dropdown-select.dropdown-custom.inch-wrap
+                              - (1..12).each do |inches|
+                                %li{class: "#{'active' if @customer.customer_vitals.inches == inches}"}
+                                  %a{:href => "#"}
+                                    %input{:name => "customer[inches]", :type => "radio", :value => "#{inches}", checked: "#{@customer.customer_vitals.inches == inches}"}
+                                      = inches
+                          .btn-group
+                            %div{:style => "position:relative; float:left;"}
+                              %input.form-control.height-input.wt-inp{:name => "customer[weight]", :type => "text", value: @customer.customer_vitals.weight}
+                            %span.inp-signs{:style => " position:relative; float:left;"} &nbsp;&nbsp;kgs.
+                          .alert.alert-danger.alert-height
+                            %button.close{"data-dismiss" => "alert", :type => "button"} &times;
+                            %i.fa.fa-ban-circle
+                            %strong Oh snap!
+                            Please enter valid Height and Weight
+                    / height-wrapper
+                    / .Height &amp; weight
+                    .line.line-dashed.b-b.line-lg.pull-in
+                    / Lifestyle
+                    .row
+                      .col-lg-4.col-sm-4.col-xs-4
+                        %span.left-h2 LIFESTYLE
+                      .col-lg-8.col-sm-8.col-xs-8
+                        %h5.lifestyle-h Do you Smoke?
+                        .radio.i-checks
+                          .row
+                            - ['Occasionally', 'Frequently', 'No'].each do |smoke_level|
+                              .col-lg-2.col-sm-5.fam-wrap
+                                %label.radio-space
+                                  %input{:name => "customer[smoke]", :type => "radio", :value => "#{smoke_level}", checked: (@customer.smoke == smoke_level || (smoke_level == 'No' && @customer.smoke.nil?))}
+                                    %i
+                                    %span
+                                      = smoke_level
+                        .alert.alert-danger.alert-smoke
+                          %button.close{"data-dismiss" => "alert", :type => "button"} &times;
+                          %i.fa.fa-ban-circle
+                          %strong Oh snap!
+                          Please select valid option
+                        %h5.lifestyle-h Do you consume alcohol?
+                        .radio.i-checks
+                          .row
+                            - ['Occasionally', 'Frequently', 'No'].each do |alcohol_level|
+                              .col-lg-2.col-sm-5.fam-wrap
+                                %label.radio-space
+                                  %input{:name => "customer[alcohol]", :type => "radio", :value => "#{alcohol_level}", checked: (@customer.alcohol == alcohol_level || (alcohol_level == 'No' && @customer.alcohol.nil?))}
+                                    %i
+                                    %span
+                                      = alcohol_level
+                        .alert.alert-danger.alert-alcohol
+                          %button.close{"data-dismiss" => "alert", :type => "button"} &times;
+                          %i.fa.fa-ban-circle
+                          %strong Oh snap!
+                          Please select valid option
+                        %h5.lifestyle-h How often you exercise?
+                        .radio.i-checks
+                          .row
+                            - ['Occasionally', 'Frequently', 'No'].each do |exercise_level|
+                              .col-lg-2.col-sm-5.fam-wrap
+                                %label.radio-space
+                                  %input{:name => "customer[frequency_of_exercise]", :type => "radio", :value => "#{exercise_level}", checked: (@customer.frequency_of_exercise == exercise_level || (exercise_level == 'No' && @customer.frequency_of_exercise.nil?))}
+                                    %i
+                                    %span
+                                      = exercise_level
+                        / / .error message
+                        .alert.alert-danger.alert-exercise
+                          %button.close{"data-dismiss" => "alert", :type => "button"} &times;
+                          %i.fa.fa-ban-circle
+                          %strong Oh snap!
+                          Please select valid option
+                    / row
+                    / .Lifestyle
+                    .line.line-dashed.b-b.line-lg.pull-in
+                    / family History
+                    .row
+                      .col-lg-4.col-sm-4.col-xs-4
+                        %span.left-h3 FAMILY HISTORY
+                      .col-lg-7.col-sm-7.col-xs-7
+                        %p.about2
+                          Your Family genetics also determines your health. So, we need a little information about your
+                          family.
+                        %span Select a appropriate option below.
+                        / .nav-justified
+                        %section.panel-default.family-wrap
+                          %header.panel-heading.bg-light
+                            %ul.nav.nav-tabs.nav-justified
+                              %li.father-tab.active
+                                %a.icon-img1{"data-toggle" => "tab", :href => "#father"} Father
+                              %li.mother-tab
+                                %a.icon-img2{"data-toggle" => "tab", :href => "#mother"} Mother
+                              %li.sibling-tab
+                                %a.icon-img3{"data-toggle" => "tab", :href => "#sibling"} Siblings
+                          .panel-body
+                            .tab-content
+                              #father.tab-pane.active
+                                .radio.i-checks.family-radio
+                                  .row
+                                    .col-lg-4.col-sm-6.fam-wrap
+                                      %label.radio-space
+                                        %input{:name => "father", :type => "radio", :value => "alive", checked: (@father_medical_history.status == 'alive' || @father_medical_history.status.nil?)}
+                                          %i
+                                          %span Alive
+                                    .col-lg-4.col-sm-6
+                                      %label.radio-space
+                                        %input{:name => "father", :type => "radio", :value => "desceased", checked: (@father_medical_history.status == 'desceased' )}
+                                          %i
+                                          %span Desceased
+                                .family-checkbox
+                                  .row
+                                    .col-lg-3.col-sm-6.fam-wrap2
+                                      %label.checkbox-inline.i-checks.i-chk
+                                        %input#inlineCheckbox1{:name => "chk-father[]", :type => "checkbox", :value => "Diabetic", checked: (@father_medical_history.medical_condition_1.to_s.include?('Diabetic'))}
+                                          %i
+                                          %span Diabetic
+                                    .col-lg-3.col-sm-6.fam-wrap2
+                                      %label.checkbox-inline.i-checks.i-chk
+                                        %input#inlineCheckbox2{:name => "chk-father[]", :type => "checkbox", :value => "Hypertension", checked: (@father_medical_history.medical_condition_1.to_s.include?('Hypertension'))}
+                                          %i
+                                          %span Hypertension
+                                    .col-lg-3.col-sm-6.fam-wrap2
+                                      %label.checkbox-inline.i-checks.i-chk
+                                        %input#inlineCheckbox3{:name => "chk-father[]", :type => "checkbox", :value => "Heart condition", checked: (@father_medical_history.medical_condition_1.to_s.include?('Heart condition'))}
+                                          %i
+                                          %span Heart condition
+                                    .col-lg-3.col-sm-6.fam-wrap2
+                                      %label.checkbox-inline.i-checks.i-chk
+                                        %input#inlineCheckbox4{:name => "chk-father[]", :type => "checkbox", :value => "Cancer", checked: (@father_medical_history.medical_condition_1.to_s.include?('Cancer'))}
+                                          %i
+                                          %span Cancer
+                              #mother.tab-pane
+                                .radio.i-checks.family-radio
+                                  .row
+                                    .col-lg-4.col-sm-6.fam-wrap
+                                      %label.radio-space
+                                        %input{:name => "mother", :type => "radio", :value => "alive", checked: (@mother_medical_history.status == 'alive'|| @mother_medical_history.status.nil?)}
+                                          %i
+                                          Alive
+                                    .col-lg-4.col-sm-6.fam-wrap
+                                      %label.radio-space
+                                        %input{:name => "mother", :type => "radio", :value => "desceased", checked: (@mother_medical_history.status == 'desceased')}
+                                          %i
+                                          Desceased
+                                .family-checkbox
+                                  .row
+                                    .col-lg-3.col-sm-6.fam-wrap2
+                                      %label.checkbox-inline.i-checks.i-chk
+                                        %input#inlineCheckbox1{:name => "chk-mother[]", :type => "checkbox", :value => "Diabetic", checked: (@mother_medical_history.medical_condition_1.to_s.include?('Diabetic'))}
+                                          %i
+                                          %span Diabetic
+                                    .col-lg-3.col-sm-6.fam-wrap2
+                                      %label.checkbox-inline.i-checks.i-chk
+                                        %input#inlineCheckbox2{:name => "chk-mother[]", :type => "checkbox", :value => "Hypertension", checked: (@mother_medical_history.medical_condition_1.to_s.include?('Hypertension'))}
+                                          %i
+                                          %span Hypertension
+                                    .col-lg-3.col-sm-6.fam-wrap2
+                                      %label.checkbox-inline.i-checks.i-chk
+                                        %input#inlineCheckbox3{:name => "chk-mother[]", :type => "checkbox", :value => "Heart condition", checked: (@mother_medical_history.medical_condition_1.to_s.include?('Heart condition'))}
+                                          %i
+                                          %span Heart condition
+                                    .col-lg-3.col-sm-6.fam-wrap2
+                                      %label.checkbox-inline.i-checks.i-chk
+                                        %input#inlineCheckbox4{:name => "chk-mother[]", :type => "checkbox", :value => "Cancer", checked: (@mother_medical_history.medical_condition_1.to_s.include?('Cancer'))}
+                                          %i
+                                          %span Cancer
+                              #sibling.tab-pane
+                                .radio.i-checks.family-radio
+                                  .row
+                                    .col-lg-4.col-sm-6.fam-wrap
+                                      %label.radio-space
+                                        %input{:name => "sibling", :type => "radio", :value => "alive", checked: (@sibling_medical_history.status == 'alive')}
+                                          %i
+                                          Alive
+                                    .col-lg-4.col-sm-6.fam-wrap
+                                      %label.radio-space
+                                        %input{:name => "sibling", :type => "radio", :value => "desceased", checked: (@sibling_medical_history.status == 'desceased')}
+                                          %i
+                                          Desceased
+                                .family-checkbox
+                                  .row
+                                    .col-lg-3.col-sm-6.fam-wrap2
+                                      %label.checkbox-inline.i-checks.i-chk
+                                        %input#inlineCheckbox1{:name => "chk-silbling[]", :type => "checkbox", :value => "Diabetic", checked: (@sibling_medical_history.medical_condition_1.to_s.include?('Diabetic'))}
+                                          %i
+                                          %span Diabetic
+                                    .col-lg-3.col-sm-6.fam-wrap2
+                                      %label.checkbox-inline.i-checks.i-chk
+                                        %input#inlineCheckbox2{:name => "chk-silbling[]", :type => "checkbox", :value => "Hypertension", checked: (@sibling_medical_history.medical_condition_1.to_s.include?('Hypertension'))}
+                                          %i
+                                          %span Hypertension
+                                    .col-lg-3.col-sm-6.fam-wrap2
+                                      %label.checkbox-inline.i-checks.i-chk
+                                        %input#inlineCheckbox3{:name => "chk-silbling[]", :type => "checkbox", :value => "Heart condition", checked: (@sibling_medical_history.medical_condition_1.to_s.include?('Heart condition'))}
+                                          %i
+                                          %span Heart condition
+                                    .col-lg-3.col-sm-6.fam-wrap2
+                                      %label.checkbox-inline.i-checks.i-chk
+                                        %input#inlineCheckbox4{:name => "chk-silbling[]", :type => "checkbox", :value => "Cancer", checked: (@sibling_medical_history.medical_condition_1.to_s.include?('Cancer'))}
+                                          %i
+                                          %span Cancer
+                        / / .nav-justified
+                        / / .error message
+                        .alert.alert-danger.alert-family
+                          %button.close{"data-dismiss" => "alert", :type => "button"} &times;
+                          %i.fa.fa-ban-circle
+                          %strong Oh snap!
+                          Please select valid family history option
+                    / row
+                    / .family History
+                    .line.line-dashed.b-b.line-lg.pull-in
+                    / Location
+                    .row
+                      .col-lg-4.col-sm-4.col-xs-4
+                        %span.left-h4 LOCATION
+                      .col-lg-8.col-sm-8.col-xs-8
+                        %p.about2
+                          Please enter your area Zip code.
+                        %div
+                          %input.form-control.zip-inp{:name => "zip", :placeholder => "E.g. 500034", :type => "text", value: @zip_code}
+                        / / .error message
+                        .alert.alert-danger.alert-zip
+                          %button.close{"data-dismiss" => "alert", :type => "button"} &times;
+                          %i.fa.fa-ban-circle
+                          %strong Oh snap!
+                          Please enter valid your area zip code
+                    / .Location
+                    #reg1-submit.about-text{:style => "text-align:center; margin-top:50px;"}
+                      %button{class:'btn btn-s-md btn-success r-submit'} Submit
+
+%a.hide.nav-off-screen-block{"data-target" => "#nav", "data-toggle" => "class:nav-off-screen", :href => "#"}
