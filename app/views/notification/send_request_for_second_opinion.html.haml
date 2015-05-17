@@ -1,4 +1,19 @@
-%p
-  Dear #{@doctor_name}, your valuable suggestion for #{@customer_name} is needed. Please follow the below link and provide your feedback:
-  %a(href="#{@url}")
-    Click here
+Dear #{@doctor_name}
+%br
+%br You are a person I trust. I,
+%b #{@customer_first_name} #{@customer_last_name}
+&nbsp;request you to please review my medical history and provide your valuable feedback.
+%br
+%br
+%table{:cellpadding => "0", :cellspacing => "0"}
+  %tr
+    %td{:align => "center", :bgcolor => "#1AAE89", :height => "40", :style => "-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; display: block;", :width => "300"}
+      %a{:href => "#{@url}", :style => "font-size:16px; text-decoration: none; line-height:40px; width:100%; display:inline-block"}
+        %span{:style => "color: #000000 !important"} Click here to review my profile
+%br This link is valid for only 48 hours. You can reach me at #{@customer_mobile_number} if you have any questions.
+%br
+%br Thank you,
+%br
+%b #{@customer_first_name} #{@customer_last_name}
+%br Powered by
+%a{:href => "#{@ekincare_url}"}eKincare.com

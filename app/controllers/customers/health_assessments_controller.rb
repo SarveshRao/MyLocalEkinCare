@@ -55,6 +55,7 @@ class Customers::HealthAssessmentsController < CustomerAppController
 
   def doctor_comment
     # Insert into note
+    @health_assessment = HealthAssessment.find_by_id(params[:body_assessment_id])
     notes = Note.create(description: params[:notes], health_assessment_id: params[:body_assessment_id])
     # Insert into Comments
     @doctor_comment = DoctorComment.new
@@ -64,7 +65,8 @@ class Customers::HealthAssessmentsController < CustomerAppController
     @doctor_comment.notes_id = notes.id
     @doctor_comment.customer_id = current_online_customer.id
     @doctor_comment.save
-    Notification.post_comments_second_opinion(current_online_customer.first_name, @doctor_comment.doctor_name, current_online_customer.email).deliver!
+    health_assessment_url = request.protocol + request.host_with_port + "/customers/health_assessment?id=" + params[:body_assessment_id] + "&inbox_id=" + params[:body_assessment_id] + "&type=" + @health_assessment.type[0...-10]
+    Notification.post_comments_second_opinion(current_online_customer.first_name, current_online_customer.email, @doctor_comment, notes, @health_assessment, health_assessment_url, request.protocol + request.host_with_port).deliver!
     redirect_to :back
   end
 

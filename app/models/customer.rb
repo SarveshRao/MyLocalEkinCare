@@ -619,11 +619,11 @@ class Customer < ActiveRecord::Base
   def standard_range1 test_component_name, assessment_id
     begin
       gender=self.gender[0,1]
-      component_code = TestComponent.find_by("lower(name)=?",test_component_name.downcase).lonic_code
+      component_code = TestComponent.find_by("lower(name)=? and enterprise_id=?",test_component_name.downcase, HealthAssessment.find(assessment_id).enterprise_id).lonic_code
       if component_code
         test_component=TestComponent.find_by(lonic_code: component_code, enterprise_id: HealthAssessment.find(assessment_id).enterprise_id)
       else
-        test_component=TestComponent.find_by("lower(name)=?",test_component_name.downcase, enterprise_id: HealthAssessment.find(assessment_id).enterprise_id)
+        test_component=TestComponent.find_by("lower(name)=? and enterprise_id=?",test_component_name.downcase, HealthAssessment.find(assessment_id).enterprise_id)
       end
       unless(test_component.standard_ranges.nil?)
         standard_range=test_component.standard_ranges.where(gender:gender).first

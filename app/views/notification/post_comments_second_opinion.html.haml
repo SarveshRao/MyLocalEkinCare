@@ -1,7 +1,13 @@
-%p
-  Dear #{@customer_name}, as requested by you #{@doctor_name} has added the comments after going through your health records. Please check the comments.
-  %br
-  %br
-  Thanks & Regards,
-  %br
-  eKincare Team.
+Dear #{@customer_name},
+%br
+%br Per your request, #{@doctor_comment.doctor_name} &nbsp;has added the comments after reviewing your health assessments
+%a{:href => "#{@health_assessment_url}"}#{@health_assessment.health_assessment_id}
+%br
+%br Comments: #{@notes.description}
+%br Date: #{@notes.updated_at}
+%br
+%br For any further questions, you can reach #{@doctor_comment.doctor_name} at #{@doctor_comment.doctor_mobile_number}.
+%br
+%br Thanks,
+%br
+%a{:href => "#{@ekincare_url}"}eKincare.com

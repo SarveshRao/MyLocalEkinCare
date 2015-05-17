@@ -134,21 +134,28 @@ class Notification < ActionMailer::Base
     end
   end
 
-  def send_request_for_second_opinion(customer_name, doctor_name, to_email, request_link)
-    @customer_name = customer_name
+  def send_request_for_second_opinion(customer_first_name, customer_last_name, customer_mobile_number, doctor_name, to_email, request_link, ekincare_url)
+    @customer_first_name = customer_first_name
+    @customer_last_name = customer_last_name
+    @customer_mobile_number = customer_mobile_number
     @doctor_name = doctor_name
     @email = to_email
     @url = request_link
+    @ekincare_url = ekincare_url
     mail :to => @email,
-         :subject => "Second Opinion"
+         :subject => @customer_first_name + @customer_last_name + " is seeking your 2nd opinion"
   end
 
-  def post_comments_second_opinion(customer_name, doctor_name, to_email)
+  def post_comments_second_opinion(customer_name, to_email, doctor_comment, notes, health_assessment, health_assessment_url, ekincare_url)
     @customer_name = customer_name
-    @doctor_name = doctor_name
+    @doctor_comment = doctor_comment
+    @health_assessment = health_assessment
+    @health_assessment_url = health_assessment_url
+    @notes = notes
+    @ekincare_url = ekincare_url
     @email = to_email
     mail :to => @email,
-         :subject => "Second Opinion"
+         :subject => @doctor_comment.doctor_name + " provided new comments"
   end
 
 end

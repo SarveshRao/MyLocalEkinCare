@@ -55,8 +55,8 @@ win_hgt = $(window).height()
 body_hgt = win_hgt - 110
 $('#reportList').height body_hgt
 
-st = $('.assessment_list .scrollable.hover.w-f ul').scrollTop()
-$('.assessment_list .scrollable.hover.w-f ul').scrollTop st + $('.current_assessment').position().top
+#st = $('.assessment_list .scrollable.hover.w-f ul').scrollTop()
+#$('.assessment_list .scrollable.hover.w-f ul').scrollTop st + $('.current_assessment').position().top
 
 $('.showAssessmentFiles').click ->
   $('.physicalReports').toggleClass 'hide'
