@@ -41,11 +41,11 @@ class TestComponent < ActiveRecord::Base
         lonic_code = TestComponent.find(lab_result.test_component_id).lonic_code
         if lonic_code
           if lonic_code == self.lonic_code
-            component_lab_results << lab_result.result.to_i
+            component_lab_results << lab_result.result.to_f
           end
         else
           if lab_result.test_component_id == self.id
-            component_lab_results << lab_result.result.to_i
+            component_lab_results << lab_result.result.to_f
           end
         end
       end

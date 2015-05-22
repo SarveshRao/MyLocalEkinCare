@@ -1,4 +1,6 @@
 %td
+  = 'PNCD'+ @promo_code.id.to_s.rjust(5, "0")
+%td
   = @promo_code.code
 %td
   -unless(@promo_code.partner_id.nil?)
@@ -11,5 +13,3 @@
 %td
   %a.pull-right.dropdown-toggle.edit-promo-code-result-pencil{"data-toggle" => "dropdown", href: "#"}
     %i.fa.fa-pencil
-%td
-  -

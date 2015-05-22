@@ -143,7 +143,7 @@ class Notification < ActionMailer::Base
     @url = request_link
     @ekincare_url = ekincare_url
     mail :to => @email,
-         :subject => @customer_first_name + @customer_last_name + " is seeking your 2nd opinion"
+         :subject => @customer_first_name.camelize + " " + @customer_last_name.camelize + " is seeking your 2nd opinion"
   end
 
   def post_comments_second_opinion(customer_name, to_email, doctor_comment, notes, health_assessment, health_assessment_url, ekincare_url)
@@ -155,7 +155,7 @@ class Notification < ActionMailer::Base
     @ekincare_url = ekincare_url
     @email = to_email
     mail :to => @email,
-         :subject => @doctor_comment.doctor_name + " provided new comments"
+         :subject => @doctor_comment.doctor_name.camelize + " provided new comments"
   end
 
 end

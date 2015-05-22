@@ -421,7 +421,7 @@
                       .pull-right.media-xs.text-center.text-muted
                         %strong
                           = formatted_date comment.created_at
-                          = full_time comment.created_at
+                          -#= full_time comment.created_at
                       %small.block
                         Doctor Name:
                         = comment.doctor_name

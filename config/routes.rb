@@ -311,8 +311,15 @@ Rails.application.routes.draw do
       scope '/send_opt_on_registration' do
         get '/' => 'customers/api#send_opt_on_registration'
       end
-
-
+      scope '/water_consumption' do
+        post '/' => 'customers/api#water_consumption'
+      end
+      scope '/get_water_consumption' do
+        get '/' => 'customers/api#get_water_consumption'
+      end
+      scope '/get_blood' do
+        get '/' => 'customers/api#get_blood'
+      end
     end
   end
 end

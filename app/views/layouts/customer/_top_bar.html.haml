@@ -46,19 +46,28 @@
 - else
   %input#is_customer{type: "hidden", value: "false"}
 %header.bg-primary.header.header-md.navbar.navbar-fixed-top-xs.box-shadow
-  .navbar-header.aside-md.dk
+  .navbar-header.aside-md.dk.hidden-md.hidden-sm
     %a.btn.btn-link.visible-xs.m-r{"data-target" => "#nav,html", "data-toggle" => "class:nav-off-screen,open"}
       %i.fa.fa-bars.m-r
-    %a.navbar-brand.m-l{href: customers_dashboard_show_path}
-      %span.hidden-nav-xs.m-l
-        %img.m-r-sm.m-l{alt: "eKincare", src: asset_path('logo.png')}/
+    %a.navbar-brand{href: customers_dashboard_show_path}
+      %span.hidden-nav-xs
+        %img.m-r-sm{alt: "eKincare", src: asset_path('logo.png')}/
     %a.btn.btn-link.visible-xs{"data-target" => ".user", "data-toggle" => "dropdown"}
       %i.fa.fa-cog
+  .navbar-header.dk.hidden-xs.hidden-lg.visible-sm.visible-md{:style => "background:#177bbb;width: 60px;"}
+    %a.navbar-brand{href: customers_dashboard_show_path}
+      %span
+        %img.m-r-sm{alt: "eKincare", src: asset_path('ekincare.png'), :width => "30px"}/
+  -#%ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
+  -#  %li
+  -#    = link_to("Sign out", destroy_online_customer_session_path)
+  - if session[:is_customer]
+    - recent_activities = current_online_customer.recent_activities
 
   - if session[:is_customer]
     = form_for MedicalRecord.new, remote: true, authenticity_token: true, url: customer_documents_path(current_online_customer), html: {method: 'post', id: 'customer_medical_record_form', class: 'form-inline'} do |f|
       .form-group.col-sm-4.p-t
-        .input-group.pull-left.col-sm-12
+        .input-group.pull-left.col-xs-12
           %span.input-group-btn.upload-doc
             %span.btn.btn-success.btn-file#browseBtn
               Browse…
@@ -69,8 +78,8 @@
               %i.fa.fa-times-circle.upload-cancle#uploadCancel
 
 
-      .form-group.col-sm-2.p-r.p-t.upload_sec
-        %button#btn-1.btn.btn-default.disabled.media-button-upload.row.n-m.start_upload_loader.pull-left.m-r-sm#uploadBtn{type: 'submit'}
+      .form-group.pull-left.p-t.upload_sec
+        %button#btn-1.btn.btn-default.disabled.media-button-upload.row.n-m.start_upload_loader.pull-left#uploadBtn{type: 'submit'}
           %i.fa.fa-cloud-upload.text
           %span.text Upload
           %i.fa.fa-check.text-active
@@ -85,47 +94,47 @@
     %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
       %li.hidden-xs
         %a.dropdown-toggle#notifications_count{"data-toggle" => "dropdown", href: "#"}
-          - inbox_activities = current_online_customer.inbox_messages
+          -#- inbox_activities = current_online_customer.inbox_messages
           Inbox
-          - inbox_count = inbox_activities.where("activity_type like '%Assessment%'").count-inbox_activities.where("status=true and (activity_type like '%Assessment%')").count
+          - inbox_count = Inbox.joins("inner join health_assessments h on h.id=inboxes.associated_id where h.customer_id=#{current_online_customer.id} and activity_type like '%Assessment%'").count - Inbox.joins("inner join health_assessments h on h.id=inboxes.associated_id where h.customer_id=#{current_online_customer.id} and activity_type like '%Assessment%' and inboxes.status=true").count
           -if inbox_count>0
             %span.badge.badge-sm.up.bg-danger.count
               =  inbox_count
-      %section.dropdown-menu.aside-xl.animated.flipInY
-        #dashboard_notifications.hide
-  - recent_activities = current_online_customer.recent_activities
-  %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
-    %li.hidden-xs
-      %a.dropdown-toggle#appointments_count{"data-toggle" => "dropdown", href: "#"}
-        - inbox_activities = current_online_customer.inbox_messages
-        %i.fa.fa-bell-o
-        - appoint_count =  inbox_activities.where("activity_type='Appointment' and associated_date> CURRENT_TIMESTAMP - INTERVAL '1 day'").count
-        -if appoint_count>0
-          %span.badge.badge-sm.up.bg-danger.count
-            = appoint_count
-          -#-inbox_activities.where(status:true, activity_type: "Appointment and associated_date>CURRENT_TIMESTAMP - INTERVAL '1 day'").count
-          -#=  inbox_activities.where("case when activity_type = 'Appointment' then associated_date>CURRENT_TIMESTAMP - INTERVAL '1 day' and customer_id = #{current_online_customer.id} when activity_type != 'Appointment' then customer_id = #{current_online_customer.id} end").count-inbox_activities.where(status:true).count
-      %section.dropdown-menu.aside-xl.animated.flipInY
-        #dashboard_appointments.hide
-  %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
-    %li.hidden-xs
-      %a.dropdown-toggle#second_opinion{"data-toggle" => "dropdown", href: "#"}
-        Second Opinion
-      %section.dropdown-menu.aside-xl.animated.flipInY
-        #second_opinion
-          = form_for(DoctorOpinion.new, url: customers_dashboard_send_to_doctor_path, html:{id: 'share_with_doctor_form'}, remote: true) do |f|
-            %div.padder-10{style: "color: #3c4144"}Share your profile securely with a doctor or a person you trust. The profile will be accessible only for 48 hours. Please ensure you also inform the respective person the same.
-            .list-group
-              .list-group-item
-                = f.text_field :doctor_name, class: 'form-control no-border', required: true, autofocus: true,  placeholder: 'Enter doctor name', 'data-parsley-trigger' => 'focusout'
-              .list-group-item
-                = f.text_field :doctor_mobile_number, class: 'form-control no-border numeric', placeholder: 'Enter doctor mobile number', required: true, 'data-parsley-minlength' => '10', 'data-parsley-trigger' => 'focusout'
-              .list-group-item
-                = f.email_field :doctor_email, class: 'form-control no-border', required: true, "data-parsley-trigger" => "focusout", placeholder: 'Enter doctor email'
-            %ul.m#error_label.parsley-error-list
-              %li.required Please fill all fields with valid data.
-            .row.m
-              %a.pull-right.btn.btn-primary#send_to_doctor{href: "#", type: "submit"} Send
+        %section.dropdown-menu.aside-xl.animated.flipInY
+          #dashboard_notifications.hide
+    - recent_activities = current_online_customer.recent_activities
+    %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
+      %li.hidden-xs
+        %a.dropdown-toggle#appointments_count{"data-toggle" => "dropdown", href: "#"}
+          - inbox_activities = current_online_customer.inbox_messages
+          %i.fa.fa-bell-o
+          - appoint_count =  Inbox.joins("inner join appointments ap on ap.id=inboxes.associated_id where customer_id=#{current_online_customer.id} and activity_type='Appointment' and associated_date> CURRENT_TIMESTAMP - INTERVAL '1 day'").count
+          -if appoint_count>0
+            %span.badge.badge-sm.up.bg-danger.count
+              = appoint_count
+        -#-inbox_activities.where(status:true, activity_type: "Appointment and associated_date>CURRENT_TIMESTAMP - INTERVAL '1 day'").count
+        -#=  inbox_activities.where("case when activity_type = 'Appointment' then associated_date>CURRENT_TIMESTAMP - INTERVAL '1 day' and customer_id = #{current_online_customer.id} when activity_type != 'Appointment' then customer_id = #{current_online_customer.id} end").count-inbox_activities.where(status:true).count
+        %section.dropdown-menu.aside-xl.animated.flipInY
+          #dashboard_appointments.hide
+    %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
+      %li.hidden-xs
+        %a.dropdown-toggle#second_opinion{"data-toggle" => "dropdown", href: "#", :style => "padding-right:10px;padding-left:10px;"}
+          Second Opinion
+        %section.dropdown-menu.aside-xl.animated.flipInY
+          #second_opinion
+            = form_for(DoctorOpinion.new, url: customers_dashboard_send_to_doctor_path, html:{id: 'share_with_doctor_form'}, remote: true) do |f|
+              %div.padder-10{style: "color: #3c4144"}Share your profile securely with a doctor or a person you trust. The profile will be accessible only for 48 hours. Please ensure you also inform the respective person the same.
+              .list-group
+                .list-group-item
+                  = f.text_field :doctor_name, class: 'form-control no-border', required: true, autofocus: true,  placeholder: 'Enter doctor name', 'data-parsley-trigger' => 'focusout'
+                .list-group-item
+                  = f.text_field :doctor_mobile_number, class: 'form-control no-border numeric', placeholder: 'Enter doctor mobile number', required: true, 'data-parsley-rangelength' => '[10,13]', 'data-parsley-trigger' => 'focusout'
+                .list-group-item
+                  = f.email_field :doctor_email, class: 'form-control no-border', required: true, "data-parsley-trigger" => "focusout", placeholder: 'Enter doctor email'
+              %ul.m#error_label.parsley-error-list
+                %li.required Please fill all fields with valid data.
+              .row.m
+                %a.pull-right.btn.btn-primary#send_to_doctor{href: "#", type: "submit"} Send
     -#%li.hidden-xs
       %a.dropdown-toggle#notifications_count{"data-toggle" => "dropdown", href: "#"}
         %i.i.i-chat3
@@ -210,7 +219,7 @@
           if($(this).attr('id') == 'doctor_opinion_doctor_mobile_number')
           {
             //check for mobile number length
-            if($(this).val().length != 10)
+            if($(this).val().length < 10)
             {
               //$(this).next('label').text('Mobile number should be of 10 digits length').show();
               isValid = isValid && false;
@@ -258,7 +267,7 @@
           e.preventDefault();
       }
 
-      var pattern_mobile_number = /^\d{10}$/;
+      var pattern_mobile_number = /^\d{13}$/;
       if (pattern_mobile_number.test($(this).val())) {
         e.preventDefault();
       }

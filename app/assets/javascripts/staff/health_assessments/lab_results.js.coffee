@@ -516,6 +516,17 @@ $ ->
   $('.test_result_save').click ->
     if $('#test_result').val() == ''
       alert 'Please enter result'
+      return false
+    if $('#health_assessment_provider_name').val() == ''
+      alert 'Please enter Provider name'
+      return false
+    if $('#health_assessment_doctor_name').val() == ''
+      alert 'Please enter doctor name'
+      return false
+    return true
+  $('.provider-name-save-btn').click ->
+    if $('#health_assessment_provider_name').val() == ''
+      alert 'Please enter provider name'
       false
     else
       true

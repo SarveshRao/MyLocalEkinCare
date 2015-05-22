@@ -58,7 +58,7 @@
           .list-group-item
             = f.email_field :email, class: 'form-control no-border ', required: true,  placeholder: 'Email'
           .list-group-item
-            = f.text_field :mobile_number, class: 'form-control no-border numeric', required: true,  placeholder: 'Phone number', rangelength: [10]
+            = f.text_field :mobile_number, class: 'form-control no-border numeric', required: true,  placeholder: 'Phone number', rangelength: [10,13]
           .list-group-item
             = f.text_field :date_of_birth, {class: 'form-control no-border datepicker_1 p-l', 'readonly' => 'readonly', required: true, 'data-date-format' => 'dd-mm-yyyy', placeholder: 'Date of birth (DD-MM-YYYY)'}
           .list-group-item
@@ -118,7 +118,7 @@
           e.preventDefault();
       }
 
-      var pattern_mobile_number = /^\d{10}$/;
+      var pattern_mobile_number = /^\d{13}$/;
       if (pattern_mobile_number.test($(this).val())) {
         e.preventDefault();
       }

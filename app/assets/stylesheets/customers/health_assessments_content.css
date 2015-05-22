@@ -124,7 +124,7 @@
 }
 
 /*.concern .rResultValue .verdict{*/
-    /*background: #b8001b;*/
+/*background: #b8001b;*/
 /*}*/
 
 .rResultValue .value{
@@ -191,13 +191,13 @@ li{
     .rResultValue{
         min-width: 75px;
     }
-    section.assessments .inbox{
+    section.assessments .assessment_list{
         display: block;
     }
     section.assessments .lab_results{
         display: none;
     }
-    section.assessment .inbox{
+    section.assessment .assessment_list{
         display: none;
     }
     section.assessment .lab_results{
@@ -228,4 +228,91 @@ li{
     width:17%;
 }
 
-html, body{ min-height: 100%}
+html, body{ height: 100%}
+
+.drop-content{
+    max-width: 300px;
+    text-align: center;
+}
+
+.eyeresult-section{
+    background:#126DA7;
+    padding: 30px 0 50px 0;
+    margin: 0px 0 0px 0;
+    overflow: hidden;
+}
+
+.eye{
+    display: block;
+}
+
+.eye.lefteye{
+    box-sizing: border-box;
+}
+
+.eye.righteye{
+    border-left: 1px solid white;
+    box-sizing: border-box;
+}
+
+.eye-content{
+    margin:0 auto;
+    width:160px;
+    position:relative;
+    height:100%;
+    max-width: 100%;
+}
+
+.eye-text{
+    color: white;
+    text-align: center;
+    font-size: 18px;
+}
+
+.eye-content > img{
+    width:60%;
+    margin-left:20%;
+}
+
+.eye-content > img.full{
+    width:100%;
+    margin-left: 0;
+}
+
+.eye-content > .answer{
+    margin-top: 40px;
+    padding:0;
+}
+
+.eye-content > .answer > input{
+    padding:4px 8px;
+}
+
+.eye-result{
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+    margin:3px 0;
+    padding: 5px 10px;
+    border-radius: 0;
+    color: black;
+}
+
+.eye-result.full{
+    width: 100%;
+    margin-bottom: 6px;
+    padding:5px 3px;
+}
+
+
+.eye-results{
+    text-align: center;
+}
+
+
+
+@media (max-width: 480px) {
+    .eye-result.full{
+        font-size:10px;
+    }
+}

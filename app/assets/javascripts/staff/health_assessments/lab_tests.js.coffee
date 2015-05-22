@@ -8,16 +8,34 @@ $("#edit_health_assessment").bind "ajax:success", (event, data, status,xhr) ->
   $('#message').removeClass('hide');
   $('#Doctor_Name').removeClass('hide');
 
+$("#edit_provider_form").bind "ajax:success", (event, data, status,xhr) ->
+  $("#Provider_Name").text(data.health_assessment.provider_name)
+  $("#SAVE_PROVIDER").addClass('hide')
+  $('#message1').removeClass('hide');
+  $('#Provider_Name').removeClass('hide');
+
+
 
 show_message = (msg) ->
   $('#message').show().fadeIn(2222,
     -> $("#Doctor_Name").addClass('hide')
+  )
+
+show_message1 = (msg) ->
+  $('#message1').show().fadeIn(2222,
+    -> $("#Provider_Name").addClass('hide')
   )
 $ ->
 $('#message').click ->
   show_message "you"
   $("#SAVE_DOCTOR").removeClass('hide')
   $("#message").addClass('hide')
+
+$('#message1').click ->
+  show_message1 "you"
+  $("#SAVE_PROVIDER").removeClass('hide')
+  $("#message1").addClass('hide')
+
 
 
 #LabTests/TestComponents grid and CRUD operations starts here

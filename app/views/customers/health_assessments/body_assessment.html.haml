@@ -47,14 +47,13 @@
                     %span
                     = body_assessment.health_assessment_id
                     -#= formatted_date body_assessment.request_date
-                    -unless(body_assessment.appointments.empty?)
-                      -unless(body_assessment.appointments.first.partner_name1.nil?)
-                        %strong.block
-                          Provider Name
-                          %span
-                            &nbsp;:
-                          %span
-                            =body_assessment.appointments.first.partner_name1 rescue ''
+                  -unless(body_assessment.nil? or body_assessment.provider_name.nil?)
+                    %strong.block
+                      Provider Name
+                      %span
+                        &nbsp;:
+                      %span
+                        = body_assessment.provider_name rescue ''
                   -unless(body_assessment.nil? or body_assessment.doctor_name.nil?)
                     %small.block
                       Doctor Name
@@ -78,15 +77,13 @@
                   %div
                     .col-md-12.no-padder
                       %h5
-                        -if @body_assessment
-                          -unless @body_assessment.appointments.empty? || @body_assessment.appointments.nil?
-                            -unless(@body_assessment.appointments.first.partner_name1.nil? or @body_assessment.appointments.first.partner_name1.nil? )
-                              %span.font-bold
-                                Provider Name
-                              %span
-                                &nbsp;:
-                              %span
-                                =@body_assessment.appointments.first.partner_name1 rescue ''
+                        -unless(@body_assessment.nil? or @body_assessment.doctor_name.nil?)
+                          %span.font-bold
+                            Provider Name
+                          %span
+                            &nbsp;:
+                          %span
+                            =@body_assessment.provider_name rescue ''
                       %h5
                         -unless(@body_assessment.nil? or @body_assessment.doctor_name.nil?)
                           %span.font-bold
@@ -126,7 +123,7 @@
                           Enter your comments
                         %p
                           %form#doctor_comments_form{:action => customers_health_assessment_doctor_comment_path, :method => "post"}
-                            %input#body_assessment_id{:name => "body_assessment_id", :type => "hidden", :value => @body_assessment.id}/
+                            %input#assessment_id{:name => "assessment_id", :type => "hidden", :value => @body_assessment.id}/
                             %textarea.form-control#assessment_comments{:name => "notes", :type => "text", :placeholder => "Please enter your comments here"}
                             %div.clearfix.m-b
                             %input.pull-right.btn.btn-primary{:type => "submit", :value => "Submit"}/

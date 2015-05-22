@@ -66,7 +66,12 @@ class Staff::CustomersAppointmentsController < StaffController
     appointment_date = appointment.appointment_date
     assessment = HealthAssessment.find(appointment.appointmentee_id)
     customer = Customer.find(assessment.customer_id)
-    Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ customer.mobile_number() +'&sender=EKCARE&message=CANCELLATION: Dear '+ customer.first_name() +', your EKINCARE '+ assessment.assessment_type.to_s() +' check up (APPT ID: '+ assessment.health_assessment_id.to_s() +'), is cancelled for '+ appointment.appointment_date.to_s() +' at '+ (appointment.appointment_provider ? appointment.appointment_provider.provider.addresses.first.details() : 'Home') +'. Call 8886783546 for questions.')))
+    if appointment.appointment_provider
+      unless (appointment.appointment_provider.provider.nil? or appointment.appointment_provider.provider!=0)
+        address = appointment.appointment_provider.provider.addresses.first.details() rescue ''
+      end
+    end
+    Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ customer.mobile_number() +'&sender=EKCARE&message=CANCELLATION: Dear '+ customer.first_name() +', your EKINCARE '+ assessment.assessment_type.to_s() +' check up (APPT ID: '+ assessment.health_assessment_id.to_s() +'), is cancelled for '+ appointment.appointment_date.to_s() +' at '+ (address ? address : 'Home') +'. Call 8886783546 for questions.')))
     if appointment.destroy
       render json: {msg: 'success'}, status: 200
     else

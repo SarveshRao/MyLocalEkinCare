@@ -60,6 +60,7 @@ $('#reportList').height body_hgt
 
 $('.showAssessmentFiles').click ->
   $('.physicalReports').toggleClass 'hide'
+  $('#dentalWrapper').css 'margin-top', $('#dentalHeader').height() + 50
   return
 #$ ->
 #  $('.moreInfo').click ->
@@ -81,4 +82,4 @@ $('.showAssessmentFiles').click ->
 #        return
 #      error: ->
 ##    $(this).next('.info_sec').removeClass('hide').slideDown()
-#
+

@@ -1,0 +1,14 @@
+.teeth-marker{
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    background-image: url("marker.png");
+    background-size: 100% 100%;
+    cursor: pointer;
+    visibility: hidden;
+}
+
+
+.drop-content{
+    max-width: 200px;
+}

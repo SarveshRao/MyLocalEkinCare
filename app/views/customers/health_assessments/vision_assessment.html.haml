@@ -7,165 +7,215 @@
       Contact: 888-678-EKIN (3546) /
       %a{href: 'mailto:founder@ekincare.com'} founder@ekincare.com
 
-%div.padder{style: 'min-height: 1000px'}
-  .m-b-md.padder
-    %h4.text-center
-      %a.font-bold Vision Assessment
 
-  -#= paginate @vision_assessment, params: {id: nil}
+- if @vision_assessment.nil?
+  .row.p-t.padder
+    .text-center
+      No assessments found
 
-  - if @vision_assessment.empty?
-    .row.p-t.padder
-      .text-center
-        No assessments found
+  .row.p-t.padder
+    .text-center
+      %h4 Please upload your recent vision records
+    .text-center.p-t
+      %a.btn.btn-s-md.btn-primary{:href => customers_documents_path} Get Started
 
-    .row.p-t.padder
-      .text-center
-        %h4 Please upload your recent vision records
-      .text-center.p-t
-        %a.btn.btn-s-md.btn-primary{:href => customers_documents_path} Get Started
+  .row.p-t.padder
+    .text-center.col-md-6.col-md-offset-3
+      Doctors highly recommend a comprehensive dilated eye-exam atleast once a year. If you haven’t had one in the recent past, call now to schedule an annual vision assessment. It's free.
 
-    .row.p-t.padder
-      .text-center.col-md-6.col-md-offset-3
-        Doctors highly recommend a comprehensive dilated eye-exam atleast once a year. If you haven’t had one in the recent past, call now to schedule an annual vision assessment. It's free.
-
-    .row.padder
-      .text-center
-        %h3 888-678-EKIN (3546)
-  - else
-
-    .row.p-t.md.padder
-    .col-lg-12.col-md-12.m-b{:style => "padding:0"}
-      %div
-        .col-md-6.nopadding
-          %div
-            .col-md-12.no-padder
-              %h5
-                -unless(@vision_assessment.first.appointments.empty?)
-                  -unless(@vision_assessment.first.appointments.first.partner_name1.nil?)
-                    %span.font-bold
-                      Provider Name
+  .row.padder
+    .text-center
+      %h3 888-678-EKIN (3546)
+- else
+  %section{:class => @assessment_class}
+    %section.hbox.stretch
+      %aside.aside-lg{:class => "assessment_list"}
+        %section.scrollable.hover.w-f
+          %ul#reportList.list-group.auto.no-radius.m-b-none.m-t-n-xxs.list-group-lg.scrollable.col-sm-12{:style => "background:white"}
+            -@vision_assessments.each do |vision_assessment|
+              %li.list-group-item{id:vision_assessment.id,class: (@assessment_id.to_s==vision_assessment.id.to_s)? 'current_assessment': '',}
+                -inbox_id=Inbox.find_by_associated_id(vision_assessment.id)
+                %a.clear.text-ellipsis{href: customers_health_assessment_path({type: 'Vision', id: vision_assessment.id,inbox_id:inbox_id})}
+                  %strong.block
+                    Assessment ID:
                     %span
                       &nbsp;:
                     %span
-                      =@vision_assessment.first.appointments.first.partner_name1
-      %div
-        .col-md-6.nopadding.text-right.provider_doctor_name
-          %h5
-            -unless(@vision_assessment.nil?)
-              -unless(@vision_assessment.first.doctor_name.nil?)
-                %span.font-bold
-                  Doctor Name
+                    = vision_assessment.health_assessment_id
+                  -unless(vision_assessment.nil? or vision_assessment.provider_name.nil?)
+                    %strong.block
+                      Provider Name
+                      %span
+                        &nbsp;:
+                      %span
+                        =vision_assessment.provider_name rescue ''
+                  -unless(vision_assessment.nil? or vision_assessment.doctor_name.nil?)
+                    %small.block
+                      Doctor Name
+                      %span
+                        &nbsp;:
+                      %span{:style => "white-space:normal;width:58%"}
+                        =vision_assessment.doctor_name rescue ''
+                  %strong.block.pull-left
+                    Date:
+                    %span
+                      &nbsp;:
+                    %span
+                    = formatted_date vision_assessment.request_date rescue ''
+      %aside.lter#reportHolder{:class => "lab_results"}
+        %section.vbox
+          %section.scrollable.padder
+            .col-lg-12.col-md-12.m-b.bg-white.padder.padder-v
+              %div
+                .col-md-6.nopadding
+                  %div
+                    .col-md-12.no-padder
+                      %h5
+                        -unless(@vision_assessment.nil? or @vision_assessment.provider_name.nil?)
+                          %span.font-bold
+                            Provider Name
+                          %span
+                            &nbsp;:
+                          %span
+                            =@vision_assessment.provider_name rescue ''
+                      %h5
+                        -unless(@vision_assessment.nil? or @vision_assessment.doctor_name.nil?)
+                          %span.font-bold
+                            Doctor Name
+                          %span
+                            &nbsp;:
+                          %span
+                            =@vision_assessment.doctor_name rescue ''
+              %div
+                .col-md-6.nopadding.text-right.provider_doctor_name
+                  %h5
+                    %span.font-bold
+                      Date
+                    %span
+                      &nbsp;:
+                    %span
+                      = formatted_date @vision_assessment.request_date rescue ''
+                  %h5.showAssessmentFiles
+                    -unless @vision_medical_records.empty?
+                      %span.font-bold
+                        %i.fa.fa-file
+                      %span
+                        files
+                    %h5.physicalReports.hide
+                      %span
+                        %ul
+                        -@vision_medical_records.each do |medical_record|
+                          %li
+                            = "<a href=#{medical_record.emr} download=download>#{ medical_record.emr.file.filename}</a>".html_safe
+            - if !session[:is_customer]
+              %section.panel.panel-default
+                .row.padder.padder-v
+                  .col-sm-12
+                    %h3.rTitle.m-b-xs
+                      Enter your comments
+                    %p
+                      %form#doctor_comments_form{:action => customers_health_assessment_doctor_comment_path, :method => "post"}
+                        %input#assessment_id{:name => "assessment_id", :type => "hidden", :value => @vision_assessment.id}/
+                        %textarea.form-control#assessment_comments{:name => "notes", :type => "text", :placeholder => "Please enter your comments here"}
+                        %div.clearfix.m-b
+                        %input.pull-right.btn.btn-primary{:type => "submit", :value => "Submit"}/
+            -if @vision_assessment.prescription
+              - @left_correction = @vision_assessment.prescription.corrections.find_by(eye: 'left').vision_component
+              - @right_correction = @vision_assessment.prescription.corrections.find_by(eye: 'right').vision_component
+            .col-lg-12.col-md-12.padder.padder-v.eyeresult-section
+              .col-xs-6.eye.lefteye{:style => ""}
+                .eye-content
+                  .eye-text Left Eye
+                  %img{:src => asset_path("vision_assessment/leftEye.png"), :style => ""}/
+                  .eye-resultsList{:style => "margin-top:5px;"}
+                    .eye-results
+                      .bg-white.eye-result.l-ucva
+                        %span.pull-left UCVA
+                        %span.pull-right
+                          = @left_correction.ucva rescue '-'
+                      .bg-white.eye-result.l-sphe
+                        %span.pull-left SPHE
+                        %span.pull-right
+                          = @left_correction.spherical rescue '-'
+                      .bg-white.eye-result.l-cyl
+                        %span.pull-left CYL
+                        %span.pull-right
+                          = @left_correction.cylindrical rescue '-'
+                      .bg-white.eye-result.l-axis
+                        %span.pull-left AXIS
+                        %span.pull-right
+                          = @left_correction.axis rescue '-'
+                      .bg-white.eye-result.l-add
+                        %span.pull-left ADD
+                        %span.pull-right
+                          = @left_correction.add rescue '-'
+                      .bg-white.eye-result.l-cva
+                        %span.pull-left CVA
+                        %span.pull-right
+                          = @left_correction.cva rescue '-'
+              .col-xs-6.eye.righteye
+                .eye-content
+                  .eye-text Right Eye
+                  %img{:src => asset_path("vision_assessment/rightEye.png")}/
+                  .eye-resultsList{:style => "margin-top:5px;"}
+                    .eye-results
+                      .bg-white.eye-result.r-ucva
+                        %span.pull-left UCVA
+                        %span.pull-right
+                          = @right_correction.ucva rescue '-'
+                      .bg-white.eye-result.r-sphe
+                        %span.pull-left SPHE
+                        %span.pull-right
+                          = @right_correction.spherical rescue '-'
+                      .bg-white.eye-result.r-cyl
+                        %span.pull-left CYL
+                        %span.pull-right
+                          = @right_correction.cylindrical rescue '-'
+                      .bg-white.eye-result.r-axis
+                        %span.pull-left AXIS
+                        %span.pull-right
+                          = @right_correction.axis rescue '-'
+                      .bg-white.eye-result.r-add
+                        %span.pull-left ADD
+                        %span.pull-right
+                          = @right_correction.add rescue '-'
+                      .bg-white.eye-result.r-cva
+                        %span.pull-left CVA
+                        %span.pull-right
+                          = @right_correction.cva rescue '-'
+            .col-lg-12.col-md-12.m-b.m-t.bg-white.padder.padder-v
+              .col-md-6.nopadding
+                %strong Lens Type:
                 %span
-                  &nbsp;:
-                %span
-                  =@vision_assessment.first.doctor_name
-
-    .row.p-t.md.padder
-      .col-lg-12.col-md-12
-        %section.row.m-l-none.m-r-none.m-b.text-center
-          .col-md-2.no-padder
-            %section.panel.panel-default.m-n
-              .panel-body
-                = link_to_next_page @vision_assessment, 'Previous', params: {type: 'Vision'}
-                &nbsp;
-          .col-md-8.no-padder
-            %section.panel.panel-default
-              .panel-body
-                %b
-                  = formatted_date @vision_assessment.first.request_date
-          .col-md-2.no-padder
-            %section.panel.panel-default
-              .panel-body
-                = link_to_previous_page @vision_assessment, 'Next', params: {type: 'Vision'}
-                &nbsp;
-
-    .row.p-t.padder
-      .col-lg-12.col-md-12
-        %section.panel.panel-default
-          %header.padder.padder-v-10.m-b-none.panel.panel-heading.b-n.b-b
-            %b.text-success{style: 'font-size: 15px'} Corrections
-          .table-responsive
-            %table.table.table-striped.b-light#Vision_prescription_table
-              %thead
-                %tr
-                  %th{width: '10%'}
-                    %span Eye
-                    -#%span.th-sort
-                      %i.fa.fa-sort-down.text
-                      %i.fa.fa-sort-up.text-active
-                      %i.fa.fa-sort
-                  %th
-                    %span UCVA
-                  %th{width: '12%'}
-                    %span SPHE
-                  %th
-                    %span CYL
-                  %th
-                    %span AXIS
-                  %th
-                    %span PRISM
-                  %th{width: '12%'}
-                    %span ADD
-                  %th
-                    %span CVA
-              %tbody
-                -if @vision_assessment.first.prescription
-                  - @left_correction = @vision_assessment.first.prescription.corrections.find_by(eye: 'left').vision_component
-                  - @right_correction = @vision_assessment.first.prescription.corrections.find_by(eye: 'right').vision_component
-
-                %tr#vision_prescription_form
-                  %td
-                    Left Eye
-                  %td
-                    = @left_correction.ucva rescue '-'
-                  %td
-                    = @left_correction.spherical rescue '-'
-                  %td
-                    = @left_correction.cylindrical rescue '-'
-                  %td
-                    = @left_correction.axis rescue '-'
-                  %td
-                    = @left_correction.prism rescue '-'
-                  %td
-                    = @left_correction.add rescue '-'
-                  %td
-                    = @left_correction.cva rescue '-'
-
-                %tr#vision_prescription_form
-                  %td
-                    Right Eye
-                  %td
-                    = @right_correction.ucva rescue '-'
-                  %td
-                    = @right_correction.spherical rescue '-'
-                  %td
-                    = @right_correction.cylindrical rescue '-'
-                  %td
-                    = @right_correction.axis rescue '-'
-                  %td
-                    = @right_correction.prism rescue '-'
-                  %td
-                    = @right_correction.add rescue '-'
-                  %td
-                    = @right_correction.cva rescue '-'
-        %section.panel.panel-default
-          %header.padder.padder-v-10.m-b-none.panel.panel-heading.b-n.b-b
-            %b.text-success{style: 'font-size: 15px'} Lens Type
-          .table-responsive
-            %table.table.table-striped.b-light
-            - if @vision_assessment.first.prescription
-              - @lens_types = @vision_assessment.first.prescription.lens_type.split(',') rescue '-'
-              %tbody
-                %tr
-                  %td{colspan: '9'}
-                    .row.m-l
-                      .col-md-12
-                        %ol
-                          - @lens_types.each do |lens_type|
-                            %li
-                              = lens_type
-            - else
-              .padder-v.text-center
-                %small.padder
-                  No lens prescribed
+                  =@vision_assessment.prescription.lens_type rescue '-'
+            -unless @vision_assessment.recommendations.empty?
+              .col-lg-12.col-md-12.m-b.bg-white.padder.padder-v
+                .recommendations.wrapper.bg-white
+                  %h4 Recommendations
+                  -@vision_assessment.recommendations.each do |recommendation|
+                    %br
+                    =recommendation.description
+          %section.row.panel.panel-default
+            .row.padder.padder-v
+              .col-sm-12
+                %h3.rTitle.m-b-xs
+                  Doctor Comments
+                -no_comments = true
+                -@comments.each do |comment|
+                  - if comment.health_assessment_id == @vision_assessment.id
+                    -no_comments = false
+                    .list-group-item
+                      %strong.block
+                        Doctor Name:
+                        %span
+                        = comment.doctor_name
+                      %strong.block
+                        Created Date:
+                        %span
+                        = formatted_date comment.created_at
+                      %strong.block
+                        Doctor Comments:
+                        %span
+                        = comment.description
+                - if no_comments == true
+                  No comments added.

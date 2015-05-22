@@ -400,27 +400,28 @@ class Customers::ApiController < BaseApiController
       assessment = HealthAssessment.find_by_health_assessment_id(timeline.badge) ? HealthAssessment.find_by_health_assessment_id(timeline.badge) : ''
       if assessment!=''
         timeline.doctor_name = assessment.doctor_name
-        appointments = Appointment.find_by_appointmentee_id(assessment.id)
-        if appointments
-          appointment_provider = AppointmentProvider.find_by_appointment_id(appointments.id)
-          if appointment_provider.present?
-            if appointment_provider.provider_id>0
-              provider_name = Provider.find(appointment_provider.provider_id) rescue nil
-              if provider_name
-                enterprise_name = Enterprise.find(provider_name.enterprise_id).name rescue nil
-                timeline.provider_name= enterprise_name
-              else
-                timeline.provider_name = 'At Home'
-              end
-            else
-              timeline.provider_name = 'At Home'
-            end
-          else
-            timeline.provider_name = 'At Home'
-          end
-        else
-          timeline.provider_name= nil
-        end
+        timeline.provider_name = assessment.provider_name
+        # appointments = Appointment.find_by_appointmentee_id(assessment.id)
+        # if appointments
+        #   appointment_provider = AppointmentProvider.find_by_appointment_id(appointments.id)
+        #   if appointment_provider.present?
+        #     if appointment_provider.provider_id>0
+        #       provider_name = Provider.find(appointment_provider.provider_id) rescue nil
+        #       if provider_name
+        #         enterprise_name = Enterprise.find(provider_name.enterprise_id).name rescue nil
+        #         timeline.provider_name= enterprise_name
+        #       else
+        #         timeline.provider_name = 'At Home'
+        #       end
+        #     else
+        #       timeline.provider_name = 'At Home'
+        #     end
+        #   else
+        #     timeline.provider_name = 'At Home'
+        #   end
+        # else
+        #   timeline.provider_name= nil
+        # end
       else
         timeline.doctor_name = nil
         timeline.provider_name = nil
@@ -444,63 +445,63 @@ class Customers::ApiController < BaseApiController
   def body_assessment_list
     @customer = Customer.find(params[:id])
     @assessments = HealthAssessment.where(customer_id: @customer.id, type: 'BodyAssessment', status: 'done')
-    @assessments.each do |assessment|
-      assessment.class_eval do
-        attr_accessor :provider_name
-      end
-      appointments = Appointment.find_by_appointmentee_id(assessment.id)
-      if appointments
-        appointment_provider = AppointmentProvider.find_by_appointment_id(appointments.id)
-        if appointment_provider.present?
-          if appointment_provider.provider_id>0
-            provider_name = Provider.find(appointment_provider.provider_id) rescue nil
-            if provider_name
-              enterprise_name = Enterprise.find(provider_name.enterprise_id).name rescue nil
-              assessment.provider_name= enterprise_name
-            else
-              assessment.provider_name = 'At Home'
-            end
-          else
-            assessment.provider_name = 'At Home'
-          end
-        else
-          assessment.provider_name = 'At Home'
-        end
-      else
-        assessment.provider_name= nil
-      end
-    end
+    # @assessments.each do |assessment|
+    #   assessment.class_eval do
+    #     attr_accessor :provider_name
+    #   end
+    #   appointments = Appointment.find_by_appointmentee_id(assessment.id)
+    #   if appointments
+    #     appointment_provider = AppointmentProvider.find_by_appointment_id(appointments.id)
+    #     if appointment_provider.present?
+    #       if appointment_provider.provider_id>0
+    #         provider_name = Provider.find(appointment_provider.provider_id) rescue nil
+    #         if provider_name
+    #           enterprise_name = Enterprise.find(provider_name.enterprise_id).name rescue nil
+    #           assessment.provider_name= enterprise_name
+    #         else
+    #           assessment.provider_name = 'At Home'
+    #         end
+    #       else
+    #         assessment.provider_name = 'At Home'
+    #       end
+    #     else
+    #       assessment.provider_name = 'At Home'
+    #     end
+    #   else
+    #     assessment.provider_name= nil
+    #   end
+    # end
 
-    render json: {assessments: @assessments}.to_json(:methods => :provider_name)
+    render json: {assessments: @assessments}
   end
 
   def body_assessment
     @assessment = HealthAssessment.find(params[:id])
     @customer = Customer.find(@assessment.customer_id)
-    @assessment.class_eval do
-      attr_accessor :provider_name
-    end
-    appointments = Appointment.find_by_appointmentee_id(@assessment.id)
-    if appointments
-      appointment_provider = AppointmentProvider.find_by_appointment_id(appointments.id)
-      if appointment_provider.present?
-        if appointment_provider.provider_id > 0
-          provider_name = Provider.find(appointment_provider.provider_id) rescue nil
-          if provider_name
-            enterprise_name = Enterprise.find(provider_name.enterprise_id).name rescue nil
-            @assessment.provider_name= enterprise_name
-          else
-            @assessment.provider_name = 'At Home'
-          end
-        else
-          @assessment.provider_name = 'At Home'
-        end
-      else
-        @assessment.provider_name = 'At Home'
-      end
-    else
-      @assessment.provider_name= nil
-    end
+    # @assessment.class_eval do
+    #   attr_accessor :provider_name
+    # end
+    # appointments = Appointment.find_by_appointmentee_id(@assessment.id)
+    # if appointments
+    #   appointment_provider = AppointmentProvider.find_by_appointment_id(appointments.id)
+    #   if appointment_provider.present?
+    #     if appointment_provider.provider_id > 0
+    #       provider_name = Provider.find(appointment_provider.provider_id) rescue nil
+    #       if provider_name
+    #         enterprise_name = Enterprise.find(provider_name.enterprise_id).name rescue nil
+    #         @assessment.provider_name= enterprise_name
+    #       else
+    #         @assessment.provider_name = 'At Home'
+    #       end
+    #     else
+    #       @assessment.provider_name = 'At Home'
+    #     end
+    #   else
+    #     @assessment.provider_name = 'At Home'
+    #   end
+    # else
+    #   @assessment.provider_name= nil
+    # end
 
     if @assessment.categorize_components.nil? or @assessment.categorize_components.empty?
       @list = nil
@@ -615,6 +616,41 @@ class Customers::ApiController < BaseApiController
       Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ params[:mobile_number] +'&sender=EKCARE&message=OTP: Dear '+ params[:first_name]+', your eKincare registration otp is '+ @customer.otp+'. Call 8886783546 for questions.')))
       render json: @customer.to_json(:methods => [:otp, :otp_expire])
     end
+  end
+
+  def water_consumption
+    # @customer_id = params[:id]
+    # @consumed_date = params[:date]
+    # @water_consumed = params[:water_consumed]
+    # @actual_consumption = params[:actual_consumption]
+    @water = WaterConsumption.new(water_consumption_params)
+    if @water.save!
+      render :status => 200, :json => { :message => "success" }
+    else
+      render :status => 400, :json => { :error => "record not inserted" }
+    end
+  end
+
+  def get_water_consumption
+    @customer_id = params[:id]
+    @start_date = params[:start_date]
+    @end_date = params[:end_date]
+
+    @water_consumed = WaterConsumption.where("customer_id=#{@customer_id} and consumed_date between '#{@start_date}' and '#{@end_date}'")
+    if @water_consumed.count>0
+      render :status => 200, json: {totalrecords: @water_consumed}
+    else
+      render :status => 200, :json => { :message => "no data available" }
+    end
+  end
+
+  def get_blood
+    @blood_group = params[:group]
+    render :status => 200, :json => { :message => "persons having same blood group:"+rand(10...100).to_s }
+  end
+
+  def water_consumption_params
+    params.require(:water_consumption).permit(:customer_id, :consumed_date, :water_consumed, :actual_consumption)
   end
 
 end

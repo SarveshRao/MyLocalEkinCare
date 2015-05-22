@@ -4,12 +4,36 @@
       .col-lg-2.col-md-2.pull-left
         %a.font-bold{href: "#"}
           Lab Tests &nbsp;&nbsp;
-      .col-lg-4.col-md-4.pull-center
-        %p.font-bold.padding-left.pull-right
-          %small.pull-left.font-bold
-            = "Enterprise: "+@health_assessment.enterprise_name
-      .col-lg-6.col-md-6.pull-right.doctorname-align
-        %p.font-bold.padding-left.pull-right
+      -#.col-lg-5.col-md-5.pull-center
+        -#%p.font-bold.padding-left.pull-right
+        -#  %small.pull-left.font-bold{id: 'Provider_Name'}
+        -#    -#= "Enterprise: "+@health_assessment.enterprise_name
+        -#    = @health_assessment.provider_name
+        -#  -if(@health_assessment.provider_name)
+        -#    %span
+        -#      &nbsp;
+        -#      %a.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#",id:'message1'}
+        -#        %i.fa.fa-pencil.small.pull-left
+        -#  -else
+        -#    %span
+        -#      &nbsp;
+        -#      %a.hide.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#",id:'message1'}
+        -#        %i.fa.fa-pencil.small.pull-left
+        -#  -if(@health_assessment.provider_name)
+        -#    %div.hide.provider.width94p.pull-right{id:'SAVE_PROVIDER'}
+        -#      = form_for @health_assessment, as: :health_assessment, remote: true, html: {health_assessment_id: @health_assessment.id, id: 'edit_provider_form'}, url: customer_health_assessment_path(@customer, @health_assessment) do |f|
+        -#        = f.label :provider_name, 'Provider Name',{class:'font-bold mar-t6 pull-left mar-r10'}
+        -#        = f.select(:provider_name, Provider.all.collect {|p| [ p.name]}.uniq, {:include_blank => "Select a Provider"}, {:class => 'form-control width168 pull-left'})
+        -#        = f.submit 'save', {class:'btn btn-xs small-btn btn-primary provider-name-save-btn pull-right mar-t6'}
+        -#  -else
+        -#    %div.provider.pull-right.width94p{id:'SAVE_PROVIDER'}
+        -#      = form_for @health_assessment, as: :health_assessment, remote: true, html: {health_assessment_id: @health_assessment.id, id: 'edit_provider_form'}, url: customer_health_assessment_path(@customer, @health_assessment) do |f|
+        -#        = f.label :provider_name, 'Provider Name',{class:'font-bold mar-t6 pull-left mar-r10'}
+        -#        = f.select(:provider_name, Provider.all.collect {|p| [ p.name]}.uniq, {:include_blank => "Select a Provider"}, {:class => 'form-control width168 pull-left'})
+        -#        &nbsp;
+        -#        = f.submit 'save', {class:'btn btn-xs small-btn btn-primary provider-name-save-btn pull-right mar-t6'}
+      .col-lg-6.col-md-5.pull-right.doctorname-align.row
+        %p.font-bold.padding-left.pull-right.clear_r
           -#Doctor
           %small.pull-left.font-bold{id: 'Doctor_Name'}
             = @health_assessment.doctor_name
@@ -24,18 +48,45 @@
               %a.hide.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#",id:'message'}
                 %i.fa.fa-pencil.small.pull-left
           -if(@health_assessment.doctor_name?)
-            %div.hide.doctor.pull-right{id:'SAVE_DOCTOR'}
+            %div.hide.doctor.wid81p.pull-right{id:'SAVE_DOCTOR'}
               = form_for @health_assessment, as: :health_assessment, remote: true, html: {health_assessment_id: @health_assessment.id}, url: customer_health_assessment_path(@customer, @health_assessment) do |f|
-                = f.label :doctor_name, 'Doctor Name',{class:'font-bold'}
-                = f.text_field :doctor_name,{class: 'parsley-validated', 'data-required' => 'true', autofocus: true}
-                = f.submit 'save', {class:'btn btn-xs small-btn btn-primary doctor-name-save-btn pull-right'}
+                = f.label :doctor_name, 'Doctor Name',{class:'font-bold pull-left label140 mar-r10'}
+                = f.text_field :doctor_name,{class: 'form-control parsley-validated width168 pull-left', 'data-required' => 'true', autofocus: true}
+                = f.submit 'save', {class:'btn btn-sm small-btn btn-primary doctor-name-save-btn pull-right'}
           -else
-            %div.doctor.pull-right{id:'SAVE_DOCTOR'}
+            %div.doctor.wid81p.pull-right{id:'SAVE_DOCTOR'}
               = form_for @health_assessment, as: :health_assessment, remote: true, html: {health_assessment_id: @health_assessment.id}, url: customer_health_assessment_path(@customer, @health_assessment) do |f|
-                = f.label :doctor_name, 'Doctor Name',{class:'font-bold'}
-                = f.text_field :doctor_name,{class: 'parsley-validated', 'data-required' => 'true', autofocus: true}
+                = f.label :doctor_name, 'Doctor Name',{class:'font-bold pull-left label140 mar-r10'}
+                = f.text_field :doctor_name,{class: 'form-control parsley-validated width168 pull-left', 'data-required' => 'true', autofocus: true}
                 &nbsp;
-                = f.submit 'save', {class:'btn btn-xs small-btn btn-primary doctor-name-save-btn pull-right'}
+                = f.submit 'save', {class:'btn btn-sm small-btn btn-primary doctor-name-save-btn pull-left'}
+        %p.font-bold.padding-left.pull-right.clear_r
+          %small.pull-left.font-bold{id: 'Provider_Name'}
+            -#= "Enterprise: "+@health_assessment.enterprise_name
+            = @health_assessment.provider_name
+          -if(@health_assessment.provider_name)
+            %span
+              &nbsp;
+              %a.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#",id:'message1'}
+                %i.fa.fa-pencil.small.pull-left
+          -else
+            %span
+              &nbsp;
+              %a.hide.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#",id:'message1'}
+                %i.fa.fa-pencil.small.pull-left
+          -if(@health_assessment.provider_name)
+            %div.hide.provider.wid81p.pull-right{id:'SAVE_PROVIDER'}
+              = form_for @health_assessment, as: :health_assessment, remote: true, html: {health_assessment_id: @health_assessment.id, id: 'edit_provider_form'}, url: customer_health_assessment_path(@customer, @health_assessment) do |f|
+                = f.label :provider_name, 'Provider Name',{class:'font-bold pull-left mar-r10 label140'}
+                = f.select(:provider_name, Provider.all.collect {|p| [ p.name]}.uniq, {:include_blank => "Select a Provider"}, {:class => 'form-control width168 pull-left'})
+                = f.submit 'save', {class:'btn btn-sm small-btn btn-primary provider-name-save-btn pull-right'}
+          -else
+            %div.provider.pull-right.wid81p{id:'SAVE_PROVIDER'}
+              = form_for @health_assessment, as: :health_assessment, remote: true, html: {health_assessment_id: @health_assessment.id, id: 'edit_provider_form'}, url: customer_health_assessment_path(@customer, @health_assessment) do |f|
+                = f.label :provider_name, 'Provider Name',{class:'font-bold pull-left label140 mar-r10'}
+                = f.select(:provider_name, Provider.all.collect {|p| [ p.name]}.uniq, {:include_blank => "Select a Provider"}, {:class => 'form-control width168 pull-left'})
+                &nbsp;
+                = f.submit 'save', {class:'btn btn-sm small-btn btn-primary provider-name-save-btn pull-left'}
   .scrollable
     %aside
       %section.panel.panel-default

@@ -16,3 +16,6 @@
 #= require jquery.dataTables.editable
 #= require html5shiv
 #= require about
+#= require drop.min
+#= require vision
+#= require teeth

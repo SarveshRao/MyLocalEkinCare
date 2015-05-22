@@ -21,11 +21,11 @@
             %table.table.table-striped.b-light#promo_code_list
               %thead
                 %tr
-                  %th{width: '5%'} Serial No
-                  %th{width: '15%'} Promo Code
-                  %th{width: '15%'} Partner
-                  %th{width: '15%'} Status
-                  %th{width: '5%'}
+                  %th Serial No
+                  %th Promo Code
+                  %th Partner
+                  %th Status
+                  %th
               %tbody
                 - @promo_codes.each do |promo_code|
                   %tr
@@ -49,13 +49,14 @@
                   = form_for promo_code, url: staff_promo_code_path(promo_code), remote: true do |f|
                     %tr.promo_code_edit_row.hide{promo_code_id: promo_code.id}
                       %td
+                        = 'PNCD'+ promo_code.id.to_s.rjust(5, "0")
+                      %td
                         = promo_code.code
                       %td
                         = f.select :partner_id, options_for_select(Partner.pluck(:code), selected: 'Primary'),{}, {class: 'form-control partner'}
                       %td
                         = f.select :status,['Used','Unused'],{}, {class: 'form-control status'}
-                      %td
-                        = f.submit 'save', {class:'btn btn-sm small-btn btn-primary save-edit-promo-code-result-form pull-right'}
-                      %td{colspan: 2}
+                      %td{style: "width:140px"}
+                        = f.submit 'save', {class:'btn btn-sm small-btn btn-primary save-edit-promo-code-result-form pull-left', style: 'width:auto'}
                         %a{class: 'btn btn-sm small-btn btn-danger promo-code-cancel-btn'} cancel
-                        %input{type: 'reset', class: 'hide'}
+                        -#%input{type: 'reset', class: 'hide'}

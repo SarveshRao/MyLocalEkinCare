@@ -1,4 +1,4 @@
-- inbox_activities = current_online_customer.inbox_messages.where("activity_type= 'Appointment' and associated_date>CURRENT_TIMESTAMP - INTERVAL '1 day'")
+- inbox_activities = Inbox.joins("inner join appointments ap on ap.id=inboxes.associated_id where customer_id=#{current_online_customer.id} and activity_type='Appointment' and associated_date> CURRENT_TIMESTAMP - INTERVAL '1 day'")
 %section.panel-body.open-sans.scrollable
   - if inbox_activities.count == 0
     %section.panel-body{style:"color: black;"}

@@ -24,9 +24,21 @@ class Customers::HealthAssessmentsController < CustomerAppController
       end
       # body_assessment
     elsif @type == 'Dental'
-      dental_assessment
+      @dental_assessments = current_online_customer.health_assessments.dental_assessment_done
+      if @dental_assessments.first
+        @dental_assessment = HealthAssessment.find(@dental_assessments.first.id)
+        @assessment_id = @dental_assessments.first.id
+        @dental_medical_records=@dental_assessment.medical_records
+      end
+      # dental_assessment
     elsif @type == 'Vision'
-      vision_assessment
+      @vision_assessments = current_online_customer.health_assessments.vision_assessment_done
+      if @vision_assessments.first
+        @vision_assessment = HealthAssessment.find(@vision_assessments.first.id)
+        @assessment_id = @vision_assessments.first.id
+        @vision_medical_records=@vision_assessment.medical_records
+      end
+      # vision_assessment
     end
     render "#{ @type.downcase }_assessment"
   end
@@ -46,17 +58,23 @@ class Customers::HealthAssessmentsController < CustomerAppController
       @body_assessment = HealthAssessment.find(@id)
       @medical_records=@body_assessment.medical_records
     elsif @type == 'Dental'
-      dental_assessment
+      @dental_assessments = current_online_customer.health_assessments.dental_assessment_done
+      @dental_assessment = HealthAssessment.find(@id)
+      @dental_medical_records=@dental_assessment.medical_records
+      # dental_assessment
     elsif @type == 'Vision'
-      vision_assessment
+      @vision_assessments = current_online_customer.health_assessments.vision_assessment_done
+      @vision_assessment = HealthAssessment.find(@id)
+      @vision_medical_records=@vision_assessment.medical_records
+      # vision_assessment
     end
     render "#{ @type.downcase }_assessment"
   end
 
   def doctor_comment
     # Insert into note
-    @health_assessment = HealthAssessment.find_by_id(params[:body_assessment_id])
-    notes = Note.create(description: params[:notes], health_assessment_id: params[:body_assessment_id])
+    @health_assessment = HealthAssessment.find_by_id(params[:assessment_id])
+    notes = Note.create(description: params[:notes], health_assessment_id: params[:assessment_id])
     # Insert into Comments
     @doctor_comment = DoctorComment.new
     @doctor_comment.doctor_name = session[:doctor_name]
@@ -65,7 +83,7 @@ class Customers::HealthAssessmentsController < CustomerAppController
     @doctor_comment.notes_id = notes.id
     @doctor_comment.customer_id = current_online_customer.id
     @doctor_comment.save
-    health_assessment_url = request.protocol + request.host_with_port + "/customers/health_assessment?id=" + params[:body_assessment_id] + "&inbox_id=" + params[:body_assessment_id] + "&type=" + @health_assessment.type[0...-10]
+    health_assessment_url = request.protocol + request.host_with_port + "/customers/health_assessment?id=" + params[:assessment_id] + "&inbox_id=" + params[:assessment_id] + "&type=" + @health_assessment.type[0...-10]
     Notification.post_comments_second_opinion(current_online_customer.first_name, current_online_customer.email, @doctor_comment, notes, @health_assessment, health_assessment_url, request.protocol + request.host_with_port).deliver!
     redirect_to :back
   end

@@ -111,7 +111,7 @@ class Staff::HealthAssessmentsController < StaffController
   protected
 
   def health_assessment_params
-    params.require(:health_assessment).permit(:request_date, :assessment_type, :paid, :status, :package_type,:doctor_name, :enterprise_id)
+    params.require(:health_assessment).permit(:request_date, :assessment_type, :paid, :status, :package_type,:doctor_name, :enterprise_id, :provider_name)
   end
 
   def data(health_assessments)

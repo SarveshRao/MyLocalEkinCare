@@ -7,113 +7,198 @@
       Contact: 888-678-EKIN (3546) /
       %a{href: 'mailto:founder@ekincare.com'} founder@ekincare.com
 
-%div.padder{style: 'min-height: 1000px'}
-  .m-b-md.padder
-    %h4.text-center
-      %a.font-bold Dental Assessment
-  -#= paginate @dental_assessments, params: {id: nil}
+- if @dental_assessment.nil?
+  .row.p-t.padder
+    .text-center
+      No assessments found
+    .col-lg-3.col-md-3.text-center
 
-  - if @dental_assessment.empty?
-    .row.p-t.padder
-      .text-center
-        No assessments found
-      .col-lg-3.col-md-3.text-center
+  .row.p-t.padder
+    .text-center
+      %h4 Please upload your recent dental records
+    .text-center.p-t
+      %a.btn.btn-s-md.btn-primary{:href => customers_documents_path} Get Started
+    .col-lg-3.col-md-3.text-center
 
-    .row.p-t.padder
-      .text-center
-        %h4 Please upload your recent dental records
-      .text-center.p-t
-        %a.btn.btn-s-md.btn-primary{:href => customers_documents_path} Get Started
-      .col-lg-3.col-md-3.text-center
+  .row.p-t.padder
+    .text-center.col-md-6.col-md-offset-3
+      American Dental Association (ADA) recommends a dental exam every 6 months. If you haven’t  had one in the recent past, call now to schedule an annual dental assessment. It's free.
 
-    .row.p-t.padder
-      .text-center.col-md-6.col-md-offset-3
-        American Dental Association (ADA) recommends a dental exam every 6 months. If you haven’t  had one in the recent past, call now to schedule an annual dental assessment. It's free.
+  .row.p-t.padder
+    .text-center
+      %h3 888-678-EKIN (3546)
 
-    .row.p-t.padder
-      .text-center
-        %h3 888-678-EKIN (3546)
-
-  - else
-
-    .row.p-t.md.padder
-    .col-lg-12.col-md-12.m-b{:style => "padding:0"}
-      %div
-        .col-md-6.nopadding
-          %div
-            .col-md-12.no-padder
-              %h5
-                -unless(@dental_assessment.first.appointments.empty?)
-                  -unless(@dental_assessment.first.appointments.first.partner_name1.nil?)
-                    %span.font-bold
-                      Provider Name
+- else
+  %section{:class => @assessment_class}
+    %section.hbox.stretch
+      %aside.aside-lg{:class => "assessment_list"}
+        %section.scrollable.hover.w-f
+          %ul#reportList.list-group.auto.no-radius.m-b-none.m-t-n-xxs.list-group-lg.scrollable.col-sm-12{:style => "background:white"}
+            -@dental_assessments.each do |dental_assessment|
+              %li.list-group-item{id:dental_assessment.id,class: (@assessment_id.to_s==dental_assessment.id.to_s)? 'current_assessment': '',}
+                -inbox_id=Inbox.find_by_associated_id(dental_assessment.id)
+                %a.clear.text-ellipsis{href: customers_health_assessment_path({type: 'Dental', id: dental_assessment.id,inbox_id:inbox_id})}
+                  %strong.block
+                    Assessment ID:
                     %span
                       &nbsp;:
                     %span
-                      =@dental_assessment.first.appointments.first.partner_name1
-      %div
-        .col-md-6.nopadding.text-right.provider_doctor_name
-          %h5
-            -unless(@dental_assessment.nil?)
-              -unless(@dental_assessment.first.doctor_name.nil?)
-                %span.font-bold
-                  Doctor Name
-                %span
-                  &nbsp;:
-                %span
-                  =@dental_assessment.first.doctor_name
+                    = dental_assessment.health_assessment_id
+                    -#= formatted_date body_assessment.request_date
+                  -unless(dental_assessment.nil? or dental_assessment.provider_name.nil?)
+                    %strong.block
+                      Provider Name
+                      %span
+                        &nbsp;:
+                      %span
+                        =dental_assessment.provider_name rescue ''
+                  -unless(dental_assessment.nil? or dental_assessment.doctor_name.nil?)
+                    %small.block
+                      Doctor Name
+                      %span
+                        &nbsp;:
+                      %span{:style => "white-space:normal;width:58%"}
+                        =dental_assessment.doctor_name rescue ''
+                  %strong.block.pull-left
+                    Date:
+                    %span
+                      &nbsp;:
+                    %span
+                    = formatted_date dental_assessment.request_date rescue ''
+      %aside.lter#reportHolder{:class => "lab_results"}
+        %section.vbox
+          %section.scrollable.padder
+            .col-lg-12.col-md-12.m-b.bg-white.padder.padder-v#dentalHeader
+              %div
+                .col-md-6.nopadding
+                  %div
+                    .col-md-12.no-padder
+                      %h5
+                        -unless(@dental_assessment.nil? or @dental_assessment.provider_name.nil?)
+                          %span.font-bold
+                            Provider Name
+                          %span
+                            &nbsp;:
+                          %span
+                            =@dental_assessment.provider_name rescue ''
+                      %h5
+                        -unless(@dental_assessment.nil? or @dental_assessment.doctor_name.nil?)
+                          %span.font-bold
+                            Doctor Name
+                          %span
+                            &nbsp;:
+                          %span
+                            =@dental_assessment.doctor_name rescue ''
+              %div
+                .col-md-6.nopadding.text-right.provider_doctor_name
+                  %h5
+                    %span.font-bold
+                      Date
+                    %span
+                      &nbsp;:
+                    %span
+                      = formatted_date @dental_assessment.request_date rescue ''
+                  %h5.showAssessmentFiles
+                    -unless @dental_medical_records.empty?
+                      %span.font-bold
+                        %i.fa.fa-file
+                      %span
+                        files
+                    %h5.physicalReports.hide
+                      %span
+                        %ul
+                        -@dental_medical_records.each do |medical_record|
+                          %li
+                            = "<a href=#{medical_record.emr} download=download>#{ medical_record.emr.file.filename}</a>".html_safe
+            - if !session[:is_customer]
+              %section.panel.panel-default
+                .row.padder.padder-v
+                  .col-sm-12
+                    %h3.rTitle.m-b-xs
+                      Enter your comments
+                    %p
+                      %form#doctor_comments_form{:action => customers_health_assessment_doctor_comment_path, :method => "post"}
+                        %input#assessment_id{:name => "assessment_id", :type => "hidden", :value => @dental_assessment.id}/
+                        %textarea.form-control#assessment_comments{:name => "notes", :type => "text", :placeholder => "Please enter your comments here"}
+                        %div.clearfix.m-b
+                        %input.pull-right.btn.btn-primary{:type => "submit", :value => "Submit"}/
+            - examination = @dental_assessment.examination
+            - if examination.results.empty?
+              Waiting for examination results
+            - else
+              -dental_assessment_results=[]
+              -examination.results.each do |result|
+                -teeth_results=[]
+                -teeth_results.append(result.tooth_number)
+                -teeth_results.append(result.dentition)
+                -teeth_results.append(result.diagnosis)
+                -teeth_results.append(result.recommendation)
+                -teeth_results.append(formatted_date result.examination.dental_assessment.request_date)
+                -dental_assessment_results.append(teeth_results)
+              %div#dentalWrapper{:style => "width:320px;margin:90px auto 30px;position:relative;"}
+                %img{:src => asset_path("teeth/teeth.png"), :style => "width:100%;"}
+                :javascript
+                  result='#{dental_assessment_results}'
+                #teeth11.teeth-marker{:style => "left:137px;top:18px;"}
+                #teeth12.teeth-marker{:style => "left:110px;top:24px;"}
+                #teeth13.teeth-marker{:style => "left:91px;top:38px;"}
+                #teeth14.teeth-marker{:style => "left:81px;top:59px;"}
+                #teeth15.teeth-marker{:style => "left:74px;top:84px;"}
+                #teeth16.teeth-marker{:style => "left:68px;top:115px;"}
+                #teeth17.teeth-marker{:style => "left:64px;top:148px;"}
+                #teeth18.teeth-marker{:style => "left:60px;top:179px;"}
+                #teeth21.teeth-marker{:style => "left:167px;top:17px;"}
+                #teeth22.teeth-marker{:style => "left:196px;top:24px;"}
+                #teeth23.teeth-marker{:style => "left:213px;top:40px;"}
+                #teeth24.teeth-marker{:style => "left:224px;top:59px;"}
+                #teeth25.teeth-marker{:style => "left:230px;top:83px;"}
+                #teeth26.teeth-marker{:style => "left:237px;top:113px;"}
+                #teeth27.teeth-marker{:style => "left:243px;top:147px;"}
+                #teeth28.teeth-marker{:style => "left:246px;top:178px;"}
+                #teeth31.teeth-marker{:style => "left:164px;top:395px;"}
+                #teeth32.teeth-marker{:style => "left:186px;top:392px;"}
+                #teeth33.teeth-marker{:style => "left:205px;top:386px;"}
+                #teeth34.teeth-marker{:style => "left:215px;top:364px;"}
+                #teeth35.teeth-marker{:style => "left:222px;top:341px;"}
+                #teeth36.teeth-marker{:style => "left:230px;top:311px;"}
+                #teeth37.teeth-marker{:style => "left:236px;top:275px;"}
+                #teeth38.teeth-marker{:style => "left:240px;top:243px;"}
+                #teeth41.teeth-marker{:style => "left:142px;top:396px;"}
+                #teeth42.teeth-marker{:style => "left:122px;top:393px;"}
+                #teeth43.teeth-marker{:style => "left:102px;top:384px;"}
+                #teeth44.teeth-marker{:style => "left:88px;top:365px;"}
+                #teeth45.teeth-marker{:style => "left:81px;top:340px;"}
+                #teeth46.teeth-marker{:style => "left:74px;top:312px;"}
+                #teeth47.teeth-marker{:style => "left:65px;top:276px;"}
+                #teeth48.teeth-marker{:style => "left:62px;top:244px;"}
+              -unless @dental_assessment.recommendations.empty?
+                .recommendations.wrapper.bg-white
+                  %h4 Recommendations
+                  -@dental_assessment.recommendations.each do |recommendation|
+                    %br
+                    =recommendation.description
+              %section.panel.panel-default
+                .row.padder.padder-v
+                  .col-sm-12
+                    %h3.rTitle.m-b-xs
+                      Doctor Comments
+                    -no_comments = true
+                    -@comments.each do |comment|
+                      - if comment.health_assessment_id == @dental_assessment.id
+                        -no_comments = false
+                        .list-group-item
+                          %strong.block
+                            Doctor Name:
+                            %span
+                            = comment.doctor_name
+                          %strong.block
+                            Created Date:
+                            %span
+                            = formatted_date comment.created_at
+                          %strong.block
+                            Doctor Comments:
+                            %span
+                            = comment.description
+                    - if no_comments == true
+                      No comments added.
 
-    .row.p-t.md.padder
-      .col-lg-12.col-md-12
-        %section.row.m-l-none.m-r-none.m-b.text-center
-          .col-md-2.no-padder
-            %section.panel.panel-default.m-n
-              .panel-body
-                = link_to_next_page @dental_assessment, 'Previous', params: {type: 'Dental'}
-                &nbsp;
-          .col-md-8.no-padder
-            %section.panel.panel-default
-              .panel-body
-                %b
-                  = formatted_date @dental_assessment.first.request_date
-          .col-md-2.no-padder
-            %section.panel.panel-default
-              .panel-body
-                = link_to_previous_page @dental_assessment, 'Next', params: {type: 'Dental'}
-                &nbsp;
-
-    .row.p-t.padder
-      .col-lg-12.col-md-12
-        - examination = @dental_assessment.first.examination
-        - if examination.results.empty?
-          Waiting for examination results
-        - else
-          %section.panel.panel-default
-            %header.padder.padder-v-10.m-b-none.panel.panel-heading.b-n.b-b
-              %b.text-info{style: 'font-size: 15px'} Dental examination results
-            %table.table.table-striped.m-b-none
-              %thead
-                %tr
-                  %th
-                    %span Dentition
-                  %th
-                    %span Tooth Number
-                  %th
-                    %span Diagonsis
-                  %th
-                    %span Recommendation
-                  %th
-                    %span Examination Date
-              %tbody
-                - examination.results.each do |result|
-                  %tr
-                    %td
-                      = result.dentition
-                    %td
-                      = result.tooth_number
-                    %td
-                      = result.diagnosis
-                    %td
-                      = result.recommendation
-                    %td
-                      = formatted_date result.examination.dental_assessment.request_date

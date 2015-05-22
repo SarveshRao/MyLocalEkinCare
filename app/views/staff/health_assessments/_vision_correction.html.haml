@@ -1,51 +1,80 @@
 .text-left#vision_result_panel{class: @health_assessment.assessment_type == 'Vision' ? '' : 'hide'}
   .vbox
     %h4.panel-heading.no-padder
-      - @prescription = @health_assessment.prescription rescue nil
-      %a.font-bold{href: "#"}
-        Vision Checkup Results &nbsp;&nbsp;
-      %a.btn.btn-default.btn-s-mdsche.m-b-xs#create_prescription{class: "#{@prescription.nil? ? '' : 'hide'}"}
-        &nbsp;
-        %i.fa.fa-plus
-        &nbsp;Add new &nbsp;&nbsp;
+      %div
+        .row
+          .col-lg-6.col-md-6.pull-left
+            - @prescription = @health_assessment.prescription rescue nil
+            %a.font-bold{href: "#"}
+              Vision Results &nbsp;&nbsp;
+            %a.btn.btn-default.btn-s-mdsche.m-b-xs#create_prescription{class: "#{@prescription.nil? ? '' : 'hide'}"}
+              &nbsp;
+              %i.fa.fa-plus
+              &nbsp;Add new &nbsp;&nbsp;
 
-      %a.btn.btn-default.btn-s-mdsche.m-b-xs#edit_prescription_btn{class: "#{@prescription.nil? ? 'hide' : ''}"}
-        &nbsp;
-        %i.fa.fa-pencil
-        &nbsp; Edit &nbsp;&nbsp;
-      = link_to  health_assessment_prescription_path(@health_assessment), method: :delete, class: "btn btn-default btn-s-mdsche m-b-xs #{@prescription.nil? ? 'hide' : ''}", id: 'prescription_delete_btn', data: { confirm: "Are you sure?" } do
-        &nbsp;
-        %i.i.i-trashcan
-        &nbsp; Delete &nbsp;&nbsp;
-      .col-lg-6.col-md-6.pull-right
-        %p.font-bold.padding-left.pull-right
-          -#Doctor
-          %small.pull-left.font-bold{id: 'Doctor_Name'}
-            = @health_assessment.doctor_name
-          -if(@health_assessment.doctor_name?)
-            %span
+            %a.btn.btn-default.btn-s-mdsche.m-b-xs#edit_prescription_btn{class: "#{@prescription.nil? ? 'hide' : ''}"}
               &nbsp;
-              %a.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#",id:'message'}
-                %i.fa.fa-pencil.small.pull-left
-          -else
-            %span
+              %i.fa.fa-pencil
+              &nbsp; Edit &nbsp;&nbsp;
+            = link_to  health_assessment_prescription_path(@health_assessment), method: :delete, class: "btn btn-default btn-s-mdsche m-b-xs #{@prescription.nil? ? 'hide' : ''}", id: 'prescription_delete_btn', data: { confirm: "Are you sure?" } do
               &nbsp;
-              %a.hide.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#",id:'message'}
-                %i.fa.fa-pencil.small.pull-left
-          -if(@health_assessment.doctor_name?)
-            %div.hide.doctor.pull-right{id:'SAVE_DOCTOR'}
-              = form_for @health_assessment, as: :health_assessment, remote: true, html: {health_assessment_id: @health_assessment.id}, url: customer_health_assessment_path(@customer, @health_assessment) do |f|
-                = f.label :doctor_name, 'Doctor Name',{class:'font-bold'}
-                = f.text_field :doctor_name,{class: 'parsley-validated', 'data-required' => 'true', autofocus: true}
-                &nbsp;
-                = f.submit 'save', {class:'btn btn-xs small-btn btn-primary doctor-name-save-btn pull-right'}
-          -else
-            %div.doctor.pull-right{id:'SAVE_DOCTOR'}
-              = form_for @health_assessment, as: :health_assessment, remote: true, html: {health_assessment_id: @health_assessment.id}, url: customer_health_assessment_path(@customer, @health_assessment) do |f|
-                = f.label :doctor_name, 'Doctor Name',{class:'font-bold'}
-                = f.text_field :doctor_name,{class: 'parsley-validated', 'data-required' => 'true', autofocus: true}
-                &nbsp;
-                = f.submit 'save', {class:'btn btn-xs small-btn btn-primary doctor-name-save-btn pull-right'}
+              %i.i.i-trashcan
+              &nbsp; Delete &nbsp;&nbsp;
+          .col-lg-6.col-md-5.pull-right.doctorname-align.row
+            %p.font-bold.padding-left.pull-right.clear_r
+              -#Doctor
+              %small.pull-left.font-bold{id: 'Doctor_Name'}
+                = @health_assessment.doctor_name
+              -if(@health_assessment.doctor_name?)
+                %span
+                  &nbsp;
+                  %a.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#",id:'message'}
+                    %i.fa.fa-pencil.small.pull-left
+              -else
+                %span
+                  &nbsp;
+                  %a.hide.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#",id:'message'}
+                    %i.fa.fa-pencil.small.pull-left
+              -if(@health_assessment.doctor_name?)
+                %div.hide.doctor.wid81p.pull-right{id:'SAVE_DOCTOR'}
+                  = form_for @health_assessment, as: :health_assessment, remote: true, html: {health_assessment_id: @health_assessment.id}, url: customer_health_assessment_path(@customer, @health_assessment) do |f|
+                    = f.label :doctor_name, 'Doctor Name',{class:'font-bold pull-left label140 mar-r10'}
+                    = f.text_field :doctor_name,{class: 'form-control parsley-validated width168 pull-left', 'data-required' => 'true', autofocus: true}
+                    = f.submit 'save', {class:'btn btn-sm small-btn btn-primary doctor-name-save-btn pull-right'}
+              -else
+                %div.doctor.wid81p.pull-right{id:'SAVE_DOCTOR'}
+                  = form_for @health_assessment, as: :health_assessment, remote: true, html: {health_assessment_id: @health_assessment.id}, url: customer_health_assessment_path(@customer, @health_assessment) do |f|
+                    = f.label :doctor_name, 'Doctor Name',{class:'font-bold pull-left label140 mar-r10'}
+                    = f.text_field :doctor_name,{class: 'form-control parsley-validated width168 pull-left', 'data-required' => 'true', autofocus: true}
+                    &nbsp;
+                    = f.submit 'save', {class:'btn btn-sm small-btn btn-primary doctor-name-save-btn pull-left'}
+            %p.font-bold.padding-left.pull-right.clear_r
+              %small.pull-left.font-bold{id: 'Provider_Name'}
+                -#= "Enterprise: "+@health_assessment.enterprise_name
+                = @health_assessment.provider_name
+              -if(@health_assessment.provider_name)
+                %span
+                  &nbsp;
+                  %a.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#",id:'message1'}
+                    %i.fa.fa-pencil.small.pull-left
+              -else
+                %span
+                  &nbsp;
+                  %a.hide.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#",id:'message1'}
+                    %i.fa.fa-pencil.small.pull-left
+              -if(@health_assessment.provider_name)
+                %div.hide.provider.wid81p.pull-right{id:'SAVE_PROVIDER'}
+                  = form_for @health_assessment, as: :health_assessment, remote: true, html: {health_assessment_id: @health_assessment.id, id: 'edit_provider_form'}, url: customer_health_assessment_path(@customer, @health_assessment) do |f|
+                    = f.label :provider_name, 'Provider Name',{class:'font-bold pull-left mar-r10 label140'}
+                    = f.select(:provider_name, Provider.all.collect {|p| [ p.name]}.uniq, {:include_blank => "Select a Provider"}, {:class => 'form-control width168 pull-left'})
+                    = f.submit 'save', {class:'btn btn-sm small-btn btn-primary provider-name-save-btn pull-right'}
+              -else
+                %div.provider.pull-right.wid81p{id:'SAVE_PROVIDER'}
+                  = form_for @health_assessment, as: :health_assessment, remote: true, html: {health_assessment_id: @health_assessment.id, id: 'edit_provider_form'}, url: customer_health_assessment_path(@customer, @health_assessment) do |f|
+                    = f.label :provider_name, 'Provider Name',{class:'font-bold pull-left label140 mar-r10'}
+                    = f.select(:provider_name, Provider.all.collect {|p| [ p.name]}.uniq, {:include_blank => "Select a Provider"}, {:class => 'form-control width168 pull-left'})
+                    &nbsp;
+                    = f.submit 'save', {class:'btn btn-sm small-btn btn-primary provider-name-save-btn pull-left'}
 
     .scrollable
       %aside.hide#new_prescription_block
