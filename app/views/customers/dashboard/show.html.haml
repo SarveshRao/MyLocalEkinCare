@@ -416,18 +416,34 @@
                 -no_comments = true
                 -@comments.each do |comment|
                   -no_comments = false
-                  %article.media.list-group-item
-                    .media-body
-                      .pull-right.media-xs.text-center.text-muted
-                        %strong
-                          = formatted_date comment.created_at
-                          -#= full_time comment.created_at
-                      %small.block
-                        Doctor Name:
-                        = comment.doctor_name
-                      %small.block.m-t-sm
-                        Comment:
-                        = comment.description
-                  .line.pull-in
+                  - if comment.notes_id.nil?
+                    %article.media.list-group-item
+                      .media-body
+                        .pull-right.media-xs.text-center.text-muted
+                          %strong
+                            = formatted_date comment.created_at
+                            -#= full_time comment.created_at
+                        %small.block
+                          Doctor Name:
+                          = comment.doctor_name
+                        %small.block.m-t-sm
+                          Comment:
+                          = comment.general_comments
+                    .line.line-xs.pull-in
+                  - else
+                    %article.media.list-group-item
+                      .media-body
+                        .pull-right.media-xs.text-center.text-muted
+                          %strong
+                            = formatted_date comment.created_at
+                        -#= full_time comment.created_at
+                        %small.block
+                          Doctor Name:
+                          = comment.doctor_name
+                        %small.block.m-t-sm
+                          Comment:
+                          = comment.health_assessment_id
+                          = comment.description
+                    .line.line-xs.pull-in
                 - if no_comments == true
                   No comments added.

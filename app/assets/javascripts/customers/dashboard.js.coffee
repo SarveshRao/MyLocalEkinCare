@@ -98,6 +98,10 @@ $ ->
   $('#notifications_count').click ->
     $('#notifications_count').find('#count').remove()
     inbox_show()
+
+  $('#general_comments').click ->
+    doctor_comments_show()
+
   $('#appointments_count').click ->
     $('#appointments_count').find('#count').remove()
     appointments_show()
@@ -137,6 +141,12 @@ inbox_show  = (event)->
     url: '/customers/inbox'
     success: (data) ->
       $('#dashboard_notifications').html(data).slimScroll({height: '315px'}).removeClass('hide')
+
+doctor_comments_show  = (event)->
+  $.ajax
+    url: '/customers/general_comments'
+    success: (data) ->
+      $('#general_comments_content').html(data).slimScroll({height: '315px'}).removeClass('hide')
 
 appointments_show  = (event)->
   $.ajax

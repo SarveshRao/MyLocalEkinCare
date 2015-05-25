@@ -158,4 +158,14 @@ class Notification < ActionMailer::Base
          :subject => @doctor_comment.doctor_name.camelize + " provided new comments"
   end
 
+  def post_general_comments_second_opinion(customer_name, to_email, doctor_comment, comments_url, ekincare_url)
+    @customer_name = customer_name
+    @doctor_comment = doctor_comment
+    @comments_url = comments_url
+    @ekincare_url = ekincare_url
+    @email = to_email
+    mail :to => @email,
+         :subject => @doctor_comment.doctor_name.camelize + " provided new comments"
+  end
+
 end

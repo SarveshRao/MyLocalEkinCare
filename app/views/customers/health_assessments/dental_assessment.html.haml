@@ -32,7 +32,7 @@
   %section{:class => @assessment_class}
     %section.hbox.stretch
       %aside.aside-lg{:class => "assessment_list"}
-        %section.scrollable.hover.w-f
+        %section.scrollable.hover.w-f{:style=>"margin-left:10px"}
           %ul#reportList.list-group.auto.no-radius.m-b-none.m-t-n-xxs.list-group-lg.scrollable.col-sm-12{:style => "background:white"}
             -@dental_assessments.each do |dental_assessment|
               %li.list-group-item{id:dental_assessment.id,class: (@assessment_id.to_s==dental_assessment.id.to_s)? 'current_assessment': '',}
@@ -111,17 +111,16 @@
                           %li
                             = "<a href=#{medical_record.emr} download=download>#{ medical_record.emr.file.filename}</a>".html_safe
             - if !session[:is_customer]
-              %section.panel.panel-default
-                .row.padder.padder-v
-                  .col-sm-12
-                    %h3.rTitle.m-b-xs
-                      Enter your comments
-                    %p
-                      %form#doctor_comments_form{:action => customers_health_assessment_doctor_comment_path, :method => "post"}
-                        %input#assessment_id{:name => "assessment_id", :type => "hidden", :value => @dental_assessment.id}/
-                        %textarea.form-control#assessment_comments{:name => "notes", :type => "text", :placeholder => "Please enter your comments here"}
-                        %div.clearfix.m-b
-                        %input.pull-right.btn.btn-primary{:type => "submit", :value => "Submit"}/
+              .col-lg-12.col-md-12.m-b.bg-white.padder.padder-v
+                .col-sm-12
+                  %h3.rTitle.m-b-xs
+                    Enter your comments
+                  %p
+                    %form#doctor_comments_form{:action => customers_health_assessment_doctor_comment_path, :method => "post"}
+                      %input#assessment_id{:name => "assessment_id", :type => "hidden", :value => @dental_assessment.id}/
+                      %textarea.form-control#assessment_comments{:name => "notes", :type => "text", :placeholder => "Please enter your comments here"}
+                      %div.clearfix.m-b
+                      %input.pull-right.btn.btn-primary{:type => "submit", :value => "Submit"}/
             - examination = @dental_assessment.examination
             - if examination.results.empty?
               Waiting for examination results
@@ -176,7 +175,12 @@
                   %h4 Recommendations
                   -@dental_assessment.recommendations.each do |recommendation|
                     %br
-                    =recommendation.description
+                    Title:
+                    %b
+                      = recommendation.title
+                    %br
+                    Description:
+                    = recommendation.description.empty? ? 'None' : recommendation.description
               %section.panel.panel-default
                 .row.padder.padder-v
                   .col-sm-12

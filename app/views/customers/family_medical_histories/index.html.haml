@@ -78,14 +78,14 @@
                         %td
                           -medical_history.medical_conditions.each do |medical_condition|
                             =medical_condition.name+','
-                      -if session[:is_customer]
-                        %td
-                          %a.pull-right.dropdown-toggle.customer-family-medical-history-edit-pencil{"data-toggle" => "dropdown", href: "#"}
-                            %i.fa.fa-pencil
-                      -if session[:is_customer]
-                        %td
-                          %a.pull-right.dropdown-toggle.customer-family-medical-history-delete-row{"data-toggle" => "dropdown", href: "#"}
-                            %i.i.i-trashcan
+                        -if session[:is_customer]
+                          %td
+                            %a.pull-right.dropdown-toggle.customer-family-medical-history-edit-pencil{"data-toggle" => "dropdown", href: "#"}
+                              %i.fa.fa-pencil
+                        -if session[:is_customer]
+                          %td
+                            %a.pull-right.dropdown-toggle.customer-family-medical-history-delete-row{"data-toggle" => "dropdown", href: "#"}
+                              %i.i.i-trashcan
 
                       = form_for medical_history, url: customers_family_medical_history_path(medical_history), html: {class: 'edit-customer-family-medical-history'}, remote: true do |f|
                         %tr.edit_family_medical_history_row.hide{customer_id: @customer.id, family_medical_history_id: medical_history.id}

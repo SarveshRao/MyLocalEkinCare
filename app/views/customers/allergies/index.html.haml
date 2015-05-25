@@ -60,14 +60,14 @@
                         = allergy.reaction
                       %td
                         = @customer.customer_allergies.find_by(allergy_id: allergy.id).severity
-                    -if session[:is_customer]
-                      %td
-                        %a.pull-right.dropdown-toggle.customer-allergy-edit-pencil{"data-toggle" => "dropdown", href: "#"}
-                          %i.fa.fa-pencil
-                    -if session[:is_customer]
-                      %td
-                        %a.pull-right.dropdown-toggle.customer-allergy-delete-row{"data-toggle" => "dropdown", href: "#"}
-                          %i.i.i-trashcan
+                      -if session[:is_customer]
+                        %td
+                          %a.pull-right.dropdown-toggle.customer-allergy-edit-pencil{"data-toggle" => "dropdown", href: "#"}
+                            %i.fa.fa-pencil
+                      -if session[:is_customer]
+                        %td
+                          %a.pull-right.dropdown-toggle.customer-allergy-delete-row{"data-toggle" => "dropdown", href: "#"}
+                            %i.i.i-trashcan
 
                     - customer_allergy = @customer.customer_allergies.find_by(allergy_id: allergy.id)
 

@@ -34,7 +34,7 @@
   %section{:class => @assessment_class}
     %section.hbox.stretch
       %aside.aside-lg{:class => "assessment_list"}
-        %section.scrollable.hover.w-f
+        %section.scrollable.hover.w-f{:style=>"margin-left:10px"}
           %ul#reportList.list-group.auto.no-radius.m-b-none.m-t-n-xxs.list-group-lg.scrollable.col-sm-12{:style => "background:white"}
             -@body_assessments.each do |body_assessment|
               %li.list-group-item{id:body_assessment.id,class: (@assessment_id.to_s==body_assessment.id.to_s)? 'current_assessment': '',}
@@ -242,3 +242,15 @@
                                   = comment.description
                           - if no_comments == true
                             No comments added.
+                    -unless @body_assessment.recommendations.empty?
+                      .recommendations.wrapper.bg-white
+                        %h3.rTitle.m-b-xs
+                          Recommendations
+                        -@body_assessment.recommendations.each do |recommendation|
+                          %br
+                          Title:
+                          %b
+                            = recommendation.title
+                          %br
+                          Description:
+                          = recommendation.description.empty? ? 'None' : recommendation.description

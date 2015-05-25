@@ -119,7 +119,7 @@
     %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
       %li.hidden-xs
         %a.dropdown-toggle#second_opinion{"data-toggle" => "dropdown", href: "#", :style => "padding-right:10px;padding-left:10px;"}
-          Second Opinion
+          Expert Opinion
         %section.dropdown-menu.aside-xl.animated.flipInY
           #second_opinion
             = form_for(DoctorOpinion.new, url: customers_dashboard_send_to_doctor_path, html:{id: 'share_with_doctor_form'}, remote: true) do |f|

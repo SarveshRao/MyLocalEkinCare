@@ -154,6 +154,7 @@ Rails.application.routes.draw do
     post 'payment_failed' => 'payment_failed#index'
     post 'package_details' => 'package_details#create'
     get 'inbox' => 'dashboard#inbox'
+    get 'general_comments' => 'health_assessments#doctor_comments'
     get 'appointments' => 'dashboard#appointments'
     post 'send_otp' => 'otp#generate_otp'
     get 'dashboard/share_with_doctor'
@@ -319,6 +320,18 @@ Rails.application.routes.draw do
       end
       scope '/get_blood' do
         get '/' => 'customers/api#get_blood'
+      end
+      scope '/vision_assessment_list' do
+        get '/' => 'customers/api#vision_assessment_list'
+      end
+      scope '/vision_assessment' do
+        get '/' => 'customers/api#vision_assessment'
+      end
+      scope '/dental_assessment_list' do
+        get '/' => 'customers/api#dental_assessment_list'
+      end
+      scope '/dental_assessment' do
+        get '/' => 'customers/api#dental_assessment'
       end
     end
   end

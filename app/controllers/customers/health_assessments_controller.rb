@@ -71,20 +71,35 @@ class Customers::HealthAssessmentsController < CustomerAppController
     render "#{ @type.downcase }_assessment"
   end
 
+  def doctor_comments
+    render partial: '/customers/health_assessments/doctor_comments'
+  end
+
   def doctor_comment
-    # Insert into note
-    @health_assessment = HealthAssessment.find_by_id(params[:assessment_id])
-    notes = Note.create(description: params[:notes], health_assessment_id: params[:assessment_id])
-    # Insert into Comments
-    @doctor_comment = DoctorComment.new
-    @doctor_comment.doctor_name = session[:doctor_name]
-    @doctor_comment.doctor_mobile_number = session[:doctor_mobile_number]
-    @doctor_comment.doctor_email = session[:doctor_email]
-    @doctor_comment.notes_id = notes.id
-    @doctor_comment.customer_id = current_online_customer.id
-    @doctor_comment.save
-    health_assessment_url = request.protocol + request.host_with_port + "/customers/health_assessment?id=" + params[:assessment_id] + "&inbox_id=" + params[:assessment_id] + "&type=" + @health_assessment.type[0...-10]
-    Notification.post_comments_second_opinion(current_online_customer.first_name, current_online_customer.email, @doctor_comment, notes, @health_assessment, health_assessment_url, request.protocol + request.host_with_port).deliver!
+    if params[:assessment_id].nil?
+      @doctor_comment = DoctorComment.new
+      @doctor_comment.doctor_name = session[:doctor_name]
+      @doctor_comment.doctor_mobile_number = session[:doctor_mobile_number]
+      @doctor_comment.doctor_email = session[:doctor_email]
+      @doctor_comment.general_comments = params[:doctor_comment][:general_comments]
+      @doctor_comment.customer_id = current_online_customer.id
+      @doctor_comment.save
+      Notification.post_general_comments_second_opinion(current_online_customer.first_name, current_online_customer.email, @doctor_comment, request.protocol + request.host_with_port + "/customers/dashboard", request.protocol + request.host_with_port).deliver!
+    else
+      # Insert into note
+      @health_assessment = HealthAssessment.find_by_id(params[:assessment_id])
+      notes = Note.create(description: params[:notes], health_assessment_id: params[:assessment_id])
+      # Insert into Comments
+      @doctor_comment = DoctorComment.new
+      @doctor_comment.doctor_name = session[:doctor_name]
+      @doctor_comment.doctor_mobile_number = session[:doctor_mobile_number]
+      @doctor_comment.doctor_email = session[:doctor_email]
+      @doctor_comment.notes_id = notes.id
+      @doctor_comment.customer_id = current_online_customer.id
+      @doctor_comment.save
+      health_assessment_url = request.protocol + request.host_with_port + "/customers/health_assessment?id=" + params[:assessment_id] + "&inbox_id=" + params[:assessment_id] + "&type=" + @health_assessment.type[0...-10]
+      Notification.post_comments_second_opinion(current_online_customer.first_name, current_online_customer.email, @doctor_comment, notes, @health_assessment, health_assessment_url, request.protocol + request.host_with_port).deliver!
+    end
     redirect_to :back
   end
 

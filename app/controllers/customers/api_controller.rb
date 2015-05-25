@@ -445,63 +445,12 @@ class Customers::ApiController < BaseApiController
   def body_assessment_list
     @customer = Customer.find(params[:id])
     @assessments = HealthAssessment.where(customer_id: @customer.id, type: 'BodyAssessment', status: 'done')
-    # @assessments.each do |assessment|
-    #   assessment.class_eval do
-    #     attr_accessor :provider_name
-    #   end
-    #   appointments = Appointment.find_by_appointmentee_id(assessment.id)
-    #   if appointments
-    #     appointment_provider = AppointmentProvider.find_by_appointment_id(appointments.id)
-    #     if appointment_provider.present?
-    #       if appointment_provider.provider_id>0
-    #         provider_name = Provider.find(appointment_provider.provider_id) rescue nil
-    #         if provider_name
-    #           enterprise_name = Enterprise.find(provider_name.enterprise_id).name rescue nil
-    #           assessment.provider_name= enterprise_name
-    #         else
-    #           assessment.provider_name = 'At Home'
-    #         end
-    #       else
-    #         assessment.provider_name = 'At Home'
-    #       end
-    #     else
-    #       assessment.provider_name = 'At Home'
-    #     end
-    #   else
-    #     assessment.provider_name= nil
-    #   end
-    # end
-
     render json: {assessments: @assessments}
   end
 
   def body_assessment
     @assessment = HealthAssessment.find(params[:id])
     @customer = Customer.find(@assessment.customer_id)
-    # @assessment.class_eval do
-    #   attr_accessor :provider_name
-    # end
-    # appointments = Appointment.find_by_appointmentee_id(@assessment.id)
-    # if appointments
-    #   appointment_provider = AppointmentProvider.find_by_appointment_id(appointments.id)
-    #   if appointment_provider.present?
-    #     if appointment_provider.provider_id > 0
-    #       provider_name = Provider.find(appointment_provider.provider_id) rescue nil
-    #       if provider_name
-    #         enterprise_name = Enterprise.find(provider_name.enterprise_id).name rescue nil
-    #         @assessment.provider_name= enterprise_name
-    #       else
-    #         @assessment.provider_name = 'At Home'
-    #       end
-    #     else
-    #       @assessment.provider_name = 'At Home'
-    #     end
-    #   else
-    #     @assessment.provider_name = 'At Home'
-    #   end
-    # else
-    #   @assessment.provider_name= nil
-    # end
 
     if @assessment.categorize_components.nil? or @assessment.categorize_components.empty?
       @list = nil
@@ -547,10 +496,14 @@ class Customers::ApiController < BaseApiController
         @lab_info.push(@mainHash)
       end
       @assesmentHash['assessments_lab_info'] = @lab_info
-      render json: {assessment_info: @assesmentHash}.to_json(:methods => :provider_name)
+      recommendation_results = Hash.new
+      @assessment.recommendations.each do |recommendation|
+        recommendation_results['title'] = recommendation.title
+        recommendation_results['description'] = recommendation.description.empty? ? 'None' : recommendation.description
+      end
+      @assesmentHash['recommendation'] = recommendation_results
+      render json: {assessment_info: @assesmentHash}
     end
-    # lab_test_name: @lab_test_name, test_components: @test_components, lab_test_info: @lab_test_info,
-
   end
 
   def insert_family_medical_history (family_history,medical_conditions)
@@ -619,10 +572,6 @@ class Customers::ApiController < BaseApiController
   end
 
   def water_consumption
-    # @customer_id = params[:id]
-    # @consumed_date = params[:date]
-    # @water_consumed = params[:water_consumed]
-    # @actual_consumption = params[:actual_consumption]
     @water = WaterConsumption.new(water_consumption_params)
     if @water.save!
       render :status => 200, :json => { :message => "success" }
@@ -651,6 +600,71 @@ class Customers::ApiController < BaseApiController
 
   def water_consumption_params
     params.require(:water_consumption).permit(:customer_id, :consumed_date, :water_consumed, :actual_consumption)
+  end
+
+  def vision_assessment_list
+    @customer = Customer.find(params[:id])
+    @assessments = HealthAssessment.where(customer_id: @customer.id, type: 'VisionAssessment', status: 'done')
+    render json: {assessments: @assessments}
+  end
+
+  def vision_assessment
+    @vision_assessment = HealthAssessment.find(params[:id])
+    @customer = Customer.find(@vision_assessment.customer_id)
+    vision_assessment = Hash.new
+    vision_assessment_info = Hash.new
+    recommendation_results = Hash.new
+    vision_assessment['assessment'] = @vision_assessment
+    if @vision_assessment.prescription.nil?
+      render json: {vision_assessment: nil}
+    else
+      @left_correction = @vision_assessment.prescription.corrections.find_by(eye: 'left').vision_component
+      @right_correction = @vision_assessment.prescription.corrections.find_by(eye: 'right').vision_component
+      vision_assessment_info['left_correction'] = @left_correction
+      vision_assessment_info['right_correction'] = @right_correction
+      @vision_assessment.recommendations.each do |recommendation|
+        recommendation_results['title'] = recommendation.title
+        recommendation_results['description'] = recommendation.description.empty? ? 'None' : recommendation.description
+      end
+      vision_assessment['assessment_info'] = vision_assessment_info
+      vision_assessment['recommendation'] = recommendation_results
+      render json: {vision_assessment: vision_assessment}
+    end
+  end
+
+  def dental_assessment_list
+    @customer = Customer.find(params[:id])
+    @assessments = HealthAssessment.where(customer_id: @customer.id, type: 'DentalAssessment', status: 'done')
+    render json: {assessments: @assessments}
+  end
+
+  def dental_assessment
+    @dental_assessment = HealthAssessment.find(params[:id])
+
+    if @dental_assessment.examination.nil?
+      render json: {dental_assessment: nil}
+    else
+      dental_assessment_results = Hash.new
+      dental_assessment_results['assessment'] = @dental_assessment
+      dental_assessment_array = Array.new
+      recommendation_results = Hash.new
+      @dental_assessment.examination.results.each do |result|
+        teeth_results= Hash.new
+        teeth_results['tooth_number'] = result.tooth_number
+        teeth_results['dentition'] = result.dentition
+        teeth_results['diagnosis'] = result.diagnosis
+        teeth_results['recommendation'] = result.recommendation
+        teeth_results['request_date'] = result.examination.dental_assessment.request_date
+        dental_assessment_array.push(teeth_results)
+      end
+      @dental_assessment.recommendations.each do |recommendation|
+        recommendation_results['title'] = recommendation.title
+        recommendation_results['description'] = recommendation.description.empty? ? 'None' : recommendation.description
+      end
+      dental_assessment_results['assessments_info'] = dental_assessment_array
+      dental_assessment_results['recommendation'] = recommendation_results
+      render json: {dental_assessment: dental_assessment_results}
+    end
   end
 
 end

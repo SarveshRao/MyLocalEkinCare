@@ -1,0 +1,75 @@
+-#%section.dropdown-menu.aside-xl.animated.flipInY
+-#  #general_comments
+= form_for(DoctorComment.new, url: customers_health_assessment_doctor_comment_path, html:{id: 'general_comments_form'}, remote: true) do |f|
+  %div.padder-10{style: "color: #3c4144"}Please give your feedback here
+  .list-group
+    .list-group-item
+      = f.text_area :general_comments, id: 'general_comments_text', class: 'form-control no-border', required: true, autofocus: true,  placeholder: 'Enter your comments', 'data-parsley-trigger' => 'focusout'
+  %ul.m#error_general_comments_label.parsley-error-list
+    %li.required This field is required
+  .row.m
+    %a.pull-right.btn.btn-primary#send_general_comments{href: "#", type: "submit"} Send
+- comments = DoctorComment.select("health_assessment_id, description, notes_id, doctor_name, doctor_comments.general_comments, doctor_comments.created_at").joins("left outer join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{current_online_customer.id} order by doctor_comments.created_at DESC")
+-no_comments = false
+- comments.each do |comment|
+  - if comment.notes_id.nil?
+    %article.media.list-group-item{style:"color: #3c4144;"}
+      .media-body
+        .pull-right.media-xs.text-center
+          %strong
+            = formatted_date comment.created_at
+        -#= full_time comment.created_at
+        %small.block
+          Doctor Name:
+          = comment.doctor_name
+        %small.block.m-t-sm
+          Comment:
+          = comment.general_comments
+    .line.line-xs.pull-in
+  - else
+    %article.media.list-group-item{style:"color: #3c4144;"}
+      .media-body
+        .pull-right.media-xs.text-center
+          %strong
+            = formatted_date comment.created_at
+        -#= full_time comment.created_at
+        %small.block
+          Doctor Name:
+          = comment.doctor_name
+        %small.block.m-t-sm
+          Comment:
+          = comment.health_assessment_id
+          = comment.description
+    .line.line-xs.pull-in
+- if no_comments == true
+  No comments added.
+:javascript
+  $(document).ready(function(){
+    $('#general_comments_form').parsley();
+    $('#error_general_comments_label').hide();
+
+    $('#general_comments_text').keyup(function(){
+      if($('#general_comments_text').val().length > 0)
+      {
+        $('#error_general_comments_label').hide();
+      }
+    });
+
+    $('#general_comments_text').click(function(){
+      return false;
+    });
+
+    $('#send_general_comments').click(function(){
+      if($('#general_comments_text').val().length > 0)
+      {
+        $('#general_comments_form').submit();
+        $('#general_comments_text').val('');
+        $('#error_general_comments_label').hide();
+      }
+      else
+      {
+        $('#error_general_comments_label').show();
+        return false;
+      }
+    });
+  });
