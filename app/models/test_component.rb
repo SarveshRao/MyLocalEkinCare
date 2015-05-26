@@ -38,7 +38,7 @@ class TestComponent < ActiveRecord::Base
     component_lab_results = []
     customer.health_assessments.where(type: 'BodyAssessment').each do |body_assessment|
       body_assessment.lab_results.each do |lab_result|
-        lonic_code = TestComponent.find(lab_result.test_component_id).lonic_code
+        lonic_code = TestComponent.find(lab_result.test_component_id).lonic_code rescue nil
         if lonic_code
           if lonic_code == self.lonic_code
             component_lab_results << lab_result.result.to_f

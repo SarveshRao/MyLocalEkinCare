@@ -9,8 +9,8 @@ class Customers::CustomerLabResultsController < ApplicationController
     sys_code = TestComponent.find_by("lower(name)='systolic'").lonic_code
     dia_code = TestComponent.find_by("lower(name)='diastolic'").lonic_code
     if sys_code and dia_code
-      @systolic_component_id=TestComponent.find_by(lonic_code: sys_code, enterprise_id: Enterprise.find_by_enterprise_id('EK').id).id
-      @diastolic_component_id=TestComponent.find_by(lonic_code: dia_code, enterprise_id: Enterprise.find_by_enterprise_id('EK').id).id
+      @systolic_component_id=TestComponent.find_by(lonic_code: sys_code.to_s, enterprise_id: Enterprise.find_by_enterprise_id('EK').id).id
+      @diastolic_component_id=TestComponent.find_by(lonic_code: dia_code.to_s, enterprise_id: Enterprise.find_by_enterprise_id('EK').id).id
     else
       @systolic_component_id=TestComponent.find_by(name: 'Systolic', enterprise_id: Enterprise.find_by_enterprise_id('EK').id).id
       @diastolic_component_id=TestComponent.find_by(name: 'Diastolic', enterprise_id: Enterprise.find_by_enterprise_id('EK').id).id

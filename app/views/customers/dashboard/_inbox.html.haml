@@ -22,12 +22,11 @@
               - if activity.activity_type == 'MedicalRecord'
                 %i.fa.fa-clipboard.fa.fa-2x
               - elsif activity.activity_type == 'BodyAssessment'
-                %i.glyphicon.glyphicon-user.fa-2x.icon-muted
+                = image_tag("Body.PNG", size: "50x30", style: 'opacity: 0.5;height: 30px;width: 25px')
               - elsif activity.activity_type == 'DentalAssessment'
-                -#%i.fa.fa-file-o.fa-2x.icon-muted
-                = image_tag("tooth_icon.png", size: "30x30", style: 'opacity: 0.5;height: 30px;width: 25px')
+                = image_tag("Dental.png", size: "30x30", style: 'opacity: 0.5;height: 30px;width: 25px')
               - elsif activity.activity_type == 'VisionAssessment'
-                %i.glyphicon.glyphicon-eye-open.fa-2x.icon-muted
+                = image_tag("Eyes.PNG", size: "30x30", style: 'opacity: 0.5;height: 30px;width: 25px')
 
             .media-body.text-muted
               .pull-right.media-xs.text-center.text-muted
@@ -67,23 +66,3 @@
                 -#%a{href: "#"} John Smith
                 %span.label.label-success
                   = activity.badge
-              - if activity.is_appointment_message?
-                %small.block.m-t-sm
-                  - if activity.appointment.is_partner?
-                    Assessment provider:
-                    %b
-                      = activity.appointment.partner_name
-                    %br
-                  - unless activity.appointment.location.nil?
-                    Assessment location:
-                    = activity.appointment.location.details rescue ''
-
-              - elsif activity.is_recommendation_message?
-                - description = activity.recommendation.description
-                %small.block.m-t-sm
-                  Title:
-                  %b
-                    = activity.recommendation.title
-                  %br
-                  Description:
-                  = description.empty? ? 'None' : description

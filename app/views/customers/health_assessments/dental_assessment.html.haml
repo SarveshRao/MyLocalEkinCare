@@ -170,17 +170,6 @@
                 #teeth46.teeth-marker{:style => "left:74px;top:312px;"}
                 #teeth47.teeth-marker{:style => "left:65px;top:276px;"}
                 #teeth48.teeth-marker{:style => "left:62px;top:244px;"}
-              -unless @dental_assessment.recommendations.empty?
-                .recommendations.wrapper.bg-white
-                  %h4 Recommendations
-                  -@dental_assessment.recommendations.each do |recommendation|
-                    %br
-                    Title:
-                    %b
-                      = recommendation.title
-                    %br
-                    Description:
-                    = recommendation.description.empty? ? 'None' : recommendation.description
               %section.panel.panel-default
                 .row.padder.padder-v
                   .col-sm-12
@@ -205,4 +194,15 @@
                             = comment.description
                     - if no_comments == true
                       No comments added.
-
+              -unless @dental_assessment.recommendations.empty?
+                .recommendations.wrapper.bg-white
+                  %h3.rTitle.m-b-xs
+                    Recommendations
+                  -@dental_assessment.recommendations.each do |recommendation|
+                    %br
+                    Title:
+                    %b
+                      = recommendation.title
+                    %br
+                    Description:
+                    = recommendation.description.empty? ? 'None' : recommendation.description

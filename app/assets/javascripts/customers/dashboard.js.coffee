@@ -105,7 +105,9 @@ $ ->
   $('#appointments_count').click ->
     $('#appointments_count').find('#count').remove()
     appointments_show()
-#    $('#dashboard_notifications').removeClass('hide').slimScroll({height: '315px'})
+  $('#recommendations_count').click ->
+    $('#recommendations_count').find('#count').remove()
+    recommendations_show()
 
   $('#edit_profile_pic').click ->
     $('#profile_pic_input').click()
@@ -153,6 +155,12 @@ appointments_show  = (event)->
     url: '/customers/appointments'
     success: (data) ->
       $('#dashboard_appointments').html(data).slimScroll({height: '315px'}).removeClass('hide')
+
+recommendations_show  = (event)->
+  $.ajax
+    url: '/customers/recommendations'
+    success: (data) ->
+      $('#dashboard_recommendations').html(data).slimScroll({height: '315px'}).removeClass('hide')
 
 #-----------------------------------------loading  customer allergies---------------------------------------------------
 allergySelect = ->

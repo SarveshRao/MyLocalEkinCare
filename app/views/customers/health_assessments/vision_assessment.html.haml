@@ -187,18 +187,6 @@
                 %strong Lens Type:
                 %span
                   =@vision_assessment.prescription.lens_type rescue '-'
-            -unless @vision_assessment.recommendations.empty?
-              .col-lg-12.col-md-12.m-b.bg-white.padder.padder-v
-                .recommendations.wrapper.bg-white
-                  %h4 Recommendations
-                  -@vision_assessment.recommendations.each do |recommendation|
-                    %br
-                    Title:
-                    %b
-                      = recommendation.title
-                    %br
-                    Description:
-                    = recommendation.description.empty? ? 'None' : recommendation.description
             .col-lg-12.col-md-12.m-b.m-t.bg-white.padder.padder-v
               %h3.rTitle.m-b-xs
                 Doctor Comments
@@ -221,3 +209,15 @@
                       = comment.description
               - if no_comments == true
                 No comments added.
+            -unless @vision_assessment.recommendations.empty?
+              .col-lg-12.col-md-12.m-b.bg-white.padder.padder-v
+                %h3.rTitle.m-b-xs
+                  Recommendations
+                -@vision_assessment.recommendations.each do |recommendation|
+                  %br
+                  Title:
+                  %b
+                    = recommendation.title
+                  %br
+                  Description:
+                  = recommendation.description.empty? ? 'None' : recommendation.description

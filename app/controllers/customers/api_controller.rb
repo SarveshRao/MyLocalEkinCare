@@ -339,7 +339,7 @@ class Customers::ApiController < BaseApiController
         assessment.lab_results.each do |lab_result|
           lonic_code = TestComponent.find_by('lower(name) =?',component_name.downcase).lonic_code
           if lonic_code
-            component = TestComponent.where("lonic_code = ? and enterprise_id =?", lonic_code, assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise).first
+            component = TestComponent.where("lonic_code = ? and enterprise_id =?", lonic_code.to_s, assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise).first
           else
             component = TestComponent.where("lower(name) = ? and enterprise_id =?", component_name.downcase, assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise).first
           end
@@ -361,7 +361,7 @@ class Customers::ApiController < BaseApiController
         assessment.lab_results.each do |lab_result|
           lonic_code = TestComponent.find_by('lower(name) =?',component_name.downcase).lonic_code
           if lonic_code
-            component = TestComponent.where("lonic_code = ? and enterprise_id =?", lonic_code, assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise).first
+            component = TestComponent.where("lonic_code = ? and enterprise_id =?", lonic_code.to_s, assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise).first
           else
             component = TestComponent.where("lower(name) = ? and enterprise_id =?", component_name.downcase, assessment.enterprise_id ? assessment.enterprise_id : self.default_enterprise).first
           end
@@ -496,12 +496,14 @@ class Customers::ApiController < BaseApiController
         @lab_info.push(@mainHash)
       end
       @assesmentHash['assessments_lab_info'] = @lab_info
-      recommendation_results = Hash.new
+      recommendation_array = Array.new
       @assessment.recommendations.each do |recommendation|
+        recommendation_results = Hash.new
         recommendation_results['title'] = recommendation.title
         recommendation_results['description'] = recommendation.description.empty? ? 'None' : recommendation.description
+        recommendation_array.push(recommendation_results)
       end
-      @assesmentHash['recommendation'] = recommendation_results
+      @assesmentHash['recommendation'] = recommendation_array
       render json: {assessment_info: @assesmentHash}
     end
   end
@@ -613,7 +615,7 @@ class Customers::ApiController < BaseApiController
     @customer = Customer.find(@vision_assessment.customer_id)
     vision_assessment = Hash.new
     vision_assessment_info = Hash.new
-    recommendation_results = Hash.new
+    recommendation_array = Array.new
     vision_assessment['assessment'] = @vision_assessment
     if @vision_assessment.prescription.nil?
       render json: {vision_assessment: nil}
@@ -622,12 +624,15 @@ class Customers::ApiController < BaseApiController
       @right_correction = @vision_assessment.prescription.corrections.find_by(eye: 'right').vision_component
       vision_assessment_info['left_correction'] = @left_correction
       vision_assessment_info['right_correction'] = @right_correction
+      vision_assessment_info['lens_type'] = @vision_assessment.prescription.lens_type rescue nil
       @vision_assessment.recommendations.each do |recommendation|
+        recommendation_results = Hash.new
         recommendation_results['title'] = recommendation.title
         recommendation_results['description'] = recommendation.description.empty? ? 'None' : recommendation.description
+        recommendation_array.push(recommendation_results)
       end
       vision_assessment['assessment_info'] = vision_assessment_info
-      vision_assessment['recommendation'] = recommendation_results
+      vision_assessment['recommendation'] = recommendation_array
       render json: {vision_assessment: vision_assessment}
     end
   end
@@ -647,7 +652,7 @@ class Customers::ApiController < BaseApiController
       dental_assessment_results = Hash.new
       dental_assessment_results['assessment'] = @dental_assessment
       dental_assessment_array = Array.new
-      recommendation_results = Hash.new
+      recommendation_array = Array.new
       @dental_assessment.examination.results.each do |result|
         teeth_results= Hash.new
         teeth_results['tooth_number'] = result.tooth_number
@@ -658,11 +663,13 @@ class Customers::ApiController < BaseApiController
         dental_assessment_array.push(teeth_results)
       end
       @dental_assessment.recommendations.each do |recommendation|
+        recommendation_results = Hash.new
         recommendation_results['title'] = recommendation.title
         recommendation_results['description'] = recommendation.description.empty? ? 'None' : recommendation.description
+        recommendation_array.append(recommendation_results)
       end
       dental_assessment_results['assessments_info'] = dental_assessment_array
-      dental_assessment_results['recommendation'] = recommendation_results
+      dental_assessment_results['recommendation'] = recommendation_array
       render json: {dental_assessment: dental_assessment_results}
     end
   end

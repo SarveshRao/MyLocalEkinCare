@@ -53,16 +53,16 @@ class Customers::HealthAssessmentsController < CustomerAppController
       @inbox.update(status:true)
     end
     @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{current_online_customer.id} order by doctor_comments.created_at DESC")
-    if @type == 'Body'
+    if @type.downcase == 'body'
       @body_assessments = current_online_customer.health_assessments.body_assessment_done
       @body_assessment = HealthAssessment.find(@id)
       @medical_records=@body_assessment.medical_records
-    elsif @type == 'Dental'
+    elsif @type.downcase == 'dental'
       @dental_assessments = current_online_customer.health_assessments.dental_assessment_done
       @dental_assessment = HealthAssessment.find(@id)
       @dental_medical_records=@dental_assessment.medical_records
       # dental_assessment
-    elsif @type == 'Vision'
+    elsif @type.downcase == 'vision'
       @vision_assessments = current_online_customer.health_assessments.vision_assessment_done
       @vision_assessment = HealthAssessment.find(@id)
       @vision_medical_records=@vision_assessment.medical_records

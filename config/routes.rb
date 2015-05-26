@@ -156,6 +156,7 @@ Rails.application.routes.draw do
     get 'inbox' => 'dashboard#inbox'
     get 'general_comments' => 'health_assessments#doctor_comments'
     get 'appointments' => 'dashboard#appointments'
+    get 'recommendations' => 'dashboard#recommendations'
     post 'send_otp' => 'otp#generate_otp'
     get 'dashboard/share_with_doctor'
     post 'dashboard/send_to_doctor'

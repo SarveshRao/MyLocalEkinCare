@@ -61,8 +61,8 @@
   -#%ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
   -#  %li
   -#    = link_to("Sign out", destroy_online_customer_session_path)
-  - if session[:is_customer]
-    - recent_activities = current_online_customer.recent_activities
+  -#- if session[:is_customer]
+  -#  - recent_activities = current_online_customer.recent_activities
 
   - if session[:is_customer]
     = form_for MedicalRecord.new, remote: true, authenticity_token: true, url: customer_documents_path(current_online_customer), html: {method: 'post', id: 'customer_medical_record_form', class: 'form-inline'} do |f|
@@ -87,22 +87,20 @@
         %span#loaderUploadImage{:style => "z-Index:99999; height:32px; width:32px;display: inline-block;"}
 
   %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
-    %li
+    %li.sign_out
       = link_to("Sign out", destroy_online_customer_session_path)
   - if session[:is_customer]
-    - recent_activities = current_online_customer.recent_activities
     %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
       %li.hidden-xs
         %a.dropdown-toggle#notifications_count{"data-toggle" => "dropdown", href: "#"}
           -#- inbox_activities = current_online_customer.inbox_messages
-          Inbox
+          %i.fa.fa-envelope-o
           - inbox_count = Inbox.joins("inner join health_assessments h on h.id=inboxes.associated_id where h.customer_id=#{current_online_customer.id} and activity_type like '%Assessment%'").count - Inbox.joins("inner join health_assessments h on h.id=inboxes.associated_id where h.customer_id=#{current_online_customer.id} and activity_type like '%Assessment%' and inboxes.status=true").count
           -if inbox_count>0
             %span.badge.badge-sm.up.bg-danger.count
               =  inbox_count
         %section.dropdown-menu.aside-xl.animated.flipInY
           #dashboard_notifications.hide
-    - recent_activities = current_online_customer.recent_activities
     %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
       %li.hidden-xs
         %a.dropdown-toggle#appointments_count{"data-toggle" => "dropdown", href: "#"}
@@ -112,10 +110,18 @@
           -if appoint_count>0
             %span.badge.badge-sm.up.bg-danger.count
               = appoint_count
-        -#-inbox_activities.where(status:true, activity_type: "Appointment and associated_date>CURRENT_TIMESTAMP - INTERVAL '1 day'").count
-        -#=  inbox_activities.where("case when activity_type = 'Appointment' then associated_date>CURRENT_TIMESTAMP - INTERVAL '1 day' and customer_id = #{current_online_customer.id} when activity_type != 'Appointment' then customer_id = #{current_online_customer.id} end").count-inbox_activities.where(status:true).count
         %section.dropdown-menu.aside-xl.animated.flipInY
           #dashboard_appointments.hide
+    %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
+      %li.hidden-xs
+        %a.dropdown-toggle#recommendations_count{"data-toggle" => "dropdown", href: "#"}
+          %i.fa.fa-thumbs-o-up.fa-lg
+          - recommendations_count =  Inbox.where("activity_type like '%Recommendation%' and customer_id=#{current_online_customer.id}").count - Inbox.where("activity_type like '%Recommendation%' and customer_id=#{current_online_customer.id} and status=true").count
+          -if recommendations_count>0
+            %span.badge.badge-sm.up.bg-danger.count
+              = recommendations_count
+        %section.dropdown-menu.aside-xl.animated.flipInY
+          #dashboard_recommendations.hide
     %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
       %li.hidden-xs
         %a.dropdown-toggle#second_opinion{"data-toggle" => "dropdown", href: "#", :style => "padding-right:10px;padding-left:10px;"}

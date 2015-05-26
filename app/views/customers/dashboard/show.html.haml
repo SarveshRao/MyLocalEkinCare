@@ -427,23 +427,26 @@
                           Doctor Name:
                           = comment.doctor_name
                         %small.block.m-t-sm
-                          Comment:
+                          General Comment:
                           = comment.general_comments
                     .line.line-xs.pull-in
                   - else
-                    %article.media.list-group-item
-                      .media-body
-                        .pull-right.media-xs.text-center.text-muted
-                          %strong
-                            = formatted_date comment.created_at
-                        -#= full_time comment.created_at
-                        %small.block
-                          Doctor Name:
-                          = comment.doctor_name
-                        %small.block.m-t-sm
-                          Comment:
-                          = comment.health_assessment_id
-                          = comment.description
-                    .line.line-xs.pull-in
+                    -unless comment.health_assessment_id.nil?
+                      - assessment = HealthAssessment.find(comment.health_assessment_id) ? HealthAssessment.find(comment.health_assessment_id) : nil
+                      -if assessment
+                        %article.media.list-group-item
+                          .media-body
+                            .pull-right.media-xs.text-center.text-muted
+                              %strong
+                                = formatted_date comment.created_at
+                            -#= full_time comment.created_at
+                            %small.block
+                              Doctor Name:
+                              = comment.doctor_name
+                            %small.block.m-t-sm
+                              %a.h5{style: 'color: #000', href: customers_health_assessment_path({type: assessment.assessment_type, id: comment.health_assessment_id})}
+                                = assessment.health_assessment_id
+                              = ': '+comment.description.to_s
+                      .line.line-xs.pull-in
                 - if no_comments == true
                   No comments added.

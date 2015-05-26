@@ -70,7 +70,7 @@ class Customers::CustomerInformationController < ApplicationController
     test_component_name=params[:test_component_name]
     lonic_code = TestComponent.find_by_name(test_component_name).lonic_code
     if lonic_code
-      test_component=TestComponent.find_by(lonic_code: lonic_code)
+      test_component=TestComponent.find_by(lonic_code: lonic_code.to_s)
     else
       test_component=TestComponent.find_by_name(test_component_name)
     end

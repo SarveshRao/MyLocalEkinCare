@@ -32,14 +32,16 @@ $(document).ready(function(){
             var drop = new Array();
 
             for (var i = 0; i < res.length; i++) {
-                drop[i] = new Drop({
-                    target: $('#teeth' + res[i][0])[0],
-                    content: '<strong>Dentition</strong> :'+res[i][1]+'<br/><strong>Tooth Number</strong> : ' + res[i][0] + '<br/><strong>Diagonsis</strong>: <span style="font-style:italic">'+res[i][2]+'</span><br/><strong>Recommendation</strong>: <span style="font-style:italic;">'+res[i][3]+'</span>',
-                    classes: 'drop-theme-arrows-bounce',
-                    position: 'bottom center',
-                    constrainToScrollParent: true,
-                    openOn: 'click'
-                });
+                if($('#teeth' + res[i][0]).length>0) {
+                    drop[i] = new Drop({
+                        target: $('#teeth' + res[i][0])[0],
+                        content: '<strong>Dentition</strong> :' + res[i][1] + '<br/><strong>Tooth Number</strong> : ' + res[i][0] + '<br/><strong>Diagonsis</strong>: <span style="font-style:italic">' + res[i][2] + '</span><br/><strong>Recommendation</strong>: <span style="font-style:italic;">' + res[i][3] + '</span>',
+                        classes: 'drop-theme-arrows-bounce',
+                        position: 'bottom center',
+                        constrainToScrollParent: true,
+                        openOn: 'click'
+                    });
+                }
             }
 
             //drop[4].open();

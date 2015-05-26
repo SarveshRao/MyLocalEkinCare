@@ -17,6 +17,11 @@ class Customers::DashboardController < CustomerAppController
   def appointments
     render partial: '/customers/dashboard/appointments'
   end
+
+  def recommendations
+    render partial: '/customers/dashboard/recommendations'
+  end
+
   #
   # def share_with_doctor
   #   render partial: '/customers/dashboard/share_with_doctor'
