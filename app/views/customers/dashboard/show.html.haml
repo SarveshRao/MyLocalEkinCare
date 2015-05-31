@@ -33,131 +33,160 @@
 %div{style: 'min-height: 1000px'}
   %section.scrollable.wrapper.w-f
     %div.row
-      .col-sm-6#question_wizard.hide
-        %form#wizardform
-          %section.panel.panel-default
-            .panel-heading.no-border.bg-primary.lt
-              %ul.nav.nav-tabs.pull-right.hide
-                %li
-                  %a{"data-toggle" => "tab", :href => "#height_tab"} Height
-                %li
-                  %a{"data-toggle" => "tab", :href => "#weight_tab"} Weight
-                %li
-                  %a{"data-toggle" => "tab", :href => "#blood_group_tab"} BloodGroup
-                %li
-                  %a{"data-toggle" => "tab", :href => "#waist_tab"} Waist
-                %li
-                  %a{"data-toggle" => "tab", :href => "#smoke_tab"} Smoke
-                %li
-                  %a{"data-toggle" => "tab", :href => "#alcohol_tab"} Alcohol
-                %li
-                  %a{"data-toggle" => "tab", :href => "#exercise_tab"} Exercise
-                %li
-                  %a{"data-toggle" => "tab", :href => "#father_health_tab"} father_health
-                %li
-                  %a{"data-toggle" => "tab", :href => "#mother_health_tab"} mother_health
-              %span.h4.text-lt.m-t-sm.m-b-sm.block.font-bold{:href => "#", :style => "color:white"} Let's customize your account
-            .panel-body
-              .tab-content
-                #height_tab.tab-pane.text-center
-                  %p.text-center.h4.m-t.m-b What's your height?
-                  .col-sm-12{:style => 'left: 17%;'}
-                    %div.col-sm-4.text-center.height-center
-                      %input.numeric#feet.form-control{:placeholder => "feet", :type => "text"}
-                    %div.col-sm-4.text-center.height-center
-                      %input.numeric#inches.form-control{:placeholder => "inches", :type => "text"}
-                #weight_tab.tab-pane.text-center.form-horizontal
-                  %p.text-center.h4.m-t.m-b How much do you weigh?
-                  %div.col-sm-3.text-center.weight-center
-                    %input.numeric#weight.form-control{:type => "text", :placeholder => "in Kgs"}
-                #blood_group_tab.tab-pane
-                  %p.text-center.h4.m-t.m-b Select your blood group?
-                  .radio.i-checks.h4.small
-                    .row{:style => "padding: 15px;"}
-                      - BloodGroup.all.each do |blood_group|
-                        .col-lg-3.col-sm-4.fam-wrap.padder-v
-                          %label.radio-space
-                            %input{:name => "blood_group", :type => "radio", :value => "#{blood_group.id}", checked: ()}
-                              %i
-                              %span
-                                = blood_group.blood_type
-                #waist_tab.tab-pane.text-center.form-horizontal
-                  %p.text-center.h4.m-t.m-b What's your waist size?
-                  %div.col-sm-3.text-center.weight-center
-                    %input.numeric#waist.form-control{:type => "text", :placeholder => "inches"}
-                #smoke_tab.tab-pane.text-center
-                  %p.text-center.h4.m-t.m-b Do you Smoke?
-                  .btn-group.col-sm-12.smoke-center{"data-toggle" => "buttons"}
-                    - ['Frequently', 'Occasionally', 'Never'].each do |smoke_level|
-                      %label.col-sm-4.btn.btn-sm.btn-default
-                        %input{:name => "smoke", :type => "radio", :value => "#{smoke_level}", checked: ()}
-                        %i.fa.fa-check.text-active
-                        %span.h4.small
-                          = smoke_level
-                #alcohol_tab.tab-pane.text-center
-                  %p.text-center.h4.m-t.m-b Do you consume alcohol?
-                  .btn-group.col-sm-12.smoke-center{"data-toggle" => "buttons"}
-                    - ['Frequently', 'Occasionally', 'Never'].each do |alcohol_level|
-                      %label.col-sm-4.btn.btn-sm.btn-default
-                        %input{:name => "alcohol", :type => "radio", :value => "#{alcohol_level}", checked: ()}
-                        %i.fa.fa-check.text-active
-                        %span.h4.small
-                          = alcohol_level
-                #exercise_tab.tab-pane.text-center
-                  %p.text-center.h4.m-t.m-b How often do you exercise?
-                  .btn-group.col-sm-12.smoke-center{"data-toggle" => "buttons"}
-                    - ['Frequently', 'Occasionally', 'Never'].each do |exercise_level|
-                      %label.col-sm-4.btn.btn-sm.btn-default
-                        %input{:name => "exercise", :type => "radio", :value => "#{exercise_level}", checked: ()}
-                        %i.fa.fa-check.text-active
-                        %span.h4.small
-                          = exercise_level
-                #father_health_tab.tab-pane.text-center
-                  %p.text-center.h4.m-t.m-b Does your father have any medical issues?
-                  %label.checkbox-inline.i-checks.i-chk.col-sm-10.medical_condition_margin{:style => 'left:18%'}
-                    -MedicalCondition.all.each do |medical_condition|
-                      .row.medical-condition.col-sm-6
-                        %label.checkbox-inline.i-checks.i-chk.medical-checkbox-left
-                          %input#inlineCheckbox2{:name => "chk-father_medicals", :type => "checkbox", :value => medical_condition.id, checked: false}
-                            %i
-                            %span
-                              =medical_condition.name
-                    .row.medical-condition.col-sm-6
-                      %label.checkbox-inline.i-checks.i-chk.medical-checkbox-left
-                        %input#inlineCheckbox2{:name => "chk-father_medicals", :type => "checkbox", :value => 'None', checked: false}
-                          %i
-                          %span None
-                #mother_health_tab.tab-pane.text-center
-                  %p.text-center.h4.m-t.m-b Does your mother have any medical issues?
-                  %label.checkbox-inline.i-checks.i-chk.col-sm-10.medical_condition_margin{:style => 'left:18%'}
-                    -MedicalCondition.all.each do |medical_condition|
-                      .row.medical-condition.col-sm-6
-                        %label.checkbox-inline.i-checks.i-chk.medical-checkbox-left
-                          %input#inlineCheckbox2{:name => "chk-mother_medicals", :type => "checkbox", :value => medical_condition.id, checked: false}
-                            %i
-                            %span
-                              =medical_condition.name
-                    .row.medical-condition.col-sm-6
-                      %label.checkbox-inline.i-checks.i-chk.medical-checkbox-left
-                        %input#inlineCheckbox2{:name => "chk-mother_medicals", :type => "checkbox", :value => 'None'}
-                          %i
-                          %span None
-            %footer.panel-footer.text-right.bg-light.lter
-              %ul.pager.wizard.m-n
-                %li.next.pull-right#next_btn
-                  %div.next_btn.btn.btn-s-md.btn-success{:style => "color: white", :href => "#", :disabled => "disabled"} Next
-      .col-sm-6#message_prompts_wizard.hide
-        %form#messagepromptsform{:style => "height: 200px"}
-          %section.panel.panel-default
-            .panel-heading.no-border.bg-info.lt
-              %span.h4.text-lt.m-t-sm.m-b-sm.block.font-bold{:href => "#", :style => "color:white"} Your personalized health details
-            .panel-body
-              .tab-content
-                .tab-pane.text-center.form-horizontal
-                %p.text-center.h4.m-t.m-b
-                  %span Hey
+      %section#content
+        %section.vbox
+          %section.scrollable.wrapper.w-f{:id=>'customer-info-wizard'}
+            %section.row.m-b-md.padder.hide{:id=>'height_weight'}
+              .col-xs-12.wizard-section
+                .wizard-heading Let's Customize your account
+                .col-xs-6.question.question-left{:style => ""}
+                  .question-content
+                    .question-text Your Weight?
+                    %img.full{:src => asset_path("icons/weight.png"), :style => ""}/
+                    .answer{:style => ""}
+                      %input.col-xs-12.pull-left.numeric{:id=>'weight',:placeholder => "weight in KGs"}
+                .col-xs-6.question.question-right
+                  .question-content
+                    .question-text Your height?
+                    %img.full{:src => asset_path("icons/height.png")}/
+                    .answer{:style => ""}
+                      %div.pull-left{:style => "width:48%;padding:0;"}
+                        %input.numeric{:id=>'feet', required: true,:placeholder => "feet",:style => "width:100%;"}
+                      %div.pull-right{:style => "width:48%;padding:0;"}
+                        %input.numeric{:id=>'inches', required: true,:placeholder => "inches",:style => "width:100%;"}
+                    .btn.btn-default.btn-success.wixard-next-button#height_weight_next{:style => "bottom:-90px;"} Next
+                .ekin-wizard-message.col-xs-12{:style => ""}
+                  Hey
                   = current_online_customer.first_name
-                  %div.text-center.h4.small.m-t.m-b#message_content Did you know that your Heart beats about 100,000 times in a day?
+                  %br/
+                  #height-weight-message
+                    Do you know that your heart beats about 1,00,000 times in a day.
+            %section.row.m-b-md.padder.hide{:id=>'waist_bloodgroup'}
+              .col-xs-12.wizard-section
+                .wizard-heading Let's Customize your account
+                .col-xs-6.question.question-left{:style => ""}
+                  .question-content
+                    .question-text Waist size?
+                    %img{:src => asset_path("icons/waist.png"), :style => ""}/
+                    .answer{:style => ""}
+                      %input.col-xs-12.pull-left.numeric{:id=>'waist_size',:placeholder => "waist Size in inches"}
+                .col-xs-6.question.question-right
+                  .question-content
+                    .question-text Blood group?
+                    %img{:src => asset_path("icons/blood.png")}/
+                    .answer{:id=>'blood_group_choice',:style => ""}
+                      .ekin-choices
+                      - BloodGroup.all.each do |blood_group|
+                        %button.btn.btn-default.ekin-choice.blood-group{:name => "blood_group",:type => "button",:id=>blood_group.id}
+                          =blood_group.blood_type
+                      #blood_group_error.validation-error.hide
+                        select blood group
+                    .btn.btn-default.btn-success.wixard-next-button{:id=>'waist_bloodgroup_next',:style => "bottom:-60px;"} Next
+                .ekin-wizard-message.col-xs-12{:style => ""}
+                  Hey
+                  = current_online_customer.first_name
+                  %br/
+                  #waist-bloodgroup-message
+                    Do you know that your heart beats about 1,00,000 times in a day.
+            %section.row.m-b-md.padder.hide{:id=>'activities'}
+              .col-xs-12.wizard-section
+                .wizard-heading Let's Customize your account
+                .col-xs-4.question.question-left{:style => ""}
+                  .question-content
+                    .question-text Alcohol?
+                    %img{:src => asset_path("icons/liver.png"), :style => ""}/
+                    .answer{:id=>'alcohol-choices-id',:style => ""}
+                      .ekin-choices
+                        %button.btn.btn-default.ekin-choice.full.alcohol{:type => "button",:value=>'Frequently'} Frequently
+                        %button.btn.btn-default.ekin-choice.full.alcohol{:type => "button",:value=>'Ocasionally'} Ocasionally
+                        %button.btn.btn-default.ekin-choice.full.alcohol{:type => "button",:value=>'Never'} Never
+                      #alcohol_error.validation-error.hide
+                        select any option
+                .col-xs-4.question.question-right
+                  .question-content
+                    .question-text Smoke?
+                    %img{:src => asset_path("icons/smoke.png")}/
+                    .answer{:id=>'smoke-choices-id',:style => ""}
+                      .ekin-choices
+                        %button.btn.btn-default.ekin-choice.full.smoke{:type => "button",:value=>'Frequently'} Frequently
+                        %button.btn.btn-default.ekin-choice.full.smoke{:type => "button",:value=>'Ocasionally'} Ocasionally
+                        %button.btn.btn-default.ekin-choice.full.smoke{:type => "button",:value=>'Never'} Never
+                      #smoke_error.validation-error.hide
+                        select any option
+                    .btn.btn-default.btn-success.wixard-next-button{:style => "bottom:-60px;display:none;"} Next
+                .col-xs-4.question.question-right
+                  .question-content
+                    .question-text Exercise?
+                    %img{:src => asset_path("icons/exercise.png")}/
+                    .answer{:id=>'exercise-choices-id',:style => ""}
+                      .ekin-choices
+                        %button.btn.btn-default.ekin-choice.full.exercise{:type => "button",:value=>'Frequently'} Frequently
+                        %button.btn.btn-default.ekin-choice.full.exercise{:type => "button",:value=>'Ocasionally'} Ocasionally
+                        %button.btn.btn-default.ekin-choice.full.exercise{:type => "button",:value=>'Never'} Never
+                      #exercise_error.validation-error.hide
+                        select any option
+                    .btn.btn-default.btn-success.wixard-next-button{:id=>'activities_next',:style => "bottom:-50px;"} Next
+                .ekin-wizard-message.col-xs-12{:style => ""}
+                  Hey
+                  = current_online_customer.first_name
+                  %br/
+                  #activities-message
+                    Do you know that your heart beats about 1,00,000 times in a day.
+            %section.row.m-b-md.padder.hide{:id=>'family_medical_history'}
+              .col-xs-12.wizard-section
+                .wizard-heading Let's Customize your account
+                .col-xs-6.question.question-left{:style => ""}
+                  .question-content
+                    .question-text Father's medical condition?
+                    %img{:src => asset_path("icons/father.png"), :style => ""}/
+                    .answer{:id=>'father_health_info',:style => "margin-top:5px;"}
+                      .ekin-choices
+                        -MedicalCondition.all.each do |medical_condition|
+                          %button.btn.btn-default.ekin-multi-choice.full.father-medical-history{:type => "button",:id=>medical_condition.id}
+                            = medical_condition.name
+                .col-xs-6.question.question-right
+                  .question-content
+                    .question-text Mother's medical condition?
+                    %img{:src => asset_path("icons/mother.png")}/
+                    .answer{:id=>'mother_health_info',:style => "margin-top:5px;"}
+                      .ekin-choices
+                        -MedicalCondition.all.each do |medical_condition|
+                          %button.btn.btn-default.ekin-multi-choice.full.mother-medical-history{:type => "button",:id=>medical_condition.id}
+                            = medical_condition.name
+                    .btn.btn-default.btn-success.wixard-next-button{:id=>'family_medical_history_next',:style => "bottom:-50px;"} Next
+                .ekin-wizard-message.col-xs-12{:style => ""}
+                  Hey
+                  = current_online_customer.first_name
+                  %br/
+                  #family-info-message
+                    Do you know that your heart beats about 1,00,000 times in a day
+            %section.row.m-b-md.padder.hide{:id=>'health_information'}
+              .col-xs-12.wizard-section
+                .wizard-heading Let's Customize your account
+                .col-xs-6.question.question-left{:style => ""}
+                  .question-content
+                    .question-text Hypertension?
+                    %img.full{:src => asset_path("icons/hypertension.png"), :style => ""}/
+                    .answer{:style => ""}
+                      %div.pull-left{:style => "width:48%;padding:0;"}
+                        %input.numeric{:id=>'systolic', required: true,:placeholder => "systolic", :style => "padding-left:4px;width:100%"}
+                      %div.pull-right{:style => "width:48%;padding:0;"}
+                        %input.numeric{:id=>'diastolic', required: true,:placeholder => "diastolic", :style => "padding-left:4px;width:100%"}
+                .col-xs-6.question.question-right
+                  .question-content
+                    .question-text Diabetes?
+                    %img.full{:src => asset_path("icons/diabetes.png")}/
+                    .answer{:style => ""}
+                      %input.col-xs-12.pull-left.numeric{:id=>'blood_sugar',:placeholder => "blood sugar reading"}
+                    .btn.btn-default.btn-info.wixard-next-button{:id=>'health_information_skip',:style => "bottom:-90px;right:70px;"} Skip this question
+                    .btn.btn-default.btn-success.wixard-next-button{:id=>'health_information_finish',:style => "bottom:-90px;"} Finish
+                .ekin-wizard-message.col-xs-12{:style => ""}
+                  Hey
+                  = current_online_customer.first_name
+                  %br/
+                  #health-info-message
+                    Do you know that your heart beats about 1,00,000 times in a day.
+    %div.row
       .col-lg-4.col-md-4
         %section.panel.b-a#hypertension_score_chart.hide
           .panel-heading.no-border.bg-primary.lt
@@ -181,19 +210,19 @@
               %small.text-muted
                 %i.i.i-info{title: "If your risk is above the optimal profile, please consider serious lifestyle changes like exercising regularly, losing weight"}
 
-        %div
-          %section.panel.panel-default#hypertension_history_chart
-            .panel-heading.no-border.bg-primary.lt
-              %a.h4.text-lt.m-t-sm.m-b-sm.block.font-bold{:href => "#"} Hypertension Prediction
-            .panel-body.text-center
-              #flot-bar{:style => "height:180px"}
-            .clearfix.panel-footer.panel-graph-padding
-              .col-md-9.b-r
-                %a#hypertension_history_graph
-                  %i.fa.fa-toggle-left
-              .col-md-3.b-r.text-center
-                %small.text-muted
-                  %i.i.i-info{title: "If your risk is above the optimal profile, please consider serious lifestyle changes like exercising regularly, losing weight"}
+          %div
+            %section.panel.panel-default#hypertension_history_chart
+              .panel-heading.no-border.bg-primary.lt
+                %a.h4.text-lt.m-t-sm.m-b-sm.block.font-bold{:href => "#"} Hypertension Prediction
+              .panel-body.text-center
+                #flot-bar{:style => "height:180px"}
+              .clearfix.panel-footer.panel-graph-padding
+                .col-md-9.b-r
+                  %a#hypertension_history_graph
+                    %i.fa.fa-toggle-left
+                .col-md-3.b-r.text-center
+                  %small.text-muted
+                    %i.i.i-info{title: "If your risk is above the optimal profile, please consider serious lifestyle changes like exercising regularly, losing weight"}
       .col-lg-4.col-md-4
         %section.panel.b-a#diabetes_score_chart.hide
           .panel-heading.no-border.bg-info.lt

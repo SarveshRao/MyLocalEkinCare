@@ -67,15 +67,16 @@ class Customers::CustomerInformationController < ApplicationController
   end
 
   def lab_result_values
-    test_component_name=params[:test_component_name]
-    lonic_code = TestComponent.find_by_name(test_component_name).lonic_code
+    result_id=params[:result_id]
+    test_component_id = LabResult.find(result_id).test_component_id
+    lonic_code = TestComponent.find(test_component_id).lonic_code
     if lonic_code
       test_component=TestComponent.find_by(lonic_code: lonic_code.to_s)
     else
-      test_component=TestComponent.find_by_name(test_component_name)
+      test_component=TestComponent.find(test_component_id)
     end
     customer=current_online_customer
-    lab_result_values=test_component.test_component_values(customer)
+    lab_result_values=test_component.lab_results_with_dates(customer)
     respond_to do |format|
       format.json {render :json => { values:lab_result_values}}
     end

@@ -6,6 +6,8 @@ class Customer < ActiveRecord::Base
   devise :invitable, :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :omniauthable, :validatable
 
+  validates_uniqueness_of :mobile_number, :case_sensitive => false, :allow_blank => false
+
   attr_accessor :otp
   attr_accessor :otp_expire
   attr_accessor :is_customer
@@ -805,4 +807,13 @@ class Customer < ActiveRecord::Base
   def password_required?
     false
   end
+
+  def email_required?
+    false
+  end
+
+  def email_changed?
+    false
+  end
+
 end

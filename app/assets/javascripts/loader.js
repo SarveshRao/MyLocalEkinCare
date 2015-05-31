@@ -24,8 +24,10 @@ $(function() {
         SECONDS_BETWEEN_FRAMES = 1 / FPS;
         if(loader == 'page')
             cPreloaderTimeout = setTimeout('window.continueAnimationForPage()', SECONDS_BETWEEN_FRAMES / 1000);
-        if(loader == 'upload')
+        if(loader == 'upload') {
+            document.getElementById(cLoaderId).style.marginLeft=23+'px';
             cPreloaderTimeout = setTimeout('window.continueAnimationForUpload()', SECONDS_BETWEEN_FRAMES / 1000);
+        }
     };
     window.continueAnimationForPage = function() {
         cXpos += cFrameWidth;
@@ -90,16 +92,40 @@ $(function() {
         window.imageLoader('window.startAnimation("page")', cLoaderId, cSpeed_new1, cWidth_new1, cHeight_new1, cTotalFrames_new1, cFrameWidth_new1, cImageSrc_new1);
     });
 
+    function check_file(){
+        str = $('.uploaded_medical_record').val().toUpperCase();
+        suffix = '.JPG';
+        suffix1 = '.JPEG';
+        suffix2 = '.PNG';
+        suffix3 = '.PDF';
+        suffix4 = '.DOC';
+        suffix5 = '.XLS';
+        suffix6 = '.GIF';
+        if(str.indexOf(suffix) == -1 && str.indexOf(suffix1) == -1 && str.indexOf(suffix2) == -1 && str.indexOf(suffix3) == -1 && str.indexOf(suffix4) == -1 && str.indexOf(suffix5) == -1 && str.indexOf(suffix6) == -1){
+            alert('File type not allowed,\nAllowed files: jpg, jpeg, png, gif, pdf, doc, docx, xls, xlsx');
+            $('.uploaded_medical_record').val('');
+            return false;
+        }else{
+            return true;
+        }
+    }
+
     $('.start_upload_loader').click(function(e){
-        window.stopAnimation();
-        var cSpeed_new2 = 7;
-        var cWidth_new2 = 32;
-        var cHeight_new2 = 32;
-        var cTotalFrames_new2 = 23;
-        var cFrameWidth_new2 = 32;
-        var cImageSrc_new2 = '../assets/sprites_upload_loader.gif';
-        var cLoaderId2 = 'loaderUploadImage';
-        window.imageLoader('window.startAnimation("upload")', cLoaderId2, cSpeed_new2, cWidth_new2, cHeight_new2, cTotalFrames_new2, cFrameWidth_new2, cImageSrc_new2);
+        if (check_file()) {
+            window.stopAnimation();
+            var cSpeed_new2 = 7;
+            var cWidth_new2 = 32;
+            var cHeight_new2 = 32;
+            var cTotalFrames_new2 = 23;
+            var cFrameWidth_new2 = 32;
+            var cImageSrc_new2 = '../assets/sprites_upload_loader.gif';
+            var cLoaderId2 = 'loaderUploadImage';
+            window.imageLoader('window.startAnimation("upload")', cLoaderId2, cSpeed_new2, cWidth_new2, cHeight_new2, cTotalFrames_new2, cFrameWidth_new2, cImageSrc_new2);
+        }else{
+
+            return false;
+        }
+
     });
     window.stopAnimation();
 });

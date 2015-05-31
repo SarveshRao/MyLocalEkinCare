@@ -168,7 +168,7 @@
                               -test_component_name=info[:test_component_diff][:name]
                               %tr{:id => "#{test_component_name}"}
                                 %td{:colspan => '3'}
-                                  .moreInfo
+                                  %div{:class=>'moreInfo',:id=>lab_result.id.to_s,:style=>"min-height:50px"}
                                     .rTitle.col-sm-4.col-xs-5
                                       = info[:test_component_diff][:name]
                                       .rSubTitle
@@ -213,11 +213,14 @@
                                             %span.units
                                               = info[:test_component_diff][:units]
                                           .arrowDown
-                                  .info_sec.bg-light.col-sm-12.padder-v{:style => "display:none"}
+                                  .bg-light.col-sm-12.padder-v.hide{:class=>'info-sec',:id=>'info_sec'+lab_result.id.to_s}
                                     .col-sm-6
                                       =TestComponent.find_by_name(info[:test_component_diff][:name]).info
-                                      -div_id=test_component_name.gsub(/[ \/()!@%&"]/,'')
-                                    %div.col-sm-6{:id => "f-line#{div_id}",:style => "height:75px"}
+                                      -div_id=lab_result.id
+                                      -test_component_id = LabResult.find(div_id).test_component_id
+                                      -#:javascript
+                                      -#  test_component_id='#{test_component_id}'
+                                    %div.col-sm-6{:id => "f-line#{div_id}",:style => "height:100px"}
                     %section.panel.panel-default
                       .row.padder.padder-v
                         .col-sm-12

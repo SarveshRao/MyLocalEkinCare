@@ -84,7 +84,7 @@
             %input{:type => "checkbox", name: 'license', required: true, id: 'agreement' }
             Agree the
             %a{:href => terms_and_conditions_about_index_path, id: 'terms_and_policy_link', style: 'color: #177bbb !important'} terms and conditions
-        = f.submit "Sign up", {class: 'btn btn-lg btn-primary btn-block '}
+        = f.submit "Sign up", {class: 'btn btn-lg btn-primary btn-block ', id: 'ekincare_register'}
         .line.line-dashed.m-b-none
         %p.text-muted.text-center
           %small Already have an account?
@@ -122,6 +122,33 @@
       if (pattern_mobile_number.test($(this).val())) {
         e.preventDefault();
       }
+    });
+
+    $("#ekincare_register").click(function(){
+      $('.close').trigger('click');
+      var returnValue = true;
+      // Check if email already exists and post only if it is not duplicate
+      $.ajax({
+        type: "GET",
+        url: "/api/v1/validate_email",
+        data: {email: $("#online_customer_email").val()},
+        async: false,
+        statusCode: {
+          200: function(){
+            returnValue = true;
+          },
+          409: function(){
+            $('.close').trigger('click');
+            var errorDiv = '<div id="errorDiv" class="alert alert-danger text-center"><button class="close" data-dismiss="alert" type="button">×</button><i class="fa fa-ok-sign"></i>Email has already been taken</div>';
+            $("#content").prepend(errorDiv);
+            returnValue = false;
+          }
+        },
+        success: function(data){
+        },
+        dataType: 'json'
+      });
+      return returnValue;
     });
 
   });

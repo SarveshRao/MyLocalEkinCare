@@ -82,12 +82,8 @@ class Customers::RegistrationsController < Devise::RegistrationsController
           CustomerVitals.create(customer_id: resource.id)
           # "Sending SMS to mobile"
           result = Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ resource.mobile_number() +'&sender=EKCARE&message=Dear '+ resource.first_name() +', DOWNLOAD FREE EKINCARE APP, to digitize your physical medical records. Click http://bit.ly/eKgoogle for ANDROID or click http://bit.ly/eKapple for Apple iPhone')))
-
-
-
           ekincare_coupon=CouponSource.find_by_name('ekincare')
           ek_coupon=ekincare_coupon.coupons.first
-
           if(ek_coupon)
             if ek_coupon.is_valid_coupon?
               expire_date = ek_coupon.expires_on.to_s
@@ -96,39 +92,18 @@ class Customers::RegistrationsController < Devise::RegistrationsController
               CustomerCoupon.create(customer_id:resource.id,coupon_id:ek_coupon.id)
             end
           end
-
           coupon=cookies[:coupon]
           source=cookies[:source]
-
           cookies.delete(:coupon)
           cookies.delete(:source)
-
           if(coupon and source)
             assign_coupon(resource.id,coupon,source)
           end
-
-
-
-
         else
           clean_up_passwords resource
           flash[:error] = "#{resource.errors.full_messages.join(',')}"
           respond_with resource, location: registration_path(resource_name)
-          #   channel = params[:online_customer][:channel]
-          #   if channel.present?
-          #     case channel
-          #       when 'ad1'
-          #         # respond_with resource, location: after_sign_up_path_for(resource)
-          #         redirect_to('/ad1')
-          #         return
-          #     end
-          #   end
         end
-
-        # respond_to do |format|
-        #   format.html
-        #   format.json {render json: {msg: 'Signed up successfully'}}
-        # end
       end
     end
   end
@@ -147,6 +122,7 @@ class Customers::RegistrationsController < Devise::RegistrationsController
   end
 
   def accept_signup_with_xhr
+    # Check for duplicate email/mobile number for mobile api
     build_resource(sign_up_params)
     if resource.save
       yield resource if block_given?
@@ -215,4 +191,34 @@ class Customers::RegistrationsController < Devise::RegistrationsController
       accept_signup_with_xhr_new
     end
   end
+
+  def register_family_member
+    # Check for validations
+
+    # Save the data - make confirmed_at filled to current datetime
+    inserted_row = Customer.create(first_name: params[:online_customer][:first_name],
+                    last_name: params[:online_customer][:last_name],
+                    email: params[:online_customer][:email],
+                    mobile_number: params[:online_customer][:mobile_number],
+                    date_of_birth: params[:online_customer][:date_of_birth],
+                    gender: params[:online_customer][:gender],
+                    password: params[:online_customer][:password],
+                    guardian_id: params[:online_customer][:guardian_id],
+                    confirmed_at: DateTime.now)
+
+    CustomerVitals.create(customer_id: inserted_row.id)
+    # "Sending SMS to mobile"
+    result = Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ inserted_row.mobile_number() +'&sender=EKCARE&message=Dear '+ inserted_row.first_name() +', DOWNLOAD FREE EKINCARE APP, to digitize your physical medical records. Click http://bit.ly/eKgoogle for ANDROID or click http://bit.ly/eKapple for Apple iPhone')))
+    # Check for coupon code....required/not
+    render json: {status: 200}
+  end
+
+  def customer_params
+    params.require(:online_customer).permit(:first_name, :last_name, :email, :date_of_birth, :daily_activity, :frequency_of_exercise,
+                                     :gender, :martial_status, :language_spoken, :ethnicity, :smoke, :alcohol, :medical_insurance, :customer_type, :diet,
+                                     :religious_affiliation, :mobile_number, :alternative_mobile_number, :number_of_children, :guardian_id,
+                                     addresses_attributes: [:line1, :line2, :city, :state, :country, :id, :zip_code],
+                                     customer_vitals_attributes: [:weight, :feet, :inches, :blood_group_id, :waist])
+  end
+
 end

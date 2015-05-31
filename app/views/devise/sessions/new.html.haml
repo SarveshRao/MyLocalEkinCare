@@ -41,7 +41,7 @@
       = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
         .list-group
           .list-group-item
-            = f.email_field :email, {class: 'form-control no-border p-t-n', placeholder: 'Email',autofocus: true, required: true }
+            = f.text_field :mobile_number, {class: 'form-control no-border p-t-n', placeholder: 'Mobile Number',autofocus: true, required: true }
           .list-group-item
             = f.password_field :password, {class: 'form-control no-border', placeholder: 'Password', required: true}
         = f.submit 'Sign in', {class: 'btn btn-lg btn-primary btn-block'}

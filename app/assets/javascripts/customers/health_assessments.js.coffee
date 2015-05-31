@@ -7,28 +7,17 @@ $('.accordion-toggle').click (event) ->
   details_ele.toggleClass('hide')
   $(history_icon).toggleClass('fa-toggle-down fa-toggle-up')
 
-drawChart = (id,values) ->
-  console.log(values)
-  dk=[]
-  values=values.split(',')
-  for key of values
-    dk.push [
-      key
-      values[key]
-    ]
-
-  console.log(dk)
-
-  $.plot($(id), [ { data: dk } ],
+drawChart = (id,dates,values,test_component_name) ->
+  $(id).length and $.plot($(id), [ { data: values } ],
     series:
       lines:
         show: true
         lineWidth: 1
-        fill: true
-        fillColor: colors: [
-          { opacity: 0.3 }
-          { opacity: 0.3 }
-        ]
+#        fill: true
+#        fillColor: colors: [
+#          { opacity: 0.3 }
+#          { opacity: 0.3 }
+#        ]
       points:
         radius: 3
         show: true
@@ -40,12 +29,31 @@ drawChart = (id,values) ->
       hoverable: true
       clickable: true
       tickColor: '#f0f0f0'
-      borderWidth: 1
+      borderWidth:
+        top: 0,
+        right: 0,
+        bottom: 2,
+        left: 2
+      borderColor: '#777',
       color: '#f0f0f0'
     colors: [ '#1bb399' ]
+    xaxis:
+      mode: "time",
+      color: "#000",
+#      timeformat: "%y/%m/%d"
+#      tickSize: [4, 'hour']
+#      labels: dates
+      ticks: 3
+      axisLabelPadding: 10
+    yaxis:
+      color: "#000",
+      ticks: 2
     tooltip: true
     tooltipOpts:
-      content: '%y.4'
+      content: (label, xval, yval, flotItem) ->
+#        yval=(yval).toFixed()
+        xval=moment(xval).format('MMMM Do YYYY, h:mm:ss a')
+        test_component_name+' <b>' + yval + '</b> <br> <span>' + xval + '</span>'
       defaultTheme: false
       shifts:
         x: 0
@@ -62,24 +70,42 @@ $('.showAssessmentFiles').click ->
   $('.physicalReports').toggleClass 'hide'
   $('#dentalWrapper').css 'margin-top', $('#dentalHeader').height() + 50
   return
-#$ ->
-#  $('.moreInfo').click ->
-##    $(this).closest('tr').siblings('tr').find('.info_sec').slideToggle()
-#    test_component_name=$(this).closest('tr').attr('id')
-#    $html = $(this).html()
-#    $this = $(this)
-#    $.ajax
-#      url: "/customers/customer_information/lab_result_values"
-#      type: "GET"
-#      data:
-#        test_component_name: test_component_name
-#      success: (result) ->
-#        values=result.values
-#        id=test_component_name.replace(/[ ()!\/@%&"]/g, "").toString()
-#        drawChart('#f-line'+id,values)
-##        $this.removeClass()
-#        $this.next('.info_sec').slideToggle()
-#        return
-#      error: ->
-##    $(this).next('.info_sec').removeClass('hide').slideDown()
+
+
+arrangeValues = (id,result,test_component_name) ->
+  count=0
+  dates=[]
+  values=[]
+  count=0
+  for date,val of result
+    date1=new Date(date);
+    dates.push(date1)
+    values.push([date1,val])
+    count+=1
+#  console.log(dates)
+#  console.log(values)
+
+  dates1=[[0,'mar 10'],[1,'mar 11']]
+  values1=[[0,8],[1,4]]
+  drawChart(id,dates,values,test_component_name)
+
+$ ->
+  $('.moreInfo').click ->
+    div_id=this.id
+    info_sec_id='#info_sec'+this.id
+    $(info_sec_id).toggleClass 'hide'
+    test_component_name=$(this).closest('tr').attr('id')
+    $html = $(this).html()
+    $this = $(this)
+    $.ajax
+      url: "/customers/customer_information/lab_result_values"
+      type: "GET"
+      data:
+        result_id: div_id
+      success: (result) ->
+        values=result.values
+        arrangeValues('#f-line'+div_id,values,test_component_name)
+        return
+      error: ->
+#    $(this).next('.info_sec').removeClass('hide').slideDown()
 

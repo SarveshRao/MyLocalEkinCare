@@ -2081,6 +2081,15 @@ fieldset[disabled] .btn-dark.active {
 .parsley-error {
   border-color: #ff5f5f !important;
 }
+
+.wizard-section .parsley-error-list {
+  color: white;
+  min-width: 120px;
+}
+.wizard-section .validation-error{
+  color: white;
+}
+
 .datepicker td.active,
 .datepicker td.active:hover,
 .datepicker td.active:hover.active,

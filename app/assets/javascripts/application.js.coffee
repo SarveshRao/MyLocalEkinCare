@@ -19,3 +19,4 @@
 #= require drop.min
 #= require vision
 #= require teeth
+#= require jquery.flot.time

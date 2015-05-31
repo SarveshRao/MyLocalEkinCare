@@ -128,6 +128,8 @@ Rails.application.routes.draw do
     get 'resend_registration_otp' => 'customers/registrations#send_otp_on_registration'
     post 'registration_otp' => 'customers/registrations#send_otp_on_registration'
     post 'register' => 'customers/registrations#register'
+    post 'register_family_member' => 'customers/registrations#register_family_member'
+
   end
 
   resources :home do
@@ -319,8 +321,8 @@ Rails.application.routes.draw do
       scope '/get_water_consumption' do
         get '/' => 'customers/api#get_water_consumption'
       end
-      scope '/get_blood' do
-        get '/' => 'customers/api#get_blood'
+      scope '/blood_sos' do
+        post '/' => 'customers/api#blood_sos'
       end
       scope '/vision_assessment_list' do
         get '/' => 'customers/api#vision_assessment_list'

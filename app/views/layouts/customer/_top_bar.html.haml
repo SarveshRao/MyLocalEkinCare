@@ -71,7 +71,7 @@
           %span.input-group-btn.upload-doc
             %span.btn.btn-success.btn-file#browseBtn
               Browse…
-              = f.file_field :medical_record, {class: 'parsley-validated', 'data-required' => 'true', multiple: true, name: 'files[]'}
+              = f.file_field :medical_record, {class: 'parsley-validated uploaded_medical_record', 'data-required' => 'true', multiple: true, name: 'files[]'}
           %input.form-control#documentToUpload{readonly: "readonly", type: "text",class: "upload-gap", placeholder: 'Any new medical records to upload?'}
           %span.input-group-btn.media-cancel-upload
             %span.btn.btn-default

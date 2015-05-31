@@ -401,27 +401,6 @@ class Customers::ApiController < BaseApiController
       if assessment!=''
         timeline.doctor_name = assessment.doctor_name
         timeline.provider_name = assessment.provider_name
-        # appointments = Appointment.find_by_appointmentee_id(assessment.id)
-        # if appointments
-        #   appointment_provider = AppointmentProvider.find_by_appointment_id(appointments.id)
-        #   if appointment_provider.present?
-        #     if appointment_provider.provider_id>0
-        #       provider_name = Provider.find(appointment_provider.provider_id) rescue nil
-        #       if provider_name
-        #         enterprise_name = Enterprise.find(provider_name.enterprise_id).name rescue nil
-        #         timeline.provider_name= enterprise_name
-        #       else
-        #         timeline.provider_name = 'At Home'
-        #       end
-        #     else
-        #       timeline.provider_name = 'At Home'
-        #     end
-        #   else
-        #     timeline.provider_name = 'At Home'
-        #   end
-        # else
-        #   timeline.provider_name= nil
-        # end
       else
         timeline.doctor_name = nil
         timeline.provider_name = nil
@@ -504,6 +483,18 @@ class Customers::ApiController < BaseApiController
         recommendation_array.push(recommendation_results)
       end
       @assesmentHash['recommendation'] = recommendation_array
+
+      comments_array = Array.new
+      @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{current_online_customer.id} and health_assessment_id=#{params[:id]} order by doctor_comments.created_at DESC")
+      @comments.each do |comments|
+        comments_results = Hash.new
+        comments_results['doctor_name'] = comments.doctor_name
+        comments_results['description'] = comments.description
+        comments_results['created_at'] = comments.created_at
+        comments_array.push(comments_results)
+      end
+      @assesmentHash['comments'] = comments_array
+
       render json: {assessment_info: @assesmentHash}
     end
   end
@@ -525,7 +516,7 @@ class Customers::ApiController < BaseApiController
   def customer_params
     params.require(:customer).permit(:first_name, :last_name, :email, :date_of_birth, :daily_activity, :frequency_of_exercise,
                                      :gender, :martial_status, :language_spoken, :ethnicity, :smoke, :alcohol, :medical_insurance, :customer_type, :diet,
-                                     :religious_affiliation, :mobile_number, :alternative_mobile_number, :number_of_children,
+                                     :religious_affiliation, :mobile_number, :alternative_mobile_number, :number_of_children, :hydrocare_subscripted, :blood_sos_subscripted,
                                      addresses_attributes: [:line1, :line2, :city, :state, :country, :id, :zip_code],
                                      customer_vitals_attributes: [:weight, :feet, :inches, :blood_group_id, :waist])
   end
@@ -574,8 +565,15 @@ class Customers::ApiController < BaseApiController
   end
 
   def water_consumption
-    @water = WaterConsumption.new(water_consumption_params)
-    if @water.save!
+    @water_consumption = WaterConsumption.find_by("customer_id = #{params[:water_consumption][:customer_id]} and  (to_char(consumed_date,'DD-MM-YYYY') =  '#{params[:water_consumption][:consumed_date]}')")
+    if @water_consumption
+      @water = @water_consumption.update(water_consumption_params)
+    else
+      @water = WaterConsumption.new(water_consumption_params)
+      @water.save!
+    end
+
+    if @water
       render :status => 200, :json => { :message => "success" }
     else
       render :status => 400, :json => { :error => "record not inserted" }
@@ -595,9 +593,9 @@ class Customers::ApiController < BaseApiController
     end
   end
 
-  def get_blood
-    @blood_group = params[:group]
-    render :status => 200, :json => { :message => "persons having same blood group:"+rand(10...100).to_s }
+  def blood_sos
+    @blood_group = params[:id]
+    render :status => 200, :json => { :message => "Your request has been sent to "+rand(10...100).to_s+" matching profiles within 10KM radius. incase they volunteer, they will call you back on your emergency contact number."}
   end
 
   def water_consumption_params
@@ -633,6 +631,18 @@ class Customers::ApiController < BaseApiController
       end
       vision_assessment['assessment_info'] = vision_assessment_info
       vision_assessment['recommendation'] = recommendation_array
+
+      comments_array = Array.new
+      @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{current_online_customer.id} and health_assessment_id=#{params[:id]} order by doctor_comments.created_at DESC")
+      @comments.each do |comments|
+        comments_results = Hash.new
+        comments_results['doctor_name'] = comments.doctor_name
+        comments_results['description'] = comments.description
+        comments_results['created_at'] = comments.created_at
+        comments_array.push(comments_results)
+      end
+      vision_assessment['comments'] = comments_array
+
       render json: {vision_assessment: vision_assessment}
     end
   end
@@ -670,6 +680,18 @@ class Customers::ApiController < BaseApiController
       end
       dental_assessment_results['assessments_info'] = dental_assessment_array
       dental_assessment_results['recommendation'] = recommendation_array
+
+      comments_array = Array.new
+      @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{current_online_customer.id} and health_assessment_id=#{params[:id]} order by doctor_comments.created_at DESC")
+      @comments.each do |comments|
+        comments_results = Hash.new
+        comments_results['doctor_name'] = comments.doctor_name
+        comments_results['description'] = comments.description
+        comments_results['created_at'] = comments.created_at
+        comments_array.push(comments_results)
+      end
+      dental_assessment_results['comments'] = comments_array
+
       render json: {dental_assessment: dental_assessment_results}
     end
   end
