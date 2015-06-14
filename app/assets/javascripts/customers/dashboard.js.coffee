@@ -27,6 +27,17 @@ $ ->
         if (customer_data.blood_group==false)
           $("#blood_group_section").parent().removeClass "hide"
 
+        if(customer_data.blood_pressure)
+          $("#blood_pressure_section").parent().removeClass "hide"
+
+        if(customer_data.blood_sugar!='-')
+          $("#blood_sugar_section").parent().removeClass "hide"
+
+        if(customer_data.water_intake==1 &&customer_data.blood_sos==false)
+          if($('#water_intake_chart').length>0)
+            water_intake_chart(consumed,actual)
+          $('#water_intake_chart').removeClass "hide"
+
         tiles = $(".dashboard_tiles > div:visible").length
         $(".dashboard_tiles > div:visible:eq(4)").css
           clear: "left"
@@ -81,6 +92,20 @@ $ ->
       validate: (value) ->
         "This field is required"  if $.trim(value) is ""
       emptytext: '-'
+
+  $('#Fasting_blood_sugar_id').editable
+    url: "/customers/customer_lab_results/update_blood_sugar"
+    title: "Fasting Blood sugar"
+    name:'result'
+    ajaxOptions:
+      type: 'put'
+    params: (params) ->
+      params
+    success: (response, newValue) ->
+      $('#blood_sugar_color').addClass(response.color)
+    validate: (value) ->
+      "This field is required"  if $.trim(value) is ""
+    emptytext: '-'
 
     $('.editable').editable
       success: (response, newValue) ->
@@ -667,3 +692,121 @@ $('#blood_glucose li').click (e) ->
   heading=$(this).text()
 #  $('#heading').html(heading)
   return
+
+$('.water_buttons').on "click", ->
+  water_intake_value=this.value
+  $.ajax
+    url: "/customers/customer_information/update_water_intake_value"
+    type: "POST"
+    data:
+      value: water_intake_value
+    success: (result) ->
+      $('#glassActualReading').text(result.water_consumed+'ml')
+      water_intake_chart(result.water_consumed,actual)
+    error: (xhr, status, error) ->
+
+water_intake_chart = (consumed,actual) ->
+  glassHeight = 150
+  glassFullWidth = 150
+  edgeWidth = 30
+  glassLeft = 0
+  glassTop = 0
+  ratio = 0
+  if($('#water_intake_chart').length>0)
+    if(consumed!=0 && actual!=0)
+      ratio=consumed/actual
+    if(ratio>1)
+      ratio=1
+  width = glassFullWidth - (edgeWidth * 2) + edgeWidth * 2 * ratio
+  borderTopWidth = glassHeight * ratio
+  marginTop = -1 * glassHeight * ratio
+  borderSide = edgeWidth * ratio
+  left = glassLeft + edgeWidth - (edgeWidth * ratio)
+  actualReadingTop = 140 - (glassHeight * ratio)
+  if(actualReadingTop<=4)
+    actualReadingTop = 4
+  $('#glassActualReading').css 'top', actualReadingTop
+  $('#glassFull').animate {
+    'left': left
+    'marginTop': marginTop
+    'borderTopWidth': borderTopWidth
+    'borderLeftWidth': borderSide
+    'borderRightWidth': borderSide
+    'width': width
+  }, 200
+  return
+
+$('.waterIntakeButton').click ->
+  water_intake_history()
+  return
+
+water_intake_history = () ->
+  $('.waterIntakePanel').toggleClass 'hide'
+  actual_consumptions=[]
+  water_consumed_data=[]
+  dates=[]
+  $.ajax
+    url: "/customers/customer_information/water_intake_history"
+    type: "GET"
+    success: (result) ->
+      i=0
+      for value in result.water_consumption_history
+        actual_consumptions.push [i,value.actual_consumption]
+        water_consumed_data.push [i,value.water_consumed]
+        dt=moment(value.consumed_date).format('MMMM Do')
+        dates.push  [i,dt]
+        i+=1
+
+      $('#water-intake-chart').length and $.plot($('#water-intake-chart'), [
+          {
+            data: actual_consumptions
+            label: 'Optimum Intake'            
+          }
+          {
+            data: water_consumed_data
+            label: 'Actual Intake'
+          }
+        ],
+        series:
+          lines:
+            show: true
+            lineWidth: 1
+            fill: true
+            fillColor: colors: [
+              { opacity: 0.3 }
+              { opacity: 0.3 }
+            ]
+          points: show: true
+          shadowSize: 2
+        grid:
+          hoverable: true
+          clickable: true
+          tickColor: '#f0f0f0'
+          borderWidth: 0
+
+        legend:
+          labelBoxBorderColor: 'none'
+          position: 'left'
+          noColumns: 0
+        colors: [
+          '#1bb399'
+          '#177bbb'
+        ]
+        xaxis:
+#          ticks: 15
+          tickDecimals: 0
+          ticks: dates
+        yaxis:
+          ticks: 5
+          tickDecimals: 0
+        tooltip: true
+        tooltipOpts:
+          content: (label, xval, yval, flotItem) ->
+#            xval=moment(xval).format('MMMM Do YYYY, h:mm:ss a')
+            label+' value:'+' <b>' + yval + '</b> <span> on ' + dates[xval][1] + '</span>'
+          defaultTheme: false
+          shifts:
+            x: 0
+            y: 20)
+
+    error: (xhr, status, error) ->

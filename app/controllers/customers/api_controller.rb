@@ -183,6 +183,17 @@ class Customers::ApiController < BaseApiController
     end
   end
 
+  def update_customer_address
+    @address = Address.find_by("addressee_id='#{params[:id]}' and addressee_type='Customer'")
+    respond_to do |format|
+      if @address.update_attributes(customer_addr_params)
+        format.json {render :status => 200, :json => { :message => "Success" }}
+      else
+        format.json {render :status => 400, :json => { :error => "Customer address not updated" }}
+      end
+    end
+  end
+
   def score_graph
     @customer = Customer.find(params[:id])
     @diabetic_score = diabetic_score
@@ -468,7 +479,7 @@ class Customers::ApiController < BaseApiController
           @componentHash['idealRange'] = @customer.standard_range(@info[:test_component_diff][:name]).split(',')[1]
           @componentHash['color']=@customer.resulted_component_value1(@info[:test_component_diff][:name], @info[:test_component_diff][:value], @assessment.id)[:color]
           @componentHash['lab_result_increased'] = @info[:test_component].lab_result_increased?(@customer)
-          @componentHash['result_history'] = @info[:test_component].test_component_values(@customer)
+          @componentHash['graph'] = @info[:test_component].lab_results_with_dates_for_api(@customer)
           @test_componentsArray.push(@componentHash)
           @mainHash['test_component'] = @test_componentsArray
         end
@@ -485,7 +496,7 @@ class Customers::ApiController < BaseApiController
       @assesmentHash['recommendation'] = recommendation_array
 
       comments_array = Array.new
-      @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{current_online_customer.id} and health_assessment_id=#{params[:id]} order by doctor_comments.created_at DESC")
+      @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{@customer.id} and health_assessment_id=#{params[:id]} order by doctor_comments.created_at DESC")
       @comments.each do |comments|
         comments_results = Hash.new
         comments_results['doctor_name'] = comments.doctor_name
@@ -516,13 +527,17 @@ class Customers::ApiController < BaseApiController
   def customer_params
     params.require(:customer).permit(:first_name, :last_name, :email, :date_of_birth, :daily_activity, :frequency_of_exercise,
                                      :gender, :martial_status, :language_spoken, :ethnicity, :smoke, :alcohol, :medical_insurance, :customer_type, :diet,
-                                     :religious_affiliation, :mobile_number, :alternative_mobile_number, :number_of_children, :hydrocare_subscripted, :blood_sos_subscripted,
+                                     :religious_affiliation, :mobile_number, :alternative_mobile_number, :number_of_children, :hydrocare_subscripted, :blood_sos_subscripted, :blood_sos_on_off,
                                      addresses_attributes: [:line1, :line2, :city, :state, :country, :id, :zip_code],
                                      customer_vitals_attributes: [:weight, :feet, :inches, :blood_group_id, :waist])
   end
 
   def customer_vitals_params
     params.require(:customer_vitals).permit(:weight, :feet, :inches, :blood_group_id, :customer_id, :waist)
+  end
+
+  def customer_addr_params
+    params.require(:address).permit(:line1, :line2, :city, :state, :country, :id, :zip_code)
   end
 
   def blood_groups
@@ -594,8 +609,56 @@ class Customers::ApiController < BaseApiController
   end
 
   def blood_sos
-    @blood_group = params[:id]
-    render :status => 200, :json => { :message => "Your request has been sent to "+rand(10...100).to_s+" matching profiles within 10KM radius. incase they volunteer, they will call you back on your emergency contact number."}
+    @customer = Customer.find(params[:id])
+    @purpose= params[:blood_sos][:purpose]
+    @emergency_number = params[:blood_sos][:emergency_number]
+    @latitude = params[:blood_sos][:latitude]
+    @longitude = params[:blood_sos][:longitude]
+    @bloog_group_id = CustomerVitals.find_by_customer_id(params[:id]).blood_group_id
+    @bloog_group = BloodGroup.find(@bloog_group_id).blood_type
+
+    if @bloog_group == 'A+'
+      supported_blood_groups = BloodGroup.where("blood_type in ('A+','AB+')")
+      ids = supported_blood_groups.collect(&:id).join(',')
+    elsif @bloog_group == 'A-'
+      supported_blood_groups = BloodGroup.where("blood_type in ('A-','A+','AB+','AB-')")
+      ids = supported_blood_groups.collect(&:id).join(',')
+    elsif @bloog_group == 'B+'
+      supported_blood_groups = BloodGroup.where("blood_type in ('B+','AB+')")
+      ids = supported_blood_groups.collect(&:id).join(',')
+    elsif @bloog_group == 'B-'
+      supported_blood_groups = BloodGroup.where("blood_type in ('B+','B-','AB+','AB-')")
+      ids = supported_blood_groups.collect(&:id).join(',')
+    elsif @bloog_group == 'AB+'
+      supported_blood_groups = BloodGroup.where("blood_type in ('AB+')")
+      ids = supported_blood_groups.collect(&:id).join(',')
+    elsif @bloog_group == 'AB-'
+      supported_blood_groups = BloodGroup.where("blood_type in ('AB-','AB+')")
+      ids = supported_blood_groups.collect(&:id).join(',')
+    elsif @bloog_group == 'O+'
+      supported_blood_groups = BloodGroup.where("blood_type in ('A+','B+','O+','AB+')")
+      ids = supported_blood_groups.collect(&:id).join(',')
+    elsif @bloog_group == 'O-'
+      supported_blood_groups = BloodGroup.where("blood_type in ('A+','A-','B+','B-','AB+','AB-','O+','O-')")
+      ids = supported_blood_groups.collect(&:id).join(',')
+    end
+
+    @address = Address.find_by("addressee_id= #{@customer.id}::text and addressee_type='Customer'")
+    if @address
+      supported_customers = @address.get_customers(10, ids, @latitude, @longitude, @customer.id)
+    else
+      @address = Address.find_by("addressee_id= #{Enterprise.find_by_enterprise_id('EK').id}::text and addressee_type='Enterprise'")
+      supported_customers = @address.get_customers(10, ids, @latitude, @longitude, @customer.id)
+    end
+    if @bloog_group[@bloog_group.length-1].to_s== '+'
+      sign = '%2B'
+    else
+      sign = ''
+    end
+    supported_customers.each do |records|
+      Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ records.mobile_number() +'&sender=EKCARE&message=Dear '+ records.first_name() +' -  '+ @customer.first_name() +' is seeking '+ @bloog_group+sign+' blood. Reason: '+ @purpose +', Age '+ @customer.age['year'].to_s() +', '+@customer.gender+'. If you would like to volunteer please reach out to them at '+@emergency_number+'. Call 888-678-3546 to unsubscribe. Powered by eKincare.com.')))
+    end
+    render :status => 200, :json => { :message => "Your request has been sent to "+supported_customers.length.to_s+" matching profiles within 10KM radius. incase they volunteer, they will call you back on your emergency contact number."}
   end
 
   def water_consumption_params
@@ -633,7 +696,7 @@ class Customers::ApiController < BaseApiController
       vision_assessment['recommendation'] = recommendation_array
 
       comments_array = Array.new
-      @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{current_online_customer.id} and health_assessment_id=#{params[:id]} order by doctor_comments.created_at DESC")
+      @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{@customer.id} and health_assessment_id=#{params[:id]} order by doctor_comments.created_at DESC")
       @comments.each do |comments|
         comments_results = Hash.new
         comments_results['doctor_name'] = comments.doctor_name
@@ -655,7 +718,7 @@ class Customers::ApiController < BaseApiController
 
   def dental_assessment
     @dental_assessment = HealthAssessment.find(params[:id])
-
+    @customer = Customer.find(@dental_assessment.customer_id)
     if @dental_assessment.examination.nil?
       render json: {dental_assessment: nil}
     else
@@ -682,7 +745,7 @@ class Customers::ApiController < BaseApiController
       dental_assessment_results['recommendation'] = recommendation_array
 
       comments_array = Array.new
-      @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{current_online_customer.id} and health_assessment_id=#{params[:id]} order by doctor_comments.created_at DESC")
+      @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{@customer.id} and health_assessment_id=#{params[:id]} order by doctor_comments.created_at DESC")
       @comments.each do |comments|
         comments_results = Hash.new
         comments_results['doctor_name'] = comments.doctor_name
@@ -694,6 +757,12 @@ class Customers::ApiController < BaseApiController
 
       render json: {dental_assessment: dental_assessment_results}
     end
+  end
+
+  def get_provider_name
+    name = params[:term]
+    provider_name =  Provider.select('name').where("lower(name) like '%#{name.downcase}%'").distinct
+    render json: {provider_name: provider_name}
   end
 
 end

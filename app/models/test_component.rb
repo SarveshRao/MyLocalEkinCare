@@ -155,4 +155,30 @@ class TestComponent < ActiveRecord::Base
     reversed_lab_results = Hash[lab_results.to_a.reverse]
   end
 
+  def lab_results_with_dates_for_api customer
+    lab_results = {}
+    lab_results_array = Array.new
+    customer.health_assessments.where(type: 'BodyAssessment').each do |body_assessment|
+      body_assessment.lab_results.each do |lab_result|
+        lab_results_hash = Hash.new
+        lonic_code = TestComponent.find(lab_result.test_component_id).lonic_code rescue nil
+        if lonic_code
+          if lonic_code == self.lonic_code
+            lab_results_hash['date'] = lab_result.created_at
+            lab_results_hash['result'] = lab_result.result.to_f
+            lab_results_array.push(lab_results_hash)
+          end
+        else
+          if lab_result.test_component_id == self.id
+            lab_results_hash['date'] = lab_result.created_at
+            lab_results_hash['result'] = lab_result.result.to_f
+            lab_results_array.push(lab_results_hash)
+          end
+        end
+      end
+    end
+    reversed_lab_results = lab_results_array.reverse
+    # reversed_lab_results = Hash[lab_results.to_a.reverse]
+  end
+
 end

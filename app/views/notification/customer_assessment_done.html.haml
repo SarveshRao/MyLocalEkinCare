@@ -1,0 +1,26 @@
+Dear #{@first_name.camelize} #{@last_name.camelize}
+%br
+%br Your results for a #{@assessment_type.downcase} assessment from #{@requested_date.strftime("%b %d, %Y")} conducted at #{@provider_name} have been received and published on your eKincare profile.
+%br
+%br
+%table{:cellpadding => "0", :cellspacing => "0"}
+  %tr
+    %td{:align => "center", :bgcolor => "#1AAE89", :height => "40", :style => "-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; display: block;", :width => "180"}
+      %a{:href => "#{@request_link}", :style => "font-size:16px; text-decoration: none; line-height:40px; width:100%; display:inline-block"}
+        %span{:style => "color: #000000 !important"} View my profile
+%br
+%br You can reach us at 888-678-3546 if you have any questions.
+%br
+%br
+%br Thank you,
+%br eKincare Team
+%br
+%br
+%br P.S: Please spare few minutes to rate your experience with eKincare. This helps us to serve you better
+%br
+%br
+%table{:cellpadding => "0", :cellspacing => "0"}
+  %tr
+    %td{:align => "center", :bgcolor => "#0da4cc", :height => "40", :style => "-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; display: block;", :width => "180"}
+      %a{:href => "https://docs.google.com/forms/d/1ZlZiKV9XwPMFR3ATq2MqUgKcDz1RCjtvthu-1PfPPsY/viewform", :style => "font-size:16px; text-decoration: none; line-height:40px; width:100%; display:inline-block"}
+        %span{:style => "color: #000000 !important"} Take the survey

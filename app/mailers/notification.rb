@@ -168,4 +168,16 @@ class Notification < ActionMailer::Base
          :subject => @doctor_comment.doctor_name.camelize + " provided new comments"
   end
 
+  def customer_assessment_done(first_name, last_name, assessment_type, requested_date, provider_name, email, request_link)
+    @first_name = first_name
+    @last_name = last_name
+    @assessment_type = assessment_type
+    @requested_date = requested_date
+    @provider_name = provider_name
+    @email = email
+    @request_link = request_link
+    mail :to => @email,
+         :subject => "Health Check Results"
+  end
+
 end

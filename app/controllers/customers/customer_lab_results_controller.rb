@@ -25,26 +25,37 @@ class Customers::CustomerLabResultsController < ApplicationController
 
     @hypertensive = @current_customer.has_hypertension
     @current_customer.update(is_hypertensive: @hypertensive ? "Hypertensive" : "No")
+    @hypertension_score=@current_customer.hypertension_score(1).round(3)
+    @hypertension_percentage=(@hypertension_score*100).round
 
     respond_to do |format|
-      format.json {render :json => {date:@updated_date, systolic_color:@systolic_color,diastolic_color: @diastolic_color,:status => 200 }}
+      format.json {render :json => {date:@updated_date,hypertension_score:@hypertension_percentage, systolic_color:@systolic_color,diastolic_color: @diastolic_color,:status => 200 }}
     end
   end
 
   def update_blood_sugar
     @customer=current_online_customer
-    @new_health_assessment=@customer.health_assessments.create(request_date:Time.now,assessment_type:'Body',status:'done',type:'BodyAssessment',status_code:6, enterprise_id: Enterprise.find_by_enterprise_id('EK').id)
-    @blood_sugar_component_id=params[:test_component_id]
-    result=params[:lab_result][:result]
+    @new_health_assessment=@customer.health_assessments.create(request_date:Time.now,assessment_type:'Body',status:'done',type:'BodyAssessment',status_code:6, enterprise_id: Enterprise.find_by_enterprise_id('EK').id,)
+    if params[:test_component_id]
+      @blood_sugar_component_id=params[:test_component_id]
+    else
+      @blood_sugar_component_id = TestComponent.find_by("lower(name)='fasting blood sugar' and enterprise_id=?", Enterprise.find_by_enterprise_id('EK').id).id
+    end
+    if params[:lab_result]
+      result=params[:lab_result][:result]
+    else
+      result=params[:undefined][:result]
+    end
     @updated_date=formatted_date (Time.now)
     @new_health_assessment.lab_results.create(test_component_id: @blood_sugar_component_id, result: result)
     @blood_sugar_color=get_color @blood_sugar_component_id,result, @new_health_assessment.id
 
     @diabetic = @customer.is_diabetic
     @customer.update(diabetic: @diabetic ? "Diabetic" : "No")
+    @diabetic_score=@customer.diabetic_score
 
     respond_to do |format|
-      format.json {render :json => {date:@updated_date, color:@blood_sugar_color ,name:'Fasting blood sugar',:status => 200 }}
+      format.json {render :json => {date:@updated_date, blood_sugar_id:@blood_sugar_component_id,diabetic_score:@diabetic_score,color:@blood_sugar_color ,name:'Fasting blood sugar',:status => 200 }}
     end
   end
 

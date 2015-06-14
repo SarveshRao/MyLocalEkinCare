@@ -523,6 +523,9 @@ $ ->
     if $('#health_assessment_doctor_name').val() == ''
       alert 'Please enter doctor name'
       return false
+    if $('.standard_rangevalue0').val()== '' and $('.standard_rangevalue1').val()== '' and $('.standard_rangevalue2').val()== '' and $('.standard_rangevalue3').val()== ''
+      alert 'Please enter atleast one standard range value'
+      return false
     return true
   $('.provider-name-save-btn').click ->
     if $('#health_assessment_provider_name').val() == ''
@@ -530,3 +533,18 @@ $ ->
       false
     else
       true
+
+  $("#SAVE_PROVIDER input").autocomplete
+    source: (request, response) ->
+      $.ajax
+        url: "/api/v1/get_provider_name"
+        data: term: request.term
+        dataType: "json"
+        success: (data) ->
+          repositories = data.provider_name.splice(0, 10)
+          items = $.map(repositories, (item) ->
+            label: item.name
+            value: item.name
+          )
+          response items
+    minLength: 2

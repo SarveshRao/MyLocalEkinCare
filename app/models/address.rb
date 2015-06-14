@@ -18,15 +18,19 @@ class Address < ActiveRecord::Base
   end
 
   def venus(distance, service)
-    Address.select("enterprises.name,branch").joins("inner join providers on providers.id::text = addresses.addressee_id inner join enterprises on enterprises.id = providers.enterprise_id and addressee_type='Provider' and enterprises.service_type='#{service}'").near([self.latitude,self.longitude], distance, :units => :km)
+    Address.select("enterprises.name,branch").joins("inner join providers on providers.id::text = addresses.addressee_id inner join enterprises on enterprises.id = providers.enterprise_id and addressee_type='Provider' and enterprises.service_type='#{service}' and provider_id!=''").near([self.latitude,self.longitude], distance, :units => :km)
   end
 
   def venus2(distance, service, enterprise_id)
-    Address.select("enterprises.name,branch").joins("inner join providers on providers.id::text = addresses.addressee_id inner join enterprises on enterprises.id = providers.enterprise_id and addressee_type='Provider' and enterprises.enterprise_id='#{enterprise_id}' and enterprises.service_type='#{service}'").near([self.latitude,self.longitude], distance, :units => :km)
+    Address.select("enterprises.name,branch").joins("inner join providers on providers.id::text = addresses.addressee_id inner join enterprises on enterprises.id = providers.enterprise_id and addressee_type='Provider' and enterprises.enterprise_id='#{enterprise_id}' and enterprises.service_type='#{service}' and provider_id!=''").near([self.latitude,self.longitude], distance, :units => :km)
   end
 
   def venus1(distance)
-    Address.select("enterprises.name,branch").joins("inner join providers on providers.id::text = addresses.addressee_id inner join enterprises on enterprises.id = providers.enterprise_id and addressee_type='Provider'").near([self.latitude,self.longitude], distance, :units => :km)
+    Address.select("enterprises.name,branch").joins("inner join providers on providers.id::text = addresses.addressee_id inner join enterprises on enterprises.id = providers.enterprise_id and addressee_type='Provider' and provider_id!=''").near([self.latitude,self.longitude], distance, :units => :km)
+  end
+
+  def get_customers(distance, ids, lat, long, customer_id)
+    Address.select("customers.first_name, mobile_number").joins("inner join customers on customers.id::text = addresses.addressee_id inner join customer_vitals on customers.id::text=customer_vitals.customer_id").where("addressee_type='Customer' and customer_vitals.blood_group_id in (#{ids}) and addresses.addressee_id!='#{customer_id}' and blood_sos_on_off=1").near([lat,long], distance, :units => :km)
   end
 
 end

@@ -16,8 +16,8 @@ class Customers::HealthAssessmentsController < CustomerAppController
     # @comments = DoctorComment.includes(:note).where(customer_id: current_online_customer.id).all
     if @type == 'Body'
       @body_assessments = current_online_customer.health_assessments.body_assessment_done
-      @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{current_online_customer.id} and health_assessment_id=#{@body_assessments.first.id} order by doctor_comments.created_at DESC")
       if @body_assessments.first
+        @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{current_online_customer.id} and health_assessment_id=#{@body_assessments.first.id} order by doctor_comments.created_at DESC")
         @body_assessment = HealthAssessment.find(@body_assessments.first.id)
         @assessment_id = @body_assessments.first.id
         @medical_records=@body_assessment.medical_records
@@ -25,8 +25,8 @@ class Customers::HealthAssessmentsController < CustomerAppController
       # body_assessment
     elsif @type == 'Dental'
       @dental_assessments = current_online_customer.health_assessments.dental_assessment_done
-      @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{current_online_customer.id} and health_assessment_id=#{@dental_assessments.first.id} order by doctor_comments.created_at DESC")
       if @dental_assessments.first
+        @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{current_online_customer.id} and health_assessment_id=#{@dental_assessments.first.id} order by doctor_comments.created_at DESC")
         @dental_assessment = HealthAssessment.find(@dental_assessments.first.id)
         @assessment_id = @dental_assessments.first.id
         @dental_medical_records=@dental_assessment.medical_records
@@ -34,8 +34,8 @@ class Customers::HealthAssessmentsController < CustomerAppController
       # dental_assessment
     elsif @type == 'Vision'
       @vision_assessments = current_online_customer.health_assessments.vision_assessment_done
-      @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{current_online_customer.id} and health_assessment_id=#{@vision_assessments.first.id} order by doctor_comments.created_at DESC")
       if @vision_assessments.first
+        @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{current_online_customer.id} and health_assessment_id=#{@vision_assessments.first.id} order by doctor_comments.created_at DESC")
         @vision_assessment = HealthAssessment.find(@vision_assessments.first.id)
         @assessment_id = @vision_assessments.first.id
         @vision_medical_records=@vision_assessment.medical_records

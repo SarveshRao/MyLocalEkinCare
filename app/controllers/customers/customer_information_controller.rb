@@ -17,8 +17,9 @@ class Customers::CustomerInformationController < ApplicationController
 
       respond_to do |format|
         format.json {render :json => { weight:@customer_vitals.weight,feet:@customer_vitals.feet,inches:@customer_vitals.inches,waist:@customer_vitals.waist,bmi:@customer.bmi,
-                            smoke:@customer.smoke,alcohol:@customer.alcohol,exercise:@customer.frequency_of_exercise,blood_sugar:@customer.assessment_body_sugar,
-                            blood_pressure:@blood_pressure_value,blood_group:@customer_vitals.blood_group_id.nil?,mother_health:@mother_health_status,father_health:@father_health_status}}
+                                       smoke:@customer.smoke,alcohol:@customer.alcohol,exercise:@customer.frequency_of_exercise,blood_sugar:@customer.assessment_body_sugar,
+                                       blood_pressure:@blood_pressure_value,blood_group:@customer_vitals.blood_group_id.nil?,mother_health:@mother_health_status,father_health:@father_health_status,
+                                       water_intake:@customer.hydrocare_subscripted,blood_sos:@customer.blood_sos_subscripted.nil?}}
       end
     else
       respond_to do |format|
@@ -82,6 +83,30 @@ class Customers::CustomerInformationController < ApplicationController
     end
   end
 
+  def water_intake_history
+    @customer=current_online_customer
+    @customer_water_consumptions=current_online_customer.water_consumptions.where(consumed_date: 1.week.ago..Date.today)
+    respond_to do |format|
+      format.json {render :json => { water_consumption_history:@customer_water_consumptions}}
+    end
+  end
+
+  def update_water_intake_value
+    @customer=current_online_customer
+    @todays_water_intake=@customer.water_consumptions.where(consumed_date:Date.today)
+    @water_intake_value=@todays_water_intake.first.water_consumed rescue 0
+    value=@water_intake_value.to_i+params[:value].to_i
+    if(@todays_water_intake && @todays_water_intake.first)
+        WaterConsumption.update(@todays_water_intake.first.id,:water_consumed=>value)
+    else
+      optimal_value=@customer.optimal_water_intake.round(2)
+      WaterConsumption.create(customer_id:@customer.id,consumed_date:Date.today(),water_consumed:value,actual_consumption:optimal_value)
+    end
+    respond_to do |format|
+      format.json {render :json => {water_consumed:value}}
+    end
+  end
+
   def get_message_prompts
     @customer=current_online_customer
     @gender=@customer.gender
@@ -101,7 +126,7 @@ class Customers::CustomerInformationController < ApplicationController
 
   protected
   def customer_params
-    params.require(:customer).permit(:daily_activity, :frequency_of_exercise, :smoke,:alcohol)
+    params.require(:customer).permit(:daily_activity, :frequency_of_exercise, :smoke,:alcohol,:hydrocare_subscripted,:blood_sos_subscripted)
   end
 
   def customer_vitals_params

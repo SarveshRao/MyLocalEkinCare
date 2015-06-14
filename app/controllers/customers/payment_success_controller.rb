@@ -53,18 +53,7 @@ class Customers::PaymentSuccessController < CustomerAppController
                                          checksum: @hash, error: @error, pg_type: @pg_type, bank_ref_num: @bank_ref_num, unmappedstatus: @unmappedstatus, payumoney_id: @payu_id, package_id: @package.id)
 
     if @payment_details.save!
-      @coupon=Coupon.find(@coupon_id.to_i)
-      @customer_coupon=CustomerCoupon.where("customer_id = ? AND coupon_id = ?",@customer.id, @coupon_id.to_i).first
-      if @customer_coupon
-        if((@customer_coupon.is_coupon_applied?) and (@customer_coupon.is_coupon_used? ==false))
-          CustomerCoupon.update(@customer_coupon.id,txn_id:@txnid)
-          usage_count=@coupon.no_of_users_used rescue 0
-          if usage_count.nil?
-            usage_count = 0
-          end
-          Coupon.update(@coupon.id,no_of_users_used:usage_count+1)
-        end
-      end
+
       unless @package.appointment_body.nil?
         appointment_body = @package.appointment_body.to_s
         appointment_body = appointment_body[0,appointment_body.length-7]
@@ -116,6 +105,21 @@ class Customers::PaymentSuccessController < CustomerAppController
       url = request.protocol + request.host_with_port
       Notification.customer_payment_success(@name, @payu_id, @amount, @discount, @txnid, @mode,@customer.email, @reduced_amount, @customer.customer_id, url).deliver!
       Notification.customer_appointment_success(appointment_body, appointment_dental, appointment_vision, @name, @package_detail.name, @package_detail.mrp, @amount, @package_detail.discount, customer_address, @customer.email, dental_address, vision_address, provider_dental, provider_vision, url).deliver!
+
+      if @coupon_id!=''
+        @coupon=Coupon.find(@coupon_id.to_i)
+        @customer_coupon=CustomerCoupon.where("customer_id = ? AND coupon_id = ?",@customer.id, @coupon_id.to_i).first
+        if @customer_coupon
+          if((@customer_coupon.is_coupon_applied?) and (@customer_coupon.is_coupon_used? ==false))
+            CustomerCoupon.update(@customer_coupon.id,txn_id:@txnid)
+            usage_count=@coupon.no_of_users_used rescue 0
+            if usage_count.nil?
+              usage_count = 0
+            end
+            Coupon.update(@coupon.id,no_of_users_used:usage_count+1)
+          end
+        end
+      end
     end
   end
 end

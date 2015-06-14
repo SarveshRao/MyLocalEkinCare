@@ -12,6 +12,49 @@
                 %span.block.m-t-xs
                   %strong.font-bold.text-lt
                     = current_online_customer.name
+        .familyMembers
+          .familyMember{"data-content" => "Mukesh Manda", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", :style => "background:#FF7163"} MM
+          .familyMember{"data-content" => "Surendra Nath Manda", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", :style => "background:#8C94C9"} SM
+          .familyMember{"data-content" => "Padma Kumari Manda", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", :style => "background:#52B09E"} PM
+          .familyMember{"data-content" => "Narasimha Murthy Manda", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", :style => "background:#595C8C"} NM
+          .familyMember{"data-content" => "Mukesh Manda", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", :style => "background:#FF7163"} MM
+          .familyMember{"data-content" => "Surendra Nath Manda", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", :style => "background:#8C94C9"} SM
+          .familyMember{"data-content" => "Padma Kumari Manda", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", :style => "background:#52B09E"} PM
+          .familyMember{"data-content" => "Narasimha Murthy Manda", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", :style => "background:#595C8C"} NM
+          .clearfix{:style => "clear:right"}
+        - if @current_online_customer.guardian_id.nil?
+          %a#addFamilyMember.bg-success Add family member
+          %section#addFamilyMemberForm
+            %section.panel
+              %header.panel-heading.font-bold{:style => "padding-bottom:0;"} Add Family Member
+              .panel-body
+                %form{:role => "form"}
+                  %input#guardian_id{:type => "hidden", :name => "guardian_id", :value => "#{@current_online_customer.id}"}
+                  .form-group{:style => "width:49%;display:inline-block;"}
+                    %input#first_name.form-control.validate_input{:placeholder => "First Name", required: true, :type => "text"}
+                  .form-group{:style => "width:49%;display:inline-block"}
+                    %input#last_name.form-control.validate_input{:placeholder => "Last Name", required: true, :type => "text"}
+                  .btn-group{:style => "margin-bottom:15px;width:49%"}
+                    %select#sex.form-control.parsley-validated.validate_input{:name => "sex", required: true, }
+                      %option{:value => ""} Sex
+                      %option{:value => "Male"} Male
+                      %option{:value => "Female"} Female
+                  .btn-group{:style => "margin-bottom:15px;float:right;width:49%"}
+                    %select#relation.form-control.parsley-validated.validate_input{:name => "relation", required: true, }
+                      %option{:value => ""} Relation
+                      %option{:value => "Father"} Father
+                      %option{:value => "Mother"} Mother
+                      %option{:value => "Brother"} Brother
+                      %option{:value => "Sister"} Sister
+                      %option{:value => "Son"} Son
+                      %option{:value => "Daughter"} Daughter
+                  .form-group
+                    %input#email.form-control.validate_input{:placeholder => "Email", required: true, :type => "email"}
+                  .form-group
+                    %input#mobile_number.form-control.validate_input{:placeholder => "Mobile Number", required: true, :type => "text"}
+                  .form-group
+                    %input#dob.form-control.validate_input{:placeholder => "Date of Birth", class: 'datepicker_1 p-l', 'readonly' => 'readonly', required: true, 'data-date-format' => 'dd-mm-yyyy', placeholder: 'Date of birth'}
+                  %button.btn.btn-sm.btn-default.btn-primary#addAccount Add Family Member
         %nav.nav-primary.hidden-xs
           &nbsp;
           %ul.nav.nav-main{"data-ride" => "collapse"}
@@ -92,3 +135,81 @@
                   %a.auto{href: customers_immunizations_path}
                     %i.i.i-dot
                     %span Immunizations
+:javascript
+  $(document).ready(function(){
+    $("#addFamilyMemberForm").hide();
+
+    // disable button until all fields are filled
+    var enableButton = function(){
+      $("#addAccount").removeAttr('disabled');
+      $('.validate_input').each(function(){
+        if($(this).val() == '')
+        {
+          $("#addAccount").attr('disabled', 'disabled');
+        }
+      });
+    };
+
+    $("#addAccount").attr('disabled', 'disabled');
+    $('.validate_input').keydown(function(){
+      enableButton();
+    });
+
+    $("#sex, #relation").change(function(){
+      enableButton();
+    });
+
+
+    $("#addFamilyMember").click(function(){
+        $("#addFamilyMemberForm").toggle();
+    });
+
+    $("#addAccount").click(function(){
+      var first_name = $("#first_name").val();
+      var last_name = $("#last_name").val();
+      var sex = $("#sex").val();
+      var relation = $("#relation").val();
+      var email = $("#email").val();
+      var guardian_id = $("#guardian_id").val();
+      var mobile_number = $("#mobile_number").val();
+      var dob = $("#dob").val();
+
+      //Validate inputs
+
+      $('.close').trigger('click');
+      var errorDiv = '<div id="errorDiv" class="alert alert-danger text-center"><button class="close" data-dismiss="alert" type="button">×</button><i class="fa fa-ok-sign"></i>Mobile number has already been taken</div>';
+      $(".header").prepend(errorDiv);
+
+      var returnValue = false;
+      $.ajax({
+        type: "POST",
+        url: "/register_family_member",
+        data: {
+          first_name: first_name,
+          last_name: last_name,
+          gender: sex,
+          relation: relation,
+          email: email,
+          guardian_id: guardian_id,
+          mobile_number: mobile_number,
+          date_of_birth: dob
+          },
+        async: false,
+        statusCode: {
+          200: function(){
+            returnValue = true;
+          },
+          409: function(){
+            $('.close').trigger('click');
+            var errorDiv = '<div id="errorDiv" class="alert alert-danger text-center"><button class="close" data-dismiss="alert" type="button">×</button><i class="fa fa-ok-sign"></i>Mobile number has already been taken</div>';
+            $(".header").prepend(errorDiv);
+            returnValue = false;
+          }
+        },
+        success: function(data){
+        },
+        dataType: 'json'
+      });
+      return returnValue;
+    });
+  });

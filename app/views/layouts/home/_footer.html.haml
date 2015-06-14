@@ -1,5 +1,5 @@
 :javascript
-  var TConnecto = TConnecto || {};
+  var _TConnecto = _TConnecto || {};
   _TConnecto.licenseKey = 'K2U3X0E59YTWVQDY';
 
   (function() {
@@ -9,6 +9,22 @@
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(con, s);
   })();
+:javascript
+  var _fbq = window._fbq || (window._fbq = []);
+  if (!_fbq.loaded) {
+  var fbds = document.createElement('script');
+  fbds.async = true;
+  fbds.src = '//connect.facebook.net/en_US/fbds.js';
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(fbds, s);
+  _fbq.loaded = true;
+  }
+  _fbq.push(['addPixelId', '1405174256477926']);
+  window._fbq = window._fbq || [];
+  window._fbq.push(['track', 'PixelInitialized', {}]);
+
+%noscript
+  %img{:alt => "", :height => "1", :src => "https://www.facebook.com/tr?id=1405174256477926&amp;ev=PixelInitialized", :style => "display:none", :width => "1"}/
 
 %footer{:role => "contentinfo"}
   .row

@@ -16,6 +16,7 @@ $(function() {
         cIndex = 0;
         cXpos = 0;
         var FPS;
+        $('#loaderPageImage').show()
         document.getElementById(cLoaderId).style.backgroundImage = 'url(' + cImageSrc + ')';
         document.getElementById(cLoaderId).style.width = cWidth + 'px';
         document.getElementById(cLoaderId).style.height = cHeight + 'px';
@@ -63,6 +64,7 @@ $(function() {
     window.stopAnimation = function() {
         clearTimeout(cPreloaderTimeout);
         cPreloaderTimeout = false;
+        $('#loaderPageImage').hide()
     };
     window.imageLoader = function(fun, cLoaderId_new, cSpeed_new, cWidth_new, cHeight_new, cTotalFrames_new, cFrameWidth_new, cImageSrc_new) {
         var genImage;

@@ -16,17 +16,18 @@
     %section
       %header.wrapper.text-center
         %p
-          We've sent One Time Password (OTP) to your registered phone number, Please enter below.
+          We've sent verification code to your phone to verify your mobile number. Please enter the 6 digit code below to complete the registration.
     %section.m-b-lg
-      = form_for("online_customer", url: registration_path(resource_name), html:{id: 'new_customer_registration'} ) do |f|
+      = form_for("online_customer", url: registration_otp_path, html:{id: 'new_customer_registration'} ) do |f|
         .list-group
+          %input{:name => "mobile_number", :id => "mobile_number", :type => "hidden", :value => "#{cookies[:mobile_number]}"}/
           .list-group-item
-            = f.text_field :otp, class: 'form-control no-border ', required: true, autofocus: true,  placeholder: 'Enter your One Time Password (OTP)'
-        = f.submit "Create an account", {class: 'btn btn-lg btn-primary btn-block '}
+            = f.text_field :otp, class: 'form-control no-border ', required: true, autofocus: true,  placeholder: 'Enter your verification code'
+        = f.submit "Sign In", {class: 'btn btn-lg btn-primary btn-block '}
         %p.text_muted.text-center
-          %a{:href => faq_about_index_path, style: 'color: #177bbb !important'} What is One Time Password (OTP)
+          %a{:href => faq_about_index_path, style: 'color: #177bbb !important'} What is verification code
         .line.line-dashed.m-b-none
-        %a.btn.btn-lg.btn-default.btn-block{href: resend_registration_otp_path} Resend One Time Password (OTP)
+        %a.btn.btn-lg.btn-default.btn-block{href: resend_registration_otp_path} Resend verification code
 
 
 %footer#footer

@@ -29,8 +29,16 @@ class Staff::HealthAssessmentsController < StaffController
       @enterprise = Enterprise.find(params[:health_assessment][:enterprise_id])
       enterprise_name = @enterprise.name
     end
+    if params[:health_assessment][:provider_name]
+      @provider = Provider.create(name: params[:health_assessment][:provider_name], enterprise_id: Enterprise.find_by_enterprise_id('EK').id)
+    end
     @customer_health_assessment.update(health_assessment_params) do |cha|
       cha.status_code = status_code
+    end
+
+    if status_code == 6
+      request_link = request.protocol + request.host_with_port + "/customers/health_assessments?type="+@customer_health_assessment.assessment_type
+      Notification.customer_assessment_done(@customer.first_name, @customer.last_name, @customer_health_assessment.assessment_type, @customer_health_assessment.request_date, @customer_health_assessment.provider_name, @customer.email, request_link).deliver!
     end
 
     assessment_requested_date = formatted_date @customer_health_assessment.request_date

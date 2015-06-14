@@ -43,6 +43,7 @@ class Customer < ActiveRecord::Base
   has_many :medical_records, as: :record
   has_many :identities, dependent: :destroy
   has_many :promo_codes
+  has_many :water_consumptions
 
   has_one_time_password
   has_many :doctor_opinions
@@ -808,6 +809,10 @@ class Customer < ActiveRecord::Base
     false
   end
 
+  def optimal_water_intake
+    optimal_water_intake=self.customer_vitals.weight.to_f/0.024
+  end
+  
   def email_required?
     false
   end

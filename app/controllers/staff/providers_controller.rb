@@ -13,7 +13,7 @@ class Staff::ProvidersController < StaffController
     end
     session[:selected_enterprise_id] = @enterprise_id
     #Rails.logger.debug("enterprise ID :#{@enterprise_id.inspect}")
-    @providers = Provider.where(enterprise_id: @enterprise_id)
+    @providers = Provider.where("enterprise_id= #{@enterprise_id} and provider_id!=''")
     @provider_test = ProviderTest.joins("inner join enterprises on enterprises.id=provider_tests.provider_id where enterprises.id=#{@enterprise_id} ")
     @provider_test.each do |type|
       type.class_eval do
@@ -48,7 +48,7 @@ class Staff::ProvidersController < StaffController
         end
       end
     end
-    @branches = Provider.where(enterprise_id: @enterprise_id).order('provider_id ASC')
+    @branches = Provider.where("enterprise_id= #{@enterprise_id} and provider_id!=''").order('provider_id ASC')
     @enterprise = Enterprise.find(@enterprise_id)
     #@staff = Staff.find_by_admin_id(@enterprise_id)
 
@@ -65,7 +65,7 @@ class Staff::ProvidersController < StaffController
 
   def new
     @provider = Provider.new
-    id = Provider.where(enterprise_id: session[:selected_enterprise_id]).order("id desc").limit(1).pluck("provider_id")
+    id = Provider.where("enterprise_id = #{session[:selected_enterprise_id]} and  provider_id !=''").order("id desc").limit(1).pluck("provider_id")
     enterprise_id = Enterprise.find(session[:selected_enterprise_id]).enterprise_id
     if id.empty?
       new_id = enterprise_id + 1.to_s
@@ -90,7 +90,7 @@ class Staff::ProvidersController < StaffController
   def update
     @provider = Provider.find(params[:id])
     @provider.update provider_params
-    @branches = Provider.where(enterprise_id: session[:selected_enterprise_id]).order('provider_id ASC')
+    @branches = Provider.where("enterprise_id = #{session[:selected_enterprise_id]} and  provider_id !=''").order('provider_id ASC')
     respond_to do |format|
       format.html { render "providerListing", :layout => !request.xhr?, :locals => {:branches => @branches} }
     end
@@ -108,7 +108,7 @@ class Staff::ProvidersController < StaffController
     @Provider.staff.password = SecureRandom.hex(4)
     @Provider.save!
     # Notification.staff_account_notifier(@Provider.staff).deliver!
-    @branches = Provider.where(enterprise_id: session[:selected_enterprise_id]).order('provider_id ASC')
+    @branches = Provider.where("enterprise_id = #{session[:selected_enterprise_id]} and  provider_id !=''").order('provider_id ASC')
     respond_to do |format|
       format.html { render "providerListing", :layout => !request.xhr?, :locals => {:branches => @branches} }
     end

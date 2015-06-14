@@ -1,0 +1,138 @@
+= content_for :title, 'Sign up'
+
+- content_for :zopim_chat do
+  :javascript
+    window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
+    d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+    _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute('charset','utf-8');
+    $.src='//v2.zopim.com/?2Um2B0Y0KEgOyEsT8WLIjMFjSeBkufvQ';z.t=+new Date;$.
+    type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
+%head
+  <script>(function() {
+  var _fbq = window._fbq || (window._fbq = []);
+  if (!_fbq.loaded) {
+  var fbds = document.createElement('script');
+  fbds.async = true;
+  fbds.src = '//connect.facebook.net/en_US/fbds.js';
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(fbds, s);
+  _fbq.loaded = true;
+  }
+  })();
+  window._fbq = window._fbq || [];
+  window._fbq.push(['track', '6025689838855', {'value':'0.01','currency':'USD'}]);
+  </script>
+  <noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?ev=6025689838855&amp;cd[value]=0.01&amp;cd[currency]=USD&amp;noscript=1" /></noscript>
+%div.clearfix.breadcrumb
+  %ol.padder
+    = render_breadcrumbs :separator => ' / '
+    %small.pull-right
+      Contact: 888-678-EKIN (3546) /
+      %a{href: 'mailto:founder@ekincare.com'} founder@ekincare.com
+
+%section#content.m-t-lg.wrapper-md.animated.fadeInUp
+  .container.aside-xl
+    %section.m-b-lg
+      = form_for(Customer.new, url: register_family_member_path, html:{id: 'new_customer_registration'}) do |f|
+        .list-group
+          .list-group-item
+            = f.text_field :first_name, class: 'form-control no-border ', required: true, autofocus: true,  placeholder: 'First name'
+          .list-group-item
+            = f.text_field :last_name, class: 'form-control no-border ', required: true,  placeholder: 'Last name'
+          .list-group-item
+            = f.email_field :email, class: 'form-control no-border ', required: true,  placeholder: 'Email'
+          .list-group-item
+            = f.text_field :mobile_number, class: 'form-control no-border numeric', required: true,  placeholder: 'Phone number', rangelength: [10,13]
+          .list-group-item
+            = f.text_field :date_of_birth, {class: 'form-control no-border datepicker_1 p-l', 'readonly' => 'readonly', required: true, 'data-date-format' => 'dd-mm-yyyy', placeholder: 'Date of birth (DD-MM-YYYY)'}
+          .list-group-item
+            .i-checks.m-none
+              .row.no-gutter
+                .col-md-4.col-sm-4
+                  %label{style: 'padding-left: 10px'}
+                    &nbsp;
+                    = f.radio_button :gender, :Male, checked: true, required: true, class: 'p-l'
+                    %i
+                    Male
+                .col-md-4.col-sm-4
+                  %label{style: 'padding-left: 16px'}
+                    = f.radio_button :gender, :Female, required: true, html: {class: 'p-l', style: 'padding-left: 15px !important pull-right'}
+                    %i
+                    Female
+                .col-md-4.col-sm-4
+
+          .list-group-item
+            = f.password_field :password, class: 'form-control no-border ', required: true, 'data-parsley-length' => '[8, 20]', autocomplete: "off",  placeholder: 'Password'
+        .checkbox.m-b
+          %label
+            %input{:type => "checkbox", name: 'license', required: true, id: 'agreement' }
+            Agree the
+            %a{:href => terms_and_conditions_about_index_path, id: 'terms_and_policy_link', style: 'color: #177bbb !important'} terms and conditions
+        = f.submit "Sign up", {class: 'btn btn-lg btn-primary btn-block ', id: 'ekincare_register'}
+        .line.line-dashed.m-b-none
+        %p.text-muted.text-center
+          %small Already have an account?
+        %a.btn.btn-lg.btn-default.btn-block{href: online_customer_session_path} Sign in
+
+
+%footer#footer
+  .text-center.padder
+    %p
+      %small.current_year
+
+:javascript
+
+  $(document).ready(function(){
+    var valid_unique_input = true;
+    $('.current_year').text("\© " + new Date().getFullYear() + " eKincare");
+
+    //Mobile number validation
+    $(".numeric").keydown(function (e) {
+      // Allow: backspace, delete, tab, escape, enter and .
+      if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+              // Allow: Ctrl+A
+          (e.keyCode == 65 && e.ctrlKey === true) ||
+              // Allow: home, end, left, right, down, up
+          (e.keyCode >= 35 && e.keyCode <= 40)) {
+          // let it happen, don't do anything
+          return;
+      }
+      // Ensure that it is a number and stop the keypress
+      if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+          e.preventDefault();
+      }
+
+      var pattern_mobile_number = /^\d{13}$/;
+      if (pattern_mobile_number.test($(this).val())) {
+        e.preventDefault();
+      }
+    });
+
+    $("#ekincare_register").click(function(){
+      $('.close').trigger('click');
+      var returnValue = true;
+      // Check if email already exists and post only if it is not duplicate
+      $.ajax({
+        type: "GET",
+        url: "/api/v1/validate_email",
+        data: {email: $("#online_customer_email").val()},
+        async: false,
+        statusCode: {
+          200: function(){
+            returnValue = true;
+          },
+          409: function(){
+            $('.close').trigger('click');
+            var errorDiv = '<div id="errorDiv" class="alert alert-danger text-center"><button class="close" data-dismiss="alert" type="button">×</button><i class="fa fa-ok-sign"></i>Email has already been taken</div>';
+            $("#content").prepend(errorDiv);
+            returnValue = false;
+          }
+        },
+        success: function(data){
+        },
+        dataType: 'json'
+      });
+      return returnValue;
+    });
+
+  });

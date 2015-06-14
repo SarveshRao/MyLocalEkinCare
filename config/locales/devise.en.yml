@@ -39,6 +39,8 @@ en:
       updated_not_active: "Your password was changed successfully."
     registrations:
       confirmation: "A confirmation email has been sent to the registered email. Please verify to move forward"
+      otp_confirmation: "We've sent verification code to your phone to verify your mobile number. Please enter the 6 digit code below to complete the registration."
+      mobile_otp_confirmation: "Your mobile number is already registered with eKincare. We've re-sent the verification code. Please enter the 6 digit verification code to complete your registration (valid only for 15 min)."
       sign_in: "Congratulations! your registration is confirmed."
       destroyed: "Bye! Your account was successfully cancelled. We hope to see you again soon."
       signed_up: "Welcome! You have signed up successfully."
@@ -49,12 +51,12 @@ en:
       updated: "You updated your account successfully."
       online_customer:
         sms_sent: "We have sent OTP to your mobile. Please enter the OTP to login. OTP is valid only for next 15 minutes."
-        wrong_otp: "You have entered invalid OTP or it may have been expired, please try again."
+        wrong_otp: "You have entered invalid verification code or it may have been expired, please try again."
 
     sessions:
       online_customer:
         unconfirmed: "You have to confirm your account before continuing."
-        wrong_otp: "You have entered invalid OTP or it may have been expired, please try again."
+        wrong_otp: "You have entered invalid verification code or it may have been expired, please try again."
         wrong_mobile_number: "Mobile number you have entered is not registered with eKincare. Please register before you login."
       signed_in: "Signed in successfully."
       signed_out: "Signed out successfully."

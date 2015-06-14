@@ -29,7 +29,6 @@
     %small.pull-right
       Contact: 888-678-EKIN (3546) /
       %a{href: 'mailto:founder@ekincare.com'} founder@ekincare.com
-
 %div{style: 'min-height: 1000px'}
   %section.scrollable.wrapper.w-f
     %div.row
@@ -76,7 +75,11 @@
                     %img{:src => asset_path("icons/blood.png")}/
                     .answer{:id=>'blood_group_choice',:style => ""}
                       .ekin-choices
+                        :javascript
+                          var customer_blood_type={};
                       - BloodGroup.all.each do |blood_group|
+                        :javascript
+                          customer_blood_type['#{blood_group.id}']='#{blood_group.blood_type}'
                         %button.btn.btn-default.ekin-choice.blood-group{:name => "blood_group",:type => "button",:id=>blood_group.id}
                           =blood_group.blood_type
                       #blood_group_error.validation-error.hide
@@ -98,7 +101,7 @@
                     .answer{:id=>'alcohol-choices-id',:style => ""}
                       .ekin-choices
                         %button.btn.btn-default.ekin-choice.full.alcohol{:type => "button",:value=>'Frequently'} Frequently
-                        %button.btn.btn-default.ekin-choice.full.alcohol{:type => "button",:value=>'Ocasionally'} Ocasionally
+                        %button.btn.btn-default.ekin-choice.full.alcohol{:type => "button",:value=>'Occasionally'} Occasionally
                         %button.btn.btn-default.ekin-choice.full.alcohol{:type => "button",:value=>'Never'} Never
                       #alcohol_error.validation-error.hide
                         select any option
@@ -109,7 +112,7 @@
                     .answer{:id=>'smoke-choices-id',:style => ""}
                       .ekin-choices
                         %button.btn.btn-default.ekin-choice.full.smoke{:type => "button",:value=>'Frequently'} Frequently
-                        %button.btn.btn-default.ekin-choice.full.smoke{:type => "button",:value=>'Ocasionally'} Ocasionally
+                        %button.btn.btn-default.ekin-choice.full.smoke{:type => "button",:value=>'Occasionally'} Occasionally
                         %button.btn.btn-default.ekin-choice.full.smoke{:type => "button",:value=>'Never'} Never
                       #smoke_error.validation-error.hide
                         select any option
@@ -121,7 +124,7 @@
                     .answer{:id=>'exercise-choices-id',:style => ""}
                       .ekin-choices
                         %button.btn.btn-default.ekin-choice.full.exercise{:type => "button",:value=>'Frequently'} Frequently
-                        %button.btn.btn-default.ekin-choice.full.exercise{:type => "button",:value=>'Ocasionally'} Ocasionally
+                        %button.btn.btn-default.ekin-choice.full.exercise{:type => "button",:value=>'Occasionally'} Occasionally
                         %button.btn.btn-default.ekin-choice.full.exercise{:type => "button",:value=>'Never'} Never
                       #exercise_error.validation-error.hide
                         select any option
@@ -160,6 +163,36 @@
                   %br/
                   #family-info-message
                     Do you know that your heart beats about 1,00,000 times in a day
+            %section.row.m-b-md.padder.hide{:id=>'water_intake'}
+              .col-xs-12.wizard-section
+                .wizard-heading Let's Customize your account
+                .col-xs-6.question.question-left{:style => ""}
+                  .question-content
+                    .question-text  Do you want to track your water intake?
+                    %img{:src => asset_path("icons/Water Glass.png"), :style => ""}/
+                    .answer{:id=>'water-choices-id',:style => ""}
+                      .ekin-choices
+                        %button.btn.btn-default.ekin-choice.full.water_intake{:type => "button",:value=>1} Yes
+                        %button.btn.btn-default.ekin-choice.full.water_intake{:type => "button",:value=>0} No
+                      #water_intake_error.validation-error.hide
+                        select any option
+                .col-xs-6.question.question-right
+                  .question-content
+                    .question-text Do you wish to subscribe for Blood SOS program?
+                    %img{:src => asset_path("icons/blood.png")}/
+                    .answer{:id=>'smoke-choices-id',:style => ""}
+                      .ekin-choices
+                        %button.btn.btn-default.ekin-choice.full.blood_sos{:type => "button",:value=>1} Yes
+                        %button.btn.btn-default.ekin-choice.full.blood_sos{:type => "button",:value=>0} No
+                      #blood_sos_error.validation-error.hide
+                        select any option
+                    .btn.btn-default.btn-success.wixard-next-button{:id=>'water_intake_next',:style => "bottom:-50px;"} Next
+                .ekin-wizard-message.col-xs-12{:style => ""}
+                  Hey
+                  = current_online_customer.first_name
+                  %br/
+                  #activities-message
+                    Do you know that your heart beats about 1,00,000 times in a day.
             %section.row.m-b-md.padder.hide{:id=>'health_information'}
               .col-xs-12.wizard-section
                 .wizard-heading Let's Customize your account
@@ -192,7 +225,7 @@
           .panel-heading.no-border.bg-primary.lt
             %a.h4.text-lt.m-t-sm.m-b-sm.block.font-bold{:href => "#"} Risk of Hypertension
           .panel-body
-            #b-c.text-center
+            #b-c.text-center#chart_score
               .hypertension_chart.inline.m-b.m-t{"data-animate" => "2000", "data-bar-Color" => "#afc5de", "data-line-cap" => "butt", "data-line-width" => "10", "data-percent" => @hypertension_percentage, "data-scale-Color" => "false", "data-size" => "150", "data-track-Color" => "#f2f4f8"}
                 %div
                   %span.h1.m-l-sm.step.font-bold#hypertension-score>
@@ -209,20 +242,34 @@
             .col-md-3.b-r.text-center
               %small.text-muted
                 %i.i.i-info{title: "If your risk is above the optimal profile, please consider serious lifestyle changes like exercising regularly, losing weight"}
-
-          %div
-            %section.panel.panel-default#hypertension_history_chart
-              .panel-heading.no-border.bg-primary.lt
-                %a.h4.text-lt.m-t-sm.m-b-sm.block.font-bold{:href => "#"} Hypertension Prediction
-              .panel-body.text-center
-                #flot-bar{:style => "height:180px"}
-              .clearfix.panel-footer.panel-graph-padding
-                .col-md-9.b-r
-                  %a#hypertension_history_graph
-                    %i.fa.fa-toggle-left
-                .col-md-3.b-r.text-center
-                  %small.text-muted
-                    %i.i.i-info{title: "If your risk is above the optimal profile, please consider serious lifestyle changes like exercising regularly, losing weight"}
+        %section.panel.panel-default.hide#hypertension_text
+          .panel-heading.no-border.bg-primary.lt
+            %a.h4.text-lt.m-t-sm.m-b-sm.block.font-bold{:href => "#"} Hypertension Prediction
+          .panel-body.text-center
+            Please Enter blood pressure values to see the hypertension score
+            %br
+              %a.badge.bg-dark#bp_values
+                Click Here
+              to enter values
+          .clearfix.panel-footer.panel-graph-padding
+            .col-md-9.b-r
+              %a
+                %i.fa.fa-toggle-left
+            .col-md-3.b-r.text-center
+              %small.text-muted
+                %i.i.i-info{title: "If your risk is above the optimal profile, please consider serious lifestyle changes like exercising regularly, losing weight"}
+        %section.panel.panel-default#hypertension_history_chart
+          .panel-heading.no-border.bg-primary.lt
+            %a.h4.text-lt.m-t-sm.m-b-sm.block.font-bold{:href => "#"} Hypertension Prediction
+          .panel-body.text-center
+            #flot-bar{:style => "height:180px"}
+          .clearfix.panel-footer.panel-graph-padding
+            .col-md-9.b-r
+              %a#hypertension_history_graph
+                %i.fa.fa-toggle-left
+            .col-md-3.b-r.text-center
+              %small.text-muted
+                %i.i.i-info{title: "If your risk is above the optimal profile, please consider serious lifestyle changes like exercising regularly, losing weight"}
       .col-lg-4.col-md-4
         %section.panel.b-a#diabetes_score_chart.hide
           .panel-heading.no-border.bg-info.lt
@@ -245,6 +292,64 @@
             .col-md-3.b-r.text-center
               %small.text-muted
                 %i.i.i-info{title: "A simplified Diabetes Risk Score to screen undiagnosed diabetics. If your score is above 60% we highly recommend visiting your nearest physician and serious lifestyle changes."}
+        %section.panel.panel-default.hide#diabetes_text
+          .panel-heading.no-border.bg-primary.lt
+            %a.h4.text-lt.m-t-sm.m-b-sm.block.font-bold{:href => "#"} Risk of Diabetes
+          .panel-body.text-center
+            Please Enter blood sugar values to see the Risk of Diabetes score
+            %br
+              %a.badge.bg-dark#sugar_values
+                Click Here
+              to enter values
+          .clearfix.panel-footer.panel-graph-padding
+            .col-md-9.b-r
+              %a{:href => "#"}
+                %i &nbsp;
+            .col-md-3.b-r.text-center
+              %small.text-muted
+                %i.i.i-info{title: "A simplified Diabetes Risk Score to screen undiagnosed diabetics. If your score is above 60% we highly recommend visiting your nearest physician and serious lifestyle changes."}
+      .col-lg-4.col-md-4
+        %section#waterIntakeWeeklyPanel.panel.panel-default.waterIntakePanel.hide
+          %header.panel-heading.font-bold Weekly Water Intake
+          .panel-body
+            #water-intake-chart{:style => "height:200px"}
+          .panel-footer
+            #showWaterIntakeWeeklyData.btn.btn-sm.waterIntakeButton
+              %i.fa.fa-toggle-left
+        %section#water_intake_chart.panel.panel-default.waterIntakePanel.hide
+          %header.panel-heading.font-bold Today's water intake
+          .panel-body
+            -water_consumption=0
+            -actual_consumption= current_online_customer.optimal_water_intake.round(2)
+            -customer_water_consumption=current_online_customer.water_consumptions.where(consumed_date:Date.today)
+            -unless customer_water_consumption.nil?
+              -consumption=customer_water_consumption.first
+              -unless consumption.nil?
+                -water_consumption=consumption.water_consumed
+                -actual_consumption=consumption.actual_consumption
+            #glassContainer
+              #glassFullReading
+                =current_online_customer.optimal_water_intake.round(2).to_s+'ml'
+              #glassActualReading
+                =water_consumption.to_s+'ml'
+              #glassEmpty
+              #glassFull
+
+            :javascript
+              var consumed='#{water_consumption}'
+              var actual='#{actual_consumption}'
+            %div{:class=>'water_intake_buttons',:style => ""}
+              .col-xs-3{:style => "text-align:center;"}
+                %button.btn.btn-sm.water_buttons{:type => "button",:value=>125} + 125ml
+              .col-xs-3{:style => "text-align:center;"}
+                %button.btn.btn-sm.water_buttons{:type => "button",:value=>250} + 250ml
+              .col-xs-3{:style => "text-align:center;"}
+                %button.btn.btn-sm.water_buttons{:type => "button",:value=>330} + 330ml
+              .col-xs-3{:style => "text-align:center;"}
+                %button.btn.btn-sm.water_buttons{:type => "button",:value=>500} + 500ml
+          .panel-footer
+            #showWaterIntakeWeeklyData.btn.btn-sm.waterIntakeButton
+              %i.i.i-graph.text-muted
     %div.row.p-t
       .col-lg-3.col-md-3.m-b
         %section.panel.panel-default.m-n
@@ -334,7 +439,7 @@
                 \-
               - else
                 = "#{formatted_date current_online_customer.recent_health_assessment_done.request_date}"
-      .col-lg-3.col-md-3.m-b
+      .col-lg-3.col-md-3.hide.m-b
         %section.panel.panel-default.m-n.bp_Values#blood_pressure_section
           %header.panel-heading.text-center
             Blood pressure
@@ -352,8 +457,8 @@
           %header.panel-heading.text-center.clearfix.panel-footer
             %small.text-muted#bp_date
               = formatted_date current_online_customer.assessment_body_bp
-      .col-lg-3.col-md-3
-        %section.panel.panel-default.m-n
+      .col-lg-3.col-md-3.hide.m-b
+        %section.panel.panel-default.m-n#blood_sugar_section
           %ul.nav.nav-tabs
             %header.panel-heading.text-center
               %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
@@ -379,8 +484,16 @@
                       .inline
                         %h4.font-bold
                           %span.h4.font-bold#blood_sugar_color
-                            %b{ class: "#{current_online_customer.blood_sugar(test_component.name)[:color]}"}
-                              = editable current_online_customer.blood_sugar_result(test_component.name), :result,url: customers_customer_lab_results_update_blood_sugar_path({customer_id:current_online_customer.id,id: current_online_customer.blood_sugar_result(test_component.name),test_component_id:test_component.id})
+                            -if(test_component.name=='Fasting blood sugar')
+                              %b{id:'Fasting_blood_sugar_id', class: "#{current_online_customer.blood_sugar(test_component.name)[:color]}"}
+                                = editable current_online_customer.blood_sugar_result(test_component.name), :result,url: customers_customer_lab_results_update_blood_sugar_path({customer_id:current_online_customer.id,id: current_online_customer.blood_sugar_result(test_component.name),test_component_id:test_component.id})
+                            -else
+                              %b{class: "#{current_online_customer.blood_sugar(test_component.name)[:color]}"}
+                                = editable current_online_customer.blood_sugar_result(test_component.name), :result,url: customers_customer_lab_results_update_blood_sugar_path({customer_id:current_online_customer.id,id: current_online_customer.blood_sugar_result(test_component.name),test_component_id:test_component.id})
+                                -#%small
+                                -#= "#{current_online_customer.blood_sugar(test_component.name)[:units]}"
+                              -#-else
+                              -#  = editable current_online_customer.blood_sugar_result(test_component.name), :result,url: customers_customer_lab_results_update_blood_sugar_path({customer_id:current_online_customer.id,id: current_online_customer.blood_sugar_result(test_component.name),test_component_id:test_component.id})
                           %small
                             = "#{current_online_customer.blood_sugar(test_component.name)[:units]}"
                       %small.clearfix#type_of_sugar
@@ -392,9 +505,15 @@
                         %h4.font-bold
                           %span.h4.font-bold#blood_sugar_color
                             %b{ class: "#{current_online_customer.blood_sugar(test_component.name)[:color]}"}
-                              = editable current_online_customer.blood_sugar_result(test_component.name), :result,url: customers_customer_lab_results_update_blood_sugar_path({customer_id:current_online_customer.id,id: current_online_customer.blood_sugar_result(test_component.name),test_component_id:test_component.id})
-                          %small
-                            = "#{current_online_customer.blood_sugar(test_component.name)[:units]}"
+                              -if(test_component.name=='Fasting blood sugar')
+                                %div{id:'Fasting_blood_sugar_id'}
+                                  = editable current_online_customer.blood_sugar_result(test_component.name), :result,url: customers_customer_lab_results_update_blood_sugar_path({customer_id:current_online_customer.id,id: current_online_customer.blood_sugar_result(test_component.name),test_component_id:test_component.id})
+                                %small
+                                  = "#{current_online_customer.blood_sugar(test_component.name)[:units]}"
+                              -else
+                                = editable current_online_customer.blood_sugar_result(test_component.name), :result,url: customers_customer_lab_results_update_blood_sugar_path({customer_id:current_online_customer.id,id: current_online_customer.blood_sugar_result(test_component.name),test_component_id:test_component.id})
+                                %small
+                                  = "#{current_online_customer.blood_sugar(test_component.name)[:units]}"
                       %small.clearfix#type_of_sugar
                         =test_component.name
           %header.panel-heading.text-center.clearfix.panel-footer

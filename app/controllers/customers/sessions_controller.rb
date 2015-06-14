@@ -55,4 +55,10 @@ class Customers::SessionsController < Devise::SessionsController
     end
   end
 
+  def move_to_other_profile
+    # first check if this profile belongs to current logged in user - this is just a safe check
+    other_resource = Customer.find(params[:profile_id])
+    sign_in(other_resource)
+    redirect_to after_sign_in_path_for(other_resource)
+  end
 end

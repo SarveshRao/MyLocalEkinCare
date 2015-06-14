@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     put 'customer_lab_results/edit'=>'customer_lab_results#update'
 
     get 'customer_information/show'
+    get 'customer_information/water_intake_history'
+    post 'customer_information/update_water_intake_value'
     get 'customer_information/hypertension_prediction_values'
     get 'customer_information/lab_result_values'
     get 'customer_information/get_message_prompts'
@@ -125,11 +127,13 @@ Rails.application.routes.draw do
   devise_scope :online_customer do
     get 'second_opinion' => 'customers/sessions#sign_in_doctor_get'
     post 'second_opinion' => 'customers/sessions#sign_in_doctor_post'
-    get 'resend_registration_otp' => 'customers/registrations#send_otp_on_registration'
-    post 'registration_otp' => 'customers/registrations#send_otp_on_registration'
+    get 'send_registration_otp' => 'customers/registrations#send_otp_on_registration'
+    get 'resend_registration_otp' => 'customers/registrations#resend_otp_on_registration'
+    post 'registration_otp' => 'customers/registrations#verify_otp_signin'
     post 'register' => 'customers/registrations#register'
-    post 'register_family_member' => 'customers/registrations#register_family_member'
-
+    post 'register_family_member' => 'customers/registrations#register_family_member_post'
+    get 'register_family_member' => 'customers/registrations#register_family_member_get'
+    get 'move_to_other_profile' => 'customers/sessions#move_to_other_profile'
   end
 
   resources :home do
@@ -264,6 +268,9 @@ Rails.application.routes.draw do
       scope '/update_customer_vitals' do
         post '/' => 'customers/api#update_customer_vitals'
       end
+      scope '/update_customer_address' do
+        post '/' => 'customers/api#update_customer_address'
+      end
       scope '/blood_groups' do
         get '/' => 'customers/api#blood_groups'
       end
@@ -336,6 +343,9 @@ Rails.application.routes.draw do
       scope '/dental_assessment' do
         get '/' => 'customers/api#dental_assessment'
       end
+      scope '/get_provider_name' do
+        get '/' => 'customers/api#get_provider_name'
+      end      
     end
   end
 end

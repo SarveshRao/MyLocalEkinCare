@@ -53,6 +53,7 @@ drawChart = (id,dates,values,test_component_name) ->
       content: (label, xval, yval, flotItem) ->
 #        yval=(yval).toFixed()
         xval=moment(xval).format('MMMM Do YYYY, h:mm:ss a')
+        yval = yval.toFixed(2)
         test_component_name+' <b>' + yval + '</b> <br> <span>' + xval + '</span>'
       defaultTheme: false
       shifts:
