@@ -18,14 +18,14 @@
   %body.container
     %div.pos-fxd#loaderPageImage{:style => "left:50%;top:50% !important;margin:-19px 0 0 -128px;z-Index:999; height:38px; width:256px;"}
     %section.vbox
-      - if session[:is_customer]
+      - if !session[:is_doctor]
         = render partial: 'layouts/customer/top_bar'
       - else
         = render partial: 'layouts/customer/doctor_top_bar'
       %section
         %section.hbox.stretch
           / .aside
-          - if session[:is_customer]
+          - if !session[:is_doctor]
             = render partial: 'layouts/customer/left_nav'
           - else
             = render partial: 'layouts/customer/left_nav_doctor'

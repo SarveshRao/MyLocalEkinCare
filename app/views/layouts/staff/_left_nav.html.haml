@@ -119,6 +119,13 @@
                     %i.i.i-circle-sm.text-active
                   %i.fa.fa-bell.icon
                   %span.font-bold Promotions
+              %li.start_loader{class: @companies_active ? 'active': ''}
+                %a.auto{href: staff_companies_path}
+                  %span.pull-right.text-muted
+                    %i.i.i-circle-sm-o.text
+                    %i.i.i-circle-sm.text-active
+                  %i.fa.fa-medkit.icon
+                  %span.font-bold Company
 - else
   %aside#nav.bg-light.lt.b-r.b-light.aside-md.hidden-print.hidden-xs
     %section.vbox
@@ -185,3 +192,10 @@
                     %i.i.i-circle-sm.text-active
                   %i.i.i-grid2.icon
                   %span.font-bold Blog Posts
+              %li.start_loader{class: @companies_active ? 'active': ''}
+                %a.auto{href: staff_companies_path}
+                  %span.pull-right.text-muted
+                    %i.i.i-circle-sm-o.text
+                    %i.i.i-circle-sm.text-active
+                  %i.fa.fa-medkit.icon
+                  %span.font-bold Company

@@ -95,13 +95,14 @@
                   %i.i.i-circle-sm.text-active
                 %i.i.i-docs.icon
                 %span.font-bold Documents
-            %li{class: "#{@customer_packages_page ? 'active' : ''}"}
-              %a.auto{href: customers_packages_path}
-                %span.pull-right.text-muted
-                  %i.i.i-circle-sm-o.text
-                  %i.i.i-circle-sm.text-active
-                %i.i.i-docs.icon
-                %span.font-bold Packages
+            - if current_online_customer.sponsor==nil or current_online_customer.sponsor==0
+              %li{class: "#{@customer_packages_page ? 'active' : ''}"}
+                %a.auto{href: customers_packages_path}
+                  %span.pull-right.text-muted
+                    %i.i.i-circle-sm-o.text
+                    %i.i.i-circle-sm.text-active
+                  %i.i.i-docs.icon
+                  %span.font-bold Packages
             %li.start_loader{class: "#{@customer_profile_page ? 'active' : ''}"}
               %a.auto{href: customers_profile_path}
                 %span.pull-right.text-muted

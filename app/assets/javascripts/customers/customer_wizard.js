@@ -45,6 +45,7 @@ if($('#customer-info-wizard').length>0){
         $.ajax({
             url:url_path,
             type: type,
+            dataType: 'json',
             data:data,
             success: function (result) {
                 if('bmi' in result)
@@ -351,6 +352,8 @@ if($('#customer-info-wizard').length>0){
         }
         else if(insert_data('/customers/customer_information/update_customer_vitals','PUT',{'undefined':{'weight':weight,'feet':feet,'inches':inches}})==true){
             modified_data.push('height_weight');
+            var optimal_water_intake=parseFloat(weight)/0.024;
+            $('#glassFullReading').html(optimal_water_intake);
             $('#feet_val').html(feet)
             $('#inches_val').html(inches)
             $('#height_date').html(date)
@@ -409,21 +412,41 @@ if($('#customer-info-wizard').length>0){
     $("#family_medical_history_next").click(function(){
         var father_health_history=[]
         var mother_health_history=[]
+        var mother_health_selected=false;
+        var father_health_selected=false;
         $('.ekin-multi-choice').filter('.selected.father-medical-history').each(function()
         {
-            father_health_history.push(this.id)
+            if(this.id!=0){
+                father_health_history.push(this.id);
+            }
+            else{
+                father_health_selected=true;
+            }
         })
         $('.ekin-multi-choice').filter('.selected.mother-medical-history').each(function()
         {
-            mother_health_history.push(this.id)
+            if(this.id!=0) {
+                mother_health_history.push(this.id);
+            }
+            else{
+                mother_health_selected=true;
+            }
         })
+
         if(father_health_history.length==0){
             father_health_history=null;
         }
         if(mother_health_history.length==0){
             mother_health_history=null;
         }
-        if(insert_data("/customers/family_medical_histories","POST",{ family_medical_history:{relation:'Mother'},'chk-family_medicals': mother_health_history}) &&
+        if(father_health_history==null && father_health_selected==false){
+            $("#father_medical_error").removeClass('hide')
+        }
+
+        else if(mother_health_history==null && mother_health_selected==false){
+            $("#mother_medical_error").removeClass('hide')
+        }
+        else if(insert_data("/customers/family_medical_histories","POST",{ family_medical_history:{relation:'Mother'},'chk-family_medicals': mother_health_history}) &&
             insert_data("/customers/family_medical_histories","POST",{ family_medical_history:{relation:'Father'},'chk-family_medicals': father_health_history})){
             modified_data.push('family_medical_history');
             nextTab("#family_medical_history");
@@ -501,7 +524,7 @@ if($('#customer-info-wizard').length>0){
             if($('#weight').val()=='')
                 addParsleyError('#weight','Enter weight value');
             else{
-                $('#weight').parsley().destroy();
+                $('#weight').parsley().destroy();                
                 if(is_bmi_tab_complete()){
                     var bmi=get_bmi()
                     $('#height-weight-message').text(updateMessagePrompt(bmi,'bmi'));
@@ -624,6 +647,22 @@ if($('#customer-info-wizard').length>0){
             $('#'+this.id).parsley().destroy();
         }
     });
+
+    $('.father-medical-history').click(function(){
+        $('#father_medical_error').addClass('hide');
+    });
+
+    $('.mother-medical-history').click(function(){
+        $('#mother_medical_error').addClass('hide');
+    });
+
+    //$('.father-health-none-record').click(function(){
+    //    alert('here');
+    //    $('.father-health-records').filter('.selected.father-medical-history').each(function(){
+    //        alert(this.id)
+    //        $('#'+this.id).removeClass('selected')
+    //    })
+    //});
 
 //*************************************************end of validations **************************************************
 

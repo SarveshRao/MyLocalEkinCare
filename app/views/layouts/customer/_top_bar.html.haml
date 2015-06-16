@@ -41,7 +41,7 @@
 %noscript
   %img{:alt => "", :height => "1", :src => "https://www.facebook.com/tr?id=1439089473071327&amp;ev=PixelInitialized", :style => "display:none", :width => "1"}/
 
-- if session[:is_customer]
+- if !session[:is_doctor]
   %input#is_customer{type: "hidden", value: "true"}
 - else
   %input#is_customer{type: "hidden", value: "false"}
@@ -64,7 +64,7 @@
   -#- if session[:is_customer]
   -#  - recent_activities = current_online_customer.recent_activities
 
-  - if session[:is_customer]
+  - if !session[:is_doctor]
     = form_for MedicalRecord.new, remote: true, authenticity_token: true, url: customer_documents_path(current_online_customer), html: {method: 'post', id: 'customer_medical_record_form', class: 'form-inline'} do |f|
       .form-group.col-sm-4.p-t
         .input-group.pull-left.col-xs-12
@@ -89,7 +89,7 @@
   %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
     %li.sign_out
       = link_to("Sign out", destroy_online_customer_session_path)
-  - if session[:is_customer]
+  - if !session[:is_doctor]
     %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
       %li.hidden-xs
         %a.dropdown-toggle#notifications_count{"data-toggle" => "dropdown", href: "#"}

@@ -14,8 +14,8 @@ class Staff::SessionsController < StaffController
       session[:login_type] = @staff.admin_type
       if @staff.admin_type == 'Enterprise'
         redirect_to staff_enterprise_login_path, notice: 'You have been logged in successfully'
-      # elsif @staff.admin_type == 'Provider'
-      #   redirect_to staff_provider_login_path, notice: 'You have been logged in successfully'
+      elsif @staff.admin_type == 'Company'
+        redirect_to staff_company_login_path, notice: 'You have been logged in successfully'
       else
         redirect_to customers_path, notice: 'You have been logged in successfully'
       end

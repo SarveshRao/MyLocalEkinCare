@@ -18,11 +18,11 @@ class Staff::HealthAssessments::LabResultsController < StaffController
     test = LabTest.find(test_component.lab_test_id)
     if test.name.downcase == "blood pressure"
       @hypertensive = customer.has_hypertension
-      customer.update(is_hypertensive: @hypertensive ? "Hypertensive" : "No")
+      customer.update(is_hypertensive: @hypertensive)
     end
     if test.name.downcase == "blood glucose"
       @diabetic = customer.is_diabetic
-      customer.update(diabetic: @diabetic ? "Diabetic" : "No")
+      customer.update(diabetic: @diabetic)
     end
 
     render json: {range: range, lab_result: lab_result, test_component: test_component, lab_test: lab_test, lab_tests: lab_tests, lab_test_components: lab_test_components, standard_range: standard_range}
@@ -69,12 +69,11 @@ class Staff::HealthAssessments::LabResultsController < StaffController
     puts "test name:"+test.name
     if test.name.downcase == "blood pressure"
       @hypertensive = customer.has_hypertension
-      customer.update(is_hypertensive: @hypertensive ? "Hypertensive" : "No")
+      customer.update(is_hypertensive: @hypertensive)
     end
     if test.name.downcase == "blood glucose"
-      puts "hi"
       @diabetic = customer.is_diabetic
-      customer.update(diabetic: @diabetic ? "Diabetic" : "No")
+      customer.update(diabetic: @diabetic)
     end
 
     render json: {lab_result: lab_result, test_component: test_component, lab_test: lab_test, standard_range: standard_range}

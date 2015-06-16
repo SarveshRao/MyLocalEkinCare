@@ -115,7 +115,7 @@
                             = "<a href=#{medical_record.emr} download=download>#{ medical_record.emr.file.filename}</a>".html_safe
             .row#healthAssessment
               .col-sm-12
-                - if !session[:is_customer]
+                - if session[:is_doctor]
                   %section.panel.panel-default
                     .row.padder.padder-v
                       .col-sm-12
@@ -215,7 +215,8 @@
                                           .arrowDown
                                   .bg-light.col-sm-12.padder-v.hide{:class=>'info-sec',:id=>'info_sec'+lab_result.id.to_s}
                                     .col-sm-6
-                                      =TestComponent.find_by_name(info[:test_component_diff][:name]).info
+                                      - test_component_id = LabResult.find(lab_result.id).test_component_id
+                                      =TestComponent.find(test_component_id).info
                                       -div_id=lab_result.id
                                       -test_component_id = LabResult.find(div_id).test_component_id
                                       -#:javascript

@@ -4,7 +4,7 @@
       - customer_avatar = @customer.image_url
       %span#customer_avatar_container
         %img.img-circle.m-b{alt: "...", height: 200, width: 200, src: asset_path(customer_avatar)}/
-    - if session['is_customer']
+    - if !session['is_doctor']
       %small
         %a{href: '#', id: 'edit_profile_pic', style: 'color: #177bbb'} change picture
         = form_for @customer, url: customers_upload_avatar_path, html:{id: 'edit_avatar', multipart: true}, remote: true do |f|

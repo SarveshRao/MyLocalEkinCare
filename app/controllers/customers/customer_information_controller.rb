@@ -47,7 +47,7 @@ class Customers::CustomerInformationController < ApplicationController
 
     respond_to do |format|
       if(@customer_vitals.update(customer_vitals_params))
-        @customer.update(is_obese: @customer.obesity_overweight_checkup==4 ? "Obese" : "No", is_over_weight: @customer.obesity_overweight_checkup==3 ? "OverWeight" : "No")
+        @customer.update(is_obese: @customer.obesity_overweight_checkup==4 ? "Obese" : "No", is_over_weight: @customer.obesity_overweight_checkup==3 ? "OverWeight" : "No", is_under_weight: @customer.obesity_overweight_checkup==1 ? "UnderWeight" : "No")
         format.json {render :json => { bmi:@customer.bmi,bmi_color:@customer.colored_bmi,date:@modified_on,:status => 200 }}
       else
         render json: {}, status: :unprocessable_entity

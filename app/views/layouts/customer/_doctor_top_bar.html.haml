@@ -41,7 +41,7 @@
 %noscript
   %img{:alt => "", :height => "1", :src => "https://www.facebook.com/tr?id=1439089473071327&amp;ev=PixelInitialized", :style => "display:none", :width => "1"}/
 
-- if session[:is_customer]
+- if !session[:is_doctor]
   %input#is_customer{type: "hidden", value: "true"}
 - else
   %input#is_customer{type: "hidden", value: "false"}

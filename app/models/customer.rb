@@ -563,12 +563,22 @@ class Customer < ActiveRecord::Base
       blood_glucose=LabTest.find_by("lower(name)=? and enterprise_id=?", component.downcase,assessments.enterprise_id ? assessments.enterprise_id : self.default_enterprise)
       blood_glucose.test_components.each do |test_component|
         result_color=self.resulted_component_value(test_component.name)[:color]
-        if(result_color=='text-warning' or result_color=='text-danger')
-          return true
+        if component == 'Blood Glucose'
+          if(result_color=='text-warning')
+            return "Pre Diabetic"
+          elsif(result_color=='text-danger')
+            return "Diabetic"
+          end
+        elsif component == 'Blood pressure'
+          if(result_color=='text-warning')
+            return "Pre Hypertensive"
+          elsif(result_color=='text-danger')
+            return "Hypertensive"
+          end
         end
       end
     end
-    return false
+    return "No"
   end
 
   def is_diabetic

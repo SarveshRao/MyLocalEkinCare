@@ -56,10 +56,10 @@
               = @customer.medical_insurance || '-'
         .vbox.row
           .col-xs-6
-            %p.text-lt Customer Type:
+            %p.text-lt Sponsor:
           .col-xs-6
             %p.text-lt
-              = @customer.customer_type || '-'
+              = @sponsor || '-'
 
     %div#edit_customer_basic_details_form.hide.row.panel.tab-pane.padder-v.active.m.m-n
       .col-md-6
@@ -122,8 +122,8 @@
             = f.select :medical_insurance, options_for_select(['No', 'Yes'], selected: @customer.medical_insurance), {}, {class: 'form-control'}
 
           .form-group
-            = f.label 'Customer Type'
-            = f.select :customer_type, options_for_select(['Self', 'Sponsored'], selected: @customer.customer_type), {}, {class: 'form-control'}
+            = f.label :sponsor
+            = f.select :sponsor, options_for_select(Company.all.collect {|p| [ p.name,p.id]}), {:include_blank => "Self", :selected => @sponsor, autofocus: true}, {class: 'form-control m-b parsley-validated'}
 
 
           .form-group

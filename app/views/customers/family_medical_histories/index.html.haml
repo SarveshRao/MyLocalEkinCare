@@ -17,7 +17,7 @@
       %h4.panel-heading
         %a.font-bold{href: "#"}
           Family History &nbsp;&nbsp;
-      - if session['is_customer']
+      - if !session['is_doctor']
         %a.btn.btn-default.btn-s-mdsche.m-b-xs#create_customer_family_medical_history{href: '#'}
           &nbsp;
           %i.fa.fa-plus
@@ -78,11 +78,11 @@
                         %td
                           -medical_history.medical_conditions.each do |medical_condition|
                             =medical_condition.name+','
-                        -if session[:is_customer]
+                        -if !session[:is_doctor]
                           %td
                             %a.pull-right.dropdown-toggle.customer-family-medical-history-edit-pencil{"data-toggle" => "dropdown", href: "#"}
                               %i.fa.fa-pencil
-                        -if session[:is_customer]
+                        -if !session[:is_doctor]
                           %td
                             %a.pull-right.dropdown-toggle.customer-family-medical-history-delete-row{"data-toggle" => "dropdown", href: "#"}
                               %i.i.i-trashcan

@@ -23,6 +23,8 @@
             = render partial: 'layouts/staff/left_nav_enterprise'
           - elsif session[:login_type].to_s == 'Provider'
             = render partial: 'layouts/staff/left_nav_provider'
+          - elsif session[:login_type].to_s == 'Company'
+            = render partial: 'layouts/staff/left_nav_company'
           - else
             = render partial: 'layouts/staff/left_nav'
           = yield

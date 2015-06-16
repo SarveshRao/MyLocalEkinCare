@@ -179,12 +179,18 @@ Rails.application.routes.draw do
     resources :provider_tests
     resources :partners
     resources :enterprises
+    resources :companies
     resources :promotions
     resources :promo_codes
     resources :sessions, only: [:new, :create], path_names: {new: 'signin'}, path: '/'
     delete 'signout', to: 'sessions#destroy'
     get 'dashboard' => 'dashboard#show'
     get 'enterprise_login' => 'enterprise_login#show'
+    get 'company_login' => 'company_login#show'
+    get 'company_login/weight' => 'company_login#weight_filter'
+    get 'company_login/hypertensive' => 'company_login#hypertension_filter'
+    get 'company_login/diabetic' => 'company_login#diabetic_filter'
+    get 'company_login/getanalysis' => 'company_login#getanalysis'
     get 'provider_login' => 'provider_login#show'
     get 'lab_test_dump' => 'enterprises#lab_test_dump'
     resources :customer_enterprise, controller: 'customer_enterprise', only: [:show, :index]

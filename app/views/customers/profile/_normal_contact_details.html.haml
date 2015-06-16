@@ -49,7 +49,7 @@
                 = address.zip_code
             .col-xs-4
 
-    - if session['is_customer']
+    - if !session['is_doctor']
       .vbox.row.padder-v.p-l
         %a.btn.btn-primary#contact_info_edit_btn
           %i.fa.fa-pencil

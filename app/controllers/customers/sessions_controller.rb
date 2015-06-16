@@ -12,8 +12,7 @@ class Customers::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   def create
-    session[:is_session_available] = "testing session"
-    session[:is_customer] = true
+    session[:is_doctor] = false
     self.resource = warden.authenticate!(auth_options)
     if self.resource.confirmed?
     set_flash_message(:notice, :signed_in) if is_flashing_format?
@@ -46,7 +45,7 @@ class Customers::SessionsController < Devise::SessionsController
       session[:doctor_mobile_number] = self.resource.doctor_mobile_number
       session[:doctor_email] = self.resource.doctor_email
       self.resource = Customer.find_by(id: self.resource.customer_id)
-      session[:is_customer] = false
+      session[:is_doctor] = true
       sign_in(resource_name, self.resource)
       redirect_to after_sign_in_path_for(self.resource)
     else

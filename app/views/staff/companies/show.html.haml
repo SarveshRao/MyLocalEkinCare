@@ -1,0 +1,28 @@
+.col-md-10
+  %a.tab-pencil.pull-right#enterprise_details_edit_btn
+    %i.fa.fa-pencil
+  .vbox.row
+    .col-xs-6
+      %p.text-lt Name:
+    .col-xs-6
+      = @company.name || '-'
+  .vbox.row
+    .col-xs-6
+      %p.text-lt Phone:
+    .col-xs-6
+      = @company.telephone || '-'
+  .vbox.row
+    .col-xs-6
+      %p.text-lt POC:
+    .col-xs-6
+      = @company.staff.name || '-'
+  .vbox.row
+    .col-xs-6
+      %p.text-lt Email:
+    .col-xs-6
+      = @company.staff.email || '-'
+  .vbox.row
+    .col-xs-6
+      %p.text-lt Address:
+    .col-xs-6
+      = @company.address != nil ? @company.address.details : ''

@@ -72,14 +72,8 @@ class Customers::ApiController < BaseApiController
     @customers_temp = Customer.search(params[:sSearch])
     @customer = @customers_temp.page((params[:iDisplayStart].to_i/params[:iDisplayLength].to_i) + 1).per(params[:iDisplayLength]).select(:id, :created_at, :gender, :last_name, :customer_id, :first_name, :mobile_number, :email, :date_of_birth, :status, :is_hypertensive, :diabetic, :is_obese, :is_over_weight).order(created_at: :desc)
     @customer.each do |customer|
-      # customer.class_eval do
-      #   attr_accessor :is_hypertensive
-      #   attr_accessor :is_diabetic
-      #   attr_accessor :is_obesity
-      #   attr_accessor :is_overweight
-      # end
 
-      @is_hypertensive = self.has_hypertension customer.id
+      @is_hypertensive = self.abnormal_bp customer.id
       @is_diabetic = self.is_diabetic customer.id
 
       if self.obesity_overweight_checkup(customer) ==3
@@ -88,13 +82,19 @@ class Customers::ApiController < BaseApiController
         @is_overweight = "No"
       end
 
+      if self.obesity_overweight_checkup(customer) ==1
+        @is_underweight = "UnderWeight"
+      else
+        @is_underweight = "No"
+      end
+
       if self.obesity_overweight_checkup(customer)==4
         @is_obesity = "Obese"
       else
         @is_obesity = "No"
       end
       @cust = Customer.find(customer.id)
-      @cust.update(is_hypertensive: @is_hypertensive.to_s, diabetic:  @is_diabetic.to_s, is_obese: @is_obesity.to_s, is_over_weight: @is_overweight.to_s)
+      @cust.update(is_hypertensive: @is_hypertensive.to_s, diabetic:  @is_diabetic.to_s, is_obese: @is_obesity.to_s, is_over_weight: @is_overweight.to_s, is_under_weight:@is_underweight)
     end
     @customer = @customers_temp.page((params[:iDisplayStart].to_i/params[:iDisplayLength].to_i) + 1).per(params[:iDisplayLength]).select(:id, :created_at, :gender, :last_name, :customer_id, :first_name, :mobile_number, :email, :date_of_birth, :status, :is_hypertensive, :diabetic, :is_obese, :is_over_weight).order(created_at: :desc)
     render json: { aaData: JSON.parse(@customer.to_json()), iTotalRecords: Customer.count, iTotalDisplayRecords: @customers_temp.size }
@@ -132,20 +132,16 @@ class Customers::ApiController < BaseApiController
       blood_glucose=LabTest.find_by("lower(name)='blood glucose' and enterprise_id=?", assessments.enterprise_id ? assessments.enterprise_id : self.default_enterprise)
       blood_glucose.test_components.each do |test_component|
         result_color=self.resulted_component_value1(test_component.name, customer)[:color]
-        if(result_color=='text-warning' or result_color=='text-danger')
+        if(result_color=='text-warning')
+          return "Pre Diabetic"
+        elsif result_color=='text-danger'
           return "Diabetic"
         end
       end
     end
     return "No"
   end
-
-  def has_hypertension customer_id
-    if abnormal_bp customer_id
-      return "Hypertensive"
-    end
-    return "No"
-  end
+  
 
   def abnormal_bp customer_id
     customer = Customer.find(customer_id)
@@ -154,12 +150,14 @@ class Customers::ApiController < BaseApiController
       blood_glucose=LabTest.find_by("lower(name)='blood pressure' and enterprise_id=?", assessments.enterprise_id ? assessments.enterprise_id : self.default_enterprise)
       blood_glucose.test_components.each do |test_component|
         result_color=self.resulted_component_value1(test_component.name, customer)[:color]
-        if(result_color=='text-warning' or result_color=='text-danger')
-          return true
+        if(result_color=='text-warning')
+          return "Pre Hypertensive"
+        elsif (result_color=='text-danger')
+          return "Hypertensive"
         end
       end
     end
-    return false
+    return "No"
   end
 
   def upload_avatar

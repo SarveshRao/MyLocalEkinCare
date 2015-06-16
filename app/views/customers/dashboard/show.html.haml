@@ -29,12 +29,13 @@
     %small.pull-right
       Contact: 888-678-EKIN (3546) /
       %a{href: 'mailto:founder@ekincare.com'} founder@ekincare.com
+
 %div{style: 'min-height: 1000px'}
   %section.scrollable.wrapper.w-f
-    %div.row
-      %section#content
-        %section.vbox
-          %section.scrollable.wrapper.w-f{:id=>'customer-info-wizard'}
+    %div.row.customer-wizard-qs
+      %section
+        %section
+          %section.wrapper.w-f{:id=>'customer-info-wizard'}
             %section.row.m-b-md.padder.hide{:id=>'height_weight'}
               .col-xs-12.wizard-section
                 .wizard-heading Let's Customize your account
@@ -56,9 +57,8 @@
                     .btn.btn-default.btn-success.wixard-next-button#height_weight_next{:style => "bottom:-90px;"} Next
                 .ekin-wizard-message.col-xs-12{:style => ""}
                   Hey
-                  = current_online_customer.first_name
-                  %br/
-                  #height-weight-message
+                  = current_online_customer.first_name+','
+                  %span#height-weight-message
                     Do you know that your heart beats about 1,00,000 times in a day.
             %section.row.m-b-md.padder.hide{:id=>'waist_bloodgroup'}
               .col-xs-12.wizard-section
@@ -87,9 +87,8 @@
                     .btn.btn-default.btn-success.wixard-next-button{:id=>'waist_bloodgroup_next',:style => "bottom:-60px;"} Next
                 .ekin-wizard-message.col-xs-12{:style => ""}
                   Hey
-                  = current_online_customer.first_name
-                  %br/
-                  #waist-bloodgroup-message
+                  = current_online_customer.first_name+','
+                  %span#waist-bloodgroup-message
                     Do you know that your heart beats about 1,00,000 times in a day.
             %section.row.m-b-md.padder.hide{:id=>'activities'}
               .col-xs-12.wizard-section
@@ -131,44 +130,50 @@
                     .btn.btn-default.btn-success.wixard-next-button{:id=>'activities_next',:style => "bottom:-50px;"} Next
                 .ekin-wizard-message.col-xs-12{:style => ""}
                   Hey
-                  = current_online_customer.first_name
-                  %br/
-                  #activities-message
+                  = current_online_customer.first_name+','
+                  %span#activities-message
                     Do you know that your heart beats about 1,00,000 times in a day.
             %section.row.m-b-md.padder.hide{:id=>'family_medical_history'}
               .col-xs-12.wizard-section
                 .wizard-heading Let's Customize your account
-                .col-xs-6.question.question-left{:style => ""}
+                .col-xs-6.question.question-left{:style => "margin-top:0px;"}
                   .question-content
-                    .question-text Father's medical condition?
+                    .question-text1 Father's medical condition?
                     %img{:src => asset_path("icons/father.png"), :style => ""}/
                     .answer{:id=>'father_health_info',:style => "margin-top:5px;"}
                       .ekin-choices
                         -MedicalCondition.all.each do |medical_condition|
-                          %button.btn.btn-default.ekin-multi-choice.full.father-medical-history{:type => "button",:id=>medical_condition.id}
+                          %button.btn.btn-default.ekin-multi-choice.full.father-medical-history.father-health-not-none{:type => "button",:id=>medical_condition.id}
                             = medical_condition.name
-                .col-xs-6.question.question-right
+                        %button.btn.btn-default.ekin-multi-choice.full.father-medical-history.father-health-none{:type => "button",:id=>0}
+                          None
+                      #father_medical_error.validation-error.hide
+                        select any option
+                .col-xs-6.question.question-right{:style => "margin-top:0px;"}
                   .question-content
-                    .question-text Mother's medical condition?
+                    .question-text1 Mother's medical condition?
                     %img{:src => asset_path("icons/mother.png")}/
                     .answer{:id=>'mother_health_info',:style => "margin-top:5px;"}
                       .ekin-choices
                         -MedicalCondition.all.each do |medical_condition|
-                          %button.btn.btn-default.ekin-multi-choice.full.mother-medical-history{:type => "button",:id=>medical_condition.id}
+                          %button.btn.btn-default.ekin-multi-choice.full.mother-medical-history.mother-health-not-none{:type => "button",:id=>medical_condition.id}
                             = medical_condition.name
+                        %button.btn.btn-default.ekin-multi-choice.full.mother-medical-history.mother-health-none{:type => "button",:id=>0}
+                          None
+                      #mother_medical_error.validation-error.hide
+                        select any option	  
                     .btn.btn-default.btn-success.wixard-next-button{:id=>'family_medical_history_next',:style => "bottom:-50px;"} Next
                 .ekin-wizard-message.col-xs-12{:style => ""}
                   Hey
-                  = current_online_customer.first_name
-                  %br/
-                  #family-info-message
+                  = current_online_customer.first_name+','
+                  %span#family-info-message
                     Do you know that your heart beats about 1,00,000 times in a day
             %section.row.m-b-md.padder.hide{:id=>'water_intake'}
               .col-xs-12.wizard-section
                 .wizard-heading Let's Customize your account
                 .col-xs-6.question.question-left{:style => ""}
                   .question-content
-                    .question-text  Do you want to track your water intake?
+                    .question-text  Want to track your water intake?
                     %img{:src => asset_path("icons/Water Glass.png"), :style => ""}/
                     .answer{:id=>'water-choices-id',:style => ""}
                       .ekin-choices
@@ -178,7 +183,7 @@
                         select any option
                 .col-xs-6.question.question-right
                   .question-content
-                    .question-text Do you wish to subscribe for Blood SOS program?
+                    .question-text Subscribe for Blood SOS program?
                     %img{:src => asset_path("icons/blood.png")}/
                     .answer{:id=>'smoke-choices-id',:style => ""}
                       .ekin-choices
@@ -189,9 +194,8 @@
                     .btn.btn-default.btn-success.wixard-next-button{:id=>'water_intake_next',:style => "bottom:-50px;"} Next
                 .ekin-wizard-message.col-xs-12{:style => ""}
                   Hey
-                  = current_online_customer.first_name
-                  %br/
-                  #activities-message
+                  = current_online_customer.first_name+','
+                  %span#activities-message
                     Do you know that your heart beats about 1,00,000 times in a day.
             %section.row.m-b-md.padder.hide{:id=>'health_information'}
               .col-xs-12.wizard-section
@@ -210,14 +214,13 @@
                     .question-text Diabetes?
                     %img.full{:src => asset_path("icons/diabetes.png")}/
                     .answer{:style => ""}
-                      %input.col-xs-12.pull-left.numeric{:id=>'blood_sugar',:placeholder => "blood sugar reading"}
+                      %input.col-xs-12.pull-left.numeric{:id=>'blood_sugar',:placeholder => "fasting blood sugar"}
                     .btn.btn-default.btn-info.wixard-next-button{:id=>'health_information_skip',:style => "bottom:-90px;right:70px;"} Skip this question
                     .btn.btn-default.btn-success.wixard-next-button{:id=>'health_information_finish',:style => "bottom:-90px;"} Finish
                 .ekin-wizard-message.col-xs-12{:style => ""}
                   Hey
-                  = current_online_customer.first_name
-                  %br/
-                  #health-info-message
+                  = current_online_customer.first_name+','
+                  %span#health-info-message
                     Do you know that your heart beats about 1,00,000 times in a day.
     %div.row
       .col-lg-4.col-md-4
@@ -308,48 +311,49 @@
             .col-md-3.b-r.text-center
               %small.text-muted
                 %i.i.i-info{title: "A simplified Diabetes Risk Score to screen undiagnosed diabetics. If your score is above 60% we highly recommend visiting your nearest physician and serious lifestyle changes."}
-      .col-lg-4.col-md-4
-        %section#waterIntakeWeeklyPanel.panel.panel-default.waterIntakePanel.hide
-          %header.panel-heading.font-bold Weekly Water Intake
-          .panel-body
-            #water-intake-chart{:style => "height:200px"}
-          .panel-footer
-            #showWaterIntakeWeeklyData.btn.btn-sm.waterIntakeButton
-              %i.fa.fa-toggle-left
-        %section#water_intake_chart.panel.panel-default.waterIntakePanel.hide
-          %header.panel-heading.font-bold Today's water intake
-          .panel-body
-            -water_consumption=0
-            -actual_consumption= current_online_customer.optimal_water_intake.round(2)
-            -customer_water_consumption=current_online_customer.water_consumptions.where(consumed_date:Date.today)
-            -unless customer_water_consumption.nil?
-              -consumption=customer_water_consumption.first
-              -unless consumption.nil?
-                -water_consumption=consumption.water_consumed
-                -actual_consumption=consumption.actual_consumption
-            #glassContainer
-              #glassFullReading
-                =current_online_customer.optimal_water_intake.round(2).to_s+'ml'
-              #glassActualReading
-                =water_consumption.to_s+'ml'
-              #glassEmpty
-              #glassFull
+      -if !session[:is_doctor]
+        .col-lg-4.col-md-4
+          %section#waterIntakeWeeklyPanel.panel.panel-default.waterIntakePanel.hide
+            %header.panel-heading.font-bold Weekly Water Intake
+            .panel-body
+              #water-intake-chart{:style => "height:200px"}
+            .panel-footer
+              #showWaterIntakeWeeklyData.btn.btn-sm.waterIntakeButton
+                %i.fa.fa-toggle-left
+          %section#water_intake_chart.panel.panel-default.waterIntakePanel.hide
+            %header.panel-heading.font-bold Today's water intake
+            .panel-body
+              -water_consumption=0
+              -actual_consumption= current_online_customer.optimal_water_intake.round(2)
+              -customer_water_consumption=current_online_customer.water_consumptions.where(consumed_date:Date.today)
+              -unless customer_water_consumption.nil?
+                -consumption=customer_water_consumption.first
+                -unless consumption.nil?
+                  -water_consumption=consumption.water_consumed
+                  -actual_consumption=consumption.actual_consumption
+              #glassContainer
+                #glassFullReading
+                  =current_online_customer.optimal_water_intake.round(2).to_s+'ml'
+                #glassActualReading
+                  =water_consumption.to_s+'ml'
+                #glassEmpty
+                #glassFull
 
-            :javascript
-              var consumed='#{water_consumption}'
-              var actual='#{actual_consumption}'
-            %div{:class=>'water_intake_buttons',:style => ""}
-              .col-xs-3{:style => "text-align:center;"}
-                %button.btn.btn-sm.water_buttons{:type => "button",:value=>125} + 125ml
-              .col-xs-3{:style => "text-align:center;"}
-                %button.btn.btn-sm.water_buttons{:type => "button",:value=>250} + 250ml
-              .col-xs-3{:style => "text-align:center;"}
-                %button.btn.btn-sm.water_buttons{:type => "button",:value=>330} + 330ml
-              .col-xs-3{:style => "text-align:center;"}
-                %button.btn.btn-sm.water_buttons{:type => "button",:value=>500} + 500ml
-          .panel-footer
-            #showWaterIntakeWeeklyData.btn.btn-sm.waterIntakeButton
-              %i.i.i-graph.text-muted
+              :javascript
+                var consumed='#{water_consumption}'
+                var actual='#{actual_consumption}'
+              %div{:class=>'water_intake_buttons',:style => ""}
+                .col-xs-3{:style => "text-align:center;"}
+                  %button.btn.btn-sm.water_buttons{:type => "button",:value=>125} + 125ml
+                .col-xs-3{:style => "text-align:center;"}
+                  %button.btn.btn-sm.water_buttons{:type => "button",:value=>250} + 250ml
+                .col-xs-3{:style => "text-align:center;"}
+                  %button.btn.btn-sm.water_buttons{:type => "button",:value=>330} + 330ml
+                .col-xs-3{:style => "text-align:center;"}
+                  %button.btn.btn-sm.water_buttons{:type => "button",:value=>500} + 500ml
+            .panel-footer
+              #showWaterIntakeWeeklyData.btn.btn-sm.waterIntakeButton
+                %i.i.i-graph.text-muted
     %div.row.p-t
       .col-lg-3.col-md-3.m-b
         %section.panel.panel-default.m-n
@@ -468,19 +472,26 @@
               %ul.dropdown-menu.text-left#blood_glucose
                 - if current_online_customer.recent_body_assessment
                   - LabTest.find_by(name: "Blood Glucose", enterprise_id: "#{current_online_customer.recent_body_assessment.enterprise_id ? current_online_customer.recent_body_assessment.enterprise_id : Enterprise.find_by_enterprise_id('EK').id}").test_components.each do |test_component|
-                    %li.active
+                    %li
                       %a{"data-toggle" => "tab", :href => "#"+test_component.id.to_s, :value=> test_component.id}
                         = test_component.name
                 - else
                   - LabTest.find_by(name: "Blood Glucose", enterprise_id: Enterprise.find_by_enterprise_id('EK').id).test_components.each do |test_component|
-                    %li.active
+                    %li{class: "#{current_online_customer.blood_sugar_result(test_component.name)[:result].nil? ? '' : ''}"}
                       %a{"data-toggle" => "tab", :href => "#"+test_component.id.to_s, :value=> test_component.id}
                         = test_component.name
             .panel-body.text-center.pad_2
               .tab-content
                 - if current_online_customer.recent_body_assessment
+                  -is_active=false
+                  -already_activated=false
                   - LabTest.find_by(name: "Blood Glucose", enterprise_id: "#{current_online_customer.recent_body_assessment.enterprise_id ? current_online_customer.recent_body_assessment.enterprise_id : Enterprise.find_by_enterprise_id('EK').id}").test_components.each_with_index do |test_component, index|
-                    .tab-pane{:id => "#{test_component.id}", :class => "#{(index == 0) ? 'active' : 'fade'}"}
+                    -if(current_online_customer.blood_sugar_result(test_component.name)[:result] &&(already_activated==false))
+                      -is_active=true
+                      -already_activated=true
+                    -else
+                      -is_active=false
+                    .tab-pane.blood_sugar_pane{:id => "#{test_component.id}", :class=> "#{is_active ? 'active' : 'fade'}"}
                       .inline
                         %h4.font-bold
                           %span.h4.font-bold#blood_sugar_color
@@ -499,8 +510,15 @@
                       %small.clearfix#type_of_sugar
                         =test_component.name
                 - else
+                  -is_active=false
+                  -already_activated=false
                   - LabTest.find_by(name: "Blood Glucose", enterprise_id: Enterprise.find_by_enterprise_id('EK').id).test_components.each_with_index do |test_component, index|
-                    .tab-pane{:id => "#{test_component.id}", :class => "#{(index == 0) ? 'active' : 'fade'}"}
+                    -if(current_online_customer.blood_sugar_result(test_component.name)[:result] &&(already_activated==false))
+                      -is_active=true
+                      -already_activated=true
+                    -else
+                      -is_active=false
+                    .tab-pane.blood_sugar_pane{:id => "#{test_component.id}", :class=> "#{is_active ? 'active' : 'fade'}"}
                       .inline
                         %h4.font-bold
                           %span.h4.font-bold#blood_sugar_color
@@ -553,7 +571,7 @@
                     .col-md-3.b-r
                       %small.text-muted
                         %i.i.i-info{title: component[:lab_result].test_component.info}
-    - if session[:is_customer]
+    - if !session[:is_doctor]
       %div.row.p-t
         .col-md-6.lt.col-lg-6
           %section.panel.panel-default
@@ -598,4 +616,3 @@
                       .line.line-xs.pull-in
                 - if no_comments == true
                   No comments added.
-                = session[:is_session_available]

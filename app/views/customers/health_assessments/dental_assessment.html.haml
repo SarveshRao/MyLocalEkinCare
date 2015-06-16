@@ -110,7 +110,7 @@
                         -@dental_medical_records.each do |medical_record|
                           %li
                             = "<a href=#{medical_record.emr} download=download>#{ medical_record.emr.file.filename}</a>".html_safe
-            - if !session[:is_customer]
+            - if session[:is_doctor]
               .col-lg-12.col-md-12.m-b.bg-white.padder.padder-v
                 .col-sm-12
                   %h3.rTitle.m-b-xs

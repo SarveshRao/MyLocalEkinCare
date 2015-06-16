@@ -24,7 +24,7 @@ class Customers::CustomerLabResultsController < ApplicationController
     @diastolic_color=get_color(@diastolic_component_id,diastolic_value, @new_health_assessment.id)
 
     @hypertensive = @current_customer.has_hypertension
-    @current_customer.update(is_hypertensive: @hypertensive ? "Hypertensive" : "No")
+    @current_customer.update(is_hypertensive: @hypertensive)
     @hypertension_score=@current_customer.hypertension_score(1).round(3)
     @hypertension_percentage=(@hypertension_score*100).round
 
@@ -51,7 +51,7 @@ class Customers::CustomerLabResultsController < ApplicationController
     @blood_sugar_color=get_color @blood_sugar_component_id,result, @new_health_assessment.id
 
     @diabetic = @customer.is_diabetic
-    @customer.update(diabetic: @diabetic ? "Diabetic" : "No")
+    @customer.update(diabetic: @diabetic)
     @diabetic_score=@customer.diabetic_score
 
     respond_to do |format|

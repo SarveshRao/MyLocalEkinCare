@@ -35,7 +35,8 @@ $ ->
 
         if(customer_data.water_intake==1 &&customer_data.blood_sos==false)
           if($('#water_intake_chart').length>0)
-            water_intake_chart(consumed,actual)
+            actual_water_intake=$('#glassFullReading').text().trim().split('ml')[0]
+            water_intake_chart(consumed,actual_water_intake)
           $('#water_intake_chart').removeClass "hide"
 
         tiles = $(".dashboard_tiles > div:visible").length
@@ -93,28 +94,30 @@ $ ->
         "This field is required"  if $.trim(value) is ""
       emptytext: '-'
 
-  $('#Fasting_blood_sugar_id').editable
-    url: "/customers/customer_lab_results/update_blood_sugar"
-    title: "Fasting Blood sugar"
-    name:'result'
-    ajaxOptions:
-      type: 'put'
-    params: (params) ->
-      params
-    success: (response, newValue) ->
-      $('#blood_sugar_color').addClass(response.color)
-    validate: (value) ->
-      "This field is required"  if $.trim(value) is ""
-    emptytext: '-'
+    $('#Fasting_blood_sugar_id').editable
+      url: "/customers/customer_lab_results/update_blood_sugar"
+      title: "Fasting Blood sugar"
+      name:'result'
+      ajaxOptions:
+        type: 'put'
+      params: (params) ->
+        params
+      success: (response, newValue) ->
+        $('#Fasting_blood_sugar_id').removeClass('text-danger')
+        $('#Fasting_blood_sugar_id').removeClass('text-success')
+        $('#Fasting_blood_sugar_id').removeClass('text-warning')
+        $('#Fasting_blood_sugar_id').addClass(response.color)
+        $('#blood_sugar_date').html(response.date)
+      validate: (value) ->
+        "This field is required"  if $.trim(value) is ""
+      emptytext: '-'
 
     $('.editable').editable
       success: (response, newValue) ->
         parsed_data = JSON.stringify(response)
         data=JSON.parse(parsed_data)
-        name=data['name']
-        if name=='Fasting blood sugar'
-          $("#blood_sugar_color b").removeClass().addClass(data['color'])
-          $('#blood_sugar_date').html(data['date'])
+        $('#blood_sugar_color > b').removeClass('text-danger').removeClass('text-success').removeClass('text-warning')
+        $('#blood_sugar_color > b').addClass(data.color)
       validate: (value) ->
         "This field is required"  if $.trim(value) is ""
       emptytext: '-'
@@ -702,10 +705,11 @@ $('.water_buttons').on "click", ->
       value: water_intake_value
     success: (result) ->
       $('#glassActualReading').text(result.water_consumed+'ml')
-      water_intake_chart(result.water_consumed,actual)
+      actual_water_intake=$('#glassFullReading').text().trim().split('ml')[0]
+      water_intake_chart(result.water_consumed,actual_water_intake)
     error: (xhr, status, error) ->
 
-water_intake_chart = (consumed,actual) ->
+water_intake_chart = (consumed,actual_water_intake) ->
   glassHeight = 150
   glassFullWidth = 150
   edgeWidth = 30
@@ -713,8 +717,8 @@ water_intake_chart = (consumed,actual) ->
   glassTop = 0
   ratio = 0
   if($('#water_intake_chart').length>0)
-    if(consumed!=0 && actual!=0)
-      ratio=consumed/actual
+    if(consumed!=0 && actual_water_intake!=0)
+      ratio=consumed/actual_water_intake
     if(ratio>1)
       ratio=1
   width = glassFullWidth - (edgeWidth * 2) + edgeWidth * 2 * ratio
@@ -735,6 +739,23 @@ water_intake_chart = (consumed,actual) ->
     'width': width
   }, 200
   return
+
+
+$('.mother-health-none').click ->
+  $('.mother-health-not-none').removeClass('selected')
+  $('.mother-health-not-none').removeClass('btn-success')
+
+$('.mother-health-not-none').click ->
+  $('.mother-health-none').removeClass('selected')
+  $('.mother-health-none').removeClass('btn-success')
+
+$('.father-health-none').click ->
+  $('.father-health-not-none').removeClass('selected')
+  $('.father-health-not-none').removeClass('btn-success')
+
+$('.father-health-not-none').click ->
+  $('.father-health-none').removeClass('selected')
+  $('.father-health-none').removeClass('btn-success')
 
 $('.waterIntakeButton').click ->
   water_intake_history()

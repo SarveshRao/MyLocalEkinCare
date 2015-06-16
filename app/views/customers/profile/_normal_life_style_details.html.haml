@@ -24,7 +24,7 @@
           .text-lt.font-bold
             = @customer.diet || '-'
         .col-xs-4
-    - if session['is_customer']
+    - if !session['is_doctor']
       .vbox.row.padder-v.p-l
         %a.btn.btn-primary#customer_life_style_edit_btn
           %i.fa.fa-pencil

@@ -1,82 +1,48 @@
-= content_for :title, 'New customer'
+= content_for :title, 'New Company'
 
-%section#content
-  %ol.breadcrumb
-    = render_breadcrumbs seperator: ''
-  %section.vbox
-    %section.scrollable.padder
-      - if flash[:error]
-        .alert.alert-danger
-          %button.close{"data-dismiss" => "alert", type: "button"} ×
-          %i.fa.fa-ok-sign
-          %strong
-            = flash[:error]
-      .m-b-md
-        %h4
-          %a.font-bold{href: "#"}
-            New Customer
-      .row
-        .col-md-8
+%div.clearfix.breadcrumb
+  %ol.padder
+    = render_breadcrumbs :separator => ' / '
+    %small.pull-right
+      Contact: 888-678-EKIN (3546) /
+      %a{href: 'mailto:founder@ekincare.com'} founder@ekincare.com
+
+#content
+  .vbox.padder
+    .m-b-md
+      %h4
+        %a.font-bold{href: "#"}
+          Add New Company
+    .row
+      .col-md-8
+        .scrollable
           %section.panel.panel-default
-            %header.panel-heading.font-bold Customer Form
+            %header.panel-heading.font-bold New Company
             .panel-body.row
-              = form_for @customer, html: {"data-validate" => "parsley"} do |f|
+              = form_for @company, url: staff_companies_path, remote: true, html: {'data-validate' => 'parsley', multipart: true, id: "new_enterprise_form"} do |f|
                 .col-md-6
                   .form-group
-                    = f.label :first_name
+                    = f.label :name
                     %sup.text-danger
                       *
-                    = f.text_field :first_name,{class: 'form-control parsley-validated', 'data-required' => 'true', autofocus: true}
+                    = f.text_field :name,{class: 'form-control parsley-validated', 'data-required' => 'true'}
 
                   .form-group
-                    = f.label :last_name
+                    = f.label "Phone"
                     %sup.text-danger
                       *
-                    = f.text_field :last_name,{class: 'form-control parsley-validated', 'data-required' => 'true'}
+                    = f.text_field :telephone,{class: 'form-control parsley-validated', 'data-required' => 'true'}
 
                   .form-group
-                    = f.label :email_address
+                    = f.label "Point of Contact"
                     %sup.text-danger
                       *
-                    = f.email_field :email,{class: 'form-control parsley-validated', 'data-required' => 'true'}
-
-                  .form-group
-                    = f.label :gender
-                    .radio.i-checks.parsley-validated
-                      %label
-                        = f.radio_button :gender, :Male, checked: true
-                        %i
-                        Male
-                      %label
-                        = f.radio_button :gender, :Female
-                        %i
-                        Female
-
-                  .form-group
-                    = f.label :martial_status
-                    %sup.text-danger
-                      *
-                    = f.select :martial_status,[['Select',''], 'Married', 'Single'], {}, {class: 'form-control m-b parsley-validated', 'data-required' => 'true'}
-
-                  .form-group
-                    = f.label :date_of_birth
-                    %sup.text-danger
-                      *
-                    = f.text_field :date_of_birth,{class: 'input-sm input-s form-control datepicker_1', 'readonly'=> 'readonly', 'data-date-format' => 'dd-mm-yyyy', 'data-required' => 'true', placeholder: 'dd-mm-yyyy'}
-                  .form-group
-                    = f.label :sponsor
-                    = f.select :sponsor, Company.all.collect {|p| [ p.name,p.id]}, {:include_blank => "Self"}, {class: 'form-control m-b parsley-validated'}
+                    = f.fields_for :staff, Staff.new do |staff|
+                      .form-group
+                        = staff.text_field :name, {class: 'form-control parsley-validated', 'data-required' => 'true',placeholder: 'Contact Name'}
+                      .form-group
+                        = staff.text_field :email, {class: 'form-control', 'data-required' => 'true', placeholder: 'Contact Email'}
                 .col-md-6
-                  .form-group
-                    = f.label :phone
-                    %sup.text-danger
-                      *
-                    = f.text_field :mobile_number, {class: 'form-control parsley-validated', 'data-type' => 'number', 'data-required' => 'true'}
-
-                  .form-group
-                    = f.label :alternative_phone
-                    = f.text_field :alternative_mobile_number, {class: 'form-control parsley-validated', 'data-type' => 'number'}
-
                   .form-group
                     = f.label :address
                     %sup.text-danger
@@ -1825,6 +1791,6 @@
                         = address.select :country, ['India'], {}, {class: 'form-control parsley-validated', 'data-required' => 'true',placeholder: 'Country'}
                       .form-group
                         = address.text_field :zip_code, {'data-type' => 'number', class: 'form-control parsley-validated', 'data-required' => 'true', placeholder: 'Zip Code'}
+
                   .form-group
                     = f.submit "submit",{class: 'btn btn-md btn-primary pull-right' }
-        .col-md-4

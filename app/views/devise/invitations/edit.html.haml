@@ -18,7 +18,11 @@
         .list-group
           .list-group-item
             = f.password_field :password, class: 'form-control no-border parsley-validated',required: true, autofocus: true,  placeholder: 'New password'
-        .list-group
           .list-group-item
             = f.password_field :password_confirmation, class: 'form-control no-border parsley-validated',required: true, autofocus: true,  placeholder: 'Re-enter password to confirm'
-        = f.submit 'Set my password', class: 'btn btn-primary m-b'
+        .checkbox.m-b{style: 'position:relative;'}
+          %label
+            %input{:type => "checkbox", name: 'license', required: true, id: 'agreement', class: 'agreement_error' }
+            Agree the
+            %a{:href => terms_and_conditions_about_index_path, id: 'terms_and_policy_link', style: 'color: #177bbb !important'} terms and conditions
+        = f.submit 'Set my password', class: 'btn btn-primary m-b mt11'

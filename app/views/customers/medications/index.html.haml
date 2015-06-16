@@ -19,7 +19,7 @@
           %h4.panel-heading
             %a.font-bold{href: "#"}
               Medications &nbsp;&nbsp;
-          - if session['is_customer']
+          - if !session['is_doctor']
             %a.btn.btn-default.btn-s-mdsche.m-b-xs#create_customer_medication{href: '#'}
               &nbsp;
               %i.fa.fa-plus
@@ -96,11 +96,11 @@
                               %a{href: "#"}
                                 %i.fa.fa-check.text-success.text-active
                                 %i.fa.fa-times.text-danger.text
-                          -if session[:is_customer]
+                          -if !session[:is_doctor]
                             %td
                               %a.pull-right.dropdown-toggle.customer-medication-edit-pencil{"data-toggle" => "dropdown", href: "#"}
                                 %i.fa.fa-pencil
-                          -if session[:is_customer]
+                          -if !session[:is_doctor]
                             %td
                               %a.pull-right.dropdown-toggle.customer-medication-delete-row{"data-toggle" => "dropdown", href: "#"}
                                 %i.i.i-trashcan
