@@ -15,11 +15,16 @@
         -@family_members = Customer.where("guardian_id=#{current_online_customer.id} or id=#{current_online_customer.id}")
         - if !@family_members.nil?
           .familyMembers
+            -colorList = ['#FF7163',  '#8C94C9', '#FF7223', '#52B09E', '#52B09E', '#595C8C', '#FF9720'];
+            -colorIndex = 0;
             -@family_members.each do |family_member|
+              -colorIndex = colorIndex + 1
+              -if(colorIndex == colorList.length)
+                -colorIndex = 0
               - if family_member.id == current_online_customer.id
-                .familyMember{"data-content" => "#{family_member.first_name} #{family_member.last_name}", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", "data-profile-id" => "#{family_member.id}", :style => "background:#FF7163"} You
+                .familyMember{"data-content" => "#{family_member.first_name} #{family_member.last_name}", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", "data-profile-id" => "#{family_member.id}", :style => "background:"+colorList[colorIndex]} You
               - else
-                .familyMember{"data-content" => "#{family_member.first_name} #{family_member.last_name}", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", "data-profile-id" => "#{family_member.id}", :style => "background:#FF7163"}
+                .familyMember{"data-content" => "#{family_member.first_name} #{family_member.last_name}", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", "data-profile-id" => "#{family_member.id}", :style => "background:"+colorList[colorIndex]}
                   = family_member.first_name.slice(0,1).capitalize + family_member.last_name.slice(0,1).capitalize
             .clearfix{:style => "clear:right"}
         - if session[:current_online_customer].guardian_id.nil?
