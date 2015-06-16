@@ -3,7 +3,7 @@ class Customers::CustomerLabResultsController < ApplicationController
   def update
     systolic_value = params[:undefined][:blood_pressure][:systolic]
     diastolic_value=params[:undefined][:blood_pressure][:diastolic]
-    @current_customer=current_online_customer
+    @current_customer=session[:current_online_customer]
     @updated_date=formatted_date (Time.now)
 
     sys_code = TestComponent.find_by("lower(name)='systolic'").lonic_code
@@ -34,7 +34,7 @@ class Customers::CustomerLabResultsController < ApplicationController
   end
 
   def update_blood_sugar
-    @customer=current_online_customer
+    @customer=session[:current_online_customer]
     @new_health_assessment=@customer.health_assessments.create(request_date:Time.now,assessment_type:'Body',status:'done',type:'BodyAssessment',status_code:6, enterprise_id: Enterprise.find_by_enterprise_id('EK').id,)
     if params[:test_component_id]
       @blood_sugar_component_id=params[:test_component_id]
@@ -62,6 +62,6 @@ class Customers::CustomerLabResultsController < ApplicationController
   def get_color test_component_id,result, assessment_id
     result=result.to_i
     test_component_name=TestComponent.find(test_component_id).name
-    return current_online_customer.resulted_component_value2(test_component_name, result, assessment_id)[:color]
+    return session[:current_online_customer].resulted_component_value2(test_component_name, result, assessment_id)[:color]
   end
 end

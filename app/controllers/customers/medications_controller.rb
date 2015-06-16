@@ -6,13 +6,13 @@ class Customers::MedicationsController < CustomerAppController
 
   def index
     @customer_profile_page = true
-    customer_id = current_online_customer.id
+    customer_id = session[:current_online_customer].id
     @customer = Customer.find(customer_id)
     @medications = @customer.medications
   end
 
   def create
-    @customer = current_online_customer
+    @customer = session[:current_online_customer]
     @medication = @customer.medications.create(medication_params)
 
     if @medication
@@ -23,7 +23,7 @@ class Customers::MedicationsController < CustomerAppController
   end
 
   def update
-    @customer = current_online_customer
+    @customer = session[:current_online_customer]
     @medication = @customer.medications.find(params[:id])
     @medication.update_attributes(medication_params)
     if @medication.save
@@ -34,7 +34,7 @@ class Customers::MedicationsController < CustomerAppController
   end
 
   def destroy
-    @customer = current_online_customer
+    @customer = session[:current_online_customer]
     @medication = @customer.medications.find(params[:id])
     if @medication.destroy
       render json: { success: 'success' }, status: 200

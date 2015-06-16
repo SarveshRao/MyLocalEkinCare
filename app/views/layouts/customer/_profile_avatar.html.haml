@@ -16,31 +16,31 @@
         = image_tag 'avatar-loader2.gif'
 
   %aside.padder
-    - address = current_online_customer.address
+    - address = session[:current_online_customer].address
     %h3.font-bold.m-b-none.m-t-none
-      = current_online_customer.name.capitalize
+      = session[:current_online_customer].name.capitalize
     %p
       %small
-        - if current_online_customer.gender == 'Female'
+        - if session[:current_online_customer].gender == 'Female'
           %i.fa.fa-female
           Female
-        - elsif current_online_customer.gender == 'Male'
+        - elsif session[:current_online_customer].gender == 'Male'
           %i.fa.fa-male
           Male
         - else
-        - if current_online_customer.age['year'] != '-'
-          = "| #{current_online_customer.age['year']} years"
+        - if session[:current_online_customer].age['year'] != '-'
+          = "| #{session[:current_online_customer].age['year']} years"
 
 
     %ul.nav.nav-pills.nav-stacked.aside-lg
       %li.bg-light.dk.m-n
         %a
           %i.i.i-phone.m-r-sm
-          = current_online_customer.mobile_number rescue '-'
+          = session[:current_online_customer].mobile_number rescue '-'
       %li.bg-light.dk.m-n
         %a
           %i.i.i-mail.m-r-sm
-          = current_online_customer.email rescue '-'
+          = session[:current_online_customer].email rescue '-'
 
       %li.bg-light.dk.m-n
         %a

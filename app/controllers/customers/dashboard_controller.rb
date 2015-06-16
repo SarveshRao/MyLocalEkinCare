@@ -2,13 +2,12 @@ class Customers::DashboardController < CustomerAppController
   add_breadcrumb 'Home', :customers_dashboard_show_path
 
   def show
-    customer = current_online_customer    
+    customer = session[:current_online_customer]
     @diabetic_score=customer.diabetic_score
     @hypertension_score=customer.hypertension_score(1).round(3)
     @hypertension_percentage=(@hypertension_score*100).round
     @medical_conditions=MedicalCondition.all
-    @comments = DoctorComment.select("health_assessment_id, description, notes_id, doctor_name, doctor_comments.general_comments, doctor_comments.created_at").joins("left outer join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{current_online_customer.id} order by doctor_comments.created_at DESC")
-    @family_members = Customer.where("guardian_id=#{current_online_customer.id}")
+    @comments = DoctorComment.select("health_assessment_id, description, notes_id, doctor_name, doctor_comments.general_comments, doctor_comments.created_at").joins("left outer join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{session[:current_online_customer].id} order by doctor_comments.created_at DESC")
   end
 
   def inbox
@@ -32,10 +31,10 @@ class Customers::DashboardController < CustomerAppController
     doctor_name = params[:doctor_opinion][:doctor_name]
     doctor_mobile_number = params[:doctor_opinion][:doctor_mobile_number]
     doctor_email = params[:doctor_opinion][:doctor_email]
-    customer_id = current_online_customer.id
-    customer_first_name = current_online_customer.first_name
-    customer_last_name = current_online_customer.last_name
-    customer_mobile_number = current_online_customer.mobile_number
+    customer_id = session[:current_online_customer].id
+    customer_first_name = session[:current_online_customer].first_name
+    customer_last_name = session[:current_online_customer].last_name
+    customer_mobile_number = session[:current_online_customer].mobile_number
     inserted_row_id = DoctorOpinion.create(customer_id: customer_id,
                                            doctor_name: doctor_name,
                                            doctor_mobile_number: doctor_mobile_number,

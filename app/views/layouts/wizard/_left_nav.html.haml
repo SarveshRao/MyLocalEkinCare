@@ -6,11 +6,11 @@
           .dropdown
             %a.dropdown-toggle{"data-toggle" => "dropdown"}
               %span.thumb.avatar.pull-left.m-r
-                %img.dker{alt: "...", src: asset_path(current_online_customer.gender_default_icon)}/
+                %img.dker{alt: "...", src: asset_path(session[:current_online_customer].gender_default_icon)}/
               %span.hidden-nav-xs.clear
                 %span.block.m-t-xs
                   %strong.font-bold.text-lt
-                    = current_online_customer.name
+                    = session[:current_online_customer].name
         %nav.nav-primary.hidden-xs
           &nbsp;
           %ul.nav.nav-main{"data-ride" => "collapse"}
@@ -24,7 +24,7 @@
                   %i.i.i-circle-sm-o.text
                   %i.i.i-circle-sm.text-active
                 %b.badge.bg-danger.pull-right
-                  = current_online_customer.health_assessments.count
+                  = session[:current_online_customer].health_assessments.count
                 %i.i.i-stack.icon
                 %span.font-bold Assessments
             %li

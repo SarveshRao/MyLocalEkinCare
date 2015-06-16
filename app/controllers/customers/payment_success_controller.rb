@@ -35,7 +35,7 @@ class Customers::PaymentSuccessController < CustomerAppController
     @reduced_amount = @amount.to_f - @discount.to_f
     @coupon_id = params[:city]
 
-    @customer = current_online_customer
+    @customer = session[:current_online_customer]
     if @name.nil?
       @name = @customer.first_name
     end

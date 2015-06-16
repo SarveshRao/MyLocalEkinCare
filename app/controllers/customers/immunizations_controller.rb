@@ -11,7 +11,7 @@ class Customers::ImmunizationsController < CustomerAppController
   end
 
   def create
-    customer_id = current_online_customer.id
+    customer_id = session[:current_online_customer].id
     @customer = Customer.find(customer_id)
     @immunization = Immunization.create!(immunization_params)
 
@@ -32,13 +32,13 @@ class Customers::ImmunizationsController < CustomerAppController
   def index
     @customer_profile_page = true
 
-    customer_id = current_online_customer.id
+    customer_id = session[:current_online_customer].id
     @customer = Customer.find(customer_id)
     @immunizations = @customer.immunizations
   end
 
   def update
-    @customer = current_online_customer
+    @customer = session[:current_online_customer]
     @immunization = Immunization.find(params[:id])
     @immunization.update(immunization_params)
     @customer_immunization = @customer.customer_immunizations.find_by(immunization_id: @immunization.id)
@@ -54,7 +54,7 @@ class Customers::ImmunizationsController < CustomerAppController
   end
 
   def destroy
-    @customer = current_online_customer
+    @customer = session[:current_online_customer]
     @immunization = @customer.immunizations.find(params[:id])
     customer_immunization = @customer.customer_immunizations.find_by(immunization_id: @immunization.id)
 

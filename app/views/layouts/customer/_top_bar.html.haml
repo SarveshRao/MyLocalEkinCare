@@ -62,10 +62,10 @@
   -#  %li
   -#    = link_to("Sign out", destroy_online_customer_session_path)
   -#- if session[:is_customer]
-  -#  - recent_activities = current_online_customer.recent_activities
+  -#  - recent_activities = session[:current_online_customer].recent_activities
 
   - if !session[:is_doctor]
-    = form_for MedicalRecord.new, remote: true, authenticity_token: true, url: customer_documents_path(current_online_customer), html: {method: 'post', id: 'customer_medical_record_form', class: 'form-inline'} do |f|
+    = form_for MedicalRecord.new, remote: true, authenticity_token: true, url: customer_documents_path(session[:current_online_customer]), html: {method: 'post', id: 'customer_medical_record_form', class: 'form-inline'} do |f|
       .form-group.col-sm-4.p-t
         .input-group.pull-left.col-xs-12
           %span.input-group-btn.upload-doc
@@ -93,9 +93,9 @@
     %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
       %li.hidden-xs
         %a.dropdown-toggle#notifications_count{"data-toggle" => "dropdown", href: "#"}
-          -#- inbox_activities = current_online_customer.inbox_messages
+          -#- inbox_activities = session[:current_online_customer].inbox_messages
           %i.fa.fa-envelope-o
-          - inbox_count = Inbox.joins("inner join health_assessments h on h.id=inboxes.associated_id where h.customer_id=#{current_online_customer.id} and activity_type like '%Assessment%'").count - Inbox.joins("inner join health_assessments h on h.id=inboxes.associated_id where h.customer_id=#{current_online_customer.id} and activity_type like '%Assessment%' and inboxes.status=true").count
+          - inbox_count = Inbox.joins("inner join health_assessments h on h.id=inboxes.associated_id where h.customer_id=#{session[:current_online_customer].id} and activity_type like '%Assessment%'").count - Inbox.joins("inner join health_assessments h on h.id=inboxes.associated_id where h.customer_id=#{session[:current_online_customer].id} and activity_type like '%Assessment%' and inboxes.status=true").count
           -if inbox_count>0
             %span.badge.badge-sm.up.bg-danger.count
               =  inbox_count
@@ -104,9 +104,9 @@
     %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
       %li.hidden-xs
         %a.dropdown-toggle#appointments_count{"data-toggle" => "dropdown", href: "#"}
-          - inbox_activities = current_online_customer.inbox_messages
+          - inbox_activities = session[:current_online_customer].inbox_messages
           %i.fa.fa-bell-o
-          - appoint_count =  Inbox.joins("inner join appointments ap on ap.id=inboxes.associated_id where customer_id=#{current_online_customer.id} and activity_type='Appointment' and associated_date> CURRENT_TIMESTAMP - INTERVAL '1 day'").count
+          - appoint_count =  Inbox.joins("inner join appointments ap on ap.id=inboxes.associated_id where customer_id=#{session[:current_online_customer].id} and activity_type='Appointment' and associated_date> CURRENT_TIMESTAMP - INTERVAL '1 day'").count
           -if appoint_count>0
             %span.badge.badge-sm.up.bg-danger.count
               = appoint_count
@@ -116,7 +116,7 @@
       %li.hidden-xs
         %a.dropdown-toggle#recommendations_count{"data-toggle" => "dropdown", href: "#"}
           %i.fa.fa-thumbs-o-up.fa-lg
-          - recommendations_count =  Inbox.where("activity_type like '%Recommendation%' and customer_id=#{current_online_customer.id}").count - Inbox.where("activity_type like '%Recommendation%' and customer_id=#{current_online_customer.id} and status=true").count
+          - recommendations_count =  Inbox.where("activity_type like '%Recommendation%' and customer_id=#{session[:current_online_customer].id}").count - Inbox.where("activity_type like '%Recommendation%' and customer_id=#{session[:current_online_customer].id} and status=true").count
           -if recommendations_count>0
             %span.badge.badge-sm.up.bg-danger.count
               = recommendations_count

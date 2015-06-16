@@ -1,5 +1,5 @@
-- inbox_activities = Inbox.joins("inner join health_assessments h on h.id=inboxes.associated_id where h.customer_id=#{current_online_customer.id} and activity_type like '%Assessment%'")
-- inbox_activities_status = Inbox.joins("inner join health_assessments h on h.id=inboxes.associated_id where h.customer_id=#{current_online_customer.id} and activity_type like '%Assessment%' and inboxes.status = true")
+- inbox_activities = Inbox.joins("inner join health_assessments h on h.id=inboxes.associated_id where h.customer_id=#{session[:current_online_customer].id} and activity_type like '%Assessment%'")
+- inbox_activities_status = Inbox.joins("inner join health_assessments h on h.id=inboxes.associated_id where h.customer_id=#{session[:current_online_customer].id} and activity_type like '%Assessment%' and inboxes.status = true")
 %section.panel-body.open-sans.scrollable
   - if (inbox_activities.count-inbox_activities_status.count) == 0
     %section.panel-body{style:"color: black;"}

@@ -2,8 +2,8 @@ class Customers::CustomerInformationController < ApplicationController
   include ApplicationHelper
 
   def show
-    unless current_online_customer.nil?
-      @customer=current_online_customer
+    unless session[:current_online_customer].nil?
+      @customer=session[:current_online_customer]
       @customer_vitals=@customer.customer_vitals
       @systolic_blood_pressure=@customer.systolic[:result]
       @diastolic_blood_pressure=@customer.diastolic[:result]
@@ -29,7 +29,7 @@ class Customers::CustomerInformationController < ApplicationController
   end
 
   def update
-    @customer=current_online_customer
+    @customer=session[:current_online_customer]
     @modified_date=formatted_date Time.now
     respond_to do |format|
       if(@customer.update_attributes(customer_params))
@@ -41,7 +41,7 @@ class Customers::CustomerInformationController < ApplicationController
   end
 
   def update_customer_vitals
-    @customer=current_online_customer
+    @customer=session[:current_online_customer]
     @customer_vitals=@customer.customer_vitals
     @modified_on=formatted_date Time.now
 
@@ -56,7 +56,7 @@ class Customers::CustomerInformationController < ApplicationController
   end
 
   def hypertension_prediction_values
-    @customer=current_online_customer
+    @customer=session[:current_online_customer]
     @hyper_tension_scores=Hash.new()
     [1,2,3,4].each do |year|
       @hyper_tension_score=@customer.hypertension_score(year).round(3)
@@ -76,7 +76,7 @@ class Customers::CustomerInformationController < ApplicationController
     else
       test_component=TestComponent.find(test_component_id)
     end
-    customer=current_online_customer
+    customer=session[:current_online_customer]
     lab_result_values=test_component.lab_results_with_dates(customer)
     respond_to do |format|
       format.json {render :json => { values:lab_result_values}}
@@ -84,15 +84,15 @@ class Customers::CustomerInformationController < ApplicationController
   end
 
   def water_intake_history
-    @customer=current_online_customer
-    @customer_water_consumptions=current_online_customer.water_consumptions.where(consumed_date: 1.week.ago..Date.today)
+    @customer=session[:current_online_customer]
+    @customer_water_consumptions=session[:current_online_customer].water_consumptions.where(consumed_date: 1.week.ago..Date.today)
     respond_to do |format|
       format.json {render :json => { water_consumption_history:@customer_water_consumptions}}
     end
   end
 
   def update_water_intake_value
-    @customer=current_online_customer
+    @customer=session[:current_online_customer]
     @todays_water_intake=@customer.water_consumptions.where(consumed_date:Date.today)
     @water_intake_value=@todays_water_intake.first.water_consumed rescue 0
     value=@water_intake_value.to_i+params[:value].to_i
@@ -108,7 +108,7 @@ class Customers::CustomerInformationController < ApplicationController
   end
 
   def get_message_prompts
-    @customer=current_online_customer
+    @customer=session[:current_online_customer]
     @gender=@customer.gender
     @risk_factors=Hash.new
     RiskFactor.all.each do |risk_factor|

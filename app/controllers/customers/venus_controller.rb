@@ -5,7 +5,7 @@ class Customers::VenusController < CustomerAppController
 
   def index
     @customer_packages_page = true
-    @customer = current_online_customer
+    @customer = session[:current_online_customer]
     @customer_id = @customer.id.to_s
     @address = Address.find_by("addressee_id= #{@customer_id}::text and addressee_type='Customer'")
     @package_info = ProviderTest.find_by("id=?",params[:package])
@@ -98,7 +98,7 @@ class Customers::VenusController < CustomerAppController
   end
 
   def update
-    @customer = current_online_customer
+    @customer = session[:current_online_customer]
     @address = Address.find_by("addressee_id= #{@customer.id}::text and addressee_type='Customer'")
     address_attributes = params[:customer][:addresses_attributes][:"0"]
     if @address
@@ -120,7 +120,7 @@ class Customers::VenusController < CustomerAppController
   def apply_coupon_code
     @code=params[:code]
     @amount=params[:amount]
-    @customer=current_online_customer
+    @customer=session[:current_online_customer]
     @coupon=Coupon.where("lower(code) = ? ",@code.downcase).first
     @email = params[:email]
     @firstname = params[:firstname]

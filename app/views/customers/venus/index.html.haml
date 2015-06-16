@@ -29,13 +29,13 @@
             %div
               .row.hide#edit_address_form
                 .col-sm-10
-                  = form_for current_online_customer, url: customers_venus_edit_path, html: {'data-validate' => 'parsley', multipart: true, id: "customer_med_basic_details_form"}  do |f|
+                  = form_for session[:current_online_customer], url: customers_venus_edit_path, html: {'data-validate' => 'parsley', multipart: true, id: "customer_med_basic_details_form"}  do |f|
                     .form-group
                       %div.provider_sec
                       = f.label :address
                       %sup.text-danger
                         *
-                      - @address = current_online_customer.addresses.first.nil? ? Address.new : current_online_customer.addresses.first
+                      - @address = session[:current_online_customer].addresses.first.nil? ? Address.new : session[:current_online_customer].addresses.first
                       = f.fields_for :addresses, @address do |a|
                         .form-group
                           = f.hidden_field "package",value: @package_info.id

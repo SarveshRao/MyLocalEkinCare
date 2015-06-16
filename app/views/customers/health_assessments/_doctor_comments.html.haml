@@ -9,7 +9,7 @@
     %li.required This field is required
   .row.m
     %a.pull-right.btn.btn-primary#send_general_comments{href: "#", type: "submit"} Send
-- comments = DoctorComment.select("health_assessment_id, description, notes_id, doctor_name, doctor_comments.general_comments, doctor_comments.created_at").joins("left outer join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{current_online_customer.id} order by doctor_comments.created_at DESC")
+- comments = DoctorComment.select("health_assessment_id, description, notes_id, doctor_name, doctor_comments.general_comments, doctor_comments.created_at").joins("left outer join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{session[:current_online_customer].id} order by doctor_comments.created_at DESC")
 -no_comments = true
 %span{style:"color: #3c4144;"}
   - comments.each do |comment|

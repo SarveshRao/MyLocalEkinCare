@@ -27,7 +27,7 @@ class CustomerAppController < ApplicationController
   end
 
   #def accessed_to_dashboard
-  #  unless current_online_customer.status == 'wicked_finish'
+  #  unless session[:current_online_customer].status == 'wicked_finish'
   #    redirect_to customers_dashboard_path
   #  end
   #end

@@ -3,7 +3,7 @@
     .row
       .col-md-12
         .row.row-sm
-          - current_online_customer.documents.each do |medical_record|
+          - session[:current_online_customer].documents.each do |medical_record|
             .col-md-2.col-sm-4.col-xs-6.p-b
               .thumbnail
                 %a{href: medical_record.emr.url, target: '_blank', download: 'download'}

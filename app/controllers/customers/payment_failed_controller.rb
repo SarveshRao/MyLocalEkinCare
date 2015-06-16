@@ -21,7 +21,7 @@ class Customers::PaymentFailedController < CustomerAppController
     @name = params[:firstname]
     @reduced_amount = @amount.to_f - @discount.to_f
 
-    @customer = current_online_customer
+    @customer = session[:current_online_customer]
     @package = PackageDetail.find_by_txnid(@txnid)
     @payment_details = PaymentDetail.new(txnid: @txnid, status: @status, amount: @amount, mihpayid: @mihpayid, mode: @mode, discount: @discount,
                                          checksum: @hash, error: @error, pg_type: @pg_type, bank_ref_num: @bank_ref_num, unmappedstatus: @unmappedstatus, payumoney_id: @payu_id, package_id: @package.id)

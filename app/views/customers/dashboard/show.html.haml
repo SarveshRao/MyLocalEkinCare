@@ -57,7 +57,7 @@
                     .btn.btn-default.btn-success.wixard-next-button#height_weight_next{:style => "bottom:-90px;"} Next
                 .ekin-wizard-message.col-xs-12{:style => ""}
                   Hey
-                  = current_online_customer.first_name+','
+                  = session[:current_online_customer].first_name+','
                   %span#height-weight-message
                     Do you know that your heart beats about 1,00,000 times in a day.
             %section.row.m-b-md.padder.hide{:id=>'waist_bloodgroup'}
@@ -87,7 +87,7 @@
                     .btn.btn-default.btn-success.wixard-next-button{:id=>'waist_bloodgroup_next',:style => "bottom:-60px;"} Next
                 .ekin-wizard-message.col-xs-12{:style => ""}
                   Hey
-                  = current_online_customer.first_name+','
+                  = session[:current_online_customer].first_name+','
                   %span#waist-bloodgroup-message
                     Do you know that your heart beats about 1,00,000 times in a day.
             %section.row.m-b-md.padder.hide{:id=>'activities'}
@@ -130,7 +130,7 @@
                     .btn.btn-default.btn-success.wixard-next-button{:id=>'activities_next',:style => "bottom:-50px;"} Next
                 .ekin-wizard-message.col-xs-12{:style => ""}
                   Hey
-                  = current_online_customer.first_name+','
+                  = session[:current_online_customer].first_name+','
                   %span#activities-message
                     Do you know that your heart beats about 1,00,000 times in a day.
             %section.row.m-b-md.padder.hide{:id=>'family_medical_history'}
@@ -165,7 +165,7 @@
                     .btn.btn-default.btn-success.wixard-next-button{:id=>'family_medical_history_next',:style => "bottom:-50px;"} Next
                 .ekin-wizard-message.col-xs-12{:style => ""}
                   Hey
-                  = current_online_customer.first_name+','
+                  = session[:current_online_customer].first_name+','
                   %span#family-info-message
                     Do you know that your heart beats about 1,00,000 times in a day
             %section.row.m-b-md.padder.hide{:id=>'water_intake'}
@@ -194,7 +194,7 @@
                     .btn.btn-default.btn-success.wixard-next-button{:id=>'water_intake_next',:style => "bottom:-50px;"} Next
                 .ekin-wizard-message.col-xs-12{:style => ""}
                   Hey
-                  = current_online_customer.first_name+','
+                  = session[:current_online_customer].first_name+','
                   %span#activities-message
                     Do you know that your heart beats about 1,00,000 times in a day.
             %section.row.m-b-md.padder.hide{:id=>'health_information'}
@@ -219,7 +219,7 @@
                     .btn.btn-default.btn-success.wixard-next-button{:id=>'health_information_finish',:style => "bottom:-90px;"} Finish
                 .ekin-wizard-message.col-xs-12{:style => ""}
                   Hey
-                  = current_online_customer.first_name+','
+                  = session[:current_online_customer].first_name+','
                   %span#health-info-message
                     Do you know that your heart beats about 1,00,000 times in a day.
     %div.row
@@ -324,8 +324,8 @@
             %header.panel-heading.font-bold Today's water intake
             .panel-body
               -water_consumption=0
-              -actual_consumption= current_online_customer.optimal_water_intake.round(2)
-              -customer_water_consumption=current_online_customer.water_consumptions.where(consumed_date:Date.today)
+              -actual_consumption= session[:current_online_customer].optimal_water_intake.round(2)
+              -customer_water_consumption=session[:current_online_customer].water_consumptions.where(consumed_date:Date.today)
               -unless customer_water_consumption.nil?
                 -consumption=customer_water_consumption.first
                 -unless consumption.nil?
@@ -333,7 +333,7 @@
                   -actual_consumption=consumption.actual_consumption
               #glassContainer
                 #glassFullReading
-                  =current_online_customer.optimal_water_intake.round(2).to_s+'ml'
+                  =session[:current_online_customer].optimal_water_intake.round(2).to_s+'ml'
                 #glassActualReading
                   =water_consumption.to_s+'ml'
                 #glassEmpty
@@ -363,10 +363,10 @@
             .inline
               %h4.h4.font-bold
                 %span.h4
-                = current_online_customer.age['year']
+                = session[:current_online_customer].age['year']
                 %span.h4
                 %small year
-                =current_online_customer.age['month']
+                =session[:current_online_customer].age['month']
                 %small month
           %header.panel-heading.text-center
             %small.text-muted
@@ -380,14 +380,14 @@
             .inline
               %h4.h4.font-bold
                 %span#feet_val.h4.font-bold
-                  = current_online_customer.customer_vitals.feet
+                  = session[:current_online_customer].customer_vitals.feet
                 %small feet
                 %span#inches_val.h4.font-bold
-                  = current_online_customer.customer_vitals.inches
+                  = session[:current_online_customer].customer_vitals.inches
                 %small inches
           %header.panel-heading.text-center
             %small.text-muted#height_date
-              = formatted_date current_online_customer.customer_vitals.updated_at rescue '-'
+              = formatted_date session[:current_online_customer].customer_vitals.updated_at rescue '-'
       .col-lg-3.col-md-3.hide.m-b
         %section.panel.panel-default.m-n#weight_section
           %header.panel-heading.text-center
@@ -396,11 +396,11 @@
             .inline
               %h4.h4.font-bold
                 %span.h4.font-bold#weight_val
-                  =current_online_customer.customer_vitals.weight
+                  =session[:current_online_customer].customer_vitals.weight
                 %small Kgs
           %header.panel-heading.text-center
             %small.text-muted#weight_date
-              = formatted_date current_online_customer.customer_vitals.updated_at rescue '-'
+              = formatted_date session[:current_online_customer].customer_vitals.updated_at rescue '-'
       .col-lg-3.col-md-3.hide.m-b
         %section.panel.panel-default.m-n#bmi_section
           %header.panel-heading.text-center
@@ -409,12 +409,12 @@
             .inline
               %h4.font-bold
                 %span.h4.font-bold
-                  %b#bmi{class: "#{current_online_customer.colored_bmi}"}
-                    = current_online_customer.bmi
+                  %b#bmi{class: "#{session[:current_online_customer].colored_bmi}"}
+                    = session[:current_online_customer].bmi
                 %small
           %header.panel-heading.text-center
             %small.text-muted#bmi_date
-              = formatted_date current_online_customer.customer_vitals.updated_at rescue '-'
+              = formatted_date session[:current_online_customer].customer_vitals.updated_at rescue '-'
 
       .col-lg-3.col-md-3.hide.m-b
         %section.panel.panel-default.m-n#blood_group_section
@@ -424,10 +424,10 @@
             .inline
               %h4.h4.font-bold
                 %span.h4#blood_group_val
-                  = current_online_customer.customer_vitals.blood_group.blood_type rescue '-'
+                  = session[:current_online_customer].customer_vitals.blood_group.blood_type rescue '-'
           %header.panel-heading.text-center
             %small.text-muted#blood_group_date
-              = formatted_date current_online_customer.customer_vitals.updated_at rescue '-'
+              = formatted_date session[:current_online_customer].customer_vitals.updated_at rescue '-'
       .col-lg-3.col-md-3.m-b
         %section.panel.panel-default.m-n#recent_body_assessment_section
           %header.panel-heading.text-center
@@ -436,13 +436,13 @@
             .inline
               %h4.h4.font-bold
                 %span.h4#recent_assessment_val
-                  =current_online_customer.assessment_type.assessment_type rescue '-'
+                  =session[:current_online_customer].assessment_type.assessment_type rescue '-'
           %header.panel-heading.text-center
             %small.text-muted#recent_assessment_date
-              - if current_online_customer.recent_health_assessment_done.nil?
+              - if session[:current_online_customer].recent_health_assessment_done.nil?
                 \-
               - else
-                = "#{formatted_date current_online_customer.recent_health_assessment_done.request_date}"
+                = "#{formatted_date session[:current_online_customer].recent_health_assessment_done.request_date}"
       .col-lg-3.col-md-3.hide.m-b
         %section.panel.panel-default.m-n.bp_Values#blood_pressure_section
           %header.panel-heading.text-center
@@ -450,17 +450,17 @@
           .panel-body.text-center
             .inline
               %a.h4.font-bold{ id: "blood_pressure", data: {type: "blood_pressure"} }
-                %input#customer_id{:type => "hidden", :value => current_online_customer.id}/
-                %span.h4.font-bold#systolic_val.systolic_color{class: "#{current_online_customer.systolic[:color]}"}
-                  = "#{current_online_customer.systolic[:result]}"
+                %input#customer_id{:type => "hidden", :value => session[:current_online_customer].id}/
+                %span.h4.font-bold#systolic_val.systolic_color{class: "#{session[:current_online_customer].systolic[:color]}"}
+                  = "#{session[:current_online_customer].systolic[:result]}"
                 \/
-                %span.h4.font-bold#diastolic_val.diastolic_color{class: "#{current_online_customer.diastolic[:color]}"}
-                  = "#{current_online_customer.diastolic[:result]}"
+                %span.h4.font-bold#diastolic_val.diastolic_color{class: "#{session[:current_online_customer].diastolic[:color]}"}
+                  = "#{session[:current_online_customer].diastolic[:result]}"
               %small{:style => "color:#999"}
-                = "#{current_online_customer.diastolic[:units]}"
+                = "#{session[:current_online_customer].diastolic[:units]}"
           %header.panel-heading.text-center.clearfix.panel-footer
             %small.text-muted#bp_date
-              = formatted_date current_online_customer.assessment_body_bp
+              = formatted_date session[:current_online_customer].assessment_body_bp
       .col-lg-3.col-md-3.hide.m-b
         %section.panel.panel-default.m-n#blood_sugar_section
           %ul.nav.nav-tabs
@@ -470,23 +470,23 @@
                   Blood Glucose
                 %b.caret
               %ul.dropdown-menu.text-left#blood_glucose
-                - if current_online_customer.recent_body_assessment
-                  - LabTest.find_by(name: "Blood Glucose", enterprise_id: "#{current_online_customer.recent_body_assessment.enterprise_id ? current_online_customer.recent_body_assessment.enterprise_id : Enterprise.find_by_enterprise_id('EK').id}").test_components.each do |test_component|
+                - if session[:current_online_customer].recent_body_assessment
+                  - LabTest.find_by(name: "Blood Glucose", enterprise_id: "#{session[:current_online_customer].recent_body_assessment.enterprise_id ? session[:current_online_customer].recent_body_assessment.enterprise_id : Enterprise.find_by_enterprise_id('EK').id}").test_components.each do |test_component|
                     %li
                       %a{"data-toggle" => "tab", :href => "#"+test_component.id.to_s, :value=> test_component.id}
                         = test_component.name
                 - else
                   - LabTest.find_by(name: "Blood Glucose", enterprise_id: Enterprise.find_by_enterprise_id('EK').id).test_components.each do |test_component|
-                    %li{class: "#{current_online_customer.blood_sugar_result(test_component.name)[:result].nil? ? '' : ''}"}
+                    %li{class: "#{session[:current_online_customer].blood_sugar_result(test_component.name)[:result].nil? ? '' : ''}"}
                       %a{"data-toggle" => "tab", :href => "#"+test_component.id.to_s, :value=> test_component.id}
                         = test_component.name
             .panel-body.text-center.pad_2
               .tab-content
-                - if current_online_customer.recent_body_assessment
+                - if session[:current_online_customer].recent_body_assessment
                   -is_active=false
                   -already_activated=false
-                  - LabTest.find_by(name: "Blood Glucose", enterprise_id: "#{current_online_customer.recent_body_assessment.enterprise_id ? current_online_customer.recent_body_assessment.enterprise_id : Enterprise.find_by_enterprise_id('EK').id}").test_components.each_with_index do |test_component, index|
-                    -if(current_online_customer.blood_sugar_result(test_component.name)[:result] &&(already_activated==false))
+                  - LabTest.find_by(name: "Blood Glucose", enterprise_id: "#{session[:current_online_customer].recent_body_assessment.enterprise_id ? session[:current_online_customer].recent_body_assessment.enterprise_id : Enterprise.find_by_enterprise_id('EK').id}").test_components.each_with_index do |test_component, index|
+                    -if(session[:current_online_customer].blood_sugar_result(test_component.name)[:result] &&(already_activated==false))
                       -is_active=true
                       -already_activated=true
                     -else
@@ -496,24 +496,24 @@
                         %h4.font-bold
                           %span.h4.font-bold#blood_sugar_color
                             -if(test_component.name=='Fasting blood sugar')
-                              %b{id:'Fasting_blood_sugar_id', class: "#{current_online_customer.blood_sugar(test_component.name)[:color]}"}
-                                = editable current_online_customer.blood_sugar_result(test_component.name), :result,url: customers_customer_lab_results_update_blood_sugar_path({customer_id:current_online_customer.id,id: current_online_customer.blood_sugar_result(test_component.name),test_component_id:test_component.id})
+                              %b{id:'Fasting_blood_sugar_id', class: "#{session[:current_online_customer].blood_sugar(test_component.name)[:color]}"}
+                                = editable session[:current_online_customer].blood_sugar_result(test_component.name), :result,url: customers_customer_lab_results_update_blood_sugar_path({customer_id:session[:current_online_customer].id,id: session[:current_online_customer].blood_sugar_result(test_component.name),test_component_id:test_component.id})
                             -else
-                              %b{class: "#{current_online_customer.blood_sugar(test_component.name)[:color]}"}
-                                = editable current_online_customer.blood_sugar_result(test_component.name), :result,url: customers_customer_lab_results_update_blood_sugar_path({customer_id:current_online_customer.id,id: current_online_customer.blood_sugar_result(test_component.name),test_component_id:test_component.id})
+                              %b{class: "#{session[:current_online_customer].blood_sugar(test_component.name)[:color]}"}
+                                = editable session[:current_online_customer].blood_sugar_result(test_component.name), :result,url: customers_customer_lab_results_update_blood_sugar_path({customer_id:session[:current_online_customer].id,id: session[:current_online_customer].blood_sugar_result(test_component.name),test_component_id:test_component.id})
                                 -#%small
-                                -#= "#{current_online_customer.blood_sugar(test_component.name)[:units]}"
+                                -#= "#{session[:current_online_customer].blood_sugar(test_component.name)[:units]}"
                               -#-else
-                              -#  = editable current_online_customer.blood_sugar_result(test_component.name), :result,url: customers_customer_lab_results_update_blood_sugar_path({customer_id:current_online_customer.id,id: current_online_customer.blood_sugar_result(test_component.name),test_component_id:test_component.id})
+                              -#  = editable session[:current_online_customer].blood_sugar_result(test_component.name), :result,url: customers_customer_lab_results_update_blood_sugar_path({customer_id:session[:current_online_customer].id,id: session[:current_online_customer].blood_sugar_result(test_component.name),test_component_id:test_component.id})
                           %small
-                            = "#{current_online_customer.blood_sugar(test_component.name)[:units]}"
+                            = "#{session[:current_online_customer].blood_sugar(test_component.name)[:units]}"
                       %small.clearfix#type_of_sugar
                         =test_component.name
                 - else
                   -is_active=false
                   -already_activated=false
                   - LabTest.find_by(name: "Blood Glucose", enterprise_id: Enterprise.find_by_enterprise_id('EK').id).test_components.each_with_index do |test_component, index|
-                    -if(current_online_customer.blood_sugar_result(test_component.name)[:result] &&(already_activated==false))
+                    -if(session[:current_online_customer].blood_sugar_result(test_component.name)[:result] &&(already_activated==false))
                       -is_active=true
                       -already_activated=true
                     -else
@@ -522,26 +522,26 @@
                       .inline
                         %h4.font-bold
                           %span.h4.font-bold#blood_sugar_color
-                            %b{ class: "#{current_online_customer.blood_sugar(test_component.name)[:color]}"}
+                            %b{ class: "#{session[:current_online_customer].blood_sugar(test_component.name)[:color]}"}
                               -if(test_component.name=='Fasting blood sugar')
                                 %div{id:'Fasting_blood_sugar_id'}
-                                  = editable current_online_customer.blood_sugar_result(test_component.name), :result,url: customers_customer_lab_results_update_blood_sugar_path({customer_id:current_online_customer.id,id: current_online_customer.blood_sugar_result(test_component.name),test_component_id:test_component.id})
+                                  = editable session[:current_online_customer].blood_sugar_result(test_component.name), :result,url: customers_customer_lab_results_update_blood_sugar_path({customer_id:session[:current_online_customer].id,id: session[:current_online_customer].blood_sugar_result(test_component.name),test_component_id:test_component.id})
                                 %small
-                                  = "#{current_online_customer.blood_sugar(test_component.name)[:units]}"
+                                  = "#{session[:current_online_customer].blood_sugar(test_component.name)[:units]}"
                               -else
-                                = editable current_online_customer.blood_sugar_result(test_component.name), :result,url: customers_customer_lab_results_update_blood_sugar_path({customer_id:current_online_customer.id,id: current_online_customer.blood_sugar_result(test_component.name),test_component_id:test_component.id})
+                                = editable session[:current_online_customer].blood_sugar_result(test_component.name), :result,url: customers_customer_lab_results_update_blood_sugar_path({customer_id:session[:current_online_customer].id,id: session[:current_online_customer].blood_sugar_result(test_component.name),test_component_id:test_component.id})
                                 %small
-                                  = "#{current_online_customer.blood_sugar(test_component.name)[:units]}"
+                                  = "#{session[:current_online_customer].blood_sugar(test_component.name)[:units]}"
                       %small.clearfix#type_of_sugar
                         =test_component.name
           %header.panel-heading.text-center.clearfix.panel-footer
             %small.text-muted#blood_sugar_date
-              = formatted_date current_online_customer.assessment_body_sugar
+              = formatted_date session[:current_online_customer].assessment_body_sugar
     %div.row.p-t
       - icons = ['i-plus2', 'i-users2', 'i-location', 'i-alarm']
-      - if !current_online_customer.insufficient_results.nil?
+      - if !session[:current_online_customer].insufficient_results.nil?
         - index = -1
-        - current_online_customer.insufficient_results.each do |test_name, test_components|
+        - session[:current_online_customer].insufficient_results.each do |test_name, test_components|
           - test_components.each do |component|
             - index = index + 1
             - pr = (0 == index % 3)

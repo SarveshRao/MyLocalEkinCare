@@ -173,23 +173,23 @@
                                       = info[:test_component_diff][:name]
                                       .rSubTitle
                                         ideal is
-                                        = current_online_customer.standard_range1(info[:test_component_diff][:name], @body_assessment.id).split(',')[1]
+                                        = session[:current_online_customer].standard_range1(info[:test_component_diff][:name], @body_assessment.id).split(',')[1]
                                     .history.col-sm-2.no_padding
-                                      -result=info[:test_component].test_component_values(current_online_customer).split(',')
+                                      -result=info[:test_component].test_component_values(session[:current_online_customer]).split(',')
                                       -if(result.length<2)
                                         %img{:alt => "", :src => asset_path("no_history.png")}/
                                       -else
                                         .sparkline{"data-line-color" => "#788288", "data-type" => "line", "data-width" => "70"}
-                                          = info[:test_component].test_component_values(current_online_customer)
+                                          = info[:test_component].test_component_values(session[:current_online_customer])
                                       .rDirection
                                         -#%i.fa.fa-2x.fa-caret-up
-                                        -color=current_online_customer.resulted_component_value1(info[:test_component_diff][:name], info[:test_component_diff][:value], @body_assessment.id)[:color]
-                                        -if(info[:test_component].lab_result_increased?(current_online_customer))
+                                        -color=session[:current_online_customer].resulted_component_value1(info[:test_component_diff][:name], info[:test_component_diff][:value], @body_assessment.id)[:color]
+                                        -if(info[:test_component].lab_result_increased?(session[:current_online_customer]))
                                           %i.fa.fa-2x.fa-caret-up{:class => color}
                                         -else
                                           %i.fa.fa-2x.fa-caret-down{:class => color}
                                     .rResult.col-sm-6.col-xs-7.pull-right{"data-percent" => "98"}
-                                      -if current_online_customer.resulted_component_value1(info[:test_component_diff][:name], info[:test_component_diff][:value], @body_assessment.id)[:color]=='text-warning'
+                                      -if session[:current_online_customer].resulted_component_value1(info[:test_component_diff][:name], info[:test_component_diff][:value], @body_assessment.id)[:color]=='text-warning'
                                         .rResultValue{:style => "left:40%;top:-44px"}
                                           .warning Warning
                                           .value
@@ -197,7 +197,7 @@
                                             %span.units
                                               = info[:test_component_diff][:units]
                                           .arrowDown
-                                      -elsif current_online_customer.resulted_component_value1(info[:test_component_diff][:name], info[:test_component_diff][:value], @body_assessment.id)[:color]=='text-success'
+                                      -elsif session[:current_online_customer].resulted_component_value1(info[:test_component_diff][:name], info[:test_component_diff][:value], @body_assessment.id)[:color]=='text-success'
                                         .rResultValue{:style => "left:5%;"}
                                           .verdict Good
                                           .value

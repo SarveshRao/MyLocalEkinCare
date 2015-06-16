@@ -69,7 +69,7 @@
           %label D.O.B
           %sup.text-danger
             *
-          //= f.text_field :date_of_birth, {value: numeric_date_format(current_online_customer.date_of_birth), class: 'input-sm input-s datepicker-input form-control datepicker', 'data-date-format' => 'dd-mm-yyyy', 'data-required' => 'true', placeholder: 'dd-mm-yyyy'}
+          //= f.text_field :date_of_birth, {value: numeric_date_format(session[:current_online_customer].date_of_birth), class: 'input-sm input-s datepicker-input form-control datepicker', 'data-date-format' => 'dd-mm-yyyy', 'data-required' => 'true', placeholder: 'dd-mm-yyyy'}
           = f.text_field :date_of_birth, {value: numeric_date_format(@customer.date_of_birth), class: 'input-sm input-s datepicker-input form-control datepicker','readonly' => 'readonly', 'data-date-format' => 'dd-mm-yyyy', 'data-required' => 'true', placeholder: 'dd-mm-yyyy'}
 
         .form-group

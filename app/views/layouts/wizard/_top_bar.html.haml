@@ -7,7 +7,7 @@
       %span.hidden-nav-xs
     %a.btn.btn-link.visible-xs{"data-target" => ".user", "data-toggle" => "dropdown"}
       %i.fa.fa-cog
-  - recent_activities = current_online_customer.recent_activities
+  - recent_activities = session[:current_online_customer].recent_activities
   %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
     %li.hidden-xs
       %a.dropdown-toggle#notifications_count{"data-toggle" => "dropdown"}

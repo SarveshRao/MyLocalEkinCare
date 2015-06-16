@@ -1,4 +1,4 @@
-= form_for current_online_customer, url: after_signup_path(id: current_online_customer.current_state.to_sym), html: {id: 'customer_basic_details_form'}  do |f|
+= form_for session[:current_online_customer], url: after_signup_path(id: session[:current_online_customer].current_state.to_sym), html: {id: 'customer_basic_details_form'}  do |f|
   .list-group
     - @number = Time.now.to_i
     %section.panel.panel-default.m-n.accordion-toggle{"data-toggle" => "collapse", :href => "#collapse#{@number}", id: "#collapse#{@number}"}
@@ -19,4 +19,4 @@
         = f.fields_for 'medical_histories[]', @medical_history do |mh|
           = mh.select :medical_condition_3,['Blood pressure','Diabetics','Cardiovascular dissease','Cancer','Other'],{include_blank: 'Select a medical condition - 3'}, {class: 'form-control no-border'}
       .list-group-item.p-t
-        = f.select :status, options_for_select([['Alive','yes'],['Deseased','no']], selected: current_online_customer.status),{include_blank:'Vital status'}, {class: 'form-control no-border parsley-validated', 'data-required' => 'true'}
+        = f.select :status, options_for_select([['Alive','yes'],['Deseased','no']], selected: session[:current_online_customer].status),{include_blank:'Vital status'}, {class: 'form-control no-border parsley-validated', 'data-required' => 'true'}

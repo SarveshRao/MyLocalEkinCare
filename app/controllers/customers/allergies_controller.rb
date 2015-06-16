@@ -7,13 +7,13 @@ class Customers::AllergiesController < CustomerAppController
   def index
     @customer_profile_page = true
 
-    customer_id = current_online_customer.id
+    customer_id = session[:current_online_customer].id
     @customer = Customer.find(customer_id)
     @allergies = @customer.allergies
   end
 
   def create
-    @customer = current_online_customer
+    @customer = session[:current_online_customer]
     @allergy = @customer.allergies.create(name: params[:allergy][:name], reaction: params[:allergy][:reaction])
     @customer_allergy = @allergy.customer_allergies.first
     @customer_allergy.update(severity: params[:allergy][:customer_allergies][:severity])
@@ -26,7 +26,7 @@ class Customers::AllergiesController < CustomerAppController
   end
 
   def update
-    @customer = current_online_customer
+    @customer = session[:current_online_customer]
     @customer_allergy = @customer.customer_allergies.find(params[:id])
     @allergy = Allergy.find(@customer_allergy.allergy_id)
     @customer_allergy.severity = params[:allergy][:customer_allergies][:severity]
@@ -41,7 +41,7 @@ class Customers::AllergiesController < CustomerAppController
   end
 
   def destroy
-    @customer = current_online_customer
+    @customer = session[:current_online_customer]
     customer_allergy = @customer.customer_allergies.find(params[:id])
     allergy = Allergy.find(customer_allergy.allergy_id)
     if allergy.destroy && customer_allergy.destroy

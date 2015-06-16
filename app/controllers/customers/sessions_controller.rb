@@ -18,6 +18,7 @@ class Customers::SessionsController < Devise::SessionsController
     set_flash_message(:notice, :signed_in) if is_flashing_format?
     sign_in(resource_name, resource)
     yield resource if block_given?
+    session[:current_online_customer] = resource
     respond_with resource, location: after_sign_in_path_for(resource)
     else
       set_flash_message(:error, :unconfirmed) if is_flashing_format?
@@ -57,8 +58,7 @@ class Customers::SessionsController < Devise::SessionsController
 
   def move_to_other_profile
     # first check if this profile belongs to current logged in user - this is just a safe check
-    other_resource = Customer.find(params[:profile_id])
-    sign_in(other_resource)
-    redirect_to after_sign_in_path_for(other_resource)
+    session[:current_online_customer] = Customer.find(params[:profile_id])
+    redirect_to after_sign_in_path_for(session[:current_online_customer])
   end
 end

@@ -6,26 +6,30 @@
           .dropdown
             %a.dropdown-toggle{"data-toggle" => "dropdown"}
               %span.pull-left.m-r
-                - customer_profile_image = current_online_customer.image_url
+                - customer_profile_image = session[:current_online_customer].image_url
                 %img.img-circle#customer_avatar{alt: "", width: 70, height: 70, src: asset_path(customer_profile_image)}/
               %span.hidden-nav-xs.clear
                 %span.block.m-t-xs
                   %strong.font-bold.text-lt
-                    = current_online_customer.name
+                    = session[:current_online_customer].name
+        -@family_members = Customer.where("guardian_id=#{current_online_customer.id} or id=#{current_online_customer.id}")
         - if !@family_members.nil?
           .familyMembers
             -@family_members.each do |family_member|
-              .familyMember{"data-content" => "#{family_member.first_name} #{family_member.last_name}", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", "data-profile-id" => "#{family_member.id}", :style => "background:#FF7163"}
-                = family_member.first_name.slice(0,1).capitalize + family_member.last_name.slice(0,1).capitalize
+              - if family_member.id == current_online_customer.id
+                .familyMember{"data-content" => "#{family_member.first_name} #{family_member.last_name}", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", "data-profile-id" => "#{family_member.id}", :style => "background:#FF7163"} You
+              - else
+                .familyMember{"data-content" => "#{family_member.first_name} #{family_member.last_name}", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", "data-profile-id" => "#{family_member.id}", :style => "background:#FF7163"}
+                  = family_member.first_name.slice(0,1).capitalize + family_member.last_name.slice(0,1).capitalize
             .clearfix{:style => "clear:right"}
-        - if @current_online_customer.guardian_id.nil?
+        - if session[:current_online_customer].guardian_id.nil?
           %a#addFamilyMember.bg-success Add family member
           %section#addFamilyMemberSection
             %section.panel
               %header.panel-heading.font-bold{:style => "padding-bottom:0;"} Add Family Member
               .panel-body
                 %form#addFamilyMemberForm{:role => "form", "data-validate" => "parsley"}
-                  %input#guardian_id{:type => "hidden", :name => "guardian_id", :value => "#{@current_online_customer.id}"}
+                  %input#guardian_id{:type => "hidden", :name => "guardian_id", :value => "#{session[:current_online_customer].id}"}
                   .form-group{:style => "width:49%;display:inline-block;"}
                     %input#first_name.form-control.validate_input{:placeholder => "First Name", required: true, :type => "text"}
                   .form-group{:style => "width:49%;display:inline-block"}
@@ -64,7 +68,7 @@
                   %i.i.i-circle-sm-o.text
                   %i.i.i-circle-sm.text-active
                 -#%b.badge.bg-danger.pull-right
-                  = current_online_customer.health_assessments.count
+                  = session[:current_online_customer].health_assessments.count
                 %i.i.i-lab.icon
                 %span.font-bold Assessments
               %ul.nav.dk
@@ -95,7 +99,7 @@
                   %i.i.i-circle-sm.text-active
                 %i.i.i-docs.icon
                 %span.font-bold Documents
-            - if current_online_customer.sponsor==nil or current_online_customer.sponsor==0
+            - if session[:current_online_customer].sponsor==nil or session[:current_online_customer].sponsor==0
               %li{class: "#{@customer_packages_page ? 'active' : ''}"}
                 %a.auto{href: customers_packages_path}
                   %span.pull-right.text-muted

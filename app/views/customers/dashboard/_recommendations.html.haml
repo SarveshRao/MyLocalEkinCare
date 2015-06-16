@@ -1,5 +1,5 @@
-- inbox_activities = Inbox.where("activity_type like '%Recommendation%' and customer_id=#{current_online_customer.id}").order('associated_date desc')
-- inbox_activities_status = Inbox.where("activity_type like '%Recommendation%' and customer_id=#{current_online_customer.id} and status=true")
+- inbox_activities = Inbox.where("activity_type like '%Recommendation%' and customer_id=#{session[:current_online_customer].id}").order('associated_date desc')
+- inbox_activities_status = Inbox.where("activity_type like '%Recommendation%' and customer_id=#{session[:current_online_customer].id} and status=true")
 %section.panel-body.open-sans.scrollable
   - if (inbox_activities.count-inbox_activities_status.count) == 0
     %section.panel-body{style:"color: black;"}

@@ -6,13 +6,13 @@ class Customers::FamilyMedicalHistoriesController < CustomerAppController
   def index
     @customer_profile_page = true
 
-    @customer = current_online_customer
+    @customer = session[:current_online_customer]
     @family_medical_histories = @customer.family_medical_histories
     @medical_conditions = MedicalCondition.all
   end
 
   def create
-    @customer = current_online_customer
+    @customer = session[:current_online_customer]
     @family_medical_history = @customer.family_medical_histories.create(family_medical_history_params)
     @insertion_status=insert_family_medical_history(@family_medical_history,params['chk-family_medicals'])
     @medical_conditions = MedicalCondition.all
@@ -24,7 +24,7 @@ class Customers::FamilyMedicalHistoriesController < CustomerAppController
   end
 
   def update
-    @customer = current_online_customer
+    @customer = session[:current_online_customer]
     @family_medical_history = @customer.family_medical_histories.find(params[:id])
     @family_medical_history.update(family_medical_history_params)
     @update_status=update_family_medical_history(@family_medical_history,params['chk-family_medicals'])
@@ -37,7 +37,7 @@ class Customers::FamilyMedicalHistoriesController < CustomerAppController
   end
 
   def destroy
-    @customer = current_online_customer
+    @customer = session[:current_online_customer]
     @family_medical_history = @customer.family_medical_histories.find(params[:id])
     if @family_medical_history.destroy
       render json: { success: 'success' }, status: 200

@@ -5,7 +5,7 @@ class Customers::ProfileController < CustomerAppController
 
   def show
     @customer_profile_page = true
-     @customer = current_online_customer
+     @customer = session[:current_online_customer]
   end
 
   def update
@@ -39,7 +39,7 @@ class Customers::ProfileController < CustomerAppController
       session[:bio] = false
     end
 
-    customer_id = current_online_customer.id
+    customer_id = session[:current_online_customer].id
     @customer = Customer.find(customer_id)
     @customer.update(customer_params)
 
@@ -65,7 +65,7 @@ class Customers::ProfileController < CustomerAppController
 
   def upload_avatar
     begin
-      @customer = current_online_customer
+      @customer = session[:current_online_customer]
       @customer.image = params[:file]
       if @customer.save!
         respond_to do |format|

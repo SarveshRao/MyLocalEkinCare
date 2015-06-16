@@ -8,7 +8,7 @@ class Customers::AfterSignupController < CustomerAppController
   steps :your_health, :upload_documents, :thank_you_page
 
   def show
-    @customer = current_online_customer
+    @customer = session[:current_online_customer]
     case step
       when :your_health
         @address = @customer.addresses.first || Address.new
@@ -30,7 +30,7 @@ class Customers::AfterSignupController < CustomerAppController
   end
 
   def update
-    @customer = current_online_customer
+    @customer = session[:current_online_customer]
 
     @customer.update(customer_params)
 
@@ -100,7 +100,7 @@ class Customers::AfterSignupController < CustomerAppController
   end
 
   def upload_documents
-    @customer = current_online_customer
+    @customer = session[:current_online_customer]
 
     begin
       params[:files].each do |file|

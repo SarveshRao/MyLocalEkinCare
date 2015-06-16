@@ -10,7 +10,7 @@
 %div{style: 'min-height: 1000px'}
   %section.vbox.w-b
     %section.scrollable.wrapper
-      - if current_online_customer.timeline_activities.empty?
+      - if session[:current_online_customer].timeline_activities.empty?
         %p.text-center
           No Activities to display
       - else
@@ -23,19 +23,19 @@
                     .col-md-2
                     .col-md-8.text-center
                       %span.thumb-avatar
-                        %img.img-circle.dker{alt: "...", src: asset_path(current_online_customer.image_url), height: 70, width: 70}/
+                        %img.img-circle.dker{alt: "...", src: asset_path(session[:current_online_customer].image_url), height: 70, width: 70}/
                         -#%i.on.md.b-black
                     .col-md-2
                     .row
                       .col-md-12.text-center
                         %p.row.font-bold
                           %a{href: customers_profile_path}
-                            = current_online_customer.name
+                            = session[:current_online_customer].name
                           %span.hidden-nav-xs.clear
 
           - icons = ['fa-file-text', 'fa-male']
-          -#- @timeline_count = current_online_customer.timeline_activities.count || 2
-          - @timeline = Timeline.joins("inner join health_assessments h on h.id=timelines.associated_id where h.customer_id=#{current_online_customer.id} order by request_date asc")
+          -#- @timeline_count = session[:current_online_customer].timeline_activities.count || 2
+          - @timeline = Timeline.joins("inner join health_assessments h on h.id=timelines.associated_id where h.customer_id=#{session[:current_online_customer].id} order by request_date asc")
           - @timeline.each_with_index do |activity, index|
             - description = activity.activity_type == 'MedicalRecord' ? "#{activity.description} <p><a href=#{activity.url} download=download>#{activity.file_name}</a></p>".html_safe : "#{activity.description}"
             - if activity.activity_type =~ /Assessment/
@@ -78,6 +78,6 @@
                   %span.timeline-icon
                     %i.fa.fa-plus.time-icon.inline-block.bg-dark
                   %span.timeline-date
-                    = formatted_date current_online_customer.date_of_birth
+                    = formatted_date session[:current_online_customer].date_of_birth
                   .text-sm
                     Date of Birth

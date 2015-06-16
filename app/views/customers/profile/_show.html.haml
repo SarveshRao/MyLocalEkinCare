@@ -10,53 +10,53 @@
           .col-xs-6
             %p.text-lt Name:
           .col-xs-6
-            = current_online_customer.name || '-'
+            = session[:current_online_customer].name || '-'
         .vbox.row
           .col-xs-6
             %p.text-lt D.O.B:
           .col-xs-6
-            = formatted_date current_online_customer.date_of_birth || '-'
+            = formatted_date session[:current_online_customer].date_of_birth || '-'
         .vbox.row
           .col-xs-6
             %p.text-lt Age:
           .col-xs-6
-            = current_online_customer.age['year'] == '-' ? '-' : "#{current_online_customer.age['year']} years"
+            = session[:current_online_customer].age['year'] == '-' ? '-' : "#{session[:current_online_customer].age['year']} years"
         .vbox.row
           .col-xs-6
             %p.text-lt Number of Children:
           .col-xs-6
-            = current_online_customer.number_of_children || '-'
+            = session[:current_online_customer].number_of_children || '-'
         .vbox.row
           .col-xs-6
             %p.text-lt Blood Group:
           .col-xs-6
-            = current_online_customer.customer_vitals.blood_group.blood_type rescue '-'
+            = session[:current_online_customer].customer_vitals.blood_group.blood_type rescue '-'
 
         .vbox.row
           .col-xs-6
             %p.text-lt Height:
           .col-xs-6
-            = current_online_customer.height || '-'
+            = session[:current_online_customer].height || '-'
         .vbox.row
           .col-xs-6
             %p.text-lt Weight:
           .col-xs-6
-            = current_online_customer.customer_vitals.weight || '-'
+            = session[:current_online_customer].customer_vitals.weight || '-'
 
         .vbox.row
           .col-xs-6
             %p.text-lt Medical Insurance:
           .col-xs-6
-            = current_online_customer.medical_insurance || '-'
+            = session[:current_online_customer].medical_insurance || '-'
         .vbox.row
           .col-xs-6
             %p.text-lt Customer Type:
           .col-xs-6
-            = current_online_customer.customer_type || '-'
+            = session[:current_online_customer].customer_type || '-'
 
     %div#edit_customer_basic_details_form.hide.row.panel.tab-pane.padder-v.active.m.m-n
       .col-md-6
-        = form_for current_online_customer,remote: true, url: customers_profile_edit_path,  html: {id: 'customer_basic_details_form'}  do |f|
+        = form_for session[:current_online_customer],remote: true, url: customers_profile_edit_path,  html: {id: 'customer_basic_details_form'}  do |f|
           .form-group
             = f.label 'First Name'
             %sup.text-danger
@@ -73,7 +73,7 @@
             %label D.O.B
             %sup.text-danger
               *
-            = f.text_field :date_of_birth, {value: numeric_date_format(current_online_customer.date_of_birth), class: 'input-sm input-s datepicker-input form-control datepicker', 'readonly' => 'readonly', 'data-date-format' => 'dd-mm-yyyy', 'data-required' => 'true', placeholder: 'dd-mm-yyyy'}
+            = f.text_field :date_of_birth, {value: numeric_date_format(session[:current_online_customer].date_of_birth), class: 'input-sm input-s datepicker-input form-control datepicker', 'readonly' => 'readonly', 'data-date-format' => 'dd-mm-yyyy', 'data-required' => 'true', placeholder: 'dd-mm-yyyy'}
 
           .form-group
             = f.label 'Number of Children'
@@ -82,21 +82,21 @@
           .form-group
             .form-group
               = f.label 'Blood Group'
-              = select_tag 'blood_group_id', options_for_select(BloodGroup.all.collect{|b| [b.blood_type, b.id]}.insert(0, 'select'), selected: current_online_customer.customer_vitals.blood_group_id),  {class: 'form-control parsley-validated'}
+              = select_tag 'blood_group_id', options_for_select(BloodGroup.all.collect{|b| [b.blood_type, b.id]}.insert(0, 'select'), selected: session[:current_online_customer].customer_vitals.blood_group_id),  {class: 'form-control parsley-validated'}
 
           .form-group
             = f.label :height
             .row
               .col-md-6
                 .input-group
-                  = f.text_field :feet, {value: current_online_customer.customer_vitals.feet, class: 'form-control'}
+                  = f.text_field :feet, {value: session[:current_online_customer].customer_vitals.feet, class: 'form-control'}
                   %span.input-group-btn
                     %button.btn.btn-default.test_component_units{type: "button", class: "unit"}
                       feet
 
               .col-md-6
                 .input-group
-                  = f.text_field :inches, {value: current_online_customer.customer_vitals.inches, class: 'form-control'}
+                  = f.text_field :inches, {value: session[:current_online_customer].customer_vitals.inches, class: 'form-control'}
                   %span.input-group-btn
                     %button.btn.btn-default.test_component_units{type: "button", class: "unit"}
                       inches
@@ -104,18 +104,18 @@
           .form-group
             = f.label :weight
             .input-group
-              = f.text_field :weight, {value: current_online_customer.customer_vitals.weight, class: 'form-control'}
+              = f.text_field :weight, {value: session[:current_online_customer].customer_vitals.weight, class: 'form-control'}
               %span.input-group-btn
                 %button.btn.btn-default.test_component_units{type: "button", class: "unit"}
                   Kgs
 
           .form-group
             = f.label 'Medical Insurance'
-            = f.select :medical_insurance, options_for_select(['No', 'Yes'], selected: current_online_customer.medical_insurance), {}, {class: 'form-control'}
+            = f.select :medical_insurance, options_for_select(['No', 'Yes'], selected: session[:current_online_customer].medical_insurance), {}, {class: 'form-control'}
 
           .form-group
             = f.label 'Customer Type'
-            = f.select :customer_type, options_for_select(['Self', 'Sponsored'], selected: current_online_customer.customer_type), {}, {class: 'form-control'}
+            = f.select :customer_type, options_for_select(['Self', 'Sponsored'], selected: session[:current_online_customer].customer_type), {}, {class: 'form-control'}
 
 
           .form-group
@@ -131,50 +131,50 @@
           .col-xs-6
             %p.text-lt Daily Activity:
           .col-xs-6
-            = current_online_customer.daily_activity || '-'
+            = session[:current_online_customer].daily_activity || '-'
         .vbox.row
           .col-xs-6
             %p.text-lt Frequency of Exercise:
           .col-xs-6
-            = current_online_customer.frequency_of_exercise || '-'
+            = session[:current_online_customer].frequency_of_exercise || '-'
         .vbox.row
           .col-xs-6
             %p.text-lt Smoke:
           .col-xs-6
-            = current_online_customer.smoke || '-'
+            = session[:current_online_customer].smoke || '-'
         .vbox.row
           .col-xs-6
             %p.text-lt Alcohol:
           .col-xs-6
-            = current_online_customer.alcohol || '-'
+            = session[:current_online_customer].alcohol || '-'
         .vbox.row
           .col-xs-6
             %p.text-lt Diet:
           .col-xs-6
-            = current_online_customer.diet || '-'
+            = session[:current_online_customer].diet || '-'
 
     %div#edit_customer_add_basic_details_form.edit-customer-basic-details-form.hide.row.panel.tab-pane.active.m.m-n
       .col-md-10
-        = form_for current_online_customer, url: customers_profile_edit_path,  remote: true, html: {id: 'customer_add_basic_details_form'}  do |f|
+        = form_for session[:current_online_customer], url: customers_profile_edit_path,  remote: true, html: {id: 'customer_add_basic_details_form'}  do |f|
           .form-group
             = f.label 'Daily Activity'
-            = f.select :daily_activity, options_for_select(['Sedentary', 'Moderate', 'Active'], selected: current_online_customer.daily_activity), {}, {class: 'form-control'}
+            = f.select :daily_activity, options_for_select(['Sedentary', 'Moderate', 'Active'], selected: session[:current_online_customer].daily_activity), {}, {class: 'form-control'}
 
           .form-group
             = f.label 'Frequency of Exercise'
-            = f.select :frequency_of_exercise, options_for_select(['2-3 times/wk', '3-4 times/wk', 'Daily', 'Never', 'Occasional'], selected: current_online_customer.frequency_of_exercise), {}, {class: 'form-control'}
+            = f.select :frequency_of_exercise, options_for_select(['2-3 times/wk', '3-4 times/wk', 'Daily', 'Never', 'Occasional'], selected: session[:current_online_customer].frequency_of_exercise), {}, {class: 'form-control'}
 
           .form-group
             = f.label :smoke
-            = f.select :smoke, options_for_select(['None', 'Occassional', 'Often'], selected: current_online_customer.smoke), {}, {class: 'form-control'}
+            = f.select :smoke, options_for_select(['None', 'Occassional', 'Often'], selected: session[:current_online_customer].smoke), {}, {class: 'form-control'}
 
           .form-group
             = f.label :alcohol
-            = f.select :alcohol, options_for_select(['None', 'Occassional', 'Often'], selected: current_online_customer.alcohol), {}, {class: 'form-control'}
+            = f.select :alcohol, options_for_select(['None', 'Occassional', 'Often'], selected: session[:current_online_customer].alcohol), {}, {class: 'form-control'}
 
           .form-group
             = f.label :diet
-            = f.select :diet, options_for_select(['Vegetarian', 'Non Vegetarian', 'Vegan'], selected: current_online_customer.diet), {include_blank: 'Select'}, {class: 'form-control'}
+            = f.select :diet, options_for_select(['Vegetarian', 'Non Vegetarian', 'Vegan'], selected: session[:current_online_customer].diet), {include_blank: 'Select'}, {class: 'form-control'}
 
           .form-group
             = f.submit 'save', {class:'btn btn-sm small-btn btn-primary'}
@@ -189,19 +189,19 @@
           .col-xs-6
             %p.text-lt Phone:
           .col-xs-6
-            = current_online_customer.mobile_number || '-'
+            = session[:current_online_customer].mobile_number || '-'
         .vbox.row
           .col-xs-6
             %p.text-lt Email:
           .col-xs-6
-            = current_online_customer.email || '-'
+            = session[:current_online_customer].email || '-'
 
         %b Address
-        - if current_online_customer.addresses.count == 0
+        - if session[:current_online_customer].addresses.count == 0
           .vbox.row
             .col-xs-6
               = 'Not Specified'
-        - current_online_customer.addresses.each do |address|
+        - session[:current_online_customer].addresses.each do |address|
           .vbox.row
             .col-xs-6
               Line1:
@@ -235,7 +235,7 @@
 
     %div#edit_customer_med_basic_details_form.hide.row.panel.tab-pane.active.m.m-n
       .col-md-10
-        = form_for current_online_customer, url: customers_profile_edit_path, remote: true, html: {'data-validate' => 'parsley', multipart: true, id: 'customer_med_basic_details_form'}  do |f|
+        = form_for session[:current_online_customer], url: customers_profile_edit_path, remote: true, html: {'data-validate' => 'parsley', multipart: true, id: 'customer_med_basic_details_form'}  do |f|
           .form-group
             = f.label :phone
             %sup.text-danger
@@ -252,7 +252,7 @@
             = f.label :address
             %sup.text-danger
               *
-            - @address = current_online_customer.addresses.first.nil? ? Address.new : current_online_customer.addresses.first
+            - @address = session[:current_online_customer].addresses.first.nil? ? Address.new : session[:current_online_customer].addresses.first
             = f.fields_for :addresses, @address do |a|
               .form-group
                 = a.text_field :line1, {class: 'form-control parsley-validated', 'data-required' => 'true', placeholder: 'Address line1'}

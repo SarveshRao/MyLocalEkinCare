@@ -7,27 +7,27 @@
       .row.text-center.no-gutter
         .col-xs-3.b-r.b-light
           %h4.font-bold.m-t
-            = current_online_customer.age['year']
+            = session[:current_online_customer].age['year']
             %small years
           %p.text-muted Age
         .col-xs-3.b-r.b-light
           %h4.font-bold.m-t
-            = current_online_customer.customer_vitals.feet
+            = session[:current_online_customer].customer_vitals.feet
             %small feet
-            = current_online_customer.customer_vitals.inches
+            = session[:current_online_customer].customer_vitals.inches
             %small inches
           %p.text-muted Height
         .col-xs-3.b-r.b-light
           %h4.font-bold.m-t
             %span
-              = current_online_customer.customer_vitals.blood_group.blood_type rescue '-'
+              = session[:current_online_customer].customer_vitals.blood_group.blood_type rescue '-'
           %p.text-muted Blood group
         .col-xs-3.b-light
           %h4.font-bold.m-t
-            - if current_online_customer.recent_body_assessment_done.nil?
+            - if session[:current_online_customer].recent_body_assessment_done.nil?
               \-
             - else
-              = "#{formatted_date current_online_customer.recent_body_assessment_done.updated_at}"
+              = "#{formatted_date session[:current_online_customer].recent_body_assessment_done.updated_at}"
           %p.text-muted Last assessment
 
   %section.scrollable.wrapper.w-f.p-b
@@ -38,31 +38,31 @@
       .row.text-center.no-gutter
         .col-xs-3.b-r.b-light
           %h4.font-bold.m-t
-            = current_online_customer.customer_vitals.weight
+            = session[:current_online_customer].customer_vitals.weight
             %small
               Kgs
           %p.text-muted Weight
         .col-xs-3.b-r.b-light
           %h4.font-bold.m-t
-            %span{class: "#{current_online_customer.colored_bmi}"}
-              = current_online_customer.bmi
+            %span{class: "#{session[:current_online_customer].colored_bmi}"}
+              = session[:current_online_customer].bmi
           %p.text-muted BMI
         .col-xs-3.b-r.b-light
           %h4.font-bold.m-t
-            %span{class: "#{current_online_customer.systolic[:color]}"}
-              = "#{current_online_customer.systolic[:result]}"
+            %span{class: "#{session[:current_online_customer].systolic[:color]}"}
+              = "#{session[:current_online_customer].systolic[:result]}"
             \/
-            %span{class: "#{current_online_customer.diastolic[:color]}"}
-              = "#{current_online_customer.diastolic[:result]}"
+            %span{class: "#{session[:current_online_customer].diastolic[:color]}"}
+              = "#{session[:current_online_customer].diastolic[:result]}"
             %small
-              = "#{current_online_customer.diastolic[:units]}"
+              = "#{session[:current_online_customer].diastolic[:units]}"
           %p.text-muted Blood pressure
         .col-xs-3
           %h4.font-bold.m-t
-            %span{class: "#{current_online_customer.blood_sugar[:color]}"}
-              = "#{current_online_customer.blood_sugar[:result]}"
+            %span{class: "#{session[:current_online_customer].blood_sugar[:color]}"}
+              = "#{session[:current_online_customer].blood_sugar[:result]}"
             %small
-              = "#{current_online_customer.blood_sugar[:units]}"
+              = "#{session[:current_online_customer].blood_sugar[:units]}"
           %p.text-muted Blood Sugar
 
     %div.row.p-t
@@ -86,7 +86,7 @@
             %small % of avarage rate of the Conversion
       .col-lg-8.col-md-8
         %section.panel.panel-default.m-n
-          - inbox_activities = current_online_customer.inbox_messages
+          - inbox_activities = session[:current_online_customer].inbox_messages
           %header.panel-heading
             %span.label.bg-danger.pull-right
               =  inbox_activities.count
@@ -175,9 +175,9 @@
                 .line.pull-in
     .m-n
       - icons = ['i-plus2', 'i-users2', 'i-location', 'i-alarm']
-      - if !current_online_customer.insufficient_results.empty?
+      - if !session[:current_online_customer].insufficient_results.empty?
         - index = -1
-        - current_online_customer.insufficient_results.each do |test_name, test_components|
+        - session[:current_online_customer].insufficient_results.each do |test_name, test_components|
           - test_components.each do |component|
             - index = index + 1
             - pr = (0 == index % 3)

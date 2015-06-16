@@ -13,29 +13,29 @@ class Customers::HealthAssessmentsController < CustomerAppController
       @inbox=Inbox.find(@inbox_id)
       @inbox.update(status:true)
     end
-    # @comments = DoctorComment.includes(:note).where(customer_id: current_online_customer.id).all
+    # @comments = DoctorComment.includes(:note).where(customer_id: session[:current_online_customer].id).all
     if @type == 'Body'
-      @body_assessments = current_online_customer.health_assessments.body_assessment_done
+      @body_assessments = session[:current_online_customer].health_assessments.body_assessment_done
       if @body_assessments.first
-        @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{current_online_customer.id} and health_assessment_id=#{@body_assessments.first.id} order by doctor_comments.created_at DESC")
+        @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{session[:current_online_customer].id} and health_assessment_id=#{@body_assessments.first.id} order by doctor_comments.created_at DESC")
         @body_assessment = HealthAssessment.find(@body_assessments.first.id)
         @assessment_id = @body_assessments.first.id
         @medical_records=@body_assessment.medical_records
       end
       # body_assessment
     elsif @type == 'Dental'
-      @dental_assessments = current_online_customer.health_assessments.dental_assessment_done
+      @dental_assessments = session[:current_online_customer].health_assessments.dental_assessment_done
       if @dental_assessments.first
-        @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{current_online_customer.id} and health_assessment_id=#{@dental_assessments.first.id} order by doctor_comments.created_at DESC")
+        @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{session[:current_online_customer].id} and health_assessment_id=#{@dental_assessments.first.id} order by doctor_comments.created_at DESC")
         @dental_assessment = HealthAssessment.find(@dental_assessments.first.id)
         @assessment_id = @dental_assessments.first.id
         @dental_medical_records=@dental_assessment.medical_records
       end
       # dental_assessment
     elsif @type == 'Vision'
-      @vision_assessments = current_online_customer.health_assessments.vision_assessment_done
+      @vision_assessments = session[:current_online_customer].health_assessments.vision_assessment_done
       if @vision_assessments.first
-        @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{current_online_customer.id} and health_assessment_id=#{@vision_assessments.first.id} order by doctor_comments.created_at DESC")
+        @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{session[:current_online_customer].id} and health_assessment_id=#{@vision_assessments.first.id} order by doctor_comments.created_at DESC")
         @vision_assessment = HealthAssessment.find(@vision_assessments.first.id)
         @assessment_id = @vision_assessments.first.id
         @vision_medical_records=@vision_assessment.medical_records
@@ -54,18 +54,18 @@ class Customers::HealthAssessmentsController < CustomerAppController
       @inbox=Inbox.find(@inbox_id)
       @inbox.update(status:true)
     end
-    @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{current_online_customer.id} and health_assessment_id=#{@id} order by doctor_comments.created_at DESC")
+    @comments = DoctorComment.select("health_assessment_id, description, doctor_name, doctor_comments.created_at").joins("inner join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{session[:current_online_customer].id} and health_assessment_id=#{@id} order by doctor_comments.created_at DESC")
     if @type.downcase == 'body'
-      @body_assessments = current_online_customer.health_assessments.body_assessment_done
+      @body_assessments = session[:current_online_customer].health_assessments.body_assessment_done
       @body_assessment = HealthAssessment.find(@id)
       @medical_records=@body_assessment.medical_records
     elsif @type.downcase == 'dental'
-      @dental_assessments = current_online_customer.health_assessments.dental_assessment_done
+      @dental_assessments = session[:current_online_customer].health_assessments.dental_assessment_done
       @dental_assessment = HealthAssessment.find(@id)
       @dental_medical_records=@dental_assessment.medical_records
       # dental_assessment
     elsif @type.downcase == 'vision'
-      @vision_assessments = current_online_customer.health_assessments.vision_assessment_done
+      @vision_assessments = session[:current_online_customer].health_assessments.vision_assessment_done
       @vision_assessment = HealthAssessment.find(@id)
       @vision_medical_records=@vision_assessment.medical_records
       # vision_assessment
@@ -84,9 +84,9 @@ class Customers::HealthAssessmentsController < CustomerAppController
       @doctor_comment.doctor_mobile_number = session[:doctor_mobile_number]
       @doctor_comment.doctor_email = session[:doctor_email]
       @doctor_comment.general_comments = params[:doctor_comment][:general_comments]
-      @doctor_comment.customer_id = current_online_customer.id
+      @doctor_comment.customer_id = session[:current_online_customer].id
       @doctor_comment.save
-      Notification.post_general_comments_second_opinion(current_online_customer.first_name, current_online_customer.email, @doctor_comment, request.protocol + request.host_with_port + "/customers/dashboard", request.protocol + request.host_with_port).deliver!
+      Notification.post_general_comments_second_opinion(session[:current_online_customer].first_name, session[:current_online_customer].email, @doctor_comment, request.protocol + request.host_with_port + "/customers/dashboard", request.protocol + request.host_with_port).deliver!
     else
       # Insert into note
       @health_assessment = HealthAssessment.find_by_id(params[:assessment_id])
@@ -97,10 +97,10 @@ class Customers::HealthAssessmentsController < CustomerAppController
       @doctor_comment.doctor_mobile_number = session[:doctor_mobile_number]
       @doctor_comment.doctor_email = session[:doctor_email]
       @doctor_comment.notes_id = notes.id
-      @doctor_comment.customer_id = current_online_customer.id
+      @doctor_comment.customer_id = session[:current_online_customer].id
       @doctor_comment.save
       health_assessment_url = request.protocol + request.host_with_port + "/customers/health_assessment?id=" + params[:assessment_id] + "&inbox_id=" + params[:assessment_id] + "&type=" + @health_assessment.type[0...-10]
-      Notification.post_comments_second_opinion(current_online_customer.first_name, current_online_customer.email, @doctor_comment, notes, @health_assessment, health_assessment_url, request.protocol + request.host_with_port).deliver!
+      Notification.post_comments_second_opinion(session[:current_online_customer].first_name, session[:current_online_customer].email, @doctor_comment, notes, @health_assessment, health_assessment_url, request.protocol + request.host_with_port).deliver!
     end
     redirect_to :back
   end
@@ -108,24 +108,24 @@ class Customers::HealthAssessmentsController < CustomerAppController
   protected
   def body_assessment
     page_no = page_no_picker || params[:page]
-    @body_assessment = current_online_customer.health_assessments.body_assessment_done.page(page_no).per(1)
+    @body_assessment = session[:current_online_customer].health_assessments.body_assessment_done.page(page_no).per(1)
   end
 
   def dental_assessment
     page_no = page_no_picker || params[:page]
-    @dental_assessment = current_online_customer.health_assessments.dental_assessment_done.page(page_no).per(1)
+    @dental_assessment = session[:current_online_customer].health_assessments.dental_assessment_done.page(page_no).per(1)
 
   end
 
   def vision_assessment
     page_no = page_no_picker || params[:page]
-    @vision_assessment = current_online_customer.health_assessments.vision_assessment_done.page(page_no).per(1)
+    @vision_assessment = session[:current_online_customer].health_assessments.vision_assessment_done.page(page_no).per(1)
   end
 
   #Picks an appropriate page, based on assessment
   def page_no_picker
     if @id
-      index = current_online_customer.assessment_index @type, @id
+      index = session[:current_online_customer].assessment_index @type, @id
       page_no = index + 1
       return page_no
     end
