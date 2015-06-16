@@ -12,6 +12,7 @@ class Customers::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   def create
+    session[:is_session_available] = "testing session"
     session[:is_customer] = true
     self.resource = warden.authenticate!(auth_options)
     if self.resource.confirmed?

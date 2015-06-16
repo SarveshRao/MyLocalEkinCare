@@ -8,6 +8,7 @@ class Customers::DashboardController < CustomerAppController
     @hypertension_percentage=(@hypertension_score*100).round
     @medical_conditions=MedicalCondition.all
     @comments = DoctorComment.select("health_assessment_id, description, notes_id, doctor_name, doctor_comments.general_comments, doctor_comments.created_at").joins("left outer join notes on notes.id=doctor_comments.notes_id where doctor_comments.customer_id=#{current_online_customer.id} order by doctor_comments.created_at DESC")
+    @family_members = Customer.where("guardian_id=#{current_online_customer.id}")
   end
 
   def inbox

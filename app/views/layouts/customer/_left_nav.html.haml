@@ -12,23 +12,19 @@
                 %span.block.m-t-xs
                   %strong.font-bold.text-lt
                     = current_online_customer.name
-        .familyMembers
-          .familyMember{"data-content" => "Mukesh Manda", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", :style => "background:#FF7163"} MM
-          .familyMember{"data-content" => "Surendra Nath Manda", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", :style => "background:#8C94C9"} SM
-          .familyMember{"data-content" => "Padma Kumari Manda", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", :style => "background:#52B09E"} PM
-          .familyMember{"data-content" => "Narasimha Murthy Manda", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", :style => "background:#595C8C"} NM
-          .familyMember{"data-content" => "Mukesh Manda", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", :style => "background:#FF7163"} MM
-          .familyMember{"data-content" => "Surendra Nath Manda", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", :style => "background:#8C94C9"} SM
-          .familyMember{"data-content" => "Padma Kumari Manda", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", :style => "background:#52B09E"} PM
-          .familyMember{"data-content" => "Narasimha Murthy Manda", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", :style => "background:#595C8C"} NM
-          .clearfix{:style => "clear:right"}
+        - if !@family_members.nil?
+          .familyMembers
+            -@family_members.each do |family_member|
+              .familyMember{"data-content" => "#{family_member.first_name} #{family_member.last_name}", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", "data-profile-id" => "#{family_member.id}", :style => "background:#FF7163"}
+                = family_member.first_name.slice(0,1).capitalize + family_member.last_name.slice(0,1).capitalize
+            .clearfix{:style => "clear:right"}
         - if @current_online_customer.guardian_id.nil?
           %a#addFamilyMember.bg-success Add family member
-          %section#addFamilyMemberForm
+          %section#addFamilyMemberSection
             %section.panel
               %header.panel-heading.font-bold{:style => "padding-bottom:0;"} Add Family Member
               .panel-body
-                %form{:role => "form"}
+                %form#addFamilyMemberForm{:role => "form", "data-validate" => "parsley"}
                   %input#guardian_id{:type => "hidden", :name => "guardian_id", :value => "#{@current_online_customer.id}"}
                   .form-group{:style => "width:49%;display:inline-block;"}
                     %input#first_name.form-control.validate_input{:placeholder => "First Name", required: true, :type => "text"}
@@ -51,7 +47,7 @@
                   .form-group
                     %input#email.form-control.validate_input{:placeholder => "Email", required: true, :type => "email"}
                   .form-group
-                    %input#mobile_number.form-control.validate_input{:placeholder => "Mobile Number", required: true, :type => "text"}
+                    %input#mobile_number.numeric.form-control.validate_input{:placeholder => "Mobile Number", required: true, :type => "text"}
                   .form-group
                     %input#dob.form-control.validate_input{:placeholder => "Date of Birth", class: 'datepicker_1 p-l', 'readonly' => 'readonly', required: true, 'data-date-format' => 'dd-mm-yyyy', placeholder: 'Date of birth'}
                   %button.btn.btn-sm.btn-default.btn-primary#addAccount Add Family Member
@@ -137,34 +133,40 @@
                     %span Immunizations
 :javascript
   $(document).ready(function(){
-    $("#addFamilyMemberForm").hide();
+    $("#addFamilyMemberSection").hide();
 
-    // disable button until all fields are filled
-    var enableButton = function(){
-      $("#addAccount").removeAttr('disabled');
-      $('.validate_input').each(function(){
-        if($(this).val() == '')
-        {
-          $("#addAccount").attr('disabled', 'disabled');
-        }
-      });
-    };
+    //Mobile number validation
+    $(".numeric").keydown(function (e) {
+      // Allow: backspace, delete, tab, escape, enter and .
+      if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+              // Allow: Ctrl+A
+          (e.keyCode == 65 && e.ctrlKey === true) ||
+              // Allow: home, end, left, right, down, up
+          (e.keyCode >= 35 && e.keyCode <= 40)) {
+          // let it happen, don't do anything
+          return;
+      }
+      // Ensure that it is a number and stop the keypress
+      if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+          e.preventDefault();
+      }
 
-    $("#addAccount").attr('disabled', 'disabled');
-    $('.validate_input').keydown(function(){
-      enableButton();
+      var pattern_mobile_number = /^\d{13}$/;
+      if (pattern_mobile_number.test($(this).val())) {
+        e.preventDefault();
+      }
     });
-
-    $("#sex, #relation").change(function(){
-      enableButton();
-    });
-
 
     $("#addFamilyMember").click(function(){
+        $("#addFamilyMemberSection").toggle();
         $("#addFamilyMemberForm").toggle();
     });
 
     $("#addAccount").click(function(){
+
+      $("#addFamilyMemberForm").parsley().validate();
+      debugger;
+
       var first_name = $("#first_name").val();
       var last_name = $("#last_name").val();
       var sex = $("#sex").val();
@@ -175,11 +177,9 @@
       var dob = $("#dob").val();
 
       //Validate inputs
-
       $('.close').trigger('click');
       var errorDiv = '<div id="errorDiv" class="alert alert-danger text-center"><button class="close" data-dismiss="alert" type="button">×</button><i class="fa fa-ok-sign"></i>Mobile number has already been taken</div>';
       $(".header").prepend(errorDiv);
-
       var returnValue = false;
       $.ajax({
         type: "POST",
@@ -211,5 +211,24 @@
         dataType: 'json'
       });
       return returnValue;
+    });
+
+    $(".familyMember").click(function(){
+      $.ajax({
+        type: "GET",
+        url: "/move_to_other_profile",
+        data: {
+          profile_id: $(this).attr("data-profile-id")
+        },
+        async: false,
+        statusCode: {
+          200: function(){
+            location.reload(true);
+          }
+        },
+        success: function(data){
+        },
+        dataType: 'json'
+      });
     });
   });
