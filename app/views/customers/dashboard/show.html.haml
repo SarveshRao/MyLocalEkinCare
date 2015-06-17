@@ -539,38 +539,44 @@
               = formatted_date session[:current_online_customer].assessment_body_sugar
     %div.row.p-t
       - icons = ['i-plus2', 'i-users2', 'i-location', 'i-alarm']
-      - if !session[:current_online_customer].insufficient_results.nil?
-        - index = -1
-        - session[:current_online_customer].insufficient_results.each do |test_name, test_components|
-          - test_components.each do |component|
-            - index = index + 1
-            - pr = (0 == index % 3)
-            - pl = (2 == index % 3)
-            - body_assessment = component[:lab_result].body_assessment
-            .col-md-3.lt.col-lg-3.m-b
-              %a{href: customers_health_assessments_path({id: body_assessment.id, type: 'Body'})}
-                %section.panel.panel-default.m-n.b-n
-                  %header.panel-heading.text-center
-                    = "#{test_name} abnormality".truncate(35)
-                .bg-white.text-center.b
-                  %section.block.hover.m-s
-                    %span.m-xs.clear
-                      %h4.m-xs.font-bold
-                        %span.m-xs{class: "#{component[:color]}"}
-                          = component[:value]
-                          &nbsp;
-                        %small
-                          = component[:units]
-                          &nbsp;
-                      %small.text-muted.text-c
-                        = component[:name].truncate(35)
-                  .padder-v.text-center.clearfix.panel-footer
-                    .col-md-9.b-r
-                      %small.text-muted
-                        = formatted_date body_assessment.request_date
-                    .col-md-3.b-r
-                      %small.text-muted
-                        %i.i.i-info{title: component[:lab_result].test_component.info}
+      - customer_list = []
+      - customer_list.push(session[:current_online_customer])
+      - if current_online_customer.id == session[:current_online_customer].id
+        - Customer.where("guardian_id = " + session[:current_online_customer].id.to_s).each do |customer|
+          - customer_list.push(customer)
+      - customer_list.each do |family_member|
+        - if !family_member.insufficient_results.nil?
+          - index = -1
+          - family_member.insufficient_results.each do |test_name, test_components|
+            - test_components.each do |component|
+              - index = index + 1
+              - pr = (0 == index % 3)
+              - pl = (2 == index % 3)
+              - body_assessment = component[:lab_result].body_assessment
+              .col-md-3.lt.col-lg-3.m-b
+                %a{href: customers_health_assessments_path({id: body_assessment.id, type: 'Body'})}
+                  %section.panel.panel-default.m-n.b-n
+                    %header.panel-heading.text-center
+                      = "#{test_name} abnormality".truncate(35)
+                  .bg-white.text-center.b
+                    %section.block.hover.m-s
+                      %span.m-xs.clear
+                        %h4.m-xs.font-bold
+                          %span.m-xs{class: "#{component[:color]}"}
+                            = component[:value]
+                            &nbsp;
+                          %small
+                            = component[:units]
+                            &nbsp;
+                        %small.text-muted.text-c
+                          = component[:name].truncate(35)
+                    .padder-v.text-center.clearfix.panel-footer
+                      .col-md-9.b-r
+                        %small.text-muted
+                          = formatted_date body_assessment.request_date
+                      .col-md-3.b-r
+                        %small.text-muted
+                          %i.i.i-info{title: component[:lab_result].test_component.info}
     - if !session[:is_doctor]
       %div.row.p-t
         .col-md-6.lt.col-lg-6

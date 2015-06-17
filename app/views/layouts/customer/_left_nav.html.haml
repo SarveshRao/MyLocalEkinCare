@@ -24,6 +24,10 @@
               - if family_member.id == current_online_customer.id
                 .familyMember{"data-content" => "#{family_member.first_name} #{family_member.last_name}", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", "data-profile-id" => "#{family_member.id}", :style => "background:"+colorList[colorIndex]} You
               - else
+                - inbox_count = Inbox.joins("inner join health_assessments h on h.id=inboxes.associated_id where h.customer_id=#{family_member.id} and activity_type like '%Assessment%'").count - Inbox.joins("inner join health_assessments h on h.id=inboxes.associated_id where h.customer_id=#{family_member.id} and activity_type like '%Assessment%' and inboxes.status=true").count
+                - appoint_count =  Inbox.joins("inner join appointments ap on ap.id=inboxes.associated_id where customer_id=#{family_member.id} and activity_type='Appointment' and associated_date> CURRENT_TIMESTAMP - INTERVAL '1 day'").count
+                - recommendations_count =  Inbox.where("activity_type like '%Recommendation%' and customer_id=#{family_member.id}").count - Inbox.where("activity_type like '%Recommendation%' and customer_id=#{family_member.id} and status=true").count
+                - puts "Inbox: " + inbox_count.to_s + "; Appointment: " + appoint_count.to_s + "; Recommendation: " + recommendations_count.to_s
                 .familyMember{"data-content" => "#{family_member.first_name} #{family_member.last_name}", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", "data-profile-id" => "#{family_member.id}", :style => "background:"+colorList[colorIndex]}
                   = family_member.first_name.slice(0,1).capitalize + family_member.last_name.slice(0,1).capitalize
             .clearfix{:style => "clear:right"}
