@@ -84,6 +84,7 @@ table td
   border-radius: 100%
   text-align: center
   cursor: pointer
+  position: relative
 
 #addFamilyMember
   background: #1aae88
@@ -99,6 +100,27 @@ table td
 #addFamilyMemberForm
   width: 95%
   margin-top: -2px
-  display: none
+  //display: none
 
 /* #FF7163 #8C94C9 #FF7223 #52B09E #52B09E #595C8C #FF9720  */  
+#notificationDiv
+  width: 100%
+  position: absolute
+  z-index: 1001
+  border-radius: 0 !important
+
+.alrt
+  width: 13px
+  height: 13px
+  position: absolute
+  right: 0
+  top: -6px
+  background-color: #e33244
+  border-radius: 50px
+
+.familyMembers ~ ul li > section
+  right: auto!important
+  z-index: 9999
+  position: fixed
+  top: 160px
+  left: 241px!important

@@ -2,6 +2,9 @@ class Customers::DashboardController < CustomerAppController
   add_breadcrumb 'Home', :customers_dashboard_show_path
 
   def show
+    if session[:current_online_customer].nil?
+      session[:current_online_customer] = current_online_customer
+    end
     customer = session[:current_online_customer]
     @diabetic_score=customer.diabetic_score
     @hypertension_score=customer.hypertension_score(1).round(3)

@@ -134,6 +134,7 @@ Rails.application.routes.draw do
     post 'register_family_member' => 'customers/registrations#register_family_member_post'
     get 'register_family_member' => 'customers/registrations#register_family_member_get'
     get 'move_to_other_profile' => 'customers/sessions#move_to_other_profile'
+    post 'reset_family_member_pwd' => 'customers/sessions#reset_family_member_pwd'
   end
 
   resources :home do

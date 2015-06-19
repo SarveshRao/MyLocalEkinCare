@@ -123,8 +123,8 @@
           },
           409: function(){
             $('.close').trigger('click');
-            var errorDiv = '<div id="errorDiv" class="alert alert-danger text-center"><button class="close" data-dismiss="alert" type="button">×</button><i class="fa fa-ok-sign"></i>Email has already been taken</div>';
-            $("#content").prepend(errorDiv);
+            var notificationDiv = '<div id="notificationDiv" class="alert alert-danger text-center"><button class="close" data-dismiss="alert" type="button">×</button><i class="fa fa-ok-sign"></i>Email has already been taken</div>';
+            $("#content").prepend(notificationDiv).scrollTop(0);
             returnValue = false;
           }
         },

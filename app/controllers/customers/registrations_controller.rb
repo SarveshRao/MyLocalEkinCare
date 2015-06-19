@@ -232,11 +232,14 @@ class Customers::RegistrationsController < Devise::RegistrationsController
       )
 
       # send email to reset the family member password
-      # inserted_row.invite!
+      inserted_row.invite!
 
       CustomerVitals.create(customer_id: inserted_row.id)
+      inserted_family_member = FamilyMedicalHistory.create(customer_id: session[:current_online_customer].id,
+                                  relation: params[:relation])
+      FamilyMedicalCondition.create(family_member_history_id: inserted_family_member.id)
       # "Sending SMS to mobile"
-      # result = Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ inserted_row.mobile_number() +'&sender=EKCARE&message=Dear '+ inserted_row.first_name() +', DOWNLOAD FREE EKINCARE APP, to digitize your physical medical records. Click http://bit.ly/eKgoogle for ANDROID or click http://bit.ly/eKapple for Apple iPhone')))
+      result = Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ inserted_row.mobile_number() +'&sender=EKCARE&message=Dear '+ inserted_row.first_name() +', DOWNLOAD FREE EKINCARE APP, to digitize your physical medical records. Click http://bit.ly/eKgoogle for ANDROID or click http://bit.ly/eKapple for Apple iPhone')))
       # Check for coupon code....required/not
       #   ekincare_coupon=CouponSource.find_by_name('ekincare')
       #   ek_coupon=ekincare_coupon.coupons.first
@@ -244,7 +247,7 @@ class Customers::RegistrationsController < Devise::RegistrationsController
       #   expire_date = expire_date[8..9]+"-"+expire_date[5..6]+"-"+expire_date[0..3]
       #   coupon_sms = Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ inserted_row.mobile_number() +'&sender=EKCARE&message=Dear '+ inserted_row.first_name() +', Avail coupon worth Rs. '+ (ek_coupon.price.to_s) +' on your next health check at eKincare.com. Call 888-678-3546 for details. Coupon code '+ek_coupon.code+'. Valid till '+expire_date)))
       #   CustomerCoupon.create(customer_id:inserted_row.id,coupon_id:ek_coupon.id)
-      sign_in(inserted_row)
+      session[:current_online_customer] = inserted_row
       redirect_to after_sign_in_path_for(inserted_row)
     else
       render :status => 409, :json => { :message => "Mobile number has already taken" }

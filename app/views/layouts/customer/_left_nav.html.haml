@@ -22,48 +22,56 @@
               -if(colorIndex == colorList.length)
                 -colorIndex = 0
               - if family_member.id == current_online_customer.id
-                .familyMember{"data-content" => "#{family_member.first_name} #{family_member.last_name}", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", "data-profile-id" => "#{family_member.id}", :style => "background:"+colorList[colorIndex]} You
+                %a.familyMember{href: move_to_other_profile_path+'?profile_id='+"#{family_member.id}", "data-content" => "#{family_member.first_name} #{family_member.last_name}", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", "data-profile-id" => "#{family_member.id}", :style => "background:"+colorList[colorIndex]}
+                  You
               - else
                 - inbox_count = Inbox.joins("inner join health_assessments h on h.id=inboxes.associated_id where h.customer_id=#{family_member.id} and activity_type like '%Assessment%'").count - Inbox.joins("inner join health_assessments h on h.id=inboxes.associated_id where h.customer_id=#{family_member.id} and activity_type like '%Assessment%' and inboxes.status=true").count
                 - appoint_count =  Inbox.joins("inner join appointments ap on ap.id=inboxes.associated_id where customer_id=#{family_member.id} and activity_type='Appointment' and associated_date> CURRENT_TIMESTAMP - INTERVAL '1 day'").count
                 - recommendations_count =  Inbox.where("activity_type like '%Recommendation%' and customer_id=#{family_member.id}").count - Inbox.where("activity_type like '%Recommendation%' and customer_id=#{family_member.id} and status=true").count
-                - puts "Inbox: " + inbox_count.to_s + "; Appointment: " + appoint_count.to_s + "; Recommendation: " + recommendations_count.to_s
-                .familyMember{"data-content" => "#{family_member.first_name} #{family_member.last_name}", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", "data-profile-id" => "#{family_member.id}", :style => "background:"+colorList[colorIndex]}
-                  = family_member.first_name.slice(0,1).capitalize + family_member.last_name.slice(0,1).capitalize
+                %a.familyMember{href: move_to_other_profile_path+'?profile_id='+"#{family_member.id}", "data-content" => "#{family_member.first_name} #{family_member.last_name}", "data-placement" => "bottom", "data-toggle" => "popover", "data-trigger" => "hover", "data-profile-id" => "#{family_member.id}", :style => "background:"+colorList[colorIndex]}
+                  - if (inbox_count + appoint_count + recommendations_count) > 0
+                    %span.alrt
+                    = family_member.first_name.slice(0,1).capitalize + family_member.last_name.slice(0,1).capitalize
+                  - else
+                    = family_member.first_name.slice(0,1).capitalize + family_member.last_name.slice(0,1).capitalize
             .clearfix{:style => "clear:right"}
         - if session[:current_online_customer].guardian_id.nil?
-          %a#addFamilyMember.bg-success Add family member
-          %section#addFamilyMemberSection
-            %section.panel
-              %header.panel-heading.font-bold{:style => "padding-bottom:0;"} Add Family Member
-              .panel-body
-                %form#addFamilyMemberForm{:role => "form", "data-validate" => "parsley"}
-                  %input#guardian_id{:type => "hidden", :name => "guardian_id", :value => "#{session[:current_online_customer].id}"}
-                  .form-group{:style => "width:49%;display:inline-block;"}
-                    %input#first_name.form-control.validate_input{:placeholder => "First Name", required: true, :type => "text"}
-                  .form-group{:style => "width:49%;display:inline-block"}
-                    %input#last_name.form-control.validate_input{:placeholder => "Last Name", required: true, :type => "text"}
-                  .btn-group{:style => "margin-bottom:15px;width:49%"}
-                    %select#sex.form-control.parsley-validated.validate_input{:name => "sex", required: true, }
-                      %option{:value => ""} Sex
-                      %option{:value => "Male"} Male
-                      %option{:value => "Female"} Female
-                  .btn-group{:style => "margin-bottom:15px;float:right;width:49%"}
-                    %select#relation.form-control.parsley-validated.validate_input{:name => "relation", required: true, }
-                      %option{:value => ""} Relation
-                      %option{:value => "Father"} Father
-                      %option{:value => "Mother"} Mother
-                      %option{:value => "Brother"} Brother
-                      %option{:value => "Sister"} Sister
-                      %option{:value => "Son"} Son
-                      %option{:value => "Daughter"} Daughter
-                  .form-group
-                    %input#email.form-control.validate_input{:placeholder => "Email", required: true, :type => "email"}
-                  .form-group
-                    %input#mobile_number.numeric.form-control.validate_input{:placeholder => "Mobile Number", required: true, :type => "text"}
-                  .form-group
-                    %input#dob.form-control.validate_input{:placeholder => "Date of Birth", class: 'datepicker_1 p-l', 'readonly' => 'readonly', required: true, 'data-date-format' => 'dd-mm-yyyy', placeholder: 'Date of birth'}
-                  %button.btn.btn-sm.btn-default.btn-primary#addAccount Add Family Member
+          %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
+            %li.hidden-xs
+              %a.dropdown-toggle#addFamilyMemberSection{"data-toggle" => "dropdown", href: "#", :style => "padding-right:10px;padding-left:10px;"}
+                Add Family Member
+              %section.dropdown-menu.aside-xl.animated.flipInX
+                #addFamilyMemberSection
+                  %section.panel
+                    %header.panel-heading.font-bold{:style => "padding-bottom:0;"} Add Family Member
+                    .panel-body
+                      %form#addFamilyMemberForm{:role => "form", "data-validate" => "parsley"}
+                        %input#guardian_id{:type => "hidden", :name => "guardian_id", :value => "#{session[:current_online_customer].id}"}
+                        .form-group{:style => "width:49%;display:inline-block;"}
+                          %input#first_name.form-control.validate_input{:placeholder => "First Name", required: true, :type => "text"}
+                        .form-group{:style => "width:49%;display:inline-block"}
+                          %input#last_name.form-control.validate_input{:placeholder => "Last Name", required: true, :type => "text"}
+                        .btn-group{:style => "margin-bottom:15px;width:49%"}
+                          %select#sex.form-control.parsley-validated.validate_input{:name => "sex", required: true, }
+                            %option{:value => ""} Sex
+                            %option{:value => "Male"} Male
+                            %option{:value => "Female"} Female
+                        .btn-group{:style => "margin-bottom:15px;float:right;width:49%"}
+                          %select#relation.form-control.parsley-validated.validate_input{:name => "relation", required: true, }
+                            %option{:value => ""} Relation
+                            %option{:value => "Father"} Father
+                            %option{:value => "Mother"} Mother
+                            %option{:value => "Brother"} Brother
+                            %option{:value => "Sister"} Sister
+                            %option{:value => "Son"} Son
+                            %option{:value => "Daughter"} Daughter
+                        .form-group
+                          %input#email.form-control.validate_input{:placeholder => "Email", required: true, :type => "email"}
+                        .form-group
+                          %input#mobile_number.numeric.form-control.validate_input{:placeholder => "Mobile Number", required: true, :type => "text"}
+                        .form-group
+                          %input#dob.form-control.validate_input{:placeholder => "Date of Birth", class: 'datepicker_1 p-l', 'readonly' => 'readonly', required: true, 'data-date-format' => 'dd-mm-yyyy', placeholder: 'Date of birth'}
+                        %button.btn.btn-sm.btn-default.btn-primary#addAccount Add Family Member
         %nav.nav-primary.hidden-xs
           &nbsp;
           %ul.nav.nav-main{"data-ride" => "collapse"}
@@ -147,7 +155,7 @@
                     %span Immunizations
 :javascript
   $(document).ready(function(){
-    $("#addFamilyMemberSection").hide();
+    //$("#addFamilyMemberSection").hide();
 
     //Mobile number validation
     $(".numeric").keydown(function (e) {
@@ -171,10 +179,10 @@
       }
     });
 
-    $("#addFamilyMember").click(function(){
-        $("#addFamilyMemberSection").toggle();
-        $("#addFamilyMemberForm").toggle();
-    });
+    //$("#addFamilyMember").click(function(){
+    //    $("#addFamilyMemberSection").toggle();
+    //    $("#addFamilyMemberForm").toggle();
+    //});
 
     $("#addAccount").click(function(){
 
@@ -215,8 +223,8 @@
           },
           409: function(){
             $('.close').trigger('click');
-            var errorDiv = '<div id="errorDiv" class="alert alert-danger text-center"><button class="close" data-dismiss="alert" type="button">×</button><i class="fa fa-ok-sign"></i>Mobile number has already been taken</div>';
-            $(".header").prepend(errorDiv);
+            var notificationDiv = '<div id="notificationDiv" class="alert alert-danger text-center"><button class="close" data-dismiss="alert" type="button">×</button><i class="fa fa-ok-sign"></i>Mobile number has already been taken</div>';
+            $(".header").prepend(notificationDiv).scrollTop(0);
             returnValue = false;
           }
         },
@@ -225,24 +233,5 @@
         dataType: 'json'
       });
       return returnValue;
-    });
-
-    $(".familyMember").click(function(){
-      $.ajax({
-        type: "GET",
-        url: "/move_to_other_profile",
-        data: {
-          profile_id: $(this).attr("data-profile-id")
-        },
-        async: false,
-        statusCode: {
-          200: function(){
-            location.reload(true);
-          }
-        },
-        success: function(data){
-        },
-        dataType: 'json'
-      });
     });
   });

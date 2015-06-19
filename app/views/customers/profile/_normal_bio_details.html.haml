@@ -50,6 +50,9 @@
         %a.btn.btn-primary#customer_bio_edit_btn
           %i.fa.fa-pencil
           Edit
+        - if session[:current_online_customer].id != current_online_customer.id
+          %a.ml10.btn.btn-primary#customer_bio_reset_pwd_btn{:customer_id => session[:current_online_customer].id}
+            Reset Password
   .row.m-b.hide#edit_bio_form
     .col-md-6
       = form_for @customer, url: "profile/edit", method: "patch", remote: true, html: {id: 'edit_customer_bio_form'}  do |f|
@@ -129,3 +132,20 @@
         .form-group
           = f.submit 'save', {class:'btn btn-sm small-btn btn-primary'}
           %a{class: 'btn btn-sm small-btn btn-danger customer-bio-cancel-btn'} cancel
+
+:javascript
+  $("#customer_bio_reset_pwd_btn").click(function(){
+    $.ajax({
+      type: 'POST',
+      url: '/reset_family_member_pwd',
+      data: { id: $(this).attr('customer_id') },
+      statusCode: {
+        200: function(){
+          $('.close').trigger('click');
+          var notificationDiv = '<div id="notificationDiv" class="alert alert-success text-center"><button class="close" data-dismiss="alert" type="button">×</button><i class="fa fa-ok-sign"></i>You will receive an email with instructions on how to reset your password in a few minutes.</div>';
+          $('.container').prepend(notificationDiv).scrollTop(0);
+        }
+      },
+      dataType: 'json'
+    });
+  });

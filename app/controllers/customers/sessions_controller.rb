@@ -59,6 +59,13 @@ class Customers::SessionsController < Devise::SessionsController
   def move_to_other_profile
     # first check if this profile belongs to current logged in user - this is just a safe check
     session[:current_online_customer] = Customer.find(params[:profile_id])
-    redirect_to after_sign_in_path_for(session[:current_online_customer])
+    redirect_to :back
   end
+
+  def reset_family_member_pwd
+    resource = Customer.find_by(id: params[:id])
+    resource.invite!
+    render json: {}, status: 200
+  end
+
 end
