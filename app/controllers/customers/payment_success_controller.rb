@@ -103,8 +103,12 @@ class Customers::PaymentSuccessController < CustomerAppController
       end
 
       url = request.protocol + request.host_with_port
-      Notification.customer_payment_success(@name, @payu_id, @amount, @discount, @txnid, @mode,@customer.email, @reduced_amount, @customer.customer_id, url).deliver!
-      Notification.customer_appointment_success(appointment_body, appointment_dental, appointment_vision, @name, @package_detail.name, @package_detail.mrp, @amount, @package_detail.discount, customer_address, @customer.email, dental_address, vision_address, provider_dental, provider_vision, url).deliver!
+      guardian_mail = ''
+      if !@customer.guardian_id.nil?
+        guardian_mail = Customer.find(@customer.guardian_id).email
+      end
+      Notification.customer_payment_success(@name, @payu_id, @amount, @discount, @txnid, @mode,@customer.email, @reduced_amount, @customer.customer_id, url, guardian_mail).deliver!
+      Notification.customer_appointment_success(appointment_body, appointment_dental, appointment_vision, @name, @package_detail.name, @package_detail.mrp, @amount, @package_detail.discount, customer_address, @customer.email, dental_address, vision_address, provider_dental, provider_vision, url, guardian_mail).deliver!
 
       if @coupon_id!=''
         @coupon=Coupon.find(@coupon_id.to_i)

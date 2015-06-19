@@ -78,6 +78,11 @@ class Customers::HealthAssessmentsController < CustomerAppController
   end
 
   def doctor_comment
+    guardian_mail = ''
+    guardian = Customer.find(session[:current_online_customer].guardian_id)
+    if !guardian.nil?
+      guardian_mail = guardian.email
+    end
     if params[:assessment_id].nil?
       @doctor_comment = DoctorComment.new
       @doctor_comment.doctor_name = session[:doctor_name]
@@ -86,7 +91,7 @@ class Customers::HealthAssessmentsController < CustomerAppController
       @doctor_comment.general_comments = params[:doctor_comment][:general_comments]
       @doctor_comment.customer_id = session[:current_online_customer].id
       @doctor_comment.save
-      Notification.post_general_comments_second_opinion(session[:current_online_customer].first_name, session[:current_online_customer].email, @doctor_comment, request.protocol + request.host_with_port + "/customers/dashboard", request.protocol + request.host_with_port).deliver!
+      Notification.post_general_comments_second_opinion(session[:current_online_customer].first_name, session[:current_online_customer].email, @doctor_comment, request.protocol + request.host_with_port + "/customers/dashboard", request.protocol + request.host_with_port, guardian_mail).deliver!
     else
       # Insert into note
       @health_assessment = HealthAssessment.find_by_id(params[:assessment_id])
@@ -100,7 +105,7 @@ class Customers::HealthAssessmentsController < CustomerAppController
       @doctor_comment.customer_id = session[:current_online_customer].id
       @doctor_comment.save
       health_assessment_url = request.protocol + request.host_with_port + "/customers/health_assessment?id=" + params[:assessment_id] + "&inbox_id=" + params[:assessment_id] + "&type=" + @health_assessment.type[0...-10]
-      Notification.post_comments_second_opinion(session[:current_online_customer].first_name, session[:current_online_customer].email, @doctor_comment, notes, @health_assessment, health_assessment_url, request.protocol + request.host_with_port).deliver!
+      Notification.post_comments_second_opinion(session[:current_online_customer].first_name, session[:current_online_customer].email, @doctor_comment, notes, @health_assessment, health_assessment_url, request.protocol + request.host_with_port, guardian_mail).deliver!
     end
     redirect_to :back
   end

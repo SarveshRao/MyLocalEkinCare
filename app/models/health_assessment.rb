@@ -150,7 +150,11 @@ class HealthAssessment < ActiveRecord::Base
   end
 
   def notify_assessment activity
-    Notification.assessment_notifier(self.customer, activity, self).deliver!
+    guardian_mail = ''
+    if !self.customer.guardian_id.nil?
+      guardian_mail = Customer.find(self.customer.guardian_id).email
+    end
+    Notification.assessment_notifier(self.customer, activity, self, guardian_mail).deliver!
   end
 
 

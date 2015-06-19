@@ -21,7 +21,11 @@ class Recommendation < ActiveRecord::Base
   end
 
   def notify_recommendation activity
-    Notification.recommendation_notifier(self.customer, activity, self).deliver!
+    guardian_mail = ''
+    if !self.customer.guardian_id.nil?
+      guardian_mail = Customer.find(self.customer.guardian_id).email
+    end
+    Notification.recommendation_notifier(self.customer, activity, self, guardian_mail).deliver!
   end
 
   def create_activity

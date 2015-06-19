@@ -153,11 +153,19 @@ class Appointment < ActiveRecord::Base
   end
 
   def notify_create_appointment activity
-    Notification.appointment_create_notifier(self.customer, activity, self).deliver!
+    guardian_mail = ''
+    if !self.customer.guardian_id.nil?
+      guardian_mail = Customer.find(self.customer.guardian_id).email
+    end
+    Notification.appointment_create_notifier(self.customer, activity, self, guardian_mail).deliver!
   end
 
   def notify_update_appointment activity
-    Notification.appointment_update_notifier(self.customer, activity, self).deliver!
+    guardian_mail = ''
+    if !self.customer.guardian_id.nil?
+      guardian_mail = Customer.find(self.customer.guardian_id).email
+    end
+    Notification.appointment_update_notifier(self.customer, activity, self, guardian_mail).deliver!
   end
 
   def update_status_activity

@@ -38,7 +38,11 @@ class Staff::HealthAssessmentsController < StaffController
 
     if status_code == 6
       request_link = request.protocol + request.host_with_port + "/customers/health_assessments?type="+@customer_health_assessment.assessment_type
-      Notification.customer_assessment_done(@customer.first_name, @customer.last_name, @customer_health_assessment.assessment_type, @customer_health_assessment.request_date, @customer_health_assessment.provider_name, @customer.email, request_link).deliver!
+      guardian_mail = ''
+      if !@customer.guardian_id.nil?
+        guardian_mail = Customer.find(@customer.guardian_id).email
+      end
+      Notification.customer_assessment_done(@customer.first_name, @customer.last_name, @customer_health_assessment.assessment_type, @customer_health_assessment.request_date, @customer_health_assessment.provider_name, @customer.email, request_link, guardian_mail).deliver!
     end
 
     assessment_requested_date = formatted_date @customer_health_assessment.request_date
