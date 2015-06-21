@@ -58,6 +58,11 @@
                               %i
                               %span
                                 =medical_condition.name
+                        %label.checkbox-inline.i-checks.i-chk
+                          %input#inlineCheckbox2{:name => "chk-family_medicals[]", :type => "checkbox", :value => 0, checked: false}
+                            %i
+                            %span
+                              None
                       %td
                         = f.submit 'save', {id: 'customer_family_medical_history_save_btn',class:'btn btn-sm small-btn btn-primary'}
                       %td
@@ -104,6 +109,11 @@
                                   %i
                                   %span
                                     =medical_condition.name
+                            %label.checkbox-inline.i-checks.i-chk
+                              %input#inlineCheckbox2{:name => "chk-family_medicals[]", :type => "checkbox", :value => 0}
+                                %i
+                                %span
+                                  None
                           %td
                             = f.submit 'save', {class:'btn btn-sm small-btn btn-primary customer-family-medical-history-save-btn'}
                           %td

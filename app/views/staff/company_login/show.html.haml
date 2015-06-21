@@ -40,7 +40,7 @@
                             %label
                               %input{:type => "checkbox", :data_value => "weight_healthy"}
                                 %i
-                                Healthy
+                                Normal
                           .checkbox.i-checks.employee_filter
                             %label
                               %input{:type => "checkbox", :data_value => "weight_overweight"}
@@ -52,12 +52,12 @@
                                 %i
                                 Obese
                         .col-xs-4.m-b.m-t{:style => "padding:0"}
-                          %h4 Hypertension
+                          %h4 Hypertensive
                           .checkbox.i-checks.employee_filter
                             %label
                               %input{:type => "checkbox", :data_value => "hypertensive_healthy"}
                                 %i
-                                Healthy
+                                Non Hypertensive
                           -#.checkbox.i-checks.employee_filter
                           -#  %label
                           -#    %input{:type => "checkbox", :data_value => "prehypertensive"}
@@ -67,14 +67,14 @@
                             %label
                               %input{:type => "checkbox", :data_value => "hypertensive"}
                                 %i
-                                Hypertension
+                                Hypertensive
                         .col-xs-4.m-b.m-t{:style => "padding:0"}
-                          %h4 Diabetes
+                          %h4 Diabetic
                           .checkbox.i-checks.employee_filter
                             %label
                               %input{:type => "checkbox", :data_value => "diabetic_healthy"}
                                 %i
-                                Healthy
+                                Non Diabetic
                           -#.checkbox.i-checks
                           -#  %label
                           -#    %input{:type => "checkbox", :data_value => "prediabetic"}
@@ -84,7 +84,7 @@
                             %label
                               %input{:type => "checkbox", :data_value => "diabetic"}
                                 %i
-                                Diabetes
+                                Diabetic
                         .col-xs-12.b-t.b-light{:style => "text-align:center;"}
                           %br/
                           %p.h1.font-bold#employee_number 0/#{@total_customers}
@@ -173,7 +173,7 @@
                             %li
                               %a{:href => "#"}
                                 %input{:name => "a", :type => "radio", :value=>"61,70"} 61 to 70 years
-                        %span{:style => "font-size:24px"} Hypertension
+                        %span{:style => "font-size:24px"} Hypertensive
                       .panel-body
                         #flot-donut-hypertension{:style => "height:240px"}
                   .col-md-6
@@ -216,7 +216,7 @@
                             %li
                               %a{:href => "#"}
                                 %input{:name => "a", :type => "radio", :value=>"61,70"} 61 to 70 years
-                        %span{:style => "font-size:24px"} Diabetes
+                        %span{:style => "font-size:24px"} Diabetic
                       .panel-body
                         #flot-donut-diabetes{:style => "height:240px"}
             %a.hide.nav-off-screen-block{"data-target" => "#nav", "data-toggle" => "class:nav-off-screen", :href => "#"}

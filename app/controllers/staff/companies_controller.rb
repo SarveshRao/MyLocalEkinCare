@@ -17,7 +17,11 @@ class Staff::CompaniesController < StaffController
     @company =  Company.new(company_params)
     staff = Staff.find_by_email(@company.staff.email)
     if staff
-      render :status => 409, :text => "DUPLICATE_EMAIL"
+      flash[:error] = "Email has already been taken"
+      render js: "window.location='#{new_staff_company_path}'"
+      # redirect_to new_staff_company_path
+      # render "/staff/compannies/new"
+      # render :status => 409, :text => "DUPLICATE_EMAIL"
     else
       @company.staff.password = SecureRandom.hex(4)
       if @company.save!

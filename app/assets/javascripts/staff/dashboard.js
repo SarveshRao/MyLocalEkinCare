@@ -54,7 +54,7 @@ if($('#company-wizard').length>0){
     if (data1.Healthy!=0 || data1.Overweight!=0 || data1.Obese!=0) {
         var weight_data = [
             {
-                label: "Healthy",
+                label: "Normal",
                 data: data1.Healthy
             },
             {
@@ -63,7 +63,7 @@ if($('#company-wizard').length>0){
             },
             {
                 label: "Obese",
-                data: data1.Obese
+                data: data1.Obese                
             }
         ];
         drawCompanyChart("#flot-donut-weight", weight_data)
@@ -74,7 +74,7 @@ if($('#company-wizard').length>0){
     if (data3.Healthy!=0 || data3.pre_diabetic!=0 || data3.Diabetic!=0) {
         var diabetes_data = [
             {
-                label: "Healthy",
+                label: "Non Diabetic",
                 data: data3.Healthy
             },
             {
@@ -95,15 +95,15 @@ if($('#company-wizard').length>0){
     if(data2.Healthy!=0 || data2.pre_hypertensive!=0 || data2.Hypertension!=0) {
         var hypertension_data = [
             {
-                label: "Healthy",
+                label: "Non Hypertensive",
                 data: data2.Healthy
             },
             {
-                label: "Pre Hypertension",
+                label: "Pre Hypertensive",
                 data: data2.pre_hypertensive
             },
             {
-                label: "Hypertension",
+                label: "Hypertensive",
                 data: data2.Hypertension
             }
         ];
@@ -134,7 +134,7 @@ if($('#company-wizard').length>0){
         if (data1.Healthy!=0 || data1.Overweight!=0 || data1.Obese!=0){
             var weight_data = [
                 {
-                    label: "Healthy",
+                    label: "Normal",
                     data: data1.Healthy
                 },
                 {
@@ -173,7 +173,7 @@ if($('#company-wizard').length>0){
         if (data1.Healthy!=0 || data1.Overweight!=0 || data1.Obese!=0) {
             var weight_data = [
                 {
-                    label: "Healthy",
+                    label: "Normal",
                     data: data1.Healthy
                 },
                 {
@@ -209,15 +209,15 @@ if($('#company-wizard').length>0){
         if(data.Healthy!=0 || data.pre_hypertensive!=0 || data.Hypertension!=0) {
             var hypertension_data = [
                 {
-                    label: "Healthy",
+                    label: "Non Hypertensive",
                     data: data.Healthy
                 },
                 {
-                    label: "Pre Hypertension",
+                    label: "Pre Hypertensive",
                     data: data.pre_hypertensive
                 },
                 {
-                    label: "Hypertension",
+                    label: "Hypertensive",
                     data: data.Hypertension
                 }
             ];
@@ -245,15 +245,15 @@ if($('#company-wizard').length>0){
         if(data.Healthy!=0 || data.pre_hypertensive!=0 || data.Hypertension!=0) {
             var hypertension_data = [
                 {
-                    label: "Healthy",
+                    label: "Non Hypertensive",
                     data: data.Healthy
                 },
                 {
-                    label: "Pre Hypertension",
+                    label: "Pre Hypertensive",
                     data: data.pre_hypertensive
                 },
                 {
-                    label: "Hypertension",
+                    label: "Hypertensive",
                     data: data.Hypertension
                 }
             ];
@@ -281,7 +281,7 @@ if($('#company-wizard').length>0){
         if(data.Healthy!=0 || data.pre_diabetic!=0 || data.Diabetic!=0) {
             var diabetes_data = [
                 {
-                    label: "Healthy",
+                    label: "Non Diabetic",
                     data: data.Healthy
                 },
                 {
@@ -317,7 +317,7 @@ if($('#company-wizard').length>0){
         if(data.Healthy!=0 || data.pre_diabetic!=0 || data.Diabetic!=0) {
             var diabetes_data = [
                 {
-                    label: "Healthy",
+                    label: "Non diabetic",
                     data: data.Healthy
                 },
                 {

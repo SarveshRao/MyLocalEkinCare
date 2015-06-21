@@ -93,6 +93,17 @@ class Customer < ActiveRecord::Base
     end
   end
 
+  # Deliver the invitation email
+  def deliver_invitation
+    generate_invitation_token! unless @raw_invitation_token
+    self.update_attribute :invitation_sent_at, Time.now.utc unless self.invitation_sent_at
+    @sponsor = Company.find(self.sponsor).name
+    if @sponsor.downcase.include? "parexel"
+      send_devise_notification(:invitation_instructions_parexel, @raw_invitation_token)
+    else
+      send_devise_notification(:invitation_instructions, @raw_invitation_token)
+    end
+  end
 
   def generate_cid
     if !(self.customer_id.to_s.length == 9) && !self.gender.nil?

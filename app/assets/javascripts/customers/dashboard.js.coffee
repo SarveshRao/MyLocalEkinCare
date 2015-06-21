@@ -116,6 +116,8 @@ $ ->
       success: (response, newValue) ->
         parsed_data = JSON.stringify(response)
         data=JSON.parse(parsed_data)
+        if((data.units)&&(data.blood_sugar_id))
+          $('#'+data.blood_sugar_id+'blood_glucose_units').text(data.units)
         $('#blood_sugar_color > b').removeClass('text-danger').removeClass('text-success').removeClass('text-warning')
         $('#blood_sugar_color > b').addClass(data.color)
       validate: (value) ->
@@ -770,18 +772,22 @@ water_intake_history = () ->
     url: "/customers/customer_information/water_intake_history"
     type: "GET"
     success: (result) ->
-      i=0
+#      i=0
       for value in result.water_consumption_history
-        actual_consumptions.push [i,value.actual_consumption]
-        water_consumed_data.push [i,value.water_consumed]
+        dt=new Date(value.consumed_date)
+        actual_consumptions.push [dt,value.actual_consumption]
+        water_consumed_data.push [dt,value.water_consumed]
         dt=moment(value.consumed_date).format('MMMM Do')
-        dates.push  [i,dt]
-        i+=1
-
+        dates.push  dt
+      actual_consumptions.sort (a, b) ->
+        a[0] > b[0]
+      water_consumed_data.sort (a, b) ->
+        a[0] > b[0]
+      #        i+=1
       $('#water-intake-chart').length and $.plot($('#water-intake-chart'), [
           {
             data: actual_consumptions
-            label: 'Optimum Intake'            
+            label: 'Optimum Intake'
           }
           {
             data: water_consumed_data
@@ -814,17 +820,21 @@ water_intake_history = () ->
           '#177bbb'
         ]
         xaxis:
+          mode: "time",
+          color: "#000",
+          timeformat: "%b %d"
+          minTickSize: [1, "day"]
 #          ticks: 15
-          tickDecimals: 0
-          ticks: dates
+#          tickDecimals: 0
+#          ticks: dates
         yaxis:
           ticks: 5
           tickDecimals: 0
         tooltip: true
         tooltipOpts:
           content: (label, xval, yval, flotItem) ->
-#            xval=moment(xval).format('MMMM Do YYYY, h:mm:ss a')
-            label+' value:'+' <b>' + yval + '</b> <span> on ' + dates[xval][1] + '</span>'
+            xval=moment(xval).format('MMMM Do YYYY')
+            label+' value:'+' <b>' + yval + '</b> <span> on ' + xval + '</span>'
           defaultTheme: false
           shifts:
             x: 0

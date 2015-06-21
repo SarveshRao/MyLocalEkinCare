@@ -31,7 +31,7 @@
             %p.text-lt Diabetic:
           .col-xs-6
             %p.text-lt
-              - if @customer.is_diabetic
+              - if @customer.diabetic=="Diabetic"
                 Yes
               -else
                 No
@@ -40,7 +40,7 @@
             %p.text-lt HyperTension:
           .col-xs-6
             %p.text-lt
-              - if @customer.has_hypertension
+              - if @customer.is_hypertensive=="Hypertensive"
                 Yes
               -else
                 No

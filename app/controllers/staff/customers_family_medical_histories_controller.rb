@@ -43,7 +43,7 @@ class Staff::CustomersFamilyMedicalHistoriesController < StaffController
   end
 
   def insert_family_medical_history (family_history,medical_conditions)
-    if medical_conditions.nil?
+    if medical_conditions.nil? or medical_conditions=='0'
       return true
     end
     begin

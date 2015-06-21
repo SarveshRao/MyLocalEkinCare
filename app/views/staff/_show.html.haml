@@ -175,15 +175,15 @@
 
           .form-group
             = f.label 'Frequency of Exercise'
-            = f.select :frequency_of_exercise, options_for_select(['2-3 times/wk', '3-4 times/wk', 'Daily', 'Never', 'Occasional'], selected: @customer.frequency_of_exercise), {}, {class: 'form-control'}
+            = f.select :frequency_of_exercise, options_for_select(['Daily', 'Occasionally', 'Never'], selected: @customer.frequency_of_exercise), {}, {class: 'form-control'}
 
           .form-group
             = f.label :smoke
-            = f.select :smoke, options_for_select(['None', 'Occassional', 'Often'], selected: @customer.smoke), {}, {class: 'form-control'}
+            = f.select :smoke, options_for_select(['Frequently', 'Occasionally', 'Never'], selected: @customer.smoke), {}, {class: 'form-control'}
 
           .form-group
             = f.label :alcohol
-            = f.select :alcohol, options_for_select(['None', 'Occassional', 'Often'], selected: @customer.alcohol), {}, {class: 'form-control'}
+            = f.select :alcohol, options_for_select(['Frequently', 'Occasionally', 'Never'], selected: @customer.alcohol), {}, {class: 'form-control'}
 
           .form-group
             = f.label :diet

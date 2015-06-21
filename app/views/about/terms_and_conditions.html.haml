@@ -50,12 +50,16 @@
   %ul
     %li Consent for the service and/or use of user information shall be taken only once during user’s/client’s initial enrollment with us which will continue until express withdrawal of his/her consent or upon termination of his/her subscription. Such withdrawal of consent should be sent in writing to help@eKincare. eKincare shall upload the records of the clients, which are available with the hospitals and diagnostic centers, to the user’s/client’s account and no additional permission shall be taken from the client or the beneficiary. The beneficiaries’ medical records shall be updated timely as and when medical tests/procedures are undertaken in their case.
     %li eKincare may share the information without client’s/beneficiary’s prior consent with government agencies mandated by law to obtain such information upon a request sent in writing to eKincare stating clearly the purpose of seeking such information.
+    -if session[:corporate]=="parexel"
+      %li eKincare may share your health information with Parexel HR. Such withdrawal of consent should be sent in writing to Parexel@eKincare.com
   %h5 USE OF DATA COLLECTED
   %ul
     %li eKincare’s administrators, agents and other persons or entities authorized by eKincare shall have full access to user/client information and shall use this information only for the purpose of recommending /helping the user/client/beneficiary with treatment, health check-ups and any other advice which the user/client may want. eKincare can use this data for spreading awareness about the importance of prevention or early detection of diseases and for other services provided by the organization like making the medical history of the beneficiary available ‘on the go’ for ease of consultation with his/her physician, and reminding the beneficiary about his/her appointment with his/her doctors via email/text messages. This information includes, but is not limited to, name, address, telephone number, mobile number and/or email address, medical history, medications history and the name of the treating doctor.
     %li Once collected, eKincare will store user’s/client’s/beneficiary’s information for a reasonable period of time with respect to the limitations of space and other administrative functions in the course of eKincare’s business. The information that we store is sometimes deleted and we cannot be held liable to the same. 8. In the event that the client withdraws from the program or alternatively refuse to provide information, eKincare shall use its discretion to provide its services to the said client.
--#/ /page-content
--#/ page
--#/ Scripts
--#%script{:src => "https://code.jquery.com/jquery-2.1.3.js"}
--#%script{:src => "./about.js"}
+    -if session[:corporate]=="parexel"
+      %li eKincare may analyze your health data to calculate the risk factors for Chronic conditions like Diabetes, Hypertension, Cardio-Vascular Disease, Obesity. Upon review of your risk factors by Parexel HR you may be chosen to go through a voluntary  Health coach program.
+    -#/ /page-content
+    -#/ page
+    -#/ Scripts
+    -#%script{:src => "https://code.jquery.com/jquery-2.1.3.js"}
+    -#%script{:src => "./about.js"}

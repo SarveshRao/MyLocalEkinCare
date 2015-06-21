@@ -757,6 +757,57 @@ class Customers::ApiController < BaseApiController
     end
   end
 
+  def update_blood_glucose
+    @customer=Customer.find(params[:id])
+    @new_health_assessment=@customer.health_assessments.create(request_date:Time.now,assessment_type:'Body',status:'done',type:'BodyAssessment',status_code:6, enterprise_id: Enterprise.find_by_enterprise_id('EK').id)
+    @blood_sugar_component_id = TestComponent.find_by("lower(name)='fasting blood sugar' and enterprise_id=?", Enterprise.find_by_enterprise_id('EK').id)
+    if params[:lab_result]
+      result=params[:lab_result][:result]
+    else
+      result=params[:undefined][:result]
+    end
+    @updated_date=Time.now
+    @new_health_assessment.lab_results.create(test_component_id: @blood_sugar_component_id.id, result: result)
+    @blood_sugar_color=@customer.resulted_component_value2 @blood_sugar_component_id.name,result, @new_health_assessment.id
+
+    @diabetic = self.is_diabetic @customer.id
+    @customer.update(diabetic: @diabetic)
+    @diabetic_score=self.diabetic_score
+    render :json => {date:@updated_date, blood_sugar_id:@blood_sugar_component_id.id,diabetic_score:@diabetic_score,color:@blood_sugar_color ,name:'Fasting blood sugar',:status => 200 }
+  end
+
+  def update_bp
+    systolic_value = params[:blood_pressure][:systolic]
+    diastolic_value=params[:blood_pressure][:diastolic]
+    @current_customer=Customer.find(params[:id])
+    @updated_date=Time.now
+
+    sys_code = TestComponent.find_by("lower(name)='systolic' and enterprise_id="+Enterprise.find_by_enterprise_id('EK').id.to_s).lonic_code
+    dia_code = TestComponent.find_by("lower(name)='diastolic' and enterprise_id="+Enterprise.find_by_enterprise_id('EK').id.to_s).lonic_code
+    if sys_code and dia_code
+      @systolic_component_id=TestComponent.find_by(lonic_code: sys_code.to_s, enterprise_id: Enterprise.find_by_enterprise_id('EK').id).id
+      @diastolic_component_id=TestComponent.find_by(lonic_code: dia_code.to_s, enterprise_id: Enterprise.find_by_enterprise_id('EK').id).id
+    else
+      @systolic_component_id=TestComponent.find_by(name: 'Systolic', enterprise_id: Enterprise.find_by_enterprise_id('EK').id).id
+      @diastolic_component_id=TestComponent.find_by(name: 'Diastolic', enterprise_id: Enterprise.find_by_enterprise_id('EK').id).id
+    end
+
+    @new_health_assessment=@current_customer.health_assessments.create(request_date:Time.now,assessment_type:'Body',status:'done',type:'BodyAssessment',status_code:6, enterprise_id: Enterprise.find_by_enterprise_id('EK').id)
+    @new_health_assessment.lab_results.create(test_component_id: @diastolic_component_id, result: diastolic_value)
+    @new_health_assessment.lab_results.create(test_component_id: @systolic_component_id, result: systolic_value)
+
+    @systolic_color=@current_customer.resulted_component_value2('Systolic',systolic_value, @new_health_assessment.id)
+    @diastolic_color=@current_customer.resulted_component_value2('Diastolic',diastolic_value, @new_health_assessment.id)
+
+    @hypertensive = self.abnormal_bp @current_customer.id
+    @current_customer.update(is_hypertensive: @hypertensive)
+    @hypertension_score=self.hypertension_score(1).round(3)
+    @hypertension_percentage=(@hypertension_score*100).round
+
+    render :json => {date:@updated_date,hypertension_score:@hypertension_percentage, systolic_color:@systolic_color,diastolic_color: @diastolic_color,:status => 200 }
+
+  end
+
   def get_provider_name
     name = params[:term]
     provider_name =  Provider.select('name').where("lower(name) like '%#{name.downcase}%'").distinct

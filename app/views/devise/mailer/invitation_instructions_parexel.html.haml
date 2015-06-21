@@ -1,0 +1,45 @@
+!!!
+%html{:lang => "en"}
+  %head
+    %meta{:charset => "UTF-8"}
+  %body{:style => "font-family: Helvetica;"}
+    %section{:style => "width: 800px; margin:0 auto; background: #f2f2f2; border: 1px solid #f2f2f2"}
+      %div{:style => "width: 670px; margin:0 auto; background: #fff; margin-top: 20px; margin-bottom: 100px; border: 1px solid #fff; padding-bottom:30px"}
+        %div{:style => "width: 600px; margin:0 auto"}
+          %div{:style => "margin-bottom: 20px; margin-top: 20px"}
+            %img{:src => "www.ekincare.com/assets/parexel_logo.png"}
+          %div
+            %img{:src => "www.ekincare.com/assets/banner.png"}
+          %div{:style => "color: #606060;font-family: Helvetica;font-size: 15px; text-align: center"}
+            %a{:href => "https://www.youtube.com/watch?v=snY1PZii5lM", :style => "color: #606060; text-decoration: none"} Click here to watch the overview video
+          %div{:style => "margin-top: 26px"}
+            %h4{:style => "margin: 0px; padding: 0px; display: block; font-family: Helvetica; font-size: 16px; font-style: normal; font-weight: bold; line-height: 125%; letter-spacing: normal; text-align: left; color: rgb(128, 128, 128) !important;"}
+              %span{:style => "font-size: 18px;"}
+                %span{:style => "color: rgb(105, 105, 105);"} Welcome to eKincare
+            %span{:style => "color: rgb(169, 169, 169);"}
+              %span{:style => "font-size: 14px;"}
+                As part of the health camp conducted at PAREXEL We've created your FREE eKincare health account. You now have access to store all your medical history in one place and access it from anywhere, anytime.
+          %div{:style => "text-align:center; padding-bottom:20px; display:inline-block"}
+            %div{:style => "width: 136px; border: 1px solid #999999; text-align: center; display:inline-block; background: #ebebeb; margin-top: 20px;padding: 9px 18px; color: rgb(96, 96, 96);font-size: 15px; margin-right: 25px"}
+              %img{:src => "www.ekincare.com/assets/health.png"}
+                Personal health
+                = succeed "record" do
+                  %br/
+            %div{:style => "width: 136px; border: 1px solid #999999; text-align: center; display:inline-block; background: #ebebeb; margin-top: 20px;padding: 9px 18px; color: rgb(96, 96, 96);font-size: 15px; margin-right: 25px"}
+              %img{:src => "www.ekincare.com/assets/calender.jpg"}
+                Timely reminders for follow ups
+            %div{:style => "width: 136px; border: 1px solid #999999; text-align: center; display:inline-block; background: #ebebeb; margin-top: 20px;padding: 9px 18px; color: rgb(96, 96, 96);font-size: 15px;"}
+              %img{:src => "www.ekincare.com/assets/login.png"}
+                Super secure and encrypted
+          %div{:style => "float:left; width:100%; text-align:center"}
+            %div{:style => " width: 171px; border: 1px solid #999999; margin: auto; margin-top: 7px; margin-bottom: 40px"}
+          %div{:style => "float:left; width:100%; text-align:center"}
+            %a{:href => accept_invitation_url(@resource, :invitation_token => @token), :style => "font-weight: bold; background:#0EAA0E;   padding: 12px 16px ;\n letter-spacing: normal; line-height: 100%; text-align: center; text-decoration: none; color: rgb(255, 255, 255); word-wrap: break-word;", :title => "VERIFY YOUR EMAIL"}
+              VERIFY YOUR EMAIL
+            %span{:style => "font-size: 16px;width:100%;float:left;margin-top:38px;color: #606060;"}
+              Use your registered email ID
+              %a{:href => "mailto:#{@resource.email}", "moz-do-not-send" => "true", :target => "_blank"} #{@resource.email}
+              as your username
+              to login
+          %div{:style => "clear:both"}
+        %div{:style => "clear:both"}

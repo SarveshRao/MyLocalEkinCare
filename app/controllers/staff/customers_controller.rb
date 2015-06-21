@@ -65,10 +65,9 @@ class Staff::CustomersController < StaffController
   end
 
   def create
-    email =  params[:customer][email]
+    email =  params[:customer][:email]
     is_email_exist = Customer.find_by_email(email)
-    puts "email :"+is_email_exist.to_s
-    if is_email_exist==''
+    if is_email_exist.nil?
       @new_customer = Customer.create!(customer_params) do |customer|
         customer.password = SecureRandom.hex
         # customer.unconfirmed_email = nil
@@ -76,11 +75,13 @@ class Staff::CustomersController < StaffController
         customer.status = 'thank_you_page'
         customer.confirmed_at = Time.now.utc
       end
-      @new_customer.invite!
 
       #customer_vitals has to e replaced
       CustomerVitals.create(customer_id: @new_customer.id)
       Vital.create(customer_id: @new_customer.id)
+
+      @new_customer.invite!
+
       Net::HTTP.get(URI.parse(URI.encode('http://alerts.sinfini.com/api/web2sms.php?workingkey=A3b834972107faae06b47a5c547651f81&to='+ @new_customer.mobile_number() +'&sender=EKCARE&message=Dear '+ @new_customer.first_name() +', DOWNLOAD FREE EKINCARE APP, to digitize your physical medical records. Click http://bit.ly/eKgoogle for ANDROID or click http://bit.ly/eKapple for Apple iPhone')))
 
       if params[:customer][:sponsor]==""

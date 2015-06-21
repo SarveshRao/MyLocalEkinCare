@@ -4,34 +4,6 @@
       .col-lg-2.col-md-2.pull-left
         %a.font-bold{href: "#"}
           Lab Tests &nbsp;&nbsp;
-      -#.col-lg-5.col-md-5.pull-center
-        -#%p.font-bold.padding-left.pull-right
-        -#  %small.pull-left.font-bold{id: 'Provider_Name'}
-        -#    -#= "Enterprise: "+@health_assessment.enterprise_name
-        -#    = @health_assessment.provider_name
-        -#  -if(@health_assessment.provider_name)
-        -#    %span
-        -#      &nbsp;
-        -#      %a.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#",id:'message1'}
-        -#        %i.fa.fa-pencil.small.pull-left
-        -#  -else
-        -#    %span
-        -#      &nbsp;
-        -#      %a.hide.pull-right.dropdown-toggle.edit-pencil{"data-toggle" => "dropdown", href: "#",id:'message1'}
-        -#        %i.fa.fa-pencil.small.pull-left
-        -#  -if(@health_assessment.provider_name)
-        -#    %div.hide.provider.width94p.pull-right{id:'SAVE_PROVIDER'}
-        -#      = form_for @health_assessment, as: :health_assessment, remote: true, html: {health_assessment_id: @health_assessment.id, id: 'edit_provider_form'}, url: customer_health_assessment_path(@customer, @health_assessment) do |f|
-        -#        = f.label :provider_name, 'Provider Name',{class:'font-bold mar-t6 pull-left mar-r10'}
-        -#        = f.select(:provider_name, Provider.all.collect {|p| [ p.name]}.uniq, {:include_blank => "Select a Provider"}, {:class => 'form-control width168 pull-left'})
-        -#        = f.submit 'save', {class:'btn btn-xs small-btn btn-primary provider-name-save-btn pull-right mar-t6'}
-        -#  -else
-        -#    %div.provider.pull-right.width94p{id:'SAVE_PROVIDER'}
-        -#      = form_for @health_assessment, as: :health_assessment, remote: true, html: {health_assessment_id: @health_assessment.id, id: 'edit_provider_form'}, url: customer_health_assessment_path(@customer, @health_assessment) do |f|
-        -#        = f.label :provider_name, 'Provider Name',{class:'font-bold mar-t6 pull-left mar-r10'}
-        -#        = f.select(:provider_name, Provider.all.collect {|p| [ p.name]}.uniq, {:include_blank => "Select a Provider"}, {:class => 'form-control width168 pull-left'})
-        -#        &nbsp;
-        -#        = f.submit 'save', {class:'btn btn-xs small-btn btn-primary provider-name-save-btn pull-right mar-t6'}
       .col-lg-6.col-md-5.pull-right.doctorname-align.row
         %p.font-bold.padding-left.pull-right.clear_r
           -#Doctor

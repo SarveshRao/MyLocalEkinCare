@@ -24,5 +24,10 @@
           %label
             %input{:type => "checkbox", name: 'license', required: true, id: 'agreement', class: 'agreement_error' }
             Agree the
+            - corporate = Company.find(resource.sponsor).name.downcase rescue nil
+            -if !corporate.nil? and corporate.include? 'parexel'
+              - session[:corporate] = 'parexel'
+            -else
+              -session[:corporate] ='Self'
             %a{:href => terms_and_conditions_about_index_path, id: 'terms_and_policy_link', style: 'color: #177bbb !important'} terms and conditions
         = f.submit 'Set my password', class: 'btn btn-primary m-b mt11'

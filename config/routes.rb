@@ -352,7 +352,13 @@ Rails.application.routes.draw do
       end
       scope '/get_provider_name' do
         get '/' => 'customers/api#get_provider_name'
-      end      
+      end
+      scope '/update_blood_glucose' do
+        post '/' => 'customers/api#update_blood_glucose'
+      end
+      scope '/update_bp' do
+        post '/' => 'customers/api#update_bp'
+      end
     end
   end
 end

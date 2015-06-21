@@ -420,15 +420,14 @@ $("#new_family_medical_history").bind "ajax:success", (event, data, status, xhr)
   status_fields = ['yes', 'no']
   window.location.hash = "fh_redirect"
   window.location.reload()
-  $(document).ready ->
-    is_fh_redirect = if window.location.hash.indexOf('fh_redirect') then true else false
-    if is_fh_redirect
-      setTimeout (->
-        $('#customer_info_tile').click()
-        $('#family_history').click()
-        return
-      ), 5000
-    return
+
+$(document).ready ->
+  is_fh_redirect = false
+  is_fh_redirect = if window.location.hash.indexOf('fh_redirect')>-1 then true else false
+  if is_fh_redirect
+    $('#customer_info_tile').click()
+    $('#family_history').click()
+  return
 
 $('#family_medical_history_cancel_btn').click ->
   $("#family_medical_history_new_form").addClass('hide')

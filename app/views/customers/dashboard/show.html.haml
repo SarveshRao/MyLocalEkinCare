@@ -35,31 +35,32 @@
     %div.row.customer-wizard-qs
       %section
         %section
-          %section.wrapper.w-f{:id=>'customer-info-wizard'}
-            %section.row.m-b-md.padder.hide{:id=>'height_weight'}
-              .col-xs-12.wizard-section
-                .wizard-heading Let's Customize your account
-                .col-xs-6.question.question-left{:style => ""}
-                  .question-content
-                    .question-text Your Weight?
-                    %img.full{:src => asset_path("icons/weight.png"), :style => ""}/
-                    .answer{:style => ""}
-                      %input.col-xs-12.pull-left.numeric{:id=>'weight',:placeholder => "weight in KGs"}
-                .col-xs-6.question.question-right
-                  .question-content
-                    .question-text Your height?
-                    %img.full{:src => asset_path("icons/height.png")}/
-                    .answer{:style => ""}
-                      %div.pull-left{:style => "width:48%;padding:0;"}
-                        %input.numeric{:id=>'feet', required: true,:placeholder => "feet",:style => "width:100%;"}
-                      %div.pull-right{:style => "width:48%;padding:0;"}
-                        %input.numeric{:id=>'inches', required: true,:placeholder => "inches",:style => "width:100%;"}
-                    .btn.btn-default.btn-success.wixard-next-button#height_weight_next{:style => "bottom:-90px;"} Next
-                .ekin-wizard-message.col-xs-12{:style => ""}
-                  Hey
-                  = session[:current_online_customer].first_name+','
-                  %span#height-weight-message
-                    Do you know that your heart beats about 1,00,000 times in a day.
+          -if !session[:is_doctor]
+            %section.wrapper.w-f{:id=>'customer-info-wizard'}
+              %section.row.m-b-md.padder.hide{:id=>'height_weight'}
+                .col-xs-12.wizard-section
+                  .wizard-heading Let's Customize your account
+                  .col-xs-6.question.question-left{:style => ""}
+                    .question-content
+                      .question-text Your Weight?
+                      %img.full{:src => asset_path("icons/weight.png"), :style => ""}/
+                      .answer{:style => ""}
+                        %input.col-xs-12.pull-left.numeric{:id=>'weight',:placeholder => "weight in KGs"}
+                  .col-xs-6.question.question-right
+                    .question-content
+                      .question-text Your height?
+                      %img.full{:src => asset_path("icons/height.png")}/
+                      .answer{:style => ""}
+                        %div.pull-left{:style => "width:48%;padding:0;"}
+                          %input.numeric{:id=>'feet', required: true,:placeholder => "feet",:style => "width:100%;"}
+                        %div.pull-right{:style => "width:48%;padding:0;"}
+                          %input.numeric{:id=>'inches', required: true,:placeholder => "inches",:style => "width:100%;"}
+                      .btn.btn-default.btn-success.wixard-next-button#height_weight_next{:style => "bottom:-90px;"} Next
+                  .ekin-wizard-message.col-xs-12{:style => ""}
+                    Hey
+                    = session[:current_online_customer].first_name+','
+                    %span#height-weight-message
+                      Do you know that your heart beats about 1,00,000 times in a day.
             %section.row.m-b-md.padder.hide{:id=>'waist_bloodgroup'}
               .col-xs-12.wizard-section
                 .wizard-heading Let's Customize your account
@@ -161,7 +162,7 @@
                         %button.btn.btn-default.ekin-multi-choice.full.mother-medical-history.mother-health-none{:type => "button",:id=>0}
                           None
                       #mother_medical_error.validation-error.hide
-                        select any option	  
+                        select any option
                     .btn.btn-default.btn-success.wixard-next-button{:id=>'family_medical_history_next',:style => "bottom:-50px;"} Next
                 .ekin-wizard-message.col-xs-12{:style => ""}
                   Hey
@@ -456,7 +457,7 @@
                 \/
                 %span.h4.font-bold#diastolic_val.diastolic_color{class: "#{session[:current_online_customer].diastolic[:color]}"}
                   = "#{session[:current_online_customer].diastolic[:result]}"
-              %small{:style => "color:#999"}
+              %small#blood_pressure_units{:style => "color:#999"}
                 = "#{session[:current_online_customer].diastolic[:units]}"
           %header.panel-heading.text-center.clearfix.panel-footer
             %small.text-muted#bp_date
@@ -473,12 +474,12 @@
                 - if session[:current_online_customer].recent_body_assessment
                   - LabTest.find_by(name: "Blood Glucose", enterprise_id: "#{session[:current_online_customer].recent_body_assessment.enterprise_id ? session[:current_online_customer].recent_body_assessment.enterprise_id : Enterprise.find_by_enterprise_id('EK').id}").test_components.each do |test_component|
                     %li
-                      %a{"data-toggle" => "tab", :href => "#"+test_component.id.to_s, :value=> test_component.id}
+                      %a{"data-toggle" => "tab", :href => "#"+test_component.id.to_s+'_sugar_tab', :value=> test_component.id}
                         = test_component.name
                 - else
                   - LabTest.find_by(name: "Blood Glucose", enterprise_id: Enterprise.find_by_enterprise_id('EK').id).test_components.each do |test_component|
                     %li{class: "#{session[:current_online_customer].blood_sugar_result(test_component.name)[:result].nil? ? '' : ''}"}
-                      %a{"data-toggle" => "tab", :href => "#"+test_component.id.to_s, :value=> test_component.id}
+                      %a{"data-toggle" => "tab", :href => "#"+test_component.id.to_s+'_sugar_tab', :value=> test_component.id}
                         = test_component.name
             .panel-body.text-center.pad_2
               .tab-content
@@ -491,21 +492,21 @@
                       -already_activated=true
                     -else
                       -is_active=false
-                    .tab-pane.blood_sugar_pane{:id => "#{test_component.id}", :class=> "#{is_active ? 'active' : 'fade'}"}
+                    .tab-pane.blood_sugar_pane{:id => "#{test_component.id.to_s}"+'_sugar_tab', :class=> "#{is_active ? 'active' : 'fade'}"}
                       .inline
                         %h4.font-bold
                           %span.h4.font-bold#blood_sugar_color
                             -if(test_component.name=='Fasting blood sugar')
                               %b{id:'Fasting_blood_sugar_id', class: "#{session[:current_online_customer].blood_sugar(test_component.name)[:color]}"}
-                                = editable session[:current_online_customer].blood_sugar_result(test_component.name), :result,url: customers_customer_lab_results_update_blood_sugar_path({customer_id:session[:current_online_customer].id,id: session[:current_online_customer].blood_sugar_result(test_component.name),test_component_id:test_component.id})
+                                = session[:current_online_customer].blood_sugar_result(test_component.name)[:result]
                             -else
                               %b{class: "#{session[:current_online_customer].blood_sugar(test_component.name)[:color]}"}
                                 = editable session[:current_online_customer].blood_sugar_result(test_component.name), :result,url: customers_customer_lab_results_update_blood_sugar_path({customer_id:session[:current_online_customer].id,id: session[:current_online_customer].blood_sugar_result(test_component.name),test_component_id:test_component.id})
                                 -#%small
-                                -#= "#{session[:current_online_customer].blood_sugar(test_component.name)[:units]}"
-                              -#-else
-                              -#  = editable session[:current_online_customer].blood_sugar_result(test_component.name), :result,url: customers_customer_lab_results_update_blood_sugar_path({customer_id:session[:current_online_customer].id,id: session[:current_online_customer].blood_sugar_result(test_component.name),test_component_id:test_component.id})
-                          %small
+                          -blood_glucose_units_id=test_component.id.to_s+'blood_glucose_units'
+                          -if(test_component.name=='Fasting blood sugar')
+                            -blood_glucose_units_id='fasting-blood-sugar-units'
+                          %small{:id=>blood_glucose_units_id}
                             = "#{session[:current_online_customer].blood_sugar(test_component.name)[:units]}"
                       %small.clearfix#type_of_sugar
                         =test_component.name
@@ -518,19 +519,22 @@
                       -already_activated=true
                     -else
                       -is_active=false
-                    .tab-pane.blood_sugar_pane{:id => "#{test_component.id}", :class=> "#{is_active ? 'active' : 'fade'}"}
+                    .tab-pane.blood_sugar_pane{:id => "#{test_component.id.to_s}"+'_sugar_tab', :class=> "#{is_active ? 'active' : 'fade'}"}
                       .inline
                         %h4.font-bold
                           %span.h4.font-bold#blood_sugar_color
                             %b{ class: "#{session[:current_online_customer].blood_sugar(test_component.name)[:color]}"}
                               -if(test_component.name=='Fasting blood sugar')
-                                %div{id:'Fasting_blood_sugar_id'}
-                                  = editable session[:current_online_customer].blood_sugar_result(test_component.name), :result,url: customers_customer_lab_results_update_blood_sugar_path({customer_id:session[:current_online_customer].id,id: session[:current_online_customer].blood_sugar_result(test_component.name),test_component_id:test_component.id})
-                                %small
+                                %b{id:'Fasting_blood_sugar_id'}
+                                  = session[:current_online_customer].blood_sugar_result(test_component.name)[:result]
+                                %small#fasting-blood-sugar-units
                                   = "#{session[:current_online_customer].blood_sugar(test_component.name)[:units]}"
                               -else
                                 = editable session[:current_online_customer].blood_sugar_result(test_component.name), :result,url: customers_customer_lab_results_update_blood_sugar_path({customer_id:session[:current_online_customer].id,id: session[:current_online_customer].blood_sugar_result(test_component.name),test_component_id:test_component.id})
-                                %small
+                                -blood_glucose_units_id=test_component.id.to_s+'blood_glucose_units'
+                                -if(test_component.name=='Fasting blood sugar')
+                                  -blood_glucose_units_id='fasting-blood-sugar-units'
+                                %small{:id=>blood_glucose_units_id}
                                   = "#{session[:current_online_customer].blood_sugar(test_component.name)[:units]}"
                       %small.clearfix#type_of_sugar
                         =test_component.name

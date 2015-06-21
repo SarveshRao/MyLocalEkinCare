@@ -40,6 +40,7 @@ drawChart = (id,dates,values,test_component_name) ->
     xaxis:
       mode: "time",
       color: "#000",
+      timeformat: "%b %d"
 #      timeformat: "%y/%m/%d"
 #      tickSize: [4, 'hour']
 #      labels: dates
@@ -52,7 +53,7 @@ drawChart = (id,dates,values,test_component_name) ->
     tooltipOpts:
       content: (label, xval, yval, flotItem) ->
 #        yval=(yval).toFixed()
-        xval=moment(xval).format('MMMM Do YYYY, h:mm:ss a')
+        xval=moment(xval).format('MMMM Do YYYY')
         yval = yval.toFixed(2)
         test_component_name+' <b>' + yval + '</b> <br> <span>' + xval + '</span>'
       defaultTheme: false

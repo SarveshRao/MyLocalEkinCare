@@ -23,13 +23,15 @@ class Customers::CustomerLabResultsController < ApplicationController
     @systolic_color=get_color(@systolic_component_id,systolic_value, @new_health_assessment.id)
     @diastolic_color=get_color(@diastolic_component_id,diastolic_value, @new_health_assessment.id)
 
+    @diastolic_units=get_units(@diastolic_component_id)
+
     @hypertensive = @current_customer.has_hypertension
     @current_customer.update(is_hypertensive: @hypertensive)
     @hypertension_score=@current_customer.hypertension_score(1).round(3)
     @hypertension_percentage=(@hypertension_score*100).round
 
     respond_to do |format|
-      format.json {render :json => {date:@updated_date,hypertension_score:@hypertension_percentage, systolic_color:@systolic_color,diastolic_color: @diastolic_color,:status => 200 }}
+      format.json {render :json => {date:@updated_date,hypertension_score:@hypertension_percentage, systolic_color:@systolic_color,diastolic_color: @diastolic_color,bp_units:@diastolic_units,:status => 200 }}
     end
   end
 
@@ -49,13 +51,14 @@ class Customers::CustomerLabResultsController < ApplicationController
     @updated_date=formatted_date (Time.now)
     @new_health_assessment.lab_results.create(test_component_id: @blood_sugar_component_id, result: result)
     @blood_sugar_color=get_color @blood_sugar_component_id,result, @new_health_assessment.id
+    @blood_sugar_units=get_units @blood_sugar_component_id
 
     @diabetic = @customer.is_diabetic
     @customer.update(diabetic: @diabetic)
     @diabetic_score=@customer.diabetic_score
 
     respond_to do |format|
-      format.json {render :json => {date:@updated_date, blood_sugar_id:@blood_sugar_component_id,diabetic_score:@diabetic_score,color:@blood_sugar_color ,name:'Fasting blood sugar',:status => 200 }}
+      format.json {render :json => {date:@updated_date, blood_sugar_id:@blood_sugar_component_id,diabetic_score:@diabetic_score,color:@blood_sugar_color,units:@blood_sugar_units ,name:'Fasting blood sugar',:status => 200 }}
     end
   end
 
@@ -63,5 +66,9 @@ class Customers::CustomerLabResultsController < ApplicationController
     result=result.to_i
     test_component_name=TestComponent.find(test_component_id).name
     return session[:current_online_customer].resulted_component_value2(test_component_name, result, assessment_id)[:color]
+  end
+
+  def get_units test_component_id
+    test_component_name=TestComponent.find(test_component_id).units
   end
 end

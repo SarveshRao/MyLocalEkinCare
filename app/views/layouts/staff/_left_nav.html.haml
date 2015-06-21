@@ -53,7 +53,7 @@
                         %a.badge.bg-success
                           Obesity
                     %span
-                      - if @customer.has_hypertension
+                      - if @customer.is_hypertensive=="Hypertensive"
                         %a.badge.bg-info
                           Hypertension
                     %span
@@ -61,7 +61,7 @@
                         %a.badge.bg-dark
                           CVD
                     %span
-                      - if @customer.is_diabetic
+                      - if @customer.diabetic=="Diabetic"
                         %a.badge.bg-warning
                           Diabetic
 
@@ -125,7 +125,7 @@
                     %i.i.i-circle-sm-o.text
                     %i.i.i-circle-sm.text-active
                   %i.fa.fa-medkit.icon
-                  %span.font-bold Company
+                  %span.font-bold Corporates
 - else
   %aside#nav.bg-light.lt.b-r.b-light.aside-md.hidden-print.hidden-xs
     %section.vbox
@@ -198,4 +198,4 @@
                     %i.i.i-circle-sm-o.text
                     %i.i.i-circle-sm.text-active
                   %i.fa.fa-medkit.icon
-                  %span.font-bold Company
+                  %span.font-bold Corporates

@@ -9,6 +9,12 @@
 
 #content
   .vbox.padder
+    - if flash[:error]
+      .alert.alert-danger
+        %button.close{"data-dismiss" => "alert", type: "button"} ×
+        %i.fa.fa-ok-sign
+        %strong
+          = flash[:error]
     .m-b-md
       %h4
         %a.font-bold{href: "#"}

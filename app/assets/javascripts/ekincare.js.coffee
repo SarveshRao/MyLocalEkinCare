@@ -10,6 +10,8 @@ $ ->
     timepicker:false,
     formatTime: 'g:i a',
     maxDate: new Date(),
+    yearStart: "1900"
+    yearEnd: "2200",
     closeOnDateSelect: true
   })
 
