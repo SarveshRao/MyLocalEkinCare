@@ -15,7 +15,7 @@
         -@family_members = Customer.where("guardian_id=#{current_online_customer.id} or id=#{current_online_customer.id}")
         - if !@family_members.nil?
           .familyMembers
-            -colorList = ['#FF7163',  '#8C94C9', '#FF7223', '#52B09E', '#52B09E', '#595C8C', '#FF9720'];
+            -colorList = ['#FF7163', '#8C94C9', '#FF7223', '#52B09E', '#595C8C', '#FF9720'];
             -colorIndex = 0;
             -@family_members.each do |family_member|
               -colorIndex = colorIndex + 1
@@ -36,9 +36,9 @@
                     = family_member.first_name.slice(0,1).capitalize + family_member.last_name.slice(0,1).capitalize
             .clearfix{:style => "clear:right"}
         - if session[:current_online_customer].guardian_id.nil?
-          %ul.nav.navbar-nav.navbar-right.m-n.hidden-xs.nav-user.user
+          %ul.hidden-xs.nav-user.user
             %li.hidden-xs
-              %a.dropdown-toggle#addFamilyMemberSection{"data-toggle" => "dropdown", href: "#", :style => "padding-right:10px;padding-left:10px;"}
+              %a.dropdown-toggle.bg-success#addFamilyMemberSection{"data-toggle" => "dropdown", href: "#", :style => "padding-right:10px;padding-left:10px;"}
                 Add Family Member
               %section.dropdown-menu.aside-xl.animated.flipInX
                 #addFamilyMemberSection
@@ -72,6 +72,7 @@
                         .form-group
                           %input#dob.form-control.validate_input{:placeholder => "Date of Birth", class: 'datepicker_1 p-l', 'readonly' => 'readonly', required: true, 'data-date-format' => 'dd-mm-yyyy', placeholder: 'Date of birth'}
                         %button.btn.btn-sm.btn-default.btn-primary#addAccount Add Family Member
+                        %button.btn.btn-sm.btn-default.btn-primary#cancelAddAccount Cancel
         %nav.nav-primary.hidden-xs
           &nbsp;
           %ul.nav.nav-main{"data-ride" => "collapse"}
@@ -179,16 +180,9 @@
       }
     });
 
-    //$("#addFamilyMember").click(function(){
-    //    $("#addFamilyMemberSection").toggle();
-    //    $("#addFamilyMemberForm").toggle();
-    //});
-
     $("#addAccount").click(function(){
 
       $("#addFamilyMemberForm").parsley().validate();
-      debugger;
-
       var first_name = $("#first_name").val();
       var last_name = $("#last_name").val();
       var sex = $("#sex").val();
@@ -198,40 +192,52 @@
       var mobile_number = $("#mobile_number").val();
       var dob = $("#dob").val();
 
+      var returnValue = true;
       //Validate inputs
-      $('.close').trigger('click');
-      var errorDiv = '<div id="errorDiv" class="alert alert-danger text-center"><button class="close" data-dismiss="alert" type="button">×</button><i class="fa fa-ok-sign"></i>Mobile number has already been taken</div>';
-      $(".header").prepend(errorDiv);
-      var returnValue = false;
-      $.ajax({
-        type: "POST",
-        url: "/register_family_member",
-        data: {
-          first_name: first_name,
-          last_name: last_name,
-          gender: sex,
-          relation: relation,
-          email: email,
-          guardian_id: guardian_id,
-          mobile_number: mobile_number,
-          date_of_birth: dob
-          },
-        async: false,
-        statusCode: {
-          200: function(){
-            returnValue = true;
-          },
-          409: function(){
-            $('.close').trigger('click');
-            var notificationDiv = '<div id="notificationDiv" class="alert alert-danger text-center"><button class="close" data-dismiss="alert" type="button">×</button><i class="fa fa-ok-sign"></i>Mobile number has already been taken</div>';
-            $(".header").prepend(notificationDiv).scrollTop(0);
-            returnValue = false;
-          }
-        },
-        success: function(data){
-        },
-        dataType: 'json'
+      $("#addFamilyMemberSection input, #addFamilyMemberSection select").each(function(){
+        if($(this).val() == '')
+          returnValue = false;
       });
+
+      if(returnValue)
+      {
+        $.ajax({
+          type: "POST",
+          url: "/register_family_member",
+          data: {
+            first_name: first_name,
+            last_name: last_name,
+            gender: sex,
+            relation: relation,
+            email: email,
+            guardian_id: guardian_id,
+            mobile_number: mobile_number,
+            date_of_birth: dob
+            },
+          async: false,
+          statusCode: {
+            200: function(){
+              returnValue = true;
+            },
+            409: function(){
+              $('.close').trigger('click');
+              var notificationDiv = '<div id="notificationDiv" class="alert alert-danger text-center"><button class="close" data-dismiss="alert" type="button">×</button><i class="fa fa-ok-sign"></i>Mobile number has already been taken</div>';
+              $(".header").prepend(notificationDiv).scrollTop(0);
+              returnValue = false;
+            }
+          },
+          success: function(data){
+          },
+          dataType: 'json'
+        });
+      }
       return returnValue;
     });
+
+    $("#cancelAddAccount").click(function(){
+      //$('.parsley-error-list').hide();
+      //$("#addFamilyMemberSection input, #addFamilyMemberSection select").removeClass('parsley-error');
+      $("#addFamilyMemberSection input, #addFamilyMemberSection select").val('');
+    });
+
   });

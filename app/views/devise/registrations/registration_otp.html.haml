@@ -1,3 +1,4 @@
+= javascript_include_tag "jquery"
 = content_for :title, 'Sign up'
 
 - content_for :zopim_chat do
@@ -22,7 +23,7 @@
         .list-group
           %input{:name => "mobile_number", :id => "mobile_number", :type => "hidden", :value => "#{cookies[:mobile_number]}"}/
           .list-group-item
-            = f.text_field :otp, class: 'form-control no-border ', required: true, autofocus: true,  placeholder: 'Enter your verification code'
+            = f.text_field :otp, class: 'numeric form-control no-border ', required: true, autofocus: true,  placeholder: 'Enter your verification code'
         = f.submit "Sign In", {class: 'btn btn-lg btn-primary btn-block '}
         %p.text_muted.text-center
           %a{:href => faq_about_index_path, style: 'color: #177bbb !important'} What is verification code
@@ -42,6 +43,10 @@
   });
   //Mobile number validation
   $(".numeric").keydown(function (e) {
+    var pattern_verification_code = /^\d{6}$/;
+    if (pattern_verification_code.test($(this).val())) {
+      e.preventDefault();
+    }
     // Allow: backspace, delete, tab, escape, enter and .
     if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
             // Allow: Ctrl+A

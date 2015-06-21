@@ -9,27 +9,30 @@ $ ->
     format:'d-m-Y',
     timepicker:false,
     formatTime: 'g:i a',
-    maxDate: new Date()
+    maxDate: new Date(),
+    closeOnDateSelect: true
   })
 
   d = new Date
   $('.datetimepicker1').datetimepicker({
     minDate: new Date(d.setDate(d.getDate() + 2)),
     format:'Y/m/d g:i a',
-    formatTime: 'g:i a'
+    formatTime: 'g:i a',
+    closeOnDateSelect: true
     })
   d = new Date
   $('.datetimepicker2').datetimepicker({
     minDate: new Date(d.setDate(d.getDate() + 2)),
     format:'Y/m/d g:i a',
-    formatTime: 'g:i a'
+    formatTime: 'g:i a',
+    closeOnDateSelect: true
   })
   d = new Date
   $('.datetimepicker3').datetimepicker({
     minDate: new Date(d.setDate(d.getDate() + 2)),
     format:'Y/m/d g:i a',
-    formatTime: 'g:i a'
+    formatTime: 'g:i a',
+    closeOnDateSelect: true
   })
 
   $('.xdsoft_timepicker').css 'width', '60px'
- 
